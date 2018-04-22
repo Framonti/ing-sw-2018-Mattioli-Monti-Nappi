@@ -15,8 +15,7 @@ public class WindowPattern {
 
     //controlls if the dice respects the colour and value restrictions of the pattern
     public boolean checkCell(Position position, Dice dice) {
-        if (windowPattern[position.getX()][position.getY()].getColour() != null && !windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour())) return false;
-        return windowPattern[position.getX()][position.getY()].getValue() == 0 || windowPattern[position.getX()][position.getY()].getValue() == dice.getValue();
+        return (windowPattern[position.getX()][position.getY()].getColour() == null || windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour())) && (windowPattern[position.getX()][position.getY()].getValue() == 0 || windowPattern[position.getX()][position.getY()].getValue() == dice.getValue());
     }
 
     public String getName() {
