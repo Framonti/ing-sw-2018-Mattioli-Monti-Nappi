@@ -1,16 +1,21 @@
 package it.polimi.se2018;
 
+import java.util.ArrayList;
+
 public class ScoreTrack {
 
-    //attributi non ancora pensati
+    private ArrayList<Player> players;
 
-    //Per questo metodo Player deve avere un metodo getName
-    public void showScoreTrack(Player currentPlayer) {
-        System.out.printf("%s: %d\n", currentPlayer.getName(), currentPlayer.getScore());
+    //Constructor
+    public ScoreTrack(ArrayList<Player> players) {
+        this.players = players;
     }
 
-    //Metodo alternativo che non richiede il metodo getName
-    public void showScoreTrackAlternative(Player currentPlayer) {
-        System.out.printf("%d\n", currentPlayer.getScore());
+    //prints the score of each player
+    public void showScoreTrack() {
+        for (Player player : players) {
+            System.out.println(player.getName() + ": " + player.getScore());
+        }
     }
+
 }

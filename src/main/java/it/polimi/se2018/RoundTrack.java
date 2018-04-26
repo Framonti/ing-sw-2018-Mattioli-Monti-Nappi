@@ -2,22 +2,25 @@ package it.polimi.se2018;
 
 import java.util.ArrayList;
 
+
 public class RoundTrack {
 
-    private ArrayList<Dice>[] roundTrack;
+    private ArrayList<ArrayList<Dice>> roundTrack;
 
+    //Constructor
     public RoundTrack() {
-        //roundTrack = new ArrayList[9];    non sono affatto sicuro di questa riga
+        roundTrack = new ArrayList<ArrayList<Dice>>();
     }
 
     //adds the remaining dices in the draft pool to the RoundTrack
-    public void addDice(int round, ArrayList dices) { roundTrack[round] = dices; }
+    public void addDice(int round, ArrayList<Dice> dices) {
+        roundTrack.add(dices);
+    }
 
     //prints the dices on the RoundTrack of the selected round
     public void showArrayList(int round) {
-        for(Dice dice : roundTrack[round]) {
-            System.out.printf("%s", dice.getColour().getAbbreviation());
-            System.out.printf("%d\t", dice.getValue());
+        for(Dice dice : roundTrack.get(round - 1)) {
+            System.out.printf("%s%d\t", dice.getColour().getAbbreviation(), dice.getValue());
         }
         System.out.print("\n");
     }
@@ -39,8 +42,9 @@ public class RoundTrack {
     }
 
     //returns the dice on the roundIndex cell in the arrayListIndex position
-    public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack[roundIndex].get(arrayListIndex); }
+    public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack.get(roundIndex - 1).get(arrayListIndex); }
 
-    public void swapDice() {}
+    //must be implemented (probably it has DicePattern as parameter)
+    public void swapDice(Position diceOnPattern, Position diceOnRoundTrack) {}
 
 }
