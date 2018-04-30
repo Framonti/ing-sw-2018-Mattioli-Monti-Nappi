@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<publicObjectiveCards>
+    <publicObjectiveCard id="1">
+        <name>Colori diversi - Riga</name>
+        <description>Righe senza colori ripetuti</description>
+        <victoryPoint>6</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="2">
+        <name>Colori diversi - Colonna</name>
+        <description>Colonne senza colori ripetuti</description>
+        <victoryPoint>5</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="3">
+        <name>Sfumature diverse - Riga</name>
+        <description>Righe senza sfumature ripetute</description>
+        <victoryPoint>5</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="4">
+        <name>Sfumature diverse - Colonna</name>
+        <description>Colonne senza sfumature ripetute</description>
+        <victoryPoint>4</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="5">
+        <name>Sfumature Chiare</name>
+        <description>Set di 1 &amp; 2 ovunque</description>
+        <victoryPoint>2</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="6">
+        <name>Sfumature Medie</name>
+        <description>Set di 3 &amp; 4 ovunque</description>
+        <victoryPoint>2</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="7">
+        <name>Sfumature Scure</name>
+        <description>Set di 5 &amp; 6 ovunque</description>
+        <victoryPoint>2</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="8">
+        <name>Sfumature Diverse</name>
+        <description>Set di dadi di ogni valore ovunque</description>
+        <victoryPoint>5</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="9">
+        <name>Varietà di colore</name>
+        <description>Set di dadi di ogni colore ovunque</description>
+        <victoryPoint>4</victoryPoint>
+    </publicObjectiveCard>
+    <publicObjectiveCard id ="10">
+        <name>Diagonali Colorate</name>
+        <description>Numero di dadi dello stesso colore diagonalmente adiacenti</description>
+        <victoryPoint>0</victoryPoint>
+    </publicObjectiveCard>
+</publicObjectiveCards>
+
+
+

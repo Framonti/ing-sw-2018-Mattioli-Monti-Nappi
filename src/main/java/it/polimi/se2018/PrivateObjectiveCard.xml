@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<privateObjectiveCards>
+    <card id="1">
+        <name>Sfumature Rosse</name>
+        <description>Somma dei valori su tutti i dadi rossi</description>
+        <colour>RED</colour>
+    </card>
+    <card id="2">
+        <name>Sfumature Gialle</name>
+        <description>Somma dei valori su tutti i dadi gialli</description>
+        <colour>YELLOW</colour>
+    </card>
+    <card id="3">
+        <name>Sfumature Verdi</name>
+        <description>Somma dei valori su tutti i dadi verdi</description>
+        <colour>GREEN</colour>
+    </card>
+    <card id="4">
+        <name>Sfumature Blu</name>
+        <description>Somma dei valori su tutti i dadi blu</description>
+        <colour>BLUE</colour>
+    </card>
+    <card id="5">
+        <name>Sfumature Viola</name>
+        <description>Somma dei valori su tutti i dadi viola</description>
+        <colour>PURPLE</colour>
+    </card>
+</privateObjectiveCards>
+
+
