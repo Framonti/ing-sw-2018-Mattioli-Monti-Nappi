@@ -4,17 +4,22 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Dice
 {
     private int value;
-    private final Colour colour;
+    private Colour colour;
 
 
-    //Constructor
+    //Constructors
     public Dice(Colour colour)
     {
         this.colour = colour;
     }
 
+    //This constructor will be only used for the windowPatterns
+    public Dice(int value)
+    {
+        this.value = value;
+    }
 
-    //getter and setter
+    //getters and setter
     public void setValue(int value)
     {
         this.value = value;

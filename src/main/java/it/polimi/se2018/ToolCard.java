@@ -1,19 +1,17 @@
 package it.polimi.se2018;
 
 public class ToolCard{
-    private int favorPoint; //number of favorPoint on the tool card
+    private int favorPoint = 0; //number of favorPoint on the tool card
     private final Colour colour;
     private final String name;
     private final String description;
 
     //constructor
-    public ToolCard (String name, String description, int favorPoint, Colour colour){
+    public ToolCard (String name, String description, Colour colour){
         this.name = name;
         this.description = description;
-        this.favorPoint = favorPoint;
         this.colour = colour;
     }
-
 
     public int getFavorPoint(){
         return this.favorPoint;

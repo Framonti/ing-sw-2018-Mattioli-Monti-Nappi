@@ -17,6 +17,19 @@ public enum Colour
         this.abbreviation = abbreviation;
     }
 
+    public static Colour getColourFromString(String colourString)
+    {
+        switch(colourString)
+        {
+            case "YELLOW": return Colour.YELLOW;
+            case "RED" : return  Colour.RED;
+            case "PURPLE" : return  Colour.PURPLE;
+            case "BLUE" : return  Colour.BLUE;
+            case "GREEN" : return  Colour.GREEN;
+            default : System.out.println("errore scelta dado");
+        }
+        return null;
+    }
 
 
     String getColourHEX()
