@@ -9,4 +9,12 @@ public class WindowPatternCard {
         this.windowPattern1 = windowPattern1;
         this.windowPattern2 = windowPattern2;
     }
+
+    public WindowPattern getWindowPattern1() {
+        return windowPattern1;
+    }
+
+    public WindowPattern getWindowPattern2() {
+        return windowPattern2;
+    }
 }

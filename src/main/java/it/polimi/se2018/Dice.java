@@ -35,6 +35,21 @@ public class Dice
         return value;
     }
 
+    //@return a quick representation of the dice, using its value and the initial of its colour
+    public String toString()
+    {
+        String temp = String.valueOf(this.value);
+        if(this.colour == null)
+        {
+            return temp;
+        }
+        else if (this.value == 0)
+        {
+            return this.colour.getAbbreviation();
+        }
+        else return temp.concat(this.colour.getAbbreviation());
+    }
+
     //decrease the value of the dice by one
     //@return false when this.value is equal to 1 (can't be decreased)
     public boolean subOne()
@@ -96,5 +111,7 @@ public class Dice
         this.roll();
         return this.getValue();
     }
+
+
 }
 
