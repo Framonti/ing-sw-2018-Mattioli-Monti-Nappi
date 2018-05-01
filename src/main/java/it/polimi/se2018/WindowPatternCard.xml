@@ -1,0 +1,2236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<windowPatternCards>
+    <card id = "1">
+        <patternCard side = "front" id = "1">
+            <name>Kaleidoscopic Dream</name>
+            <difficulty>4</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                </row>
+                <row x = "3">
+                    <column y = "1">
+                        <colour></colour>
+                        <value>3</value>
+                    </column>
+                    <column y = "2">
+                        <colour></colour>
+                        <value></value>
+                    </column>
+                    <column y = "3">
+                        <colour>RED</colour>
+                        <value></value>
+                    </column>
+                    <column y = "4">
+                        <colour></colour>
+                        <value></value>
+                    </column>
+                    <column y = "5">
+                        <colour>GREEN</colour>
+                        <value></value>
+                    </column>
+                </row>
+                <row x = "4">
+                    <column y = "1">
+                        <colour></colour>
+                        <value>2</value>
+                    </column>
+                    <column y = "2">
+                        <colour></colour>
+                        <value></value>
+                    </column>
+                    <column y = "3">
+                        <colour></colour>
+                        <value></value>
+                    </column>
+                    <column y = "4">
+                        <colour>BLUE</colour>
+                        <value></value>
+                    </column>
+                    <column y = "5">
+                        <colour>YELLOW</colour>
+                        <value></value>
+                    </column>
+                </row>
+        </patternCard>
+        <patternCard side = "back" id = "2">
+            <name>Firmitas</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "3">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "2">
+        <patternCard side = "front" id="3">
+            <name>Fractal Drops</name>
+            <difficulty>3</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="4">
+            <name>Ripples of Light</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "5">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value>1</value>
+                </column>
+                <column y = "5">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "3">
+        <patternCard side = "front" id="5">
+            <name>Lux Mundi</name>
+            <difficulty>6</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "5">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="6">
+            <name>Lux Astram</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "3">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "5">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "4">
+        <patternCard side = "front" id="7">
+            <name>Gravitas</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="8">
+            <name>Water of Life</name>
+            <difficulty>6</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "2">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "5">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "5">
+        <patternCard side = "front" id="9">
+            <name>Sun Catcher</name>
+            <difficulty>3</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="10">
+            <name>Shadow Thief</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "6">
+        <patternCard side = "front" id="11">
+            <name>Aurorae Magnificus</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="12">
+            <name>Aurora Sagradis</name>
+            <difficulty>4</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "2">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "7">
+        <patternCard side = "front" id="13">
+            <name>Symphony of Light</name>
+            <difficulty>6</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "5">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="14">
+            <name>Virtus</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "3">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "8">
+        <patternCard side = "front" id="15">
+            <name>Firelight</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="16">
+            <name>Sun Glory</name>
+            <difficulty>6</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "9">
+        <patternCard side = "front" id="17">
+            <name>Battllo</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "2">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="18">
+            <name>Bellesguard</name>
+            <difficulty>4</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "3">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "5">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "10">
+        <patternCard side = "front" id="19">
+            <name>Fulgor del Cielo</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="20">
+            <name>Luz Celestial</name>
+            <difficulty>3</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour>PURPLE</colour>
+                    <value>4</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "11">
+        <patternCard side = "front" id="21">
+            <name>Chromatic Splendor</name>
+            <difficulty>4</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>GREEN</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "2">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour>BLUE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="22">
+            <name>Comitas</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "5">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "3">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+    <card id = "12">
+        <patternCard side = "front" id="23">
+            <name>Via Lux</name>
+            <difficulty>4</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "2">
+                    <colour>YELLOW</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour>PURPLE</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "5">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+        <patternCard side = "back" id="24">
+            <name>Industria</name>
+            <difficulty>5</difficulty>
+            <row x = "1">
+                <column y = "1">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+                <column y = "2">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>6</value>
+                </column>
+            </row>
+            <row x = "2">
+                <column y = "1">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value>4</value>
+                </column>
+                <column y = "3">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>2</value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value></value>
+                </column>
+            </row>
+            <row x = "3">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value>5</value>
+                </column>
+                <column y = "4">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+                <column y = "5">
+                    <colour></colour>
+                    <value>1</value>
+                </column>
+            </row>
+            <row x = "4">
+                <column y = "1">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "2">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "3">
+                    <colour></colour>
+                    <value></value>
+                </column>
+                <column y = "4">
+                    <colour></colour>
+                    <value>3</value>
+                </column>
+                <column y = "5">
+                    <colour>RED</colour>
+                    <value></value>
+                </column>
+            </row>
+        </patternCard>
+    </card>
+</windowPatternCards>
