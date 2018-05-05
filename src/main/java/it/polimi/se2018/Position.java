@@ -1,5 +1,8 @@
 package it.polimi.se2018;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Position
 {
     private final int x;
@@ -12,7 +15,7 @@ public class Position
         this.y = y;
     }
 
-    //Getter
+    //Getters
     public int getX()
     {
         return this.x;
@@ -21,5 +24,49 @@ public class Position
     public int getY()
     {
         return this.y;
+    }
+
+    //@return a list of positions which are orthogonal adjacent to this position
+    public List<Position> getOrthogonalAdjacentPositions(int maxLimitX, int maxLimitY)
+    {
+        List<Position> toReturn = new ArrayList<>();
+
+        if(this.y > 0)
+            toReturn.add(new Position(this.x, this.y-1));
+
+        if(this.y < maxLimitY-1)
+            toReturn.add(new Position(this.x, this.y+1));
+
+        if(this.x > 0)
+            toReturn.add(new Position(this.x - 1, this.y));
+
+        if(this.x < maxLimitX-1)
+            toReturn.add(new Position(this.x + 1, this.y));
+
+        return toReturn;
+    }
+
+    //@return a list of positions which share with this position an edge or an angle
+    public List<Position> getAdjacentPositions(int maxLimitX, int maxLimitY)
+    {
+        List<Position> toReturn = this.getOrthogonalAdjacentPositions(maxLimitX, maxLimitY);
+
+        if(this.x > 0)
+        {
+            if(this.y > 0)
+                toReturn.add(new Position(this.x - 1, this.y-1));
+            if(this.y < maxLimitY-1)
+                toReturn.add(new Position(this.x - 1, this.y + 1));
+        }
+
+        if(this.x < maxLimitX-1)
+        {
+            if(this.y > 0)
+                toReturn.add(new Position(this.x + 1, this.y -1));
+            if(this.y < maxLimitY-1)
+                toReturn.add(new Position(this.x + 1, this.y+1));
+        }
+
+        return toReturn;
     }
 }
