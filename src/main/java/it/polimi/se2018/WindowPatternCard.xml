@@ -8,89 +8,89 @@
             <row x = "1">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 </row>
                 <row x = "3">
                     <column y = "1">
-                        <colour></colour>
+                        <colour/>
                         <value>3</value>
                     </column>
                     <column y = "2">
-                        <colour></colour>
-                        <value></value>
+                        <colour/>
+                        <value/>
                     </column>
                     <column y = "3">
                         <colour>RED</colour>
-                        <value></value>
+                        <value/>
                     </column>
                     <column y = "4">
-                        <colour></colour>
-                        <value></value>
+                        <colour/>
+                        <value/>
                     </column>
                     <column y = "5">
                         <colour>GREEN</colour>
-                        <value></value>
+                        <value/>
                     </column>
                 </row>
                 <row x = "4">
                     <column y = "1">
-                        <colour></colour>
+                        <colour/>
                         <value>2</value>
                     </column>
                     <column y = "2">
-                        <colour></colour>
-                        <value></value>
+                        <colour/>
+                        <value/>
                     </column>
                     <column y = "3">
-                        <colour></colour>
-                        <value></value>
+                        <colour/>
+                        <value/>
                     </column>
                     <column y = "4">
                         <colour>BLUE</colour>
-                        <value></value>
+                        <value/>
                     </column>
                     <column y = "5">
                         <colour>YELLOW</colour>
-                        <value></value>
+                        <value/>
                     </column>
                 </row>
         </patternCard>
@@ -100,88 +100,88 @@
             <row x = "1">
                 <column y = "1">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "3">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
             </row>
@@ -193,90 +193,90 @@
             <difficulty>3</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -285,82 +285,82 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "5">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
@@ -368,7 +368,7 @@
                 </column>
                 <column y = "5">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -379,90 +379,90 @@
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "5">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -471,90 +471,90 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "3">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "5">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -565,89 +565,89 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
@@ -657,90 +657,90 @@
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "2">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "5">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -751,90 +751,90 @@
             <difficulty>3</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -843,89 +843,89 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
             </row>
@@ -937,89 +937,89 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
             </row>
@@ -1030,89 +1030,89 @@
             <row x = "1">
                 <column y = "1">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "2">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1123,90 +1123,90 @@
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "5">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1215,90 +1215,90 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "3">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1309,89 +1309,89 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "4">
-                    <colour>PURPLE</colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
             </row>
@@ -1401,89 +1401,89 @@
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
@@ -1495,89 +1495,89 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "2">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
             </row>
@@ -1588,89 +1588,89 @@
             <row x = "1">
                 <column y = "1">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "3">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "5">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1681,90 +1681,90 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1773,24 +1773,24 @@
             <difficulty>3</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
@@ -1799,64 +1799,64 @@
                     <value>4</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -1867,89 +1867,89 @@
             <difficulty>4</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>GREEN</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "2">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
                     <colour>BLUE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
             </row>
@@ -1960,89 +1960,89 @@
             <row x = "1">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "5">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "3">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -2054,89 +2054,89 @@
             <row x = "1">
                 <column y = "1">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "2">
                     <colour>YELLOW</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
                     <colour>PURPLE</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "5">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
@@ -2145,90 +2145,90 @@
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "2">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "4">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>6</value>
                 </column>
             </row>
             <row x = "2">
                 <column y = "1">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "2">
-                    <colour></colour>
+                    <colour/>
                     <value>4</value>
                 </column>
                 <column y = "3">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>2</value>
                 </column>
                 <column y = "5">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
             </row>
             <row x = "3">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
+                    <colour/>
                     <value>5</value>
                 </column>
                 <column y = "4">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
                 <column y = "5">
-                    <colour></colour>
+                    <colour/>
                     <value>1</value>
                 </column>
             </row>
             <row x = "4">
                 <column y = "1">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "2">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "3">
-                    <colour></colour>
-                    <value></value>
+                    <colour/>
+                    <value/>
                 </column>
                 <column y = "4">
-                    <colour></colour>
+                    <colour/>
                     <value>3</value>
                 </column>
                 <column y = "5">
                     <colour>RED</colour>
-                    <value></value>
+                    <value/>
                 </column>
             </row>
         </patternCard>
