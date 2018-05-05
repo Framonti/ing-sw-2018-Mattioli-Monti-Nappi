@@ -1,7 +1,6 @@
 package it.polimi.se2018;
 
-public class PrivateObjectiveCard extends Card {
-    private int victoryPoint; // point victory value of the private objective card
+public class PrivateObjectiveCard extends ObjectiveCard {
     private final Colour colour;
 
     //constructor
@@ -10,7 +9,9 @@ public class PrivateObjectiveCard extends Card {
         this.colour = colour;
     }
 
+    //returns public objective card colour
     public Colour getColour(){
         return this.colour;
     }
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2018;
 
-public class PublicObjectiveCard extends Card {
+public class PublicObjectiveCard extends ObjectiveCard {
     private int victoryPoint;
 
     //constructor

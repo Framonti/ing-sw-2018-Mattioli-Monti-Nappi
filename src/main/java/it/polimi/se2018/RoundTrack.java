@@ -14,7 +14,7 @@ public class RoundTrack {
 
     //adds the remaining dices in the draft pool to the RoundTrack
     public void addDice(int round, ArrayList<Dice> dices) {
-        roundTrack.add(dices);
+        roundTrack.get(round-1).addAll(dices);
     }
 
     //prints the dices on the RoundTrack of the selected round
