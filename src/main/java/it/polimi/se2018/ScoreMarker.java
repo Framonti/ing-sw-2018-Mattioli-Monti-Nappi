@@ -9,4 +9,5 @@ public class ScoreMarker {
     public ScoreMarker(Player player) {
         currentPlayer = player;
     }
+
 }

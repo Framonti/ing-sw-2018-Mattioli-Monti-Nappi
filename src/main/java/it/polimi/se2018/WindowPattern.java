@@ -41,4 +41,5 @@ public class WindowPattern {
             System.out.print("\n");
         }
     }
+    
 }
