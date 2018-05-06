@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 public class Player {
 
-    //Attributes (the ones commented don't have a class already)
-    String name;
-    int score;
-    int favorTokensNumber;
-    ScoreMarker scoreMarker;
-    WindowPattern windowPattern;
-    DicePattern dicePattern;
-    PrivateObjectiveCard privateObjectiveCard;
-    boolean diceMoved;
-    boolean toolCardUsed;
+    //Attributes
+    private String name;
+    private int score;
+    private int favorTokensNumber;
+    private ScoreMarker scoreMarker;
+    private WindowPattern windowPattern;
+    private DicePattern dicePattern;
+    private PrivateObjectiveCard privateObjectiveCard;
+    private boolean diceMoved;
+    private boolean toolCardUsed;
+    private ArrayList<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
 
 
 
@@ -329,6 +330,11 @@ public class Player {
             }
         }
         return partialSum;
+    }
+
+    //
+    public void addWindowPattern(WindowPattern windowPatternToAdd){
+        windowPatterns.add(windowPatternToAdd);
     }
 
 }
