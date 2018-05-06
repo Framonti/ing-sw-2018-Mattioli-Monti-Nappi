@@ -34,10 +34,8 @@ public class WindowPattern {
             for (column = 0; column < 5; column++) {
                 if (windowPattern[row][column] == null) {
                     System.out.print("O\t");
-                } else if (windowPattern[row][column].getColour() != null) {
-                    System.out.printf("%s\t", windowPattern[row][column].getColour().getAbbreviation());
-                } else if (windowPattern[row][column].getValue() != 0) {
-                    System.out.printf("%d\t", windowPattern[row][column].getValue());
+                } else {
+                    System.out.printf("%s\t", windowPattern[row][column].toString());
                 }
             }
             System.out.print("\n");
