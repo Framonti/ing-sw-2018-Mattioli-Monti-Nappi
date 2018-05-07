@@ -14,4 +14,10 @@ public class PrivateObjectiveCard extends ObjectiveCard {
         return this.colour;
     }
 
+    @Override
+    //@return a String representing the card itself
+    public String toString() {
+
+        return this.getName() + "\n" + this.getDescription();
+    }
 }

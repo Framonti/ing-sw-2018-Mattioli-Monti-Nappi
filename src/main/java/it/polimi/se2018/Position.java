@@ -9,26 +9,26 @@ public class Position
     private final int y;
 
     //Constructor
-    public Position(int x, int y)
-    {
+    public Position(int x, int y) {
+
         this.x = x;
         this.y = y;
     }
 
     //Getters
-    public int getX()
-    {
+    public int getX() {
+
         return this.x;
     }
 
-    public int getY()
-    {
+    public int getY() {
+
         return this.y;
     }
 
-    //@return a list of positions which are orthogonal adjacent to this position
-    public List<Position> getOrthogonalAdjacentPositions(int maxLimitX, int maxLimitY)
-    {
+    //@return a List of positions that share with "this position" an edge
+    public List<Position> getOrthogonalAdjacentPositions(int maxLimitX, int maxLimitY) {
+
         List<Position> toReturn = new ArrayList<>();
 
         if(this.y > 0)
@@ -46,21 +46,19 @@ public class Position
         return toReturn;
     }
 
-    //@return a list of positions which share with this position an edge or an angle
-    public List<Position> getAdjacentPositions(int maxLimitX, int maxLimitY)
-    {
+    //@return a List of positions that share with this position an edge OR an angle
+    public List<Position> getAdjacentPositions(int maxLimitX, int maxLimitY) {
+
         List<Position> toReturn = this.getOrthogonalAdjacentPositions(maxLimitX, maxLimitY);
 
-        if(this.x > 0)
-        {
+        if(this.x > 0) {
             if(this.y > 0)
                 toReturn.add(new Position(this.x - 1, this.y-1));
             if(this.y < maxLimitY-1)
                 toReturn.add(new Position(this.x - 1, this.y + 1));
         }
 
-        if(this.x < maxLimitX-1)
-        {
+        if(this.x < maxLimitX-1) {
             if(this.y > 0)
                 toReturn.add(new Position(this.x + 1, this.y -1));
             if(this.y < maxLimitY-1)
