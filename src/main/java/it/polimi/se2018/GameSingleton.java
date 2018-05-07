@@ -1,9 +1,8 @@
 package it.polimi.se2018;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class GameSingleton {
     private int playersNumber;
@@ -13,7 +12,7 @@ public class GameSingleton {
     private ArrayList <Player> players;
     private ArrayList <PublicObjectiveCard>  publicObjectiveCards;
     private ArrayList <ToolCard> toolCards;
-    private HashSet <Dice> diceBag;
+    private ArrayList <Dice> diceBag;
     private ArrayList <Dice> draftPool;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
@@ -46,22 +45,22 @@ public class GameSingleton {
     }
 
     //returns dice bag, which contains 90 dices. It's a private method beacuse it has to be seen only by the constructor
-    private HashSet <Dice> createDiceBag()
+    private ArrayList <Dice> createDiceBag()
     {
-        HashSet <Dice> theDiceBag = new HashSet <>();
+        ArrayList <Dice> DiceBagToReturn = new ArrayList <>();
         for (int i=0; i<18; i++){
                 Dice diceB = new Dice(Colour.BLUE);
                 Dice diceY = new Dice(Colour.YELLOW);
                 Dice diceP = new Dice(Colour.PURPLE);
                 Dice diceG = new Dice(Colour.GREEN);
                 Dice diceR = new Dice(Colour.RED);
-                theDiceBag.add(diceB);
-                theDiceBag.add(diceY);
-                theDiceBag.add(diceP);
-                theDiceBag.add(diceG);
-                theDiceBag.add(diceR);
+                DiceBagToReturn.add(diceB);
+                DiceBagToReturn.add(diceY);
+                DiceBagToReturn.add(diceP);
+                DiceBagToReturn.add(diceG);
+                DiceBagToReturn.add(diceR);
             }
-        return theDiceBag;
+        return DiceBagToReturn;
     }
 
 
@@ -72,19 +71,14 @@ public class GameSingleton {
     }
 
     //extracts dices from dice bag and put them in the draft pool
-    public void extractAndRoll(){
-        int item = new Random().nextInt(diceBag.size());
-        int j;
-        for(j=0; j< diceNumberToExtract; j++) {
-            int i = 0;
-            for (Dice dice : diceBag) {
-                if (i == item) {
-                    dice.roll();
-                    draftPool.add(dice);
-                    diceBag.remove(dice);
-                    i++;
-                }
-            }
+    public void extractAndRoll() {
+        int i;
+        int randomNumber;
+        for (i = 0; i < diceNumberToExtract; i++) {
+            randomNumber = ThreadLocalRandom.current().nextInt(diceBag.size());
+            diceBag.get(randomNumber).roll();
+            draftPool.add(diceBag.get(randomNumber));
+            diceBag.remove(randomNumber);
         }
     }
 
@@ -107,9 +101,9 @@ public class GameSingleton {
                  if(players.get(i).computePrivateObjectiveCardScore() > winner.computePrivateObjectiveCardScore())
                      winner = players.get(i);
                  else if(players.get(i).computePrivateObjectiveCardScore() == winner.computePrivateObjectiveCardScore()){
-                     if(players.get(i).getFavorTokens() > winner.getFavorTokens())
+                     if(players.get(i).getFavorTokensNumber() > winner.getFavorTokensNumber())
                          winner = players.get(i);
-                     else if(players.get(i).getFavorTokens() == winner.getFavorTokens() && i < players.indexOf(winner))
+                     else if(players.get(i).getFavorTokensNumber() == winner.getFavorTokensNumber() && i < players.indexOf(winner))
                          winner = players.get(i);
                  }
              }
@@ -137,10 +131,10 @@ public class GameSingleton {
         this.lap = lap;
     }
 
+    //
 
-
-
-
-
-
+    //returns draft pool 
+    public ArrayList<Dice> getDraftPool() {
+        return draftPool;
+    }
 }
