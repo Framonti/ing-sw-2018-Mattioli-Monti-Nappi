@@ -9,13 +9,18 @@ public class Deck<T>
 {
 
     private List<T> cardDeck;
-    private final int numberToExtract;
+    private int numberToExtract;
 
 
-    public Deck(int numberToExtract, List<T> deck)
+    public Deck( List<T> deck)
     {
-        this.numberToExtract = numberToExtract;
         this.cardDeck = deck;
+    }
+
+    //Setter
+    public void setNumberToExtract(int numberToExtract) {
+
+        this.numberToExtract = numberToExtract;
     }
 
     //The list of card is randomly shuffled

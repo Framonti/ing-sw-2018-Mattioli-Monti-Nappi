@@ -15,14 +15,14 @@ public class GameSetupSingleton {
 
     //constructor. Comments has to be added
     private GameSetupSingleton(){
-        DeckLoader privateObjectiveCardDeckLoader = new DeckLoader("it/polimi/se2018/PrivateObjectiveCard.xml");
-        DeckLoader publicObjectiveCardDeckLoader = new DeckLoader("it/polimi/se2018/PublicObjectiveCard.xml");
-        DeckLoader toolCardDeckLoader = new DeckLoader("it/polimi/se2018/ToolCard.xml");
-        DeckLoader windowPatternCardDeckLoader = new DeckLoader("it/polimi/se2018/WindowPatternCard.xml");
-        this.privateObjectiveCardDeck = privateObjectiveCardDeckLoader.getPrivateObjectiveCardDeck(players.size());
+        PrivateObjectiveCardDeckBuilder privateObjectiveCardDeckLoader = new PrivateObjectiveCardDeckBuilder("it/polimi/se2018/PrivateObjectiveCard.xml");
+        PublicObjectiveCardDeckBuilder publicObjectiveCardDeckLoader = new PublicObjectiveCardDeckBuilder("it/polimi/se2018/PublicObjectiveCard.xml");
+        ToolCardDeckBuilder toolCardDeckLoader = new ToolCardDeckBuilder("it/polimi/se2018/ToolCard.xml"); //TODO
+        WindowPatternCardDeckBuilder windowPatternCardDeckLoader = new WindowPatternCardDeckBuilder("it/polimi/se2018/WindowPatternCard.xml");
+        this.privateObjectiveCardDeck = privateObjectiveCardDeckLoader.getPrivateObjectiveCardDeck();
         this.publicObjectiveCardDeck = publicObjectiveCardDeckLoader.getPublicObjectiveCardDeck();
-        this.toolCardDeck = toolCardDeckLoader.getToolCardDeck(3);
-        this.windowPatternCardDeck = windowPatternCardDeckLoader.getWindowPatternCardDeck(players.size());
+      //  this.toolCardDeck = toolCardDeckLoader.getToolCardDeck();         //TODO after the implementation of the 12 classes ToolCard
+        this.windowPatternCardDeck = windowPatternCardDeckLoader.getWindowPatternCardDeck();
         this.players = new ArrayList<>();
     }
 
@@ -39,10 +39,27 @@ public class GameSetupSingleton {
     }
 
 
+    private List<PrivateObjectiveCard> getPrivateObjectiveCardList(int numberToExtract) {
+
+        privateObjectiveCardDeck.setNumberToExtract(numberToExtract);
+        return privateObjectiveCardDeck.mixAndDistribute();
+    }
+
+    private List<PublicObjectiveCard> getPublicObjectiveCardList(int numberToExtract) {
+
+        publicObjectiveCardDeck.setNumberToExtract(numberToExtract);
+        return publicObjectiveCardDeck.mixAndDistribute();
+    }
+
+    private List<WindowPatternCard> getWindowPatternCardList(int playersNumber) {
+
+        windowPatternCardDeck.setNumberToExtract(playersNumber);
+        return windowPatternCardDeck.mixAndDistribute();
+    }
 
     //assigns 4 window patterns for each player
     public void assignWindowPattern(){
-        List <WindowPatternCard> deckToDistribute = windowPatternCardDeck.mixAndDistribute();
+        List <WindowPatternCard> deckToDistribute = getWindowPatternCardList(players.size());
         int i = 0;
         int j;
         for(Player player : players){
