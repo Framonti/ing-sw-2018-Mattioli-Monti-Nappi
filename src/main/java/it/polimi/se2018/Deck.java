@@ -4,46 +4,42 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//This generic class will be used for the Card decks
-public class Deck<T>
-{
+/** Generic class used for the Card decks */
+public class Deck<T> {
 
     private List<T> cardDeck;
-    private int numberToExtract;
 
+    public Deck(List<T> deck) {
 
-    public Deck( List<T> deck)
-    {
         this.cardDeck = deck;
     }
 
-    //Setter
-    public void setNumberToExtract(int numberToExtract) {
+    /**The card list is randomly shuffled*/
+    private void mix() {
 
-        this.numberToExtract = numberToExtract;
+        Collections.shuffle(cardDeck);
     }
 
-    //The list of card is randomly shuffled
-    private void mix()
-    {
-        Collections.shuffle(this.cardDeck);
-    }
+    /**Extract the first "numberToExtract" cards from a deck
+     * @param numberToExtract will be the length of the list returned
+     * @return a list composed by the first "numberToExtract" cards */
+    private List<T> distribute(int numberToExtract) {
 
-    //Extract the first n card from a deck
-    private List<T> distribute()
-    {
         List<T> listToReturn = new ArrayList<>();
-        for (int i = 0; i < this.numberToExtract; i++)
-        {
-            listToReturn.add(this.cardDeck.get(i));
+        for (int i = 0; i < numberToExtract; i++) {
+
+            listToReturn.add(cardDeck.get(i));
         }
         return listToReturn;
     }
 
-    public List<T> mixAndDistribute()
-    {
+    /** mix and then return the first "numberToExtract" cards from a deck
+     * @return a List with "numberToExtract" elements
+     */
+    public List<T> mixAndDistribute(int numberToExtract) {
+
         this.mix();
-        return this.distribute();
+        return this.distribute(numberToExtract);
     }
 }
 

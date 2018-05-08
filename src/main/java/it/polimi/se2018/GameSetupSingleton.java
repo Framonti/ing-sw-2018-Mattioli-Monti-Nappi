@@ -41,23 +41,21 @@ public class GameSetupSingleton {
 
     private List<PrivateObjectiveCard> getPrivateObjectiveCardList(int numberToExtract) {
 
-        privateObjectiveCardDeck.setNumberToExtract(numberToExtract);
-        return privateObjectiveCardDeck.mixAndDistribute();
+        return privateObjectiveCardDeck.mixAndDistribute(numberToExtract);
     }
 
     private List<PublicObjectiveCard> getPublicObjectiveCardList(int numberToExtract) {
 
-        publicObjectiveCardDeck.setNumberToExtract(numberToExtract);
-        return publicObjectiveCardDeck.mixAndDistribute();
+        return publicObjectiveCardDeck.mixAndDistribute(numberToExtract);
     }
 
     private List<WindowPatternCard> getWindowPatternCardList(int playersNumber) {
 
-        windowPatternCardDeck.setNumberToExtract(playersNumber);
-        return windowPatternCardDeck.mixAndDistribute();
+        return windowPatternCardDeck.mixAndDistribute(playersNumber);
     }
 
-    //assigns 4 window patterns for each player
+    /**Assigns 4 window patterns for each player */
+
     public void assignWindowPattern(){
         List <WindowPatternCard> deckToDistribute = getWindowPatternCardList(players.size());
         int i = 0;

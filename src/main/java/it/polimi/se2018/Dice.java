@@ -1,6 +1,8 @@
 package it.polimi.se2018;
 import java.util.concurrent.ThreadLocalRandom;
 
+/** This class represents a dice with a colour and gives the more basic
+ * methods for its manipulation*/
 public class Dice
 {
     private int value;
@@ -34,8 +36,8 @@ public class Dice
         return value;
     }
 
-    //decrease the value of the dice by one
-    //@return false when this.value is equal to 1 (can't be decreased)
+    /**Decrease the value of the dice by one
+    * @return false when this.value is equal to 1 (can't be decreased)*/
     public boolean subOne() {
 
         if (this.value == 1)
@@ -47,8 +49,8 @@ public class Dice
         }
     }
 
-    //increase the value of the dice by one
-    //@return false when this.value is equal to 6 (can't be increased)
+    /**Increase the value of the dice by one
+    * @return false when this.value is equal to 6 (can't be increased) */
     public boolean addOne() {
 
         if (this.value == 6)
@@ -59,21 +61,22 @@ public class Dice
         }
     }
 
-    //Turn the dice to the opposite side
-    //A real dice has the sum of the opposite side constant (7 for a D6)
+    /**Turn the dice on the opposite side
+    * A real dice has the sum of the opposite side constant (7 for a D6) */
     public void turn() {
 
         int sumOppositeFaces = 7;
         this.value = sumOppositeFaces - this.value;
     }
 
-    //Roll the dice
+    /** Roll the dice*/
     public void roll() {
 
         this.value = ThreadLocalRandom.current().nextInt(1, 7);
     }
 
-    //Roll the dice and @return the result
+    /**Roll the dice and return the result
+     * @return the result of a dice roll*/
     public int rollAndGet() {
 
         this.roll();
@@ -81,7 +84,8 @@ public class Dice
     }
 
     @Override
-    //@return a quick representation of the dice, using its value and the initial of its colour
+    /** Override of the toString method
+     * @return a String which represents the dice, using its value and the initial of its colour*/
     public String toString() {
 
         String temp = String.valueOf(this.value);
