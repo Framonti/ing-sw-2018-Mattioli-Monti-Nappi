@@ -53,7 +53,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>it.polimi.se2018.App</mainClass>
+              <mainClass>it.polimi.se2018.model.App</mainClass>
             </manifest>
           </archive>
         </configuration>

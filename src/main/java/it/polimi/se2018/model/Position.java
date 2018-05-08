@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;

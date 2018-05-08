@@ -1,6 +1,8 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
 
-public abstract class ToolCard{
+import it.polimi.se2018.model.Colour;
+
+public class ToolCard{
     private int favorPoint = 0; //number of favor points on the tool card
     private final Colour colour;
     private final String name;
@@ -31,10 +33,5 @@ public abstract class ToolCard{
     public void increaseFavorPoint (int n){
         this.favorPoint += n;
     }
-
-    //abstract method
-    public abstract boolean useToolCard(GameSingleton game);
-
-
 
 }

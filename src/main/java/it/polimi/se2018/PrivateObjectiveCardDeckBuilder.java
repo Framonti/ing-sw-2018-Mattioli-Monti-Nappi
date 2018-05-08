@@ -1,5 +1,9 @@
 package it.polimi.se2018;
 
+import it.polimi.se2018.model.Colour;
+import it.polimi.se2018.model.Deck;
+import it.polimi.se2018.model.PrivateObjectiveCard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +15,7 @@ public class PrivateObjectiveCardDeckBuilder extends LoaderXML {
     }
 
     //@return a Deck with all the PrivateObjectiveCard, loaded from a xml file
-    public  Deck<PrivateObjectiveCard> getPrivateObjectiveCardDeck() {
+    public Deck<PrivateObjectiveCard> getPrivateObjectiveCardDeck() {
 
         List<PrivateObjectiveCard> cards = new ArrayList<>();
 

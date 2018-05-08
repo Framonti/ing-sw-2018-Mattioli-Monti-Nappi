@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** This class represents a dice with a colour and gives the more basic

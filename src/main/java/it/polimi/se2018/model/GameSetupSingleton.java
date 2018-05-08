@@ -1,4 +1,8 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
+
+import it.polimi.se2018.PrivateObjectiveCardDeckBuilder;
+import it.polimi.se2018.PublicObjectiveCardDeckBuilder;
+import it.polimi.se2018.WindowPatternCardDeckBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,11 +37,6 @@ public class GameSetupSingleton {
         return instance;
     }
 
-    //orders players randomly
-    public void choosePlayersOrder(){
-        Collections.shuffle(players);
-    }
-
 
     private List<PrivateObjectiveCard> getPrivateObjectiveCardList(int numberToExtract) {
 
@@ -53,6 +52,20 @@ public class GameSetupSingleton {
 
         return windowPatternCardDeck.mixAndDistribute(playersNumber);
     }
+
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+
+    //orders players randomly
+    public void choosePlayersOrder(){
+        Collections.shuffle(players);
+    }
+
+
+
 
     /**Assigns 4 window patterns for each player */
 

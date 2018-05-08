@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
 
 public class PrivateObjectiveCard extends ObjectiveCard {
     private final Colour colour;

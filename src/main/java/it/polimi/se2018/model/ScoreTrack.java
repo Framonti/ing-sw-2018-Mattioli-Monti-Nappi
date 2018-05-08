@@ -1,10 +1,12 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
+
+import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
 
 public class ScoreTrack {
 
-    private ArrayList<Player> players;
+   private ArrayList<Player> players;
 
     //Constructor
     public ScoreTrack(ArrayList<Player> players) {

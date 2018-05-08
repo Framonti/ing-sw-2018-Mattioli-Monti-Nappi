@@ -1,5 +1,8 @@
 package it.polimi.se2018;
 
+import it.polimi.se2018.model.Deck;
+import it.polimi.se2018.model.PublicObjectiveCard;
+
 import java.util.ArrayList;
 import java.util.List;
 

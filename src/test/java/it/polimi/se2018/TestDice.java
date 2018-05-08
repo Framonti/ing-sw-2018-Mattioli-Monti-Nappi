@@ -1,5 +1,6 @@
 package it.polimi.se2018;
 
+import it.polimi.se2018.model.Dice;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

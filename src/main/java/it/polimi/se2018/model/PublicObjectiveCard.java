@@ -1,4 +1,6 @@
-package it.polimi.se2018;
+package it.polimi.se2018.model;
+
+import it.polimi.se2018.model.ObjectiveCard;
 
 public class PublicObjectiveCard extends ObjectiveCard {
 

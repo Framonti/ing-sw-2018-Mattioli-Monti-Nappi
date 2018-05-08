@@ -1,5 +1,7 @@
 package it.polimi.se2018;
 
+import it.polimi.se2018.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class WindowPatternCardDeckBuilder extends LoaderXML {
     }
 
     //Build and @return a Dice matrix by scanning a list of colour and value
-    private Dice [][] getMatrix(int id, List<String> coloursList, List<String> valuesList) {
+    private Dice[][] getMatrix(int id, List<String> coloursList, List<String> valuesList) {
 
         int rows = 4;
         int columns = 5;
