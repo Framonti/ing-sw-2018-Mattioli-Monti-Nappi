@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -36,6 +37,10 @@ public class Player {
 
     public PrivateObjectiveCard getPrivateObjectiveCard() { return privateObjectiveCard; }
 
+    public WindowPattern getWindowPattern() { return windowPattern; }
+
+    public List<WindowPattern> getWindowPatterns() { return windowPatterns; }
+
     public boolean isDiceMoved() { return diceMoved; }
 
     public void setScore(int score) { this.score = score; }
@@ -49,6 +54,8 @@ public class Player {
     public void setDicePattern(DicePattern dicePattern) { this.dicePattern = dicePattern; }
 
     public void reverseDiceMoved() { diceMoved = !diceMoved; }
+
+    public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 
 
 
@@ -64,6 +71,8 @@ public class Player {
         for(row = 0; row < 4; row++) {
             for(column = 0; column < 5; column++) {
                 position = new Position(row, column);
+
+                //adds the value of the dice if it has the same colour of the privateObjectiveCard
                 if(!dicePattern.isEmpty(position) && dicePattern.getDice(position).getColour().equals(privateObjectiveCard.getColour())) {
                     sum += dicePattern.getDice(position).getValue();
                 }
@@ -161,20 +170,23 @@ public class Player {
         }
         Position p1;
         Position p2;
+
+        //this cicle controlls if there are two dices of the same colour or with the same value in the same column
+        //the value of colScore is set to 0 if it has
         for(column = 0; column < 5; column++) {
             for(row = 0; row < 3 && colScore != 0; row++) {
                 for(row2 = row + 1; row2 < 4 && colScore != 0; row2++) {
                     p1 = new Position(row, column);
                     p2 = new Position(row2, column);
-                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2)) {
-                        colScore = 0;
-                    } else if(dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour())) {
-                        colScore = 0;
-                    } else if(dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
+                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
+                            isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
+                            !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
                         colScore = 0;
                     }
                 }
             }
+
+            //add the colScore to sum and restore colScore for the next column
             partialSum += colScore;
             if(isColour) {
                 colScore = 5;
@@ -200,20 +212,23 @@ public class Player {
         }
         Position p1;
         Position p2;
+
+        //this cicle controlls if there are two dices of the same colour or with the same value in the same row
+        //the value of rowScore is set to 0 if it has
         for(row = 0; row < 4; row++) {
             for(column = 0; column < 4 && rowScore != 0; column++) {
                 for(column2 = column + 1; column2 < 5 && rowScore != 0; column2++) {
                     p1 = new Position(row, column);
                     p2 = new Position(row, column2);
-                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2)) {
-                        rowScore = 0;
-                    } else if(isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour())) {
-                        rowScore = 0;
-                    } else if(!isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
+                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
+                            isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
+                            !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
                         rowScore = 0;
                     }
                 }
             }
+
+            //add the rowScore to sum and restore rowScore for the next row
             partialSum += rowScore;
             if(isColour) {
                 rowScore = 6;
@@ -249,39 +264,41 @@ public class Player {
     //support method used by computeMyScore
     //returns the number of the minor set of one colour
     private int colourVariety() {
-        int Ys = 0;
-        int Gs = 0;
-        int Rs = 0;
-        int Ps = 0;
-        int Bs = 0;
+        int yellowNum = 0;
+        int greenNum = 0;
+        int redNum = 0;
+        int purpleNum = 0;
+        int blueNum = 0;
         int row;
         int column;
         Position p1;
+
+        //increase the related variable of the dice colour
         for(row = 0; row < 4; row++) {
             for(column = 0; column < 5; column++) {
                 p1 = new Position(row, column);
                 if (!dicePattern.isEmpty(p1)) {
                     switch (dicePattern.getDice(p1).getColour()) {
                         case YELLOW:
-                            Ys++;
+                            yellowNum++;
                             break;
                         case GREEN:
-                            Gs++;
+                            greenNum++;
                             break;
                         case RED:
-                            Rs++;
+                            redNum++;
                             break;
                         case PURPLE:
-                            Ps++;
+                            purpleNum++;
                             break;
                         case BLUE:
-                            Bs++;
+                            blueNum++;
                             break;
                     }
                 }
             }
         }
-        return Math.min(Math.min(Math.min(Math.min(Ys, Gs), Rs), Ps), Bs);
+        return Math.min(Math.min(Math.min(Math.min(yellowNum, greenNum), redNum), purpleNum), blueNum);
     }
 
     //support method used by computeMyScore
@@ -298,6 +315,9 @@ public class Player {
             for (column = 0; column < 5; column++) {
                 p1 = new Position(row, column);
                 if(!dicePattern.isEmpty(p1)) {
+
+                    //this cicle increases partialSum if there is at least one dice with the same colour diagonally adjacent
+                    //break the for named "outer" if it finds one
                     outer: for (row2 = row - 1; row2 < row + 2; row2 = row2 + 2) {
                         for (column2 = column - 1; column2 < column + 2; column2 = column2 + 2) {
                             if (row2 >= 0 && row2 < 4 && column2 >= 0 && column2 < 5) {
@@ -330,11 +350,6 @@ public class Player {
             }
         }
         return partialSum;
-    }
-
-    //
-    public void addWindowPattern(WindowPattern windowPatternToAdd){
-        windowPatterns.add(windowPatternToAdd);
     }
 
 }
