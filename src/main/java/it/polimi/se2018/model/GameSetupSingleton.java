@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.PrivateObjectiveCardDeckBuilder;
 import it.polimi.se2018.PublicObjectiveCardDeckBuilder;
+import it.polimi.se2018.ToolCardDeckBuilder;
 import it.polimi.se2018.WindowPatternCardDeckBuilder;
 
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ public class GameSetupSingleton {
     private GameSetupSingleton(){
         PrivateObjectiveCardDeckBuilder privateObjectiveCardDeckLoader = new PrivateObjectiveCardDeckBuilder("it/polimi/se2018/PrivateObjectiveCard.xml");
         PublicObjectiveCardDeckBuilder publicObjectiveCardDeckLoader = new PublicObjectiveCardDeckBuilder("it/polimi/se2018/PublicObjectiveCard.xml");
-        ToolCardDeckBuilder toolCardDeckLoader = new ToolCardDeckBuilder("it/polimi/se2018/ToolCard.xml"); //TODO
+        ToolCardDeckBuilder toolCardDeckLoader = new ToolCardDeckBuilder("it/polimi/se2018/ToolCard.xml");
         WindowPatternCardDeckBuilder windowPatternCardDeckLoader = new WindowPatternCardDeckBuilder("it/polimi/se2018/WindowPatternCard.xml");
         this.privateObjectiveCardDeck = privateObjectiveCardDeckLoader.getPrivateObjectiveCardDeck();
         this.publicObjectiveCardDeck = publicObjectiveCardDeckLoader.getPublicObjectiveCardDeck();
-      //  this.toolCardDeck = toolCardDeckLoader.getToolCardDeck();         //TODO after the implementation of the 12 classes ToolCard
+        this.toolCardDeck = toolCardDeckLoader.getToolCardDeck();
         this.windowPatternCardDeck = windowPatternCardDeckLoader.getWindowPatternCardDeck();
         this.players = new ArrayList<>();
     }

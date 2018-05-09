@@ -1,5 +1,6 @@
 package it.polimi.se2018;
 
+import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Dice;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -49,6 +50,19 @@ public class TestDice {
 
         assertEquals(6, dice1.getValue());
         assertEquals(1, dice6.getValue());
+    }
+
+    @Test
+    public void testIllegalSet(){
+
+        Dice dice = new Dice(Colour.YELLOW);
+        try {
+            dice.setValue(7);
+        }
+        catch (IllegalArgumentException e) {
+
+            fail("Test Passato Correttamente");
+        }
     }
 
 }
