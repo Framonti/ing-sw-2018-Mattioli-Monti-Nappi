@@ -21,9 +21,12 @@ public class Dice
     }
 
     //getters and setter
-    public void setValue(int value) {
+    public void setValue(int value){
 
-        this.value = value;
+        if(value > 6 || value < 1)
+            throw new IllegalArgumentException("Invalid value");
+        else
+            this.value = value;
     }
 
     public Colour getColour() {
