@@ -13,11 +13,11 @@ public class ScoreTrack {
         this.players = players;
     }
 
-    //prints the score of each player
-    public void showScoreTrack() {
-        for (Player player : players) {
-            System.out.println(player.getName() + ": " + player.getScore());
-        }
+    @Override
+    public String toString() {
+        String tmp = "";
+        for (Player player : players)
+            tmp = tmp.concat(player.getName() + ": " + player.getScore() + "\n");
+        return tmp;
     }
-
 }

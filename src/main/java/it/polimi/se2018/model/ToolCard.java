@@ -34,4 +34,9 @@ public class ToolCard{
         this.favorPoint += n;
     }
 
+    @Override
+    public String toString() {
+        return "Nome: " + getName() + "\n" + "Descrizione: " + getDescription() + "\n" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
+                "\nColore: " + getColour().toString();
+    }
 }

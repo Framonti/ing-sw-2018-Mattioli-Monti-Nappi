@@ -41,4 +41,16 @@ public enum Colour
     {
         return this.abbreviation;
     }
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case YELLOW: return "Giallo";
+            case GREEN: return "Verde";
+            case RED: return "Rosso";
+            case BLUE: return  "Blu";
+            case PURPLE: return "Viola";
+            default: return "Colore mancante";
+        }
+    }
 }
