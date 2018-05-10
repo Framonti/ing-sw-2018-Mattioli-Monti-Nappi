@@ -68,6 +68,34 @@ public class GameSingleton {
         return draftPool;
     }
 
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
+    }
+
+    public ScoreTrack getScoreTrack() {
+        return scoreTrack;
+    }
+
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    public int getDiceNumberToExtract() {
+        return diceNumberToExtract;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Dice> getDiceBag() {
+        return diceBag;
+    }
+
     //sets current player
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -119,7 +147,7 @@ public class GameSingleton {
 
     //moves  remaining dices from draft pool to round track
     public void fromDraftPoolToRoundTrack() {
-        roundTrack.addDice(round, draftPool);
+        roundTrack.addDices(draftPool);
     }
 
 

@@ -18,8 +18,18 @@ public class WindowPattern {
 
     //controlls if the dice respects the colour and value restrictions of the pattern
     public boolean checkCell(Position position, Dice dice) {
-        return (windowPattern[position.getX()][position.getY()].getColour() == null || windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour())) && (windowPattern[position.getX()][position.getY()].getValue() == 0 || windowPattern[position.getX()][position.getY()].getValue() == dice.getValue());
+        return checkCellValueRestriction(position, dice) && checkCellColourRestriction(position, dice);
     }
+
+    //secondo me serve un metodo che controlli che la restrizione sul colore sia rispettata e uno che controlli che quella sul valore sia rispettata
+    public boolean checkCellColourRestriction(Position position, Dice dice){
+        return (windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour()));
+    }
+
+    public boolean checkCellValueRestriction(Position position, Dice dice){
+        return (windowPattern[position.getX()][position.getY()].getValue() == dice.getValue());
+    }
+
 
     //Getters
     public String getName() {

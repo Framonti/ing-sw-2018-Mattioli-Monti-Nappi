@@ -15,8 +15,18 @@ public class RoundTrack {
         roundTrack = new ArrayList<ArrayList<Dice>>();
     }
 
+    //return array list corresponding to round position
+    public ArrayList<Dice> getArrayList(int round){
+        return roundTrack.get(round);
+    }
+
+    //add dice
+    public void addDice( int round, Dice dice){
+        roundTrack.get(round).add(dice);
+    }
+
     //adds the remaining dices in the draft pool to the RoundTrack
-    public void addDice(ArrayList<Dice> dices) {
+    public void addDices(ArrayList<Dice> dices) {
         roundTrack.add(dices);
     }
 
@@ -55,9 +65,7 @@ public class RoundTrack {
     }
 
     //returns the dice on the roundIndex cell in the arrayListIndex position
-    public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack.get(roundIndex - 1).get(arrayListIndex); }
+    public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack.get(roundIndex).get(arrayListIndex); }
 
-    //must be implemented (probably it has DicePattern as parameter)
-    public void swapDice(Position diceOnPattern, Position diceOnRoundTrack) {}
 
 }
