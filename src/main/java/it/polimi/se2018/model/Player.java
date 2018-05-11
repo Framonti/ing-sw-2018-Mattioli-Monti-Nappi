@@ -16,6 +16,7 @@ public class Player {
     private boolean diceMoved;
     private boolean toolCardUsed;
     private ArrayList<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
+    private int lap;
 
 
 
@@ -24,12 +25,17 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.privateObjectiveCard = privateObjectiveCard;
+        this.lap = 0;
     }
 
 
 
     //getters and setters
     public int getScore() { return score; }
+
+    public int getLap() {
+        return lap;
+    }
 
     public int getFavorTokensNumber() { return favorTokensNumber; }
 
@@ -52,6 +58,10 @@ public class Player {
     public void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
 
     public void setWindowPattern(WindowPattern windowPattern) { this.windowPattern = windowPattern; }
+
+    public void setLap(int lap) {
+        this.lap = lap;
+    }
 
     public void setScoreMarker(ScoreMarker scoreMarker) { this.scoreMarker = scoreMarker; }
 
