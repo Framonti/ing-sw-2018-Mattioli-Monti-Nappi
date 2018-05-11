@@ -106,6 +106,9 @@ public class GameSingleton {
         this.lap = lap;
     }
 
+    public void setRound(int round) {
+        this.round = round;
+    }
 
     //returns dice bag, which contains 90 dices. It's a private method beacuse it has to be seen only by the constructor
     private ArrayList<Dice> createDiceBag() {
