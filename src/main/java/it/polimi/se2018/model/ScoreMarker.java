@@ -1,6 +1,9 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.Player;
+/**
+ * This class represents the score marker of each player. This will be used only in the GUI.
+ * @author fabio
+ */
 
 public class ScoreMarker {
 

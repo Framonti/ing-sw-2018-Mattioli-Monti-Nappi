@@ -142,13 +142,11 @@ public class DicePattern
     }
 
     @Override
-    /** Override of the toString method.
-    * @return A String already formatted that represents both the DicePattern and the WindowPattern */
     public String toString(){
 
         int row = 4;
         int column = 5;
-        String toReturn = windowPattern.getName() + "\n" + "Difficoltà: " + String.valueOf(windowPattern.getDifficultyNumber())+ "\n";
+        String toReturn = "Nome: " + windowPattern.getName() + "\n" + "Difficoltà: " + windowPattern.getDifficultyNumber()+ "\n";
 
         for (int i = 0; i < row; i++){
             for (int j = 0; j < column; j++){

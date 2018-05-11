@@ -22,7 +22,7 @@ public class PublicObjectiveCard extends ObjectiveCard {
     //@return a String representing the card itself
     public String toString() {
 
-        String toReturn = this.getName() + "\n" + this.getDescription() + "\n" + "Punti Vittoria: ";
+        String toReturn = "Nome: " + this.getName() + "\n" + "Descrizione: " + this.getDescription() + "\n" + "Punti Vittoria: ";
 
         if(victoryPoint != 0)
             toReturn = toReturn.concat(String.valueOf(this.victoryPoint));

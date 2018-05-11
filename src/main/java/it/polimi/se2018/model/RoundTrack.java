@@ -1,10 +1,13 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.Dice;
-import it.polimi.se2018.model.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Class that represents the round track
+ * @author fabio
+ */
 
 public class RoundTrack {
 
@@ -15,29 +18,35 @@ public class RoundTrack {
         roundTrack = new ArrayList<ArrayList<Dice>>();
     }
 
-    //return array list corresponding to round position
-    public ArrayList<Dice> getArrayList(int round){
+    /**
+     * @param round Represents the number of the chosen round
+     * @return A list of the dices placed on the round track on the selected round
+     */
+    public List<Dice> getArrayList(int round){
         return roundTrack.get(round);
     }
 
-    //add dice
-    public void addDice( int round, Dice dice){
+    /**
+     * To be used only while using a tool card.
+     * @param round Represents the number of the chosen round
+     * @param dice Represents the dice that has to be placed on the round track
+     */
+    public void addDice(int round, Dice dice){
         roundTrack.get(round).add(dice);
     }
 
-    //adds the remaining dices in the draft pool to the RoundTrack
+    /**
+     * Adds the remaining dices of the draft pool to the round track
+     * @param dices The list of dices remained in the draft pool at the end of the round
+     */
     public void addDices(ArrayList<Dice> dices) {
         roundTrack.add(dices);
     }
 
-    //prints the dices on the RoundTrack of the selected round
-    public void showArrayList(int round) {
-        for(Dice dice : roundTrack.get(round - 1)) {
-            System.out.printf("%s%d\t", dice.getColour().getAbbreviation(), dice.getValue());
-        }
-        System.out.print("\n");
-    }
-
+    /**
+     * @param round Represents the number of the chosen round
+     * @return A string that represents the dices on the round track on the chosen round
+     */
     public String roundToString(int round) {
         if(roundTrack.size() < round) {
             return "";
@@ -48,12 +57,20 @@ public class RoundTrack {
         return tmp;
     }
 
-    public void showRoundTrack() {}   //graphic only method
+    //graphic only method
+    public void showRoundTrack() {}
 
-    //compares the current round with the one chosen and returns if there are any dices on that cell
-    public boolean isEmpty(int round, int position) { return round <= position; }
+    /**
+     * @param currentRound Represents the number of the current round
+     * @param requestedRound Represents the number of the round requested by the player
+     * @return True if the current round is smaller (or equal) than the requested round
+     */
+    public boolean isEmpty(int currentRound, int requestedRound) { return currentRound <= requestedRound; }
 
-    //returns the sum of every dice on the RoundTrack (single player only)
+    /**
+     * This method will be used only in single player mode.
+     * @return The sum of all the dices' value on the round track
+     */
     public int sumDiceValue() {
         int sum = 0;
         for(ArrayList<Dice> dices : roundTrack){
@@ -64,8 +81,11 @@ public class RoundTrack {
         return sum;
     }
 
-    //returns the dice on the roundIndex cell in the arrayListIndex position
+    /**
+     * @param roundIndex Represents the number of the chosen round
+     * @param arrayListIndex Represents the number of the dice in the chosen round
+     * @return The chosen dice
+     */
     public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack.get(roundIndex).get(arrayListIndex); }
-
 
 }

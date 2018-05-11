@@ -3,13 +3,19 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class represents the score track
+ * @author fabio
+ */
 
 public class ScoreTrack {
 
-   private ArrayList<Player> players;
+   private List<Player> players;
 
     //Constructor
-    public ScoreTrack(ArrayList<Player> players) {
+    public ScoreTrack(List<Player> players) {
         this.players = players;
     }
 
