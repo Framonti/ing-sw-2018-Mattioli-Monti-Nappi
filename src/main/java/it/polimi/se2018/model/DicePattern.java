@@ -6,7 +6,7 @@ import java.util.List;
  * It offers limitations checks when a player want to place a Dice
  * @author Framonti
  */
-public class DicePattern
+public class    DicePattern
 {
     private boolean firstDice = true;   //true until a dice is placed on the diceMatrix
     private Dice[][] diceMatrix = new Dice[4][5];
@@ -66,9 +66,11 @@ public class DicePattern
         List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
         for(Position positions : positionsToCheck) {
 
-            if(!(isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour())))
+            if(!isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour())) {
                 return false;
+            }
         }
+        //System.out.println("Sono qui");
         return true;
     }
 

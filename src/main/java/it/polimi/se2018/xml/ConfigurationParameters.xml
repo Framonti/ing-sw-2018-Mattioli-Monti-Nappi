@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configurations>
+    <setupTimer>100000</setupTimer>
+    <moveTimer>100000</moveTimer>
+</configurations>
