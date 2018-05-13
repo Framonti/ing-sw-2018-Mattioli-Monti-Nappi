@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,11 @@ public class RoundTrack {
     /**
      * @param round Represents the number of the chosen round
      * @return A list of the dices placed on the round track on the selected round
+     * @throws IndexOutOfBoundsException If the requested round is bigger than the current one
      */
-    public List<Dice> getList(int round){
+    public List<Dice> getList(int round) {
+        if(isEmpty(round))
+            throw new IndexOutOfBoundsException();
         return roundTrack.get(round);
     }
 
@@ -30,8 +32,13 @@ public class RoundTrack {
      * @param roundIndex Represents the number of the chosen round
      * @param listIndex Represents the number of the dice in the chosen round
      * @return The chosen dice
+     * @throws IndexOutOfBoundsException If listIndex is bigger than the size of the list
      */
-    public Dice getDice(int roundIndex, int listIndex) { return roundTrack.get(roundIndex).get(listIndex); }
+    public Dice getDice(int roundIndex, int listIndex) {
+        if (getList(roundIndex).size() <= listIndex)
+            throw new IndexOutOfBoundsException();
+        return getList(roundIndex).get(listIndex);
+    }
 
 
 
@@ -60,7 +67,7 @@ public class RoundTrack {
         if(isEmpty(round))
             return "";
         String tmp = "";
-        for(Dice dice: roundTrack.get(round - 1))
+        for(Dice dice: roundTrack.get(round))
             tmp = tmp.concat(dice.toString() + "\t");
         return tmp;
     }
@@ -72,7 +79,7 @@ public class RoundTrack {
      * @param requestedRound Represents the number of the round requested by the player
      * @return True if the size of roundTrack is smaller than the requested round
      */
-    public boolean isEmpty(int requestedRound) { return roundTrack.size() < requestedRound; }
+    public boolean isEmpty(int requestedRound) { return roundTrack.size() <= requestedRound; }
 
     /**
      * This method will be used only in single player mode.

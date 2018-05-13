@@ -18,7 +18,7 @@ public class TestRoundTrack {
     private List<Dice> dices;
 
     @Before
-    public void roundTrackBuilder() {
+    public void setUp() {
         roundTrack = new RoundTrack();
         dice = new Dice(Colour.PURPLE);
         dices = new ArrayList<>();

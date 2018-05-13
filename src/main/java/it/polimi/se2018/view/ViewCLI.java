@@ -99,8 +99,8 @@ public class ViewCLI extends Observable implements Observer{
         System.out.println("TRACCIATO DEI ROUND");
         System.out.println("\t\t\t1\t2\t3\t4\t5\t6\t7\t8\t9\n");
         int round;
-        for(round = 1; round < 11; round++)
-            System.out.println("Round " + round + ":\t" + roundTrack.roundToString(round));
+        for(round = 0; round < 10; round++)
+            System.out.println("Round " + (round+1) + ":\t" + roundTrack.roundToString(round));
         System.out.println();
     }
 

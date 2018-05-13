@@ -15,7 +15,7 @@ public class TestWindowPattern {
     private Dice dice;
 
     @Before
-    public void windowPatternBuilder() {
+    public void setUp() {
         Dice[][] dices = new Dice[4][5];
         windowPattern = new WindowPattern("", 4, dices);
         position = new Position(2, 2);

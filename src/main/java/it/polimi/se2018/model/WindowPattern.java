@@ -1,7 +1,5 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.Dice;
-import it.polimi.se2018.model.Position;
 
 /**
  * Class that represents the patterns of the WindowPatternCards
@@ -34,6 +32,11 @@ public class WindowPattern {
         return windowPattern;
     }
 
+    private Dice getDice(Position position) {
+        return windowPattern[position.getX()][position.getY()];
+    }
+
+
     /**
      * Checks if the dice respects the colour and value restrictions of the pattern
      * @param position Represents the position of the cell that has to be checked
@@ -41,7 +44,12 @@ public class WindowPattern {
      * @return True if the dice can be placed, false otherwise
      */
     public boolean checkCell(Position position, Dice dice) {
-        return checkCellValueRestriction(position, dice) && checkCellColourRestriction(position, dice);
+        if(getDice(position) == null)
+            return true;
+        else if(getDice(position).getColour() == null)
+            return checkCellValueRestriction(position, dice);
+        else
+            return checkCellColourRestriction(position, dice);
     }
 
     /**
@@ -51,7 +59,7 @@ public class WindowPattern {
      * @return True if the dice can be placed, false otherwise
      */
     public boolean checkCellColourRestriction(Position position, Dice dice){
-        return (windowPattern[position.getX()][position.getY()] == null || windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour()));
+        return (getDice(position).getColour().equals(dice.getColour()));
     }
 
     /**
@@ -61,7 +69,7 @@ public class WindowPattern {
      * @return True if the dice can be placed, false otherwise
      */
     public boolean checkCellValueRestriction(Position position, Dice dice){
-        return (windowPattern[position.getX()][position.getY()] == null || windowPattern[position.getX()][position.getY()].getValue() == dice.getValue());
+        return (getDice(position).getValue() == dice.getValue());
     }
 
     @Override
