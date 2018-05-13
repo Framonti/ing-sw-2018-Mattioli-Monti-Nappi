@@ -35,7 +35,7 @@ public class WindowPattern {
     }
 
     /**
-     * Controlls if the dice respects the colour and value restrictions of the pattern
+     * Checks if the dice respects the colour and value restrictions of the pattern
      * @param position Represents the position of the cell that has to be checked
      * @param dice Represents the dice that has to be placed in that cell
      * @return True if the dice can be placed, false otherwise
@@ -51,7 +51,7 @@ public class WindowPattern {
      * @return True if the dice can be placed, false otherwise
      */
     public boolean checkCellColourRestriction(Position position, Dice dice){
-        return (windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour()) || windowPattern[position.getX()][position.getY()].getColour() == null);
+        return (windowPattern[position.getX()][position.getY()] == null || windowPattern[position.getX()][position.getY()].getColour().equals(dice.getColour()));
     }
 
     /**
@@ -61,7 +61,7 @@ public class WindowPattern {
      * @return True if the dice can be placed, false otherwise
      */
     public boolean checkCellValueRestriction(Position position, Dice dice){
-        return (windowPattern[position.getX()][position.getY()].getValue() == dice.getValue() || windowPattern[position.getX()][position.getY()].getValue() == 0);
+        return (windowPattern[position.getX()][position.getY()] == null || windowPattern[position.getX()][position.getY()].getValue() == dice.getValue());
     }
 
     @Override

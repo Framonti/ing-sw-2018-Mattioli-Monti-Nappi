@@ -3,6 +3,10 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the player of the game
+ * @author fabio
+ */
 public class Player {
 
     //Attributes
@@ -33,9 +37,7 @@ public class Player {
     //getters and setters
     public int getScore() { return score; }
 
-    public int getLap() {
-        return lap;
-    }
+    public int getLap() { return lap; }
 
     public int getFavorTokensNumber() { return favorTokensNumber; }
 
@@ -59,9 +61,7 @@ public class Player {
 
     public void setWindowPattern(WindowPattern windowPattern) { this.windowPattern = windowPattern; }
 
-    public void setLap(int lap) {
-        this.lap = lap;
-    }
+    public void setLap(int lap) { this.lap = lap; }
 
     public void setScoreMarker(ScoreMarker scoreMarker) { this.scoreMarker = scoreMarker; }
 
@@ -69,14 +69,21 @@ public class Player {
 
     public void reverseDiceMoved() { diceMoved = !diceMoved; }
 
+    public void reverseToolCardUsed() { toolCardUsed = !toolCardUsed; }
+
     public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 
 
 
-    //it is called when the player uses a ToolCard, this decreases the number of the favor tokens by cost
+    /**
+     * This method reduces the number of favor tokens by cost every time that a tool card is used
+     * @param cost Represents the number of tokens needed to use the tool card
+     */
     public void reduceFavorTokens(int cost) { favorTokensNumber -= cost; }
 
-    //calculates the score obtained with the PrivateObjectiveCard
+    /**
+     * @return The score obtained with the private objective card
+     */
     public int computePrivateObjectiveCardScore() {
         int sum = 0;
         int row;
@@ -95,8 +102,11 @@ public class Player {
         return sum;
     }
 
-    //calcolates the score obtained by the player at the end of the match
-    public int computeMyScore(ArrayList<PublicObjectiveCard> publicObjectiveCards) {
+    /**
+     * @param publicObjectiveCards The list of the public objective cards that are in game
+     * @return The score obtained by the player at the end of the match
+     */
+    public int computeMyScore(List<PublicObjectiveCard> publicObjectiveCards) {
         int sum = 0;
 
         //points obtained with the PublicObjectiveCards
@@ -162,15 +172,17 @@ public class Player {
         sum += favorTokensNumber;
 
         //points lost because of empty spaces
-        sum -= emptySpaces();
+        sum -= dicePattern.emptySpaces();
 
         return sum;
     }
 
 
-
-    //support method used by computeMyScore
-    //returns the number of points obtained in the columns either with the colours or with the values
+    /**
+     * This is a support method used by computeMyScore
+     * @param isColour It's true if the public objective card is "Colori diversi - Colonna", false if "Sfumature diverse - Colonna"
+     * @return The number of points obtained in the columns either with the colours or with the values
+     */
     private int colPoints(boolean isColour) {
         int partialSum = 0;
         int row;
@@ -211,8 +223,11 @@ public class Player {
         return partialSum;
     }
 
-    //support method used by computeMyScore
-    //returns the number of points obtained in the rows either with the colours or with the values
+    /**
+     * This is a support method used by computeMyScore
+     * @param isColour It's true if the public objective card is "Colori diversi - Riga", false if "Sfumature diverse - Riga"
+     * @return The number of points obtained in the rows either with the colours or with the values
+     */
     private int rowPoints(boolean isColour) {
         int partialSum = 0;
         int row;
@@ -253,8 +268,12 @@ public class Player {
         return partialSum;
     }
 
-    //support method used by computeMyScore
-    //returns the number of the minor set of 2 values
+    /**
+     * This is a support method used by computeMyScore
+     * @param less It's the smaller value of the couple of dices
+     * @param more It's the bigger value of the couple of dices
+     * @return The number of the smaller set of the two values
+     */
     private int shades(int less, int more) {
         int row;
         int column;
@@ -275,8 +294,10 @@ public class Player {
         return Math.min(minor, major);
     }
 
-    //support method used by computeMyScore
-    //returns the number of the minor set of one colour
+    /**
+     * This is a support method used by computeMyScore
+     * @return The number of the smaller set of one colour
+     */
     private int colourVariety() {
         int yellowNum = 0;
         int greenNum = 0;
@@ -315,8 +336,10 @@ public class Player {
         return Math.min(Math.min(Math.min(Math.min(yellowNum, greenNum), redNum), purpleNum), blueNum);
     }
 
-    //support method used by computeMyScore
-    //returns the number of diagonal adjacent dices of the same colour
+    /**
+     * This is a support method used by computeMyScore
+     * @return The number of diagonal adjacent dices of the same colour
+     */
     private int colourDiagonals() {
         int partialSum = 0;
         int row;
@@ -349,21 +372,5 @@ public class Player {
         return partialSum;
     }
 
-    //support method used by computeMyScore
-    //returns the number of empty spaces on the dicePattern
-    private int emptySpaces() {
-        int partialSum = 0;
-        int row;
-        int column;
-        Position p1;
-        for(row = 0; row < 4; row++) {
-            for(column = 0; column < 5; column++) {
-                p1 = new Position(row, column);
-                if(dicePattern.isEmpty(p1))
-                    partialSum++;
-            }
-        }
-        return partialSum;
-    }
 
 }

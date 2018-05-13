@@ -11,20 +11,29 @@ import java.util.List;
 
 public class RoundTrack {
 
-    private ArrayList<ArrayList<Dice>> roundTrack;
+    private List<List<Dice>> roundTrack;
 
     //Constructor
     public RoundTrack() {
-        roundTrack = new ArrayList<ArrayList<Dice>>();
+        roundTrack = new ArrayList<>();
     }
 
     /**
      * @param round Represents the number of the chosen round
      * @return A list of the dices placed on the round track on the selected round
      */
-    public List<Dice> getArrayList(int round){
+    public List<Dice> getList(int round){
         return roundTrack.get(round);
     }
+
+    /**
+     * @param roundIndex Represents the number of the chosen round
+     * @param listIndex Represents the number of the dice in the chosen round
+     * @return The chosen dice
+     */
+    public Dice getDice(int roundIndex, int listIndex) { return roundTrack.get(roundIndex).get(listIndex); }
+
+
 
     /**
      * To be used only while using a tool card.
@@ -39,7 +48,7 @@ public class RoundTrack {
      * Adds the remaining dices of the draft pool to the round track
      * @param dices The list of dices remained in the draft pool at the end of the round
      */
-    public void addDices(ArrayList<Dice> dices) {
+    public void addDices(List<Dice> dices) {
         roundTrack.add(dices);
     }
 
@@ -48,9 +57,8 @@ public class RoundTrack {
      * @return A string that represents the dices on the round track on the chosen round
      */
     public String roundToString(int round) {
-        if(roundTrack.size() < round) {
+        if(isEmpty(round))
             return "";
-        }
         String tmp = "";
         for(Dice dice: roundTrack.get(round - 1))
             tmp = tmp.concat(dice.toString() + "\t");
@@ -61,11 +69,10 @@ public class RoundTrack {
     public void showRoundTrack() {}
 
     /**
-     * @param currentRound Represents the number of the current round
      * @param requestedRound Represents the number of the round requested by the player
-     * @return True if the current round is smaller (or equal) than the requested round
+     * @return True if the size of roundTrack is smaller than the requested round
      */
-    public boolean isEmpty(int currentRound, int requestedRound) { return currentRound <= requestedRound; }
+    public boolean isEmpty(int requestedRound) { return roundTrack.size() < requestedRound; }
 
     /**
      * This method will be used only in single player mode.
@@ -73,19 +80,12 @@ public class RoundTrack {
      */
     public int sumDiceValue() {
         int sum = 0;
-        for(ArrayList<Dice> dices : roundTrack){
+        for(List<Dice> dices : roundTrack){
             for(Dice dice : dices) {
                 sum += dice.getValue();
             }
         }
         return sum;
     }
-
-    /**
-     * @param roundIndex Represents the number of the chosen round
-     * @param arrayListIndex Represents the number of the dice in the chosen round
-     * @return The chosen dice
-     */
-    public Dice getDice(int roundIndex, int arrayListIndex) { return roundTrack.get(roundIndex).get(arrayListIndex); }
 
 }
