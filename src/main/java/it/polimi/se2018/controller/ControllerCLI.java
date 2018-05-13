@@ -72,6 +72,22 @@ public class ControllerCLI implements Observer {
     }
 
 
+    //MANCA GESTIONE ECCEZIONI
+    //method used to handle player's favorTokensNumber when he decides to use a tool card
+    public void handleFavorTokensNumber(String toolCardName){
+        int i;
+        i = 0;
+        while(!this.toolCards.get(i).getName().equals(toolCardName))
+            i++;
+        if(this.toolCards.get(i).getFavorPoint() == 0) {
+            this.toolCards.get(i).increaseFavorPoint(1);
+            model.getCurrentPlayer().reduceFavorTokens(1);
+        }
+        else {
+            this.toolCards.get(i).increaseFavorPoint(2);
+            model.getCurrentPlayer().reduceFavorTokens(2);
+        }
+    }
 
     //tool card 1 method
     public void grozingPilers(){
@@ -94,9 +110,9 @@ public class ControllerCLI implements Observer {
     public void eglomiseBrush(){
         Position dicePosition = new Position(Integer.parseInt(view.getInput()) -1 ,Integer.parseInt(view.getInput()) -1);
         Dice diceChosen = getDiceFromDicePattern(dicePosition);
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw-1, column-1);
+        Position finalPosition = new Position(row-1, column-1);
         if ( model.getCurrentPlayer().getWindowPattern().checkCellValueRestriction(finalPosition, diceChosen) &&
             model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
             model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
@@ -114,9 +130,9 @@ public class ControllerCLI implements Observer {
     public void copperFoilBurnisher(){
         Position dicePosition = new Position(Integer.parseInt(view.getInput()) -1 ,Integer.parseInt(view.getInput()) -1);
         Dice diceChosen = getDiceFromDicePattern(dicePosition);
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw-1, column-1);
+        Position finalPosition = new Position(row-1, column-1);
         if ( model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
@@ -138,9 +154,9 @@ public class ControllerCLI implements Observer {
         for(i = 0; i < 2; i++) {
             Position dicePosition = new Position(Integer.parseInt(view.getInput()) - 1, Integer.parseInt(view.getInput()) - 1); //position of dice the player wants to move
             Dice diceChosen = getDiceFromDicePattern(dicePosition);
-            int raw = Integer.parseInt(view.getInput());
+            int row = Integer.parseInt(view.getInput());
             int column = Integer.parseInt(view.getInput());
-            Position finalPosition = new Position(raw - 1, column - 1);
+            Position finalPosition = new Position(row - 1, column - 1);
             if(model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition,diceChosen) && model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition,diceChosen)){
                 try {
                     model.getCurrentPlayer().getDicePattern().moveDice(dicePosition, finalPosition);
@@ -159,10 +175,10 @@ public class ControllerCLI implements Observer {
     //MANCANO le eccezioni, penso vadano messe in getDice
     //method used by tool card 5. Swap a dice in the draft pool with a dice in the round track
     public void swapDice( int round, int indexOfRoundTrack, int indexOfDraftPool) {
-        model.getRoundTrack().getArrayList(round).add(model.getDraftPool().get(indexOfDraftPool));
+        model.getRoundTrack().getList(round).add(model.getDraftPool().get(indexOfDraftPool));
         model.getDraftPool().remove(indexOfDraftPool);
         model.getDraftPool().add(model.getRoundTrack().getDice(round, indexOfRoundTrack ));
-        model.getRoundTrack().getArrayList(round).remove(indexOfRoundTrack);
+        model.getRoundTrack().getList(round).remove(indexOfRoundTrack);
     }
 
     //MANCANO LE ECCEZIONI
@@ -187,12 +203,12 @@ public class ControllerCLI implements Observer {
         throwAgainDiceFromDraftPool(diceChosen);
         int i;
         boolean successfulMove = false;
-        for (i = 0; i < model.getCurrentPlayer().getDicePattern().getNumberOfEmptyCells() && !successfulMove; i++) {
+        for (i = 0; i < model.getCurrentPlayer().getDicePattern().emptySpaces() && !successfulMove; i++) {
             System.out.println("Dove vuoi posizionare il dado?\n");
-            int raw = Integer.parseInt(view.getInput());
+            int row = Integer.parseInt(view.getInput());
             int column = Integer.parseInt(view.getInput());
             try{
-                model.getCurrentPlayer().getDicePattern().placeDice(new Position(raw - 1, column - 1), diceChosen);
+                model.getCurrentPlayer().getDicePattern().placeDice(new Position(row - 1, column - 1), diceChosen);
                 successfulMove = true;
                 model.getDraftPool().remove(diceChosen);
             } catch (IllegalArgumentException exception){
@@ -221,9 +237,9 @@ public class ControllerCLI implements Observer {
     //tool card 8 method
     public void runnerPliers(){
         Dice diceChosen = getDiceFromDraftPool(view.getInput());
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw-1, column-1 );
+        Position finalPosition = new Position(row-1, column-1 );
         try{
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
@@ -238,9 +254,9 @@ public class ControllerCLI implements Observer {
     //tool card 9 method
     public void  corkBakedStraightedge() {
         Dice diceChosen = getDiceFromDraftPool(view.getInput());
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw - 1, column - 1);
+        Position finalPosition = new Position(row - 1, column - 1);
         if (model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition, diceChosen)) {
             model.getCurrentPlayer().getDicePattern().setDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
@@ -263,9 +279,9 @@ public class ControllerCLI implements Observer {
         model.extractAndRoll();
         Dice diceChosenFromDiceBag = model.getDraftPool().get(model.getDraftPool().size()-1);
         diceChosenFromDiceBag.setValue(Integer.parseInt(view.getInput()));
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw-1, column-1 );
+        Position finalPosition = new Position(row-1, column-1 );
         try{
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosenFromDiceBag);
             model.getDraftPool().remove(diceChosenFromDraftPool);
@@ -282,12 +298,12 @@ public class ControllerCLI implements Observer {
         Dice diceChosenFromRoundTrack = getDiceFromRoundTrack(round, indexOfRoundTrack);
         int i;
         for (i = 0; i < 2; i++){
-            int initialRaw = Integer.parseInt(view.getInput());
+            int initialRow = Integer.parseInt(view.getInput());
             int initialColumn = Integer.parseInt(view.getInput());
-            Position initialPosition = new Position (initialRaw-1, initialColumn-1 );
-            int finalRaw = Integer.parseInt(view.getInput());
+            Position initialPosition = new Position (initialRow-1, initialColumn-1 );
+            int finalRow = Integer.parseInt(view.getInput());
             int finalColumn = Integer.parseInt(view.getInput());
-            Position finalPosition = new Position ( finalRaw-1, finalColumn-1);
+            Position finalPosition = new Position ( finalRow-1, finalColumn-1);
             if(model.getCurrentPlayer().getDicePattern().getDice(initialPosition).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
                 model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition,diceChosenFromRoundTrack) &&
                 model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition,diceChosenFromRoundTrack)){
@@ -316,61 +332,73 @@ public class ControllerCLI implements Observer {
                 //tool card selected is "Pinza Sgrossatrice"
                 case "Pinza Sgrossatrice":
                     grozingPilers();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Pennello per Eglomise"
                 case "Pennello per Eglomise":
                     eglomiseBrush();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Alesatore per lamina di rame"
                 case "Alesatore per lamina di rame":
                     copperFoilBurnisher();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Lathekin"
                 case "Lathekin":
                     lathekin();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Taglierina circolante"
                 case "Taglierina circolante":
                     lensCutter();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Pennello per Pasta Salda"
                 case "Pennello per Pasta Salda":
                     fluxBrush();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Martelletto"
                 case "Martelletto":
                     glazingHammer();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Tenaglia a rotelle"
                 case "Tenaglia a rotelle":
                     runnerPliers();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Riga in Sughero"
                 case "Riga in Sughero":
                     corkBakedStraightedge();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Tampone Diamantato"
                 case "Tampone Diamantato":
                     grindingStone();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Diluente per Pasta Salda"
                 case "Diluente per Pasta Salda":
                     fluxRemover();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
                 //tool card selected is "Taglierina Manuale"
                 case "Taglierina Manuale":
                     tapWheel();
+                    handleFavorTokensNumber(toolCardToUse.getName());
                     break;
 
             }
@@ -462,9 +490,9 @@ public class ControllerCLI implements Observer {
 
     public void placeDiceFromDraftPoolToDicePattern(){
         Dice diceChosen = getDiceFromDraftPool(view.getInput());
-        int raw = Integer.parseInt(view.getInput());
+        int row = Integer.parseInt(view.getInput());
         int column = Integer.parseInt(view.getInput());
-        Position finalPosition = new Position(raw-1, column-1 );
+        Position finalPosition = new Position(row-1, column-1 );
         model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
         model.getDraftPool().remove(diceChosen);
     }

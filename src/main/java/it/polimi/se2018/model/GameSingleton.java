@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -12,7 +13,7 @@ public class GameSingleton {
     private ArrayList<Player> players;
     private ArrayList<PublicObjectiveCard> publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
-    private ArrayList<Dice> diceBag;
+    private List<Dice> diceBag;
     private ArrayList<Dice> draftPool;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
@@ -32,7 +33,7 @@ public class GameSingleton {
         this.roundTrack = roundTrack; //round track created during setup
         this.scoreTrack = scoreTrack; //score track created during setup
         lap = 0;
-
+        draftPool = new ArrayList<>();
 
     }
 
@@ -44,12 +45,12 @@ public class GameSingleton {
     }
 
 
-    public ArrayList<ToolCard> getToolCards() {
+    public List<ToolCard> getToolCards() {
         return toolCards;
     }
 
 
-    public ArrayList<PublicObjectiveCard> getPublicObjectiveCards() {
+    public List<PublicObjectiveCard> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
@@ -64,7 +65,7 @@ public class GameSingleton {
     }
 
     //returns draft pool
-    public ArrayList<Dice> getDraftPool() {
+    public List<Dice> getDraftPool() {
         return draftPool;
     }
 
@@ -88,11 +89,11 @@ public class GameSingleton {
         return round;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public ArrayList<Dice> getDiceBag() {
+    public List<Dice> getDiceBag() {
         return diceBag;
     }
 
@@ -110,31 +111,34 @@ public class GameSingleton {
         this.round = round;
     }
 
-    //returns dice bag, which contains 90 dices. It's a private method beacuse it has to be seen only by the constructor
-    private ArrayList<Dice> createDiceBag() {
-        ArrayList<Dice> DiceBagToReturn = new ArrayList<>();
+    //returns dice bag, which contains 90 dices. It's a private method because it has to be seen only by the constructor
+    private List<Dice> createDiceBag() {
+        ArrayList<Dice> diceBagToReturn = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
             Dice diceB = new Dice(Colour.BLUE);
             Dice diceY = new Dice(Colour.YELLOW);
             Dice diceP = new Dice(Colour.PURPLE);
             Dice diceG = new Dice(Colour.GREEN);
             Dice diceR = new Dice(Colour.RED);
-            DiceBagToReturn.add(diceB);
-            DiceBagToReturn.add(diceY);
-            DiceBagToReturn.add(diceP);
-            DiceBagToReturn.add(diceG);
-            DiceBagToReturn.add(diceR);
+            diceBagToReturn.add(diceB);
+            diceBagToReturn.add(diceY);
+            diceBagToReturn.add(diceP);
+            diceBagToReturn.add(diceG);
+            diceBagToReturn.add(diceR);
         }
-        return DiceBagToReturn;
+        return diceBagToReturn;
     }
 
 
     //if it's possible increases the round by 1
     public void increaseRound() {
-        if (round >= 1 && round <= 9)
+        if (round >= 0 && round <= 9)
             round++;
+        else
+            throw new IllegalArgumentException("Invalid value");
     }
 
+    //DUBBIO: NON C'è BISOGNO DI ECCEZIONE VERO? PERCHè TANTO SIAMO NOI CHE GESTIAMO L'ESTRAZIONE DI DADI
     //extracts dices from dice bag and put them in the draft pool
     public void extractAndRoll() {
         int i;

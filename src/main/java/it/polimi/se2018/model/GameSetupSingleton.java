@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represents the game setup: it contains
+ */
+
 public class GameSetupSingleton {
     private ArrayList<Player> players;
     private Deck<PublicObjectiveCard> publicObjectiveCardDeck;
@@ -20,10 +24,10 @@ public class GameSetupSingleton {
 
     //constructor. Comments has to be added
     private GameSetupSingleton(){
-        PrivateObjectiveCardDeckBuilder privateObjectiveCardDeckLoader = new PrivateObjectiveCardDeckBuilder("it/polimi/se2018/PrivateObjectiveCard.xml");
-        PublicObjectiveCardDeckBuilder publicObjectiveCardDeckLoader = new PublicObjectiveCardDeckBuilder("it/polimi/se2018/PublicObjectiveCard.xml");
-        ToolCardDeckBuilder toolCardDeckLoader = new ToolCardDeckBuilder("it/polimi/se2018/ToolCard.xml");
-        WindowPatternCardDeckBuilder windowPatternCardDeckLoader = new WindowPatternCardDeckBuilder("it/polimi/se2018/WindowPatternCard.xml");
+        PrivateObjectiveCardDeckBuilder privateObjectiveCardDeckLoader = new PrivateObjectiveCardDeckBuilder("src/main/java/it/polimi/se2018/xml/PrivateObjectiveCard.xml");
+        PublicObjectiveCardDeckBuilder publicObjectiveCardDeckLoader = new PublicObjectiveCardDeckBuilder("src/main/java/it/polimi/se2018/xml/PublicObjectiveCard.xml");
+        ToolCardDeckBuilder toolCardDeckLoader = new ToolCardDeckBuilder("src/main/java/it/polimi/se2018/xml/ToolCard.xml");
+        WindowPatternCardDeckBuilder windowPatternCardDeckLoader = new WindowPatternCardDeckBuilder("src/main/java/it/polimi/se2018/xml/WindowPatternCard.xml");
         this.privateObjectiveCardDeck = privateObjectiveCardDeckLoader.getPrivateObjectiveCardDeck();
         this.publicObjectiveCardDeck = publicObjectiveCardDeckLoader.getPublicObjectiveCardDeck();
         this.toolCardDeck = toolCardDeckLoader.getToolCardDeck();
@@ -51,11 +55,11 @@ public class GameSetupSingleton {
 
     private List<WindowPatternCard> getWindowPatternCardList(int playersNumber) {
 
-        return windowPatternCardDeck.mixAndDistribute(playersNumber);
+        return windowPatternCardDeck.mixAndDistribute(playersNumber*2);
     }
 
 
-    public ArrayList<Player> getPlayers() {
+    public  List<Player> getPlayers() {
         return players;
     }
 
