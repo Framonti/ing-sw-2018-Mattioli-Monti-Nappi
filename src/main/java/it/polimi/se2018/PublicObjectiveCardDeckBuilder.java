@@ -1,19 +1,24 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.model.Deck;
-import it.polimi.se2018.model.PublicObjectiveCard;
-
+import it.polimi.se2018.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/** This class is used for creating a Deck that contains all the PublicObjectiveCards present in the game, loading them from an xml file
+ * @author Framonti
+ */
+
 public class PublicObjectiveCardDeckBuilder extends LoaderXML {
 
+    //Constructor
     public PublicObjectiveCardDeckBuilder(String filePath) {
 
         super(filePath);
     }
 
-    //@return a Deck with all the PublicObjectiveCard, loaded from a xml file
+    /** Create a Deck of PublicObjectiveCard, loading them from an xml file
+     * @return A Deck with all the PublicObjectiveCard, loaded from an xml file
+     */
     public Deck<PublicObjectiveCard> getPublicObjectiveCardDeck() {
 
         List<PublicObjectiveCard> cards = new ArrayList<>();

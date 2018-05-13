@@ -27,7 +27,6 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            fail("Test passed");
         }
     }
 
@@ -45,6 +44,7 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(2,3 ));
         dicePattern.removeDice(new Position(0,0));
     }
+
 
     @Test
     public void testEmptySpaces(){
@@ -156,7 +156,6 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            fail("Test passed");
         }
     }
 
@@ -165,7 +164,7 @@ public class TestDicePattern {
 
         Dice toMove = new Dice(Colour.RED);
         toMove.setValue(2);
-        dicePattern.placeDice(new Position(3, 2), toMove);
+        dicePattern.setDice(new Position(3, 2), toMove);
         dicePattern.moveDice(new Position(3, 2), new Position(1,0));
 
         assertNull(dicePattern.getDice(new Position(3,2)));
@@ -186,7 +185,7 @@ public class TestDicePattern {
             dicePattern.moveDice(new Position(2, 3), new Position(1, 2));
         }
         catch (IllegalArgumentException e) {
-            fail("Initial position is empty: test passed");
+            assertTrue("Initial position is empty: test passed", true);
         }
         finally {
             dicePattern.removeDice(new Position(1,2));
@@ -204,7 +203,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            fail("Final position is not empty: test passed");
+            assertTrue("Final position is not empty: test passed", true);
         }
         finally {
             dicePattern.removeDice(new Position(0,0));

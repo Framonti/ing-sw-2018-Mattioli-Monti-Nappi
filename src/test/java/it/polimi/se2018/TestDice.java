@@ -61,7 +61,6 @@ public class TestDice {
         }
         catch (IllegalArgumentException e) {
 
-            fail("Test passed");
         }
     }
 

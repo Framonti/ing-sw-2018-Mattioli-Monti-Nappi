@@ -71,7 +71,6 @@ public class TestPosition {
         }
         catch (IllegalArgumentException e) {
 
-            fail("Test passed");
         }
     }
 

@@ -4,8 +4,10 @@ import it.polimi.se2018.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This class loads all the ToolCards from an xml file and helps create a deck with these cards
+/** This class is used for creating a Deck that contains all the ToolCards present in the game, loading them from an xml file
+ * @author Framonti
  */
+
 public class ToolCardDeckBuilder extends LoaderXML {
 
     //Constructor
@@ -14,9 +16,8 @@ public class ToolCardDeckBuilder extends LoaderXML {
         super(filePath);
     }
 
-    /** Create a deck with all the ToolCard, loading them from an xml file
-     *
-     * @return A deck with all the game ToolCards
+    /** Create a Deck of ToolCards, loading them from an xml file
+     * @return A Deck with all the ToolCard, loaded from an xml file
      */
     public Deck<ToolCard> getToolCardDeck() {
 

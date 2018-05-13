@@ -1,11 +1,12 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.model.Colour;
-import it.polimi.se2018.model.Deck;
-import it.polimi.se2018.model.PrivateObjectiveCard;
-
+import it.polimi.se2018.model.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/** This class is used for creating a Deck that contains all the WindowPatternCards present in the game, loading them from an xml file
+ * @author Framonti
+ */
 
 public class PrivateObjectiveCardDeckBuilder extends LoaderXML {
 
@@ -14,7 +15,9 @@ public class PrivateObjectiveCardDeckBuilder extends LoaderXML {
         super(filePath);
     }
 
-    //@return a Deck with all the PrivateObjectiveCard, loaded from a xml file
+    /** Create a Deck of PublicObjectiveCard, loading them from an xml file
+     * @return A Deck with all the PublicObjectiveCard, loaded from an xml file
+     */
     public Deck<PrivateObjectiveCard> getPrivateObjectiveCardDeck() {
 
         List<PrivateObjectiveCard> cards = new ArrayList<>();

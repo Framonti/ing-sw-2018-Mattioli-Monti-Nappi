@@ -1,8 +1,6 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.model.Deck;
-import it.polimi.se2018.model.WindowPattern;
-import it.polimi.se2018.model.WindowPatternCard;
+import it.polimi.se2018.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +8,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
 
 public class TestWindowPatternCardDeckBuilder {
 
@@ -57,6 +56,7 @@ public class TestWindowPatternCardDeckBuilder {
         List<WindowPatternCard> windowPatternCards = windowPatternCardDeck.mixAndDistribute(1);
         WindowPatternCard windowPatternCard = windowPatternCards.get(0);
         WindowPattern windowPattern = windowPatternCard.getWindowPattern1();
+
         assertTrue(checkWindowPatternName(windowPattern));
 
     }
