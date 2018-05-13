@@ -1,7 +1,5 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.Colour;
-
 public class ToolCard{
     private int favorPoint = 0; //number of favor points on the tool card
     private final Colour colour;

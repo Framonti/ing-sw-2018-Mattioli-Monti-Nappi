@@ -5,15 +5,25 @@ import it.polimi.se2018.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/** This class is used for creating a Deck that contains all the WindowPatternCards present in the game, loading them from an xml file
+ * @author Framonti
+ */
+
 public class WindowPatternCardDeckBuilder extends LoaderXML {
 
-
+    //Constructor
     public WindowPatternCardDeckBuilder (String filePath){
 
         super(filePath);
     }
 
-    //Build and @return a Dice matrix by scanning a list of colour and value
+    /** Build a Dice matrix by scanning a list of colours and values
+     * @param id Represents the card id in the xml file
+     * @param coloursList A list of Colour, loaded from an xml file
+     * @param valuesList A list of int, loaded from an xml file
+     * @return A bidimensional array of Dice that represents a WindowPattern
+     */
+
     private Dice[][] getMatrix(int id, List<String> coloursList, List<String> valuesList) {
 
         int rows = 4;
@@ -36,7 +46,10 @@ public class WindowPatternCardDeckBuilder extends LoaderXML {
         return toReturn;
     }
 
-    //@return a List of WindowPattern, created with the "getMatrix" method
+    /** Create a List with all the WindowPattern in the game, loaded from an xml file
+     * @return A List of WindowPattern, created with the "getMatrix" method
+     */
+
     private List<WindowPattern> getWindowPatterns() {
 
         List<WindowPattern> windowPatterns = new ArrayList<>();
@@ -55,8 +68,9 @@ public class WindowPatternCardDeckBuilder extends LoaderXML {
         return windowPatterns;
     }
 
-    //@return a Deck with all the WindowPatternObjectiveCard, loaded from a xml file
-    //This method just assign two WindowPattern to a WindowPatterCard before returning the Deck
+    /** This method assigns two WindowPattern to a WindowPatterCard before returning the Deck
+     * @return A Deck with all the WindowPatternObjectiveCard in the game, loaded from an xml file
+     */
     public Deck<WindowPatternCard> getWindowPatternCardDeck() {
 
         List<WindowPatternCard> cards = new ArrayList<>();

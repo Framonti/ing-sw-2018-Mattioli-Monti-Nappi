@@ -1,5 +1,9 @@
 package it.polimi.se2018.model;
 
+/** This class represents an ingame WindowPatterCard, with a WindowPattern on the front and another one on the back
+ *  @author Framonti
+ * */
+
 public class WindowPatternCard {
     private WindowPattern windowPattern1;
     private WindowPattern windowPattern2;

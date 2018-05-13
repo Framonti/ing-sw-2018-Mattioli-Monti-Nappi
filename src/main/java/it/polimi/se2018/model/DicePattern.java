@@ -38,13 +38,36 @@ public class    DicePattern
         return diceMatrix[position.getX()][position.getY()] == null;
     }
 
+    /** Count the number of empty cells on this DicePattern
+     *  @return The number of empty cells on this DicePattern
+     */
+    public int emptySpaces(){
+
+        int partialSum = 0;
+        int rows = 4;
+        int columns = 5;
+        Position p1;
+
+        //Checks if every cell is empty or has a dice on it
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+
+                p1 = new Position(i, j);
+                if(this.isEmpty(p1))
+                    partialSum++;
+            }
+        }
+        return partialSum;
+    }
+
     /**Check if a position is on the edge of the DicePattern and if
      * no dice has already been placed on the DicePattern before
      * @return True if the position required is on one of the edge of diceMatrix and there are no other dice placed on the DicePattern before*/
     public boolean checkEdge(Position position) {
 
         //compare the param position with every position on an edge
-        return (firstDice &&(position.getX() == 0 || position.getX() == (diceMatrix.length - 1) || position.getY() == 0 || position.getY() == (diceMatrix[0].length -1)));
+        return (firstDice &&(position.getX() == 0 || position.getX() == (diceMatrix.length - 1) ||
+                position.getY() == 0 || position.getY() == (diceMatrix[0].length -1)));
     }
 
     /**Check if there is a dice in any adjacent position
@@ -70,7 +93,6 @@ public class    DicePattern
                 return false;
             }
         }
-        //System.out.println("Sono qui");
         return true;
     }
 
@@ -81,7 +103,7 @@ public class    DicePattern
         List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
         for(Position positions : positionsToCheck) {
 
-            if(!(isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue())))
+            if(!isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue()))
                 return false;
         }
         return true;
@@ -93,13 +115,12 @@ public class    DicePattern
      * @param dice The dice a player wants to place
      * @return True if all the limitations are respected
      */
-    public boolean checkDicePatternLimitations(Position position, Dice dice)
-    {
-        if(firstDice && checkEdge(position)) {
-            this.firstDice = false;
+    public boolean checkDicePatternLimitations(Position position, Dice dice) {
+
+        if(checkEdge(position))
             return  true;
-        }
-        else return !firstDice && checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
+
+        else return checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
     }
 
     /**Place a dice on matrixDice, only if all the restrictions are met.
@@ -107,10 +128,13 @@ public class    DicePattern
      * @param position The position a player wants to place a dice on
      * @throws IllegalArgumentException if the dice can't be placed
      */
-    public void placeDice(Position position, Dice dice)
-    {
-        if(checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice))
+    public void placeDice(Position position, Dice dice) {
+
+        if(checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice)) {
+
             setDice(position, dice);
+            firstDice = false;
+        }
         else throw new IllegalArgumentException("Illegal move");
     }
 

@@ -11,14 +11,14 @@ public enum Colour
     private final String colourHEX;
     private final String abbreviation;
 
-    Colour(String colorHex, String abbreviation)
-    {
+    Colour(String colorHex, String abbreviation) {
+
         this.colourHEX = colorHex;
         this.abbreviation = abbreviation;
     }
 
-    public static Colour getColourFromString(String colourString)
-    {
+    public static Colour getColourFromString(String colourString) {
+
         switch(colourString)
         {
             case "YELLOW": return Colour.YELLOW;
@@ -32,13 +32,13 @@ public enum Colour
     }
 
 
-    String getColourHEX()
-    {
+    String getColourHEX() {
+
         return this.colourHEX;
     }
 
-    String getAbbreviation()
-    {
+    String getAbbreviation() {
+
         return this.abbreviation;
     }
 
