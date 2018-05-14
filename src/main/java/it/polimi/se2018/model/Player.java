@@ -88,7 +88,11 @@ public class Player {
      * This method reduces the number of favor tokens by cost every time that a tool card is used
      * @param cost Represents the number of tokens needed to use the tool card
      */
-    public void reduceFavorTokens(int cost) { favorTokensNumber -= cost; }
+    public void reduceFavorTokens(int cost) {
+        if(favorTokensNumber < cost)
+            throw new UnsupportedOperationException();
+        favorTokensNumber -= cost;
+    }
 
     /**
      * @return The score obtained with the private objective card
@@ -112,10 +116,10 @@ public class Player {
     }
 
     /**
+     * Computes and sets the score obtained by the player at the end of the match
      * @param publicObjectiveCards The list of the public objective cards that are in game
-     * @return The score obtained by the player at the end of the match
      */
-    public int computeMyScore(List<PublicObjectiveCard> publicObjectiveCards) {
+    public void computeMyScore(List<PublicObjectiveCard> publicObjectiveCards) {
         int sum = 0;
 
         //points obtained with the PublicObjectiveCards
@@ -183,7 +187,7 @@ public class Player {
         //points lost because of empty spaces
         sum -= dicePattern.emptySpaces();
 
-        return sum;
+        score = sum;
     }
 
 

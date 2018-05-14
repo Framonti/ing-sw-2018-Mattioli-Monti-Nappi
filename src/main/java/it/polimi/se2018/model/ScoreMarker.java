@@ -15,4 +15,6 @@ public class ScoreMarker {
         currentPlayer = player;
     }
 
+    //getter
+    public Player getCurrentPlayer() { return currentPlayer; }
 }

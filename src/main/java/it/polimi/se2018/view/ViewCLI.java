@@ -183,4 +183,11 @@ public class ViewCLI extends Observable implements Observer{
         showToolCards(model.getToolCards());
     }
 
+    /**
+     * Prints the parameter
+     * @param message The string that will be printed
+     */
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
 }

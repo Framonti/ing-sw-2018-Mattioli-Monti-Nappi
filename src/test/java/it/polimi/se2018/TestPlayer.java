@@ -9,19 +9,26 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the Player class
+ * @author fabio
+ */
 public class TestPlayer {
 
     private Player player;
 
+    /**
+     * Initializes a new Player and assign to him a new window pattern
+     */
     @Before
     public void setUp() {
-        Dice[][] pattern = new Dice[4][5];
-        WindowPattern windowPattern = new WindowPattern("", 4, pattern);
-        PrivateObjectiveCard  privateObjectiveCard= new PrivateObjectiveCard("", "", Colour.PURPLE);
-        player = new Player("", privateObjectiveCard);
-        player.setWindowPattern(windowPattern);
+        player = new Player("", new PrivateObjectiveCard("", "", Colour.PURPLE));
+        player.setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
     }
 
+    /**
+     * Decreases the favor tokens by 2
+     */
     @Test
     public void testReduceFavorTokensTrue() {
         player.reduceFavorTokens(2);
@@ -29,50 +36,109 @@ public class TestPlayer {
         assertEquals(2, player.getFavorTokensNumber());
     }
 
+    /**
+     * Tests if the Exception is thrown
+     */
     @Test
-    public void testReduceFavorTokensFalse() {
-        player.reduceFavorTokens(3);
+    public void testUnsupportedOperationException() {
+        boolean exc = false;
+        try {
+            player.reduceFavorTokens(5);
+        }
+        catch (UnsupportedOperationException e) {
+            exc = true;
+        }
 
-        assertNotEquals(3, player.getFavorTokensNumber());
+        assertTrue(exc);
     }
 
+    /**
+     * Tests if the score obtained with the privateObjectiveCard is correct
+     */
     @Test
-    public void testComputePrivateObjectiveCardScoreTrue() {
+    public void testComputePrivateObjectiveCardScore() {
+        Dice dice = new Dice(Colour.PURPLE);
+        int value = dice.rollAndGet();
+        player.getDicePattern().setDice(new Position(1, 1), dice);
 
-        assertEquals(0, player.computePrivateObjectiveCardScore());
+        assertEquals(value, player.computePrivateObjectiveCardScore());
     }
 
-    @Test
-    public void testComputePrivateObjectiveCardScoreFalse() {
-
-        assertNotEquals(5 , player.computePrivateObjectiveCardScore());
-    }
-
+    /**
+     * Tests if the total score obtained with the first 5 publicObjectiveCards is correct
+     * 6 dices are added on the pattern for the simulation
+     */
     @Test
     public void testComputeMyScoreTrue() {
-        PublicObjectiveCard poc1 = new PublicObjectiveCard("Colori diversi - Riga", "", 6);
-        PublicObjectiveCard poc2 = new PublicObjectiveCard("Colori diversi - Colonna", "", 5);
-        PublicObjectiveCard poc3 = new PublicObjectiveCard("Sfumature diverse - Riga", "", 5);
         List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
-        publicObjectiveCards.add(poc1);
-        publicObjectiveCards.add(poc2);
-        publicObjectiveCards.add(poc3);
+        publicObjectiveCards.add(new PublicObjectiveCard("Colori diversi - Riga", "", 6));
+        publicObjectiveCards.add(new PublicObjectiveCard("Colori diversi - Colonna", "", 5));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature diverse - Riga", "", 5));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature Chiare", "", 2));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature diverse - Colonna", "", 4));
 
-        //4 points gained because of the favor tokens and 20 points lost because the window pattern is empty
-        assertEquals(-16, player.computeMyScore(publicObjectiveCards));
+        Dice d1 = new Dice(Colour.GREEN);
+        Dice d2 = new Dice(Colour.RED);
+        Dice d3 = new Dice(Colour.YELLOW);
+        Dice d4 = new Dice(Colour.PURPLE);
+        Dice d5 = new Dice(Colour.BLUE);
+        Dice d6 = new Dice(Colour.BLUE);
+        d1.setValue(1);
+        d2.setValue(2);
+        d3.setValue(3);
+        d4.setValue(4);
+        d5.setValue(5);
+        d6.setValue(6);
+
+        player.getDicePattern().setDice(new Position(0, 0), d1);
+        player.getDicePattern().setDice(new Position(1, 0), d2);
+        player.getDicePattern().setDice(new Position(3, 0), d3);
+        player.getDicePattern().setDice(new Position(1, 1), d4);
+        player.getDicePattern().setDice(new Position(2, 0), d5);
+        player.getDicePattern().setDice(new Position(3, 1), d6);
+
+        player.computeMyScore(publicObjectiveCards);
+        //4 points gained because of the favor tokens, 5+4 gained because of the first column, 2 gained for the set 1-2
+        //4 gained for privateObjectiveCard and 14 points lost because of empty spaces
+        assertEquals(5, player.getScore());
     }
 
+    /**
+     * Tests that the total score is not 0 with the last 5 publicObjectiveCards
+     * 6 dices are added on the pattern for the simulation
+     */
     @Test
     public void testComputeMyScoreFalse() {
-        PublicObjectiveCard poc1 = new PublicObjectiveCard("Sfumature Chiare", "", 2);
-        PublicObjectiveCard poc2 = new PublicObjectiveCard("Sfumature Medie", "", 2);
-        PublicObjectiveCard poc3 = new PublicObjectiveCard("Sfumature diverse - Colonna", "", 4);
         List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
-        publicObjectiveCards.add(poc1);
-        publicObjectiveCards.add(poc2);
-        publicObjectiveCards.add(poc3);
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature Medie", "", 2));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature Scure", "", 2));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature Diverse", "", 5));
+        publicObjectiveCards.add(new PublicObjectiveCard("Diagonali Colorate", "", 0));
+        publicObjectiveCards.add(new PublicObjectiveCard("Varietà di Colore", "", 4));
 
-        //4 points gained because of the favor tokens and 20 points lost because the window pattern is empty
-        assertNotEquals(0, player.computeMyScore(publicObjectiveCards));
+        Dice d1 = new Dice(Colour.GREEN);
+        Dice d2 = new Dice(Colour.RED);
+        Dice d3 = new Dice(Colour.YELLOW);
+        Dice d4 = new Dice(Colour.PURPLE);
+        Dice d5 = new Dice(Colour.BLUE);
+        Dice d6 = new Dice(Colour.BLUE);
+        d1.setValue(1);
+        d2.setValue(2);
+        d3.setValue(3);
+        d4.setValue(4);
+        d5.setValue(5);
+        d6.setValue(6);
+
+        player.getDicePattern().setDice(new Position(0, 0), d1);
+        player.getDicePattern().setDice(new Position(1, 0), d2);
+        player.getDicePattern().setDice(new Position(3, 0), d3);
+        player.getDicePattern().setDice(new Position(1, 1), d4);
+        player.getDicePattern().setDice(new Position(2, 0), d5);
+        player.getDicePattern().setDice(new Position(3, 1), d6);
+
+        player.computeMyScore(publicObjectiveCards);
+        //4 points gained because of the favor tokens, 2+2 gained for the sets of 3-4 and 5-6, 5 gained for all the sets
+        //2 gained because of diagonals, 4 gained because of colour set and 14 points lost because of empty spaces
+        assertNotEquals(0, player.getScore());
     }
 }
