@@ -1,7 +1,11 @@
 package it.polimi.se2018.model;
 
-public enum Colour
-{
+/**
+ * This enumeration represents a colour. It is used for creating dices
+ * @author Framonti
+ */
+public enum Colour {
+
     YELLOW("#e8cf14", "Y"),
     GREEN("#0ba363", "G"),
     RED("#de3929", "R"),
@@ -11,33 +15,49 @@ public enum Colour
     private final String colourHEX;
     private final String abbreviation;
 
+    /**
+     * Constructor
+     * @param colorHex A String that represents the hexadecimal code for the colour
+     * @param abbreviation  A single letter for a quick representation of the colour itself
+     */
     Colour(String colorHex, String abbreviation) {
 
         this.colourHEX = colorHex;
         this.abbreviation = abbreviation;
     }
 
+    /**
+     * Creates a Colour from a string with its name
+     * @param colourString A colour name
+     * @return A colour object with the same colour as the string
+     */
     public static Colour getColourFromString(String colourString) {
 
-        switch(colourString)
-        {
+        switch(colourString) {
+
             case "YELLOW": return Colour.YELLOW;
             case "RED" : return  Colour.RED;
             case "PURPLE" : return  Colour.PURPLE;
             case "BLUE" : return  Colour.BLUE;
             case "GREEN" : return  Colour.GREEN;
-            default : System.out.println("errore scelta dado");
+            default : throw new IllegalArgumentException("Illegal Colour");
         }
-        return null;
     }
 
-
-    String getColourHEX() {
+    /**
+     * Gets the ColourHex attribute
+     * @return This colourHex
+     */
+    public String getColourHEX() {
 
         return this.colourHEX;
     }
 
-    String getAbbreviation() {
+    /**
+     * Gets the colour abbreviation
+     * @return This abbreviation
+     */
+    public String getAbbreviation() {
 
         return this.abbreviation;
     }

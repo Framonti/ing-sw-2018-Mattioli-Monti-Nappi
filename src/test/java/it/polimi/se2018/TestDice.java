@@ -1,44 +1,74 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.model.Colour;
 import it.polimi.se2018.model.Dice;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the Dice Class
+ */
 public class TestDice {
 
+    /**
+     * Tests the subOne method
+     */
     @Test
-    public void testSubOneTrue(){
+    public void testSubOne(){
         Dice dice = new Dice(3);
+        dice.subOne();
 
-        assertTrue(dice.subOne());
         assertEquals(2, dice.getValue());
     }
 
+    /**
+     * Checks that the subOne method raises an IllegalArgumentException if the dice's value is 1
+     */
     @Test
-    public void testSubOneFalse(){
+    public void testSubOneException(){
         Dice dice = new Dice(1);
 
-        assertFalse(dice.subOne());
-        assertEquals(1, dice.getValue());
+        try{
+            dice.subOne();
+        }
+        catch (IllegalArgumentException e) {
+            assertTrue("Test passed", true);
+        }
+        finally {
+            assertEquals(1, dice.getValue());
+        }
     }
 
+    /**
+     * Tests the addOne method
+     */
     @Test
-    public void testAddOneTrue(){
+    public void testAddOne(){
         Dice dice = new Dice(4);
+        dice.addOne();
 
-        assertTrue(dice.addOne());
         assertEquals(5, dice.getValue());
     }
 
+    /**
+     * Checks that the addOne method raises an IllegalArgumentException if the dice's value is 6
+     */
     @Test
-    public void testAddOneFalse(){
+    public void testAddOneException(){
         Dice dice = new Dice(6);
-
-        assertFalse(dice.addOne());
-        assertEquals(6, dice.getValue());
+        try{
+            dice.addOne();
+        }
+        catch (IllegalArgumentException e) {
+            assertTrue("Test passed", true);
+        }
+        finally {
+            assertEquals(6, dice.getValue());
+        }
     }
 
+    /**
+     * Test the turn method
+     */
     @Test
     public void testTurn() {
 
@@ -52,15 +82,22 @@ public class TestDice {
         assertEquals(1, dice6.getValue());
     }
 
+    /**
+     * Checks that setValue raises an IllegalArgumentException if the parameter is more than 6
+     */
     @Test
-    public void testIllegalSet(){
+    public void testSetValueException(){
 
-        Dice dice = new Dice(Colour.YELLOW);
+        Dice dice = new Dice(2);
         try {
             dice.setValue(7);
         }
         catch (IllegalArgumentException e) {
 
+            assertTrue("Test passed", true);
+        }
+        finally {
+            assertEquals(2, dice.getValue());
         }
     }
 

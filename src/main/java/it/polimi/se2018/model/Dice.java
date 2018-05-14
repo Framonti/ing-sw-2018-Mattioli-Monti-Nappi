@@ -1,26 +1,39 @@
 package it.polimi.se2018.model;
 import java.util.concurrent.ThreadLocalRandom;
 
-/** This class represents a dice with a colour and gives the more basic
- * methods for its manipulation*/
+/**
+ * This class represents a dice with a colour and gives the more basic
+ * methods for its manipulation
+ * @author Framonti
+ */
 public class Dice
 {
     private int value;
     private Colour colour;
 
-    //Constructors
+    /**
+     * Creates a dice with a specific colour
+     * @param colour The Colour the dice will have
+     */
     public Dice(Colour colour) {
 
         this.colour = colour;
     }
 
-    //This constructor will be only used for the windowPatterns
+    /**
+     * Creates a dice with a specific value but no colour.
+     * This constructor will be only used for the windowPatterns
+     */
     public Dice(int value) {
 
         this.value = value;
     }
 
-    //getters and setter
+    /**
+     * Sets a specific value for this Dice
+     * @param value The value to set
+     * @throws IllegalArgumentException if the value required is less than 1 or more than 6
+     */
     public void setValue(int value){
 
         if(value > 6 || value < 1)
@@ -29,57 +42,70 @@ public class Dice
             this.value = value;
     }
 
+    /**
+     * Gets the dice's colour
+     * @return The dice's colour
+     */
     public Colour getColour() {
 
         return colour;
     }
 
+    /**
+     * Gets the dice's value
+     * @return The dice's value
+     */
     public int getValue() {
 
         return value;
     }
 
-    /**Decrease the value of the dice by one
-    * @return false when this.value is equal to 1 (can't be decreased)*/
-    public boolean subOne() {
+    /**
+     * Decreases the value of the dice by one
+     * @throws IllegalArgumentException if the dice's value is 1
+     */
+    public void subOne() {
 
         if (this.value == 1)
-            return false;
+            throw new IllegalArgumentException("Dice's value can't be decreased");
 
-        else {
-            this.value --;
-            return true;
-        }
+        else this.value --;
     }
 
-    /**Increase the value of the dice by one
-    * @return false when this.value is equal to 6 (can't be increased) */
-    public boolean addOne() {
+    /**
+     * Increases the value of the dice by one
+     * @throws IllegalArgumentException if the dice's value is 6
+     */
+    public void addOne() {
 
         if (this.value == 6)
-            return false;
-        else {
-            this.value ++;
-            return true;
-        }
+            throw new IllegalArgumentException("Dice's value can't be increased");
+
+        else this.value ++;
     }
 
-    /**Turn the dice on the opposite side
-    * A real dice has the sum of the opposite side constant (7 for a D6) */
+    /**
+     * Turns the dice on the opposite side
+     * A real dice has the sum of the opposite side constant (7 for a D6)
+     */
     public void turn() {
 
         int sumOppositeFaces = 7;
         this.value = sumOppositeFaces - this.value;
     }
 
-    /** Roll the dice*/
+    /**
+     * Randomly rolls the dice
+     */
     public void roll() {
 
         this.value = ThreadLocalRandom.current().nextInt(1, 7);
     }
 
-    /**Roll the dice and return the result
-     * @return the result of a dice roll*/
+    /**
+     * Rolls the dice and returns the result
+     * @return The value of the dice after a roll
+     */
     public int rollAndGet() {
 
         this.roll();
@@ -87,8 +113,6 @@ public class Dice
     }
 
     @Override
-    /** Override of the toString method
-     * @return a String which represents the dice, using its value and the initial of its colour*/
     public String toString() {
 
         String temp = String.valueOf(this.value);

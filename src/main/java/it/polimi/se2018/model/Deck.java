@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Generic class used for the Card decks */
+/**
+ * Generic class used for the Card decks
+ */
+
 public class Deck<T> {
 
     private List<T> cardDeck;
@@ -14,15 +17,19 @@ public class Deck<T> {
         this.cardDeck = deck;
     }
 
-    /**The card list is randomly shuffled*/
+    /**
+     * The card list is randomly shuffled
+     */
     private void mix() {
 
         Collections.shuffle(cardDeck);
     }
 
-    /**Extract the first "numberToExtract" cards from a deck
+    /**
+     * Extracts the first "numberToExtract" cards from a deck
      * @param numberToExtract will be the length of the list returned
-     * @return a list composed by the first "numberToExtract" cards */
+     * @return a list composed by the first "numberToExtract" cards
+     */
     private List<T> distribute(int numberToExtract) {
 
         List<T> listToReturn = new ArrayList<>();
@@ -33,8 +40,9 @@ public class Deck<T> {
         return listToReturn;
     }
 
-    /** mix and then return the first "numberToExtract" cards from a deck
-     * @return a List with "numberToExtract" elements
+    /**
+     * Mixes and then returns the first "numberToExtract" cards from a deck
+     * @return A List with "numberToExtract" elements
      */
     public List<T> mixAndDistribute(int numberToExtract) {
 

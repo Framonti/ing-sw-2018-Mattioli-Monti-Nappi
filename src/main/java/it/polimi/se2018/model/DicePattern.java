@@ -2,7 +2,8 @@ package it.polimi.se2018.model;
 
 import java.util.List;
 
-/** This class holds informations about the dice placed by a player on his WindowPattern.
+/**
+ * This class holds informations about the dice placed by a player on his WindowPattern.
  * It offers limitations checks when a player want to place a Dice
  * @author Framonti
  */
@@ -12,12 +13,17 @@ public class    DicePattern
     private Dice[][] diceMatrix = new Dice[4][5];
     private WindowPattern windowPattern;
 
+    /**
+     * Constructor
+     * @param windowPattern The WindowPatter linked to this DicePattern
+     */
     public DicePattern(WindowPattern windowPattern) {
 
         this.windowPattern = windowPattern;
     }
 
-    /**Get the dice in the required position
+    /**
+     * Gets the dice in the required position
      * @return The dice in the required Position. It can return null
      */
     public Dice getDice(Position position) {
@@ -31,15 +37,18 @@ public class    DicePattern
         diceMatrix[position.getX()][position.getY()] = dice;
     }
 
-    /** Check if a position has a dice
-    * @return True if there is no dice in the required position */
+    /**
+     * Checks if a position has a dice
+     * @return True if there is no dice in the required position
+     */
     public  boolean isEmpty(Position position) {
 
         return diceMatrix[position.getX()][position.getY()] == null;
     }
 
-    /** Count the number of empty cells on this DicePattern
-     *  @return The number of empty cells on this DicePattern
+    /**
+     * Counts the number of empty cells on this DicePattern
+     * @return The number of empty cells on this DicePattern
      */
     public int emptySpaces(){
 
@@ -60,9 +69,11 @@ public class    DicePattern
         return partialSum;
     }
 
-    /**Check if a position is on the edge of the DicePattern and if
+    /**
+     * Checks if a position is on the edge of the DicePattern and if
      * no dice has already been placed on the DicePattern before
-     * @return True if the position required is on one of the edge of diceMatrix and there are no other dice placed on the DicePattern before*/
+     * @return True if the position required is on one of the edge of diceMatrix and there are no other dice placed on the DicePattern before
+     * */
     public boolean checkEdge(Position position) {
 
         //compare the param position with every position on an edge
@@ -70,8 +81,10 @@ public class    DicePattern
                 position.getY() == 0 || position.getY() == (diceMatrix[0].length -1)));
     }
 
-    /**Check if there is a dice in any adjacent position
-     *  @return True if at least an adjacent position has a dice */
+    /**
+     * Checks if there is a dice in any adjacent position
+     * @return True if at least an adjacent position has a dice
+     */
     public boolean checkAdjacency(Position position) {
 
         List<Position> positionsToCheck = position.getAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
@@ -82,8 +95,10 @@ public class    DicePattern
         return false;
     }
 
-    /**Check if an orthogonal adjacent position has a dice of the same colour of the dice required
-     * @return True if there is no dice with the same colour of the dice required */
+    /**
+     * Checks if an orthogonal adjacent position has a dice of the same colour of the dice required
+     * @return True if there is no dice with the same colour of the dice required
+     * */
     public boolean checkAdjacentColour(Position position, Dice dice)
     {
         List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
@@ -96,8 +111,10 @@ public class    DicePattern
         return true;
     }
 
-    /**Check if an orthogonal adjacent position has a dice of the same value of the dice required
-     * @return True if there is no dice with the same colour of the dice required */
+    /**
+     * Checks if an orthogonal adjacent position has a dice of the same value of the dice required
+     * @return True if there is no dice with the same colour of the dice required
+     */
     public boolean checkAdjacentValue(Position position, Dice dice)
     {
         List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
@@ -109,8 +126,8 @@ public class    DicePattern
         return true;
     }
 
-    /** Check if all the DicePattern limitations are respected
-     *
+    /**
+     * Checks if all the DicePattern limitations are respected
      * @param position The position a player wants to place a dice on
      * @param dice The dice a player wants to place
      * @return True if all the limitations are respected
@@ -119,11 +136,11 @@ public class    DicePattern
 
         if(checkEdge(position))
             return  true;
-
         else return checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
     }
 
-    /**Place a dice on matrixDice, only if all the restrictions are met.
+    /**
+     * Places a dice on matrixDice, only if all the restrictions are met.
      * @param dice The dice a player wants to place
      * @param position The position a player wants to place a dice on
      * @throws IllegalArgumentException if the dice can't be placed
@@ -138,9 +155,11 @@ public class    DicePattern
         else throw new IllegalArgumentException("Illegal move");
     }
 
-    /**Remove and return a dice from the required position
-    * @return A dice from the required position.
-    * @throws IllegalArgumentException if the position required has no dice */
+    /**
+     * Removes and returns a dice from the required position
+     * @return A dice from the required position.
+     * @throws IllegalArgumentException if the position required has no dice
+     */
     public Dice removeDice(Position position) {
 
         if(isEmpty(position))
@@ -150,9 +169,11 @@ public class    DicePattern
         return toReturn;
     }
 
-    /**Move a dice from a position to another, checking that the initial position has a dice and that
+    /**
+     * Moves a dice from a position to another, checking that the initial position has a dice and that
      * the final position is empty
-     * @throws IllegalArgumentException if the initial position has a dice or the final position is empty */
+     * @throws IllegalArgumentException if the initial position has a dice or the final position is empty
+     */
     public void moveDice(Position initialPosition, Position finalPosition) {
 
         if(this.isEmpty(initialPosition))
@@ -167,6 +188,11 @@ public class    DicePattern
         }
     }
 
+    /**
+     * Creates a String representing the whole DicePattern, including the WindowPattern below it,
+     * properly formatted
+     * @return A String representing the whole DicePattern, including the WindowPattern below it
+     * */
     @Override
     public String toString(){
 

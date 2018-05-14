@@ -5,31 +5,48 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Test Class for the DicePattern
+ * @author Framonti
+ */
 public class TestDicePattern {
 
     private DicePattern dicePattern;
 
+    /**
+     * Create a DicePattern that will be used for the tests
+     */
     @Before
     public void setUP(){
 
-        WindowPatternCardDeckBuilder windowPatternCardDeckBuilder = new WindowPatternCardDeckBuilder("src/main/java/it/polimi/se2018/xml/WindowPatternCard.xml");
-        Deck<WindowPatternCard> windowPatternDeck = windowPatternCardDeckBuilder.getWindowPatternCardDeck();
-        WindowPatternCard windowPatternCard = windowPatternDeck.mixAndDistribute(1).get(0);
-        WindowPattern windowPatternTest = windowPatternCard.getWindowPattern1();
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.RED);
+        diceMatrix[0][1] = new Dice(1);
+        diceMatrix[0][2] = new Dice(2);
+        diceMatrix[0][3] = new Dice(3);
+        diceMatrix[0][4] = new Dice(Colour.RED);
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
         this.dicePattern = new DicePattern(windowPatternTest);
     }
 
+    /**
+     * Check that the method getDice raises an IllegalArgumentException
+     */
     @Test
-    public void testGetDiceFail() {
+    public void testGetDiceException() {
 
         try {
             dicePattern.getDice(new Position(9,2));
         }
         catch (IllegalArgumentException e) {
 
+            assertTrue("Test Passed", true);
         }
     }
 
+    /**
+     * Tests the isEmpty method
+     */
     @Test
     public void testIsEmpty()
     {
@@ -46,6 +63,9 @@ public class TestDicePattern {
     }
 
 
+    /**
+     * Test the emptySpaces method
+     */
     @Test
     public void testEmptySpaces(){
 
@@ -69,6 +89,9 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(3,2));
     }
 
+    /**
+     * Tests the checkEdge method
+     */
     @Test
     public void testCheckEdge() {
 
@@ -80,6 +103,9 @@ public class TestDicePattern {
         assertFalse(dicePattern.checkEdge(new Position(2, 2)));
     }
 
+    /**
+     * Tests the CheckAdjacency method
+     */
     @Test
     public void testCheckAdjacency() {
 
@@ -94,6 +120,9 @@ public class TestDicePattern {
 
     }
 
+    /**
+     * test the CheckAdjacentColour method
+     */
     @Test
     public void testCheckAdjacentColour() {
 
@@ -109,6 +138,9 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(2,2));
     }
 
+    /**
+     *  Tests the checkAdjacentValue method
+     */
     @Test
     public void testCheckAdjacentValue() {
 
@@ -124,17 +156,106 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(2,2));
     }
 
-   /* @Test //TODO capire cosa non va
+    /**
+     * Tests the checkDicePatternLimitations method
+     */
+    @Test
     public void testCheckDicePatternLimitations() {
 
-      //  assertFalse(dicePattern.checkDicePatternLimitations(new Position(1,1), new Dice(Colour.GREEN)));
+        //False due to the attribute firstDice
+        assertFalse(dicePattern.checkDicePatternLimitations(new Position(1,1), new Dice(Colour.GREEN)));
 
-        dicePattern.placeDice(new Position(0, 1), new Dice(Colour.RED));
+        Dice toPlace = new Dice(Colour.RED);
+        toPlace.setValue(2);
+        dicePattern.placeDice(new Position(1, 0), toPlace);
 
         assertTrue(dicePattern.checkDicePatternLimitations(new Position(1,1), new Dice(Colour.BLUE)));
-    }
-    */
 
+        //False due to the value
+        assertFalse(dicePattern.checkDicePatternLimitations(new Position(2,0), new Dice(2)));
+
+        //False due to the colour
+        assertFalse(dicePattern.checkDicePatternLimitations(new Position(2,0), new Dice(Colour.RED)));
+
+        //Deletion of side effect
+        dicePattern.removeDice(new Position(1,0));
+    }
+
+    /**
+     * Checks that placeDice raises an IllegalArgumentException because checkEdge is false
+     */
+    @Test
+    public void testPlaceDiceException1(){
+
+        try{
+
+            dicePattern.placeDice(new Position(2,3), new Dice(Colour.PURPLE));
+        }
+        catch (IllegalArgumentException e) {
+            assertTrue("Test passed", true);
+        }
+    }
+
+    /**
+     * Checks that placeDice raises an IllegalArgumentException due to limitations on the WindowPattern
+     */
+    @Test
+    public void testPlaceDiceException2()
+    {
+        try{
+            dicePattern.placeDice(new Position(0,2), new Dice(3));
+        }
+        catch (IllegalArgumentException e) {
+
+            assertTrue("Test Passed", true);
+        }
+    }
+
+    /**
+     * Checks that placeDice raises an IllegalArgumentException due to limitation on the DicePattern
+     */
+    @Test
+    public void testPlaceDiceException3(){
+
+        try{
+            Dice toPlace = new Dice(Colour.RED);
+            toPlace.setValue(2);
+            dicePattern.placeDice(new Position(1,0), toPlace);
+            dicePattern.placeDice(new Position(2,0), new Dice(Colour.RED));
+        }
+        catch (IllegalArgumentException e) {
+
+            assertTrue("Test Passed", true);
+        }
+        finally {
+            dicePattern.removeDice(new Position(1,0));
+        }
+    }
+
+    /**
+     * Tests placeDice method
+     */
+    @Test
+    public void testPlaceDice(){
+
+        Dice toPlace1 = new Dice(Colour.RED);
+        toPlace1.setValue(2);
+        Dice toPlace2 = new Dice(Colour.GREEN);
+        toPlace2.setValue(3);
+
+        dicePattern.placeDice(new Position(1,0), toPlace1);
+        dicePattern.placeDice(new Position(2,0), toPlace2);
+
+        assertEquals(toPlace1, dicePattern.getDice(new Position(1,0)));
+        assertEquals(toPlace2, dicePattern.getDice(new Position(2,0)));
+
+        dicePattern.removeDice(new Position(1,0));
+        dicePattern.removeDice(new Position(2,0));
+    }
+
+    /**
+     * Tests removeDice method
+     */
     @Test
     public void testRemoveDice(){
 
@@ -148,17 +269,25 @@ public class TestDicePattern {
         assertEquals(Colour.GREEN, removed.getColour());
     }
 
+    /**
+     * Checks that an IllegalArgumentException is raised if it is asked to remove a dice
+     * from an empty position
+     */
     @Test
-    public void testRemoveDiceFail(){
+    public void testRemoveDiceException(){
 
         try{
             dicePattern.removeDice(new Position(2,3));
         }
         catch (IllegalArgumentException e) {
 
+            assertTrue("Test passed", true);
         }
     }
 
+    /**
+     * Tests the moveDice method
+     */
     @Test
     public void testMoveDice(){
 
@@ -176,8 +305,11 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(1,0));
     }
 
+    /**
+     * Checks that moveDice raises an IllegalArgumentException if the initial position is empty
+     */
     @Test
-    public void testMoveDiceFail1() {
+    public void testMoveDiceException1() {
 
         dicePattern.setDice(new Position(1, 2), new Dice(Colour.RED));
 
@@ -192,8 +324,11 @@ public class TestDicePattern {
         }
     }
 
+    /**
+     * Checks that moveDice raises an IllegalArgumentException if the final position is not empty
+     */
     @Test
-    public void testMoveDiceFail2(){
+    public void testMoveDiceException2(){
 
         dicePattern.setDice(new Position(0,0), new Dice(Colour.YELLOW));
         dicePattern.setDice(new Position(2,3), new Dice(Colour.YELLOW));
@@ -209,6 +344,16 @@ public class TestDicePattern {
             dicePattern.removeDice(new Position(0,0));
             dicePattern.removeDice(new Position(2,3));
         }
+    }
+
+    /**
+     * Tests the toString method
+     */
+    @Test
+    public void testToString(){
+
+        String expectedString = "Nome: Name\nDifficoltà: 3\nR\t1\t2\t3\tR\t\nO\tO\tO\tO\tO\t\nO\tO\tO\tO\tO\t\nO\tO\tO\tO\tO\t\n";
+        assertEquals(expectedString, dicePattern.toString());
     }
 }
 
