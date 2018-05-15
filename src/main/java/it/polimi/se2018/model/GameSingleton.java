@@ -2,26 +2,38 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.ThreadLocalRandom;
 
-
-public class GameSingleton {
+/**
+ * This class represents the game and contains all the objects on the game table.
+ * This class is a singleton because there can be only one game at a time.
+ * @author Daniele Mattioli
+ */
+public class GameSingleton extends Observable{
     private int playersNumber;
     private int diceNumberToExtract;
     private int round;
     private Player currentPlayer;
-    private ArrayList<Player> players;
-    private ArrayList<PublicObjectiveCard> publicObjectiveCards;
-    private ArrayList<ToolCard> toolCards;
+    private List<Player> players;
+    private List<PublicObjectiveCard> publicObjectiveCards;
+    private List<ToolCard> toolCards;
     private List<Dice> diceBag;
-    private ArrayList<Dice> draftPool;
+    private List<Dice> draftPool;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
     private int lap; //indicates current semi round
     private static GameSingleton instance = null;
 
-    //private constructor
-    private GameSingleton(ArrayList<Player> players, ArrayList<PublicObjectiveCard> publicObjectiveCards, ArrayList<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
+    /**
+     * Private constructor of the class. It's private because of the singleton pattern.
+     * @param players list of all players in the game
+     * @param publicObjectiveCards list of the public objective cards chosen during game setup
+     * @param toolCards list of the toll cards chosen during game setup
+     * @param roundTrack round track of the game
+     * @param scoreTrack score track of the game
+     */
+    private GameSingleton( List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
         this.players = players;
         playersNumber = players.size();
         diceNumberToExtract = (2 * playersNumber) + 1;
@@ -37,81 +49,146 @@ public class GameSingleton {
 
     }
 
-    //returns the unique instance of class GameSingleton
-    public static GameSingleton instance(ArrayList<Player> players, ArrayList<PublicObjectiveCard> publicObjectiveCards, ArrayList<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
+    /**
+     * Method called by users to create the instance of the class.
+     * @param players list of all players in the game
+     * @param publicObjectiveCards list of the public objective cards chosen during game setup
+     * @param toolCards list of the toll cards chosen during game setup
+     * @param roundTrack round track of the game
+     * @param scoreTrack score track of the game
+     * @return the instance of the class
+     */
+    public static GameSingleton instance(List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
         if (instance == null)
             instance = new GameSingleton(players, publicObjectiveCards, toolCards, roundTrack, scoreTrack); //creates instance only if it doesn't already exist
         return instance;
     }
 
-
+    /**
+     * Gets all the tool cards
+     * @return tool cards
+     */
     public List<ToolCard> getToolCards() {
         return toolCards;
     }
 
-
+    /**
+     * Gets all the public objective cards
+     * @return public objective cards
+     */
     public List<PublicObjectiveCard> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
-    //returns current player
+    /**
+     * Gets current player
+     * @return current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    //gets current lap
+    /**
+     * Gets current lap
+     * @return current lap
+     */
     public int getLap() {
         return this.lap;
     }
 
-    //returns draft pool
+    /**
+     * Gets draft pool
+     * @return draft pool
+     */
     public List<Dice> getDraftPool() {
         return draftPool;
     }
 
+    /**
+     * Gets round track
+     * @return round track
+     */
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
 
+    /**
+     * Gets score track
+     * @return score track
+     */
     public ScoreTrack getScoreTrack() {
         return scoreTrack;
     }
 
+    /**
+     * Gets player number
+     * @return player number
+     */
     public int getPlayersNumber() {
         return playersNumber;
     }
 
+    /**
+     * Gets dice number to extract each round
+     * @return number to extract each round
+     */
     public int getDiceNumberToExtract() {
         return diceNumberToExtract;
     }
 
+    /**
+     * Gets current round
+     * @return current round
+     */
     public int getRound() {
         return round;
     }
 
+    /**
+     * Gets list of all players in the game
+     * @return list of all players in the game
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Gets dice bag
+     * @return  dice bag
+     */
     public List<Dice> getDiceBag() {
         return diceBag;
     }
 
-    //sets current player
+    /**
+     * Sets current player
+     * @param currentPlayer New current player
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-    //sets lap
+    /**
+     * Sets current lap
+     * @param lap New current lap
+     */
     public void setLap(int lap) {
         this.lap = lap;
     }
 
+    /**
+     * Sets current round
+     * @param round New current round
+     */
     public void setRound(int round) {
         this.round = round;
     }
 
-    //returns dice bag, which contains 90 dices. It's a private method because it has to be seen only by the constructor
+
+    /**
+     * Creates a new dice bag made of 90 dices (18 for each colour). It's a private method because it has to be seen only by the constructor.
+     * @return  A new dice bag.
+     */
     private List<Dice> createDiceBag() {
         ArrayList<Dice> diceBagToReturn = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
@@ -129,8 +206,10 @@ public class GameSingleton {
         return diceBagToReturn;
     }
 
-
-    //if it's possible increases the round by 1
+    /**
+     * If it's possible, increase current round by one.
+     * @throws IllegalArgumentException Exception thrown if current round is not in range [0,9].
+     */
     public void increaseRound() {
         if (round >= 0 && round <= 9)
             round++;
@@ -138,8 +217,10 @@ public class GameSingleton {
             throw new IllegalArgumentException("Invalid value");
     }
 
-    //DUBBIO: NON C'è BISOGNO DI ECCEZIONE VERO? PERCHè TANTO SIAMO NOI CHE GESTIAMO L'ESTRAZIONE DI DADI
-    //extracts dices from dice bag and put them in the draft pool
+
+    /**
+     * Extracts dices from dice bag and put them in the draft pool
+     */
     public void extractAndRoll() {
         int i;
         int randomNumber;
@@ -152,13 +233,18 @@ public class GameSingleton {
     }
 
 
-    //moves  remaining dices from draft pool to round track
+    /**
+     * Moves the remaining dices from draft pool to round track
+     */
     public void fromDraftPoolToRoundTrack() {
         roundTrack.addDices(draftPool);
     }
 
 
-    //return the winner of the game
+    /**
+     * Computes the winner
+     * @return Winner of the game
+     */
     public Player selectWinner() {
         int i;
         i = 0;
@@ -166,9 +252,10 @@ public class GameSingleton {
         winner = players.get(i);
         for (i = 1; i < playersNumber; i++) {
             if ((players.get(i).getScore() > winner.getScore()) ||
-                    (players.get(i).getScore() == winner.getScore() && players.get(i).computePrivateObjectiveCardScore() > winner.computePrivateObjectiveCardScore()) ||
-                    (players.get(i).getFavorTokensNumber() == winner.getFavorTokensNumber() && i < players.indexOf(winner)))
-
+                (players.get(i).getScore() == winner.getScore() &&
+                (players.get(i).computePrivateObjectiveCardScore() > winner.computePrivateObjectiveCardScore() ||
+                (players.get(i).computePrivateObjectiveCardScore() == winner.computePrivateObjectiveCardScore() && players.get(i).getFavorTokensNumber() > winner.getFavorTokensNumber()) ||
+                (players.get(i).getFavorTokensNumber() == winner.getFavorTokensNumber() && i < players.indexOf(winner)))))
                 winner = players.get(i);
         }
         return winner;

@@ -4,6 +4,7 @@ import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.ViewCLI;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,15 +13,30 @@ import java.util.Observer;
 public class ControllerCLI implements Observer {
     private GameSingleton model;
     private ViewCLI view;
-    private ArrayList<ToolCard> toolCards;
-    boolean isGameSetupEnded = false; //used for update method
+    private List<ToolCard> toolCards;
+    private boolean isGameSetupEnded = false; //used for update method
 
 
-    //constructor
-    public ControllerCLI(GameSingleton model, ViewCLI view, ArrayList<ToolCard> toolCards ){
-        this.model = model;
+    //constructor TODO
+    public ControllerCLI( ViewCLI view, List<ToolCard> toolCards ){
         this.view = view;
         this.toolCards = toolCards;
+    }
+
+
+    public void game(){
+        while (model.getRound() < 10){
+           while( true ) {
+                view.showActionMenu(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed());
+                String input = view.getInput();
+                update(model, input);
+                if (input.equals("12"))
+                    break;
+            }
+       }
+        computeAllScores();
+        view.showScoreTrack(model.getScoreTrack());
+        view.printWinner(model.selectWinner());
     }
 
 
@@ -35,7 +51,7 @@ public class ControllerCLI implements Observer {
         if ( choice == 1 || choice == 2 || choice == 3 || choice == 4 )
             return toolCards.get((choice-1));
         else
-            throw new IllegalArgumentException("The number you chose is no available");
+            throw new IllegalArgumentException("The number you chose is not available");
     }
 
     //returns the window pattern chosen by a player during setup
@@ -80,12 +96,20 @@ public class ControllerCLI implements Observer {
         while(!this.toolCards.get(i).getName().equals(toolCardName))
             i++;
         if(this.toolCards.get(i).getFavorPoint() == 0) {
-            this.toolCards.get(i).increaseFavorPoint(1);
-            model.getCurrentPlayer().reduceFavorTokens(1);
+            try {
+                this.toolCards.get(i).increaseFavorPoint(1);
+                model.getCurrentPlayer().reduceFavorTokens(1);
+            } catch (UnsupportedOperationException exception){
+                view.printMessage(exception.toString());
+            }
         }
         else {
-            this.toolCards.get(i).increaseFavorPoint(2);
-            model.getCurrentPlayer().reduceFavorTokens(2);
+            try {
+                this.toolCards.get(i).increaseFavorPoint(2);
+                model.getCurrentPlayer().reduceFavorTokens(2);
+            } catch (UnsupportedOperationException exception){
+                view.printMessage(exception.toString());
+            }
         }
     }
 
@@ -96,14 +120,25 @@ public class ControllerCLI implements Observer {
         String userInput = view.getInput();
         int choice = Integer.parseInt(userInput);
         //if player wants to decrease the value of the dice by one
-        if (choice == 1 && !diceChosen.subOne() ) {
-            System.out.println("errore, non puoi diminuire di 1 un dado che ha valore 1\n");
-            grozingPilers();
+        if (choice == 1 ) {
+            try{
+                diceChosen.subOne();
+            } catch (IllegalArgumentException exception){
+                view.printMessage(exception.toString());
+                grozingPilers();
+            }
+
         }
-        if (choice == 2 && !diceChosen.addOne()) {
-            System.out.println("errore, non puoi aumentare di 1 un dado che ha valore 6\n");
-            grozingPilers();
+        if (choice == 2 ) {
+            try{
+                diceChosen.addOne();
+            } catch (IllegalArgumentException exception){
+                view.printMessage(exception.toString());
+                grozingPilers();
+            }
+
         }
+
     }
 
     //tool card 2 method
@@ -120,7 +155,7 @@ public class ControllerCLI implements Observer {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(dicePosition, finalPosition);
             } catch (IllegalArgumentException exception) {
-                System.out.println(exception);
+                view.printMessage(exception.toString());
                 eglomiseBrush();
             }
         }
@@ -140,7 +175,7 @@ public class ControllerCLI implements Observer {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(dicePosition, finalPosition);
             } catch (IllegalArgumentException exception) {
-                System.out.println(exception);
+                view.printMessage(exception.toString());
                 copperFoilBurnisher();
             }
         }
@@ -161,7 +196,7 @@ public class ControllerCLI implements Observer {
                 try {
                     model.getCurrentPlayer().getDicePattern().moveDice(dicePosition, finalPosition);
                 } catch (IllegalArgumentException exception){
-                    System.out.println(exception);
+                    view.printMessage(exception.toString());
                     lathekin();
                 }
 
@@ -204,7 +239,7 @@ public class ControllerCLI implements Observer {
         int i;
         boolean successfulMove = false;
         for (i = 0; i < model.getCurrentPlayer().getDicePattern().emptySpaces() && !successfulMove; i++) {
-            System.out.println("Dove vuoi posizionare il dado?\n");
+            view.printMessage("Dove vuoi posizionare il dado?\n");
             int row = Integer.parseInt(view.getInput());
             int column = Integer.parseInt(view.getInput());
             try{
@@ -212,12 +247,12 @@ public class ControllerCLI implements Observer {
                 successfulMove = true;
                 model.getDraftPool().remove(diceChosen);
             } catch (IllegalArgumentException exception){
-                System.out.println(exception);
+                view.printMessage(exception.toString());
                 successfulMove = false;
             }
         }
         if (!successfulMove)
-            System.out.println("non potevi inserire il dado in alcuna posizione\n");
+            view.printMessage("non potevi inserire il dado in alcuna posizione\n");
     }
 
 
@@ -230,7 +265,7 @@ public class ControllerCLI implements Observer {
                 throwAgainDiceFromDraftPool(model.getDraftPool().get(i));
         }
         else
-            System.out.println("Non puoi usare questa carta durante il primo turno\n");
+            view.printMessage("Non puoi usare questa carta durante il primo turno\n");
     }
 
     //DUBBIO: posso mettere il metodo placeDiceFromDraftPoolToDicePattern in un try- catch e basta? perchè il codice è lo stesso
@@ -245,7 +280,7 @@ public class ControllerCLI implements Observer {
             model.getDraftPool().remove(diceChosen);
             model.getCurrentPlayer().setLap(1);
         } catch (IllegalArgumentException exception) {
-            System.out.println(exception);
+            view.printMessage(exception.toString());
             runnerPliers();
         }
     }
@@ -286,7 +321,7 @@ public class ControllerCLI implements Observer {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosenFromDiceBag);
             model.getDraftPool().remove(diceChosenFromDraftPool);
         } catch (IllegalArgumentException exception) {
-            System.out.println(exception);
+            view.printMessage(exception.toString());
             fluxRemover();
         }
     }
@@ -310,7 +345,7 @@ public class ControllerCLI implements Observer {
                 try{
                     model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
                 } catch (IllegalArgumentException exception) {
-                    System.out.println(exception);
+                    view.printMessage(exception.toString());
                     if(i == 0)
                         tapWheel();
                     else
@@ -402,8 +437,9 @@ public class ControllerCLI implements Observer {
                     break;
 
             }
+            model.getCurrentPlayer().reverseToolCardUsed();
         } catch (IllegalArgumentException exception){
-            System.out.println(exception);
+            view.printMessage(exception.toString());
             useToolCard();
         }
 
@@ -463,15 +499,25 @@ public class ControllerCLI implements Observer {
 
             //usare una carta utensile
             case 10:
-                if(!model.getCurrentPlayer().isToolCardUsed())
-                view.showToolCards(toolCards);
-                useToolCard();
+                if(!model.getCurrentPlayer().isToolCardUsed()) {
+                    view.showToolCards(toolCards);
+                    useToolCard();
+                }
+                else{
+                    view.printInvalidAction("usare una carta utensile");
+                    return performAction(view.getInput());
+                }
+
                 break;
 
             //posizionare un dado della riserva nel proprio schema
             case 11:
                 if(!model.getCurrentPlayer().isDiceMoved())
-                placeDiceFromDraftPoolToDicePattern();
+                    placeDiceFromDraftPoolToDicePattern();
+                else{
+                    view.printInvalidAction("muovere dado");
+                    return performAction(view.getInput());
+                }
                 break;
 
             //passa turno
@@ -481,7 +527,7 @@ public class ControllerCLI implements Observer {
 
             //no matches
             default:
-                System.out.println("il numero inserito non corrisponde a nessuna operazione possibile, riprova\n"); //magari possiamo mettere eccezione
+                view.printInvalidAction("il numero inserito non corrisponde a nessuna operazione possibile, riprova\n");
                 return false;
 
         }
@@ -495,6 +541,7 @@ public class ControllerCLI implements Observer {
         Position finalPosition = new Position(row-1, column-1 );
         model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
         model.getDraftPool().remove(diceChosen);
+        model.getCurrentPlayer().reverseDiceMoved();
     }
 
     //changes the current player
@@ -526,11 +573,12 @@ public class ControllerCLI implements Observer {
         }
     }
 
-    //increase round, change players position, extract new dices from diceBag and show all
+    //increase round, change players position, put remaining dices from the draft poll to the round track extract new dices from diceBag and show all
     public void nextRound(){
-        model.setRound(model.getRound()+1);
+        model.increaseRound();
         model.getPlayers().add(model.getPlayersNumber()-1 , model.getPlayers().remove(0)); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
         model.setCurrentPlayer(model.getPlayers().get(0));
+        model.fromDraftPoolToRoundTrack();
         model.extractAndRoll();
         view.showAll(model);
     }

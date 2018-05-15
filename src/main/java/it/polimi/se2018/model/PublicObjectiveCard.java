@@ -1,7 +1,7 @@
 package it.polimi.se2018.model;
 
 /**
- * This class represents a public objective card
+ * This class represents a public objective card and it's a subclass of ObjectiveCard
  * @author Daniele Mattioli
  */
 public class PublicObjectiveCard extends ObjectiveCard {
