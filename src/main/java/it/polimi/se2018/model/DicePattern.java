@@ -7,8 +7,8 @@ import java.util.List;
  * It offers limitations checks when a player want to place a Dice
  * @author Framonti
  */
-public class    DicePattern
-{
+public class DicePattern {
+
     private boolean firstDice = true;   //true until a dice is placed on the diceMatrix
     private Dice[][] diceMatrix = new Dice[4][5];
     private WindowPattern windowPattern;

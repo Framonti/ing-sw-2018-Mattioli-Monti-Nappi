@@ -80,7 +80,7 @@ public class TestPosition {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test passed", true);
+            assertEquals("Invalid position", e.getMessage());
         }
     }
 

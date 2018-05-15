@@ -20,8 +20,8 @@ public class Position
     public Position(int x, int y) {
 
         int rows = 4;
-        int colums = 5;
-        if (x < 0 || x > (rows -1) || y < 0 || y > (colums - 1))
+        int columns = 5;
+        if (x < 0 || x > (rows -1) || y < 0 || y > (columns - 1))
             throw new IllegalArgumentException("Invalid position");
         this.x = x;
         this.y = y;

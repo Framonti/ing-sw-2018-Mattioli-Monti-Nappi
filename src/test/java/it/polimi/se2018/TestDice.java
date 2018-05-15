@@ -31,7 +31,7 @@ public class TestDice {
             dice.subOne();
         }
         catch (IllegalArgumentException e) {
-            assertTrue("Test passed", true);
+            assertEquals("Dice's value can't be decreased", e.getMessage());
         }
         finally {
             assertEquals(1, dice.getValue());
@@ -59,7 +59,7 @@ public class TestDice {
             dice.addOne();
         }
         catch (IllegalArgumentException e) {
-            assertTrue("Test passed", true);
+            assertEquals("Dice's value can't be increased", e.getMessage());
         }
         finally {
             assertEquals(6, dice.getValue());
@@ -94,7 +94,7 @@ public class TestDice {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test passed", true);
+            assertEquals("Invalid value", e.getMessage());
         }
         finally {
             assertEquals(2, dice.getValue());

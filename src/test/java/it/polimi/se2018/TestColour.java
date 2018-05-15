@@ -33,7 +33,7 @@ public class TestColour {
         }
         catch (IllegalArgumentException e){
 
-            assertTrue("Test passed", true);
+            assertEquals("Illegal Colour", e.getMessage());
         }
     }
 

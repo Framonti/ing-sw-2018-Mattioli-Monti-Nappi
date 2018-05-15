@@ -40,7 +40,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test Passed", true);
+            assertEquals("Invalid position", e.getMessage());
         }
     }
 
@@ -192,7 +192,7 @@ public class TestDicePattern {
             dicePattern.placeDice(new Position(2,3), new Dice(Colour.PURPLE));
         }
         catch (IllegalArgumentException e) {
-            assertTrue("Test passed", true);
+            assertEquals("Illegal move", e.getMessage());
         }
     }
 
@@ -207,7 +207,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test Passed", true);
+            assertEquals("Illegal move", e.getMessage());
         }
     }
 
@@ -225,7 +225,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test Passed", true);
+            assertEquals("Illegal move", e.getMessage());
         }
         finally {
             dicePattern.removeDice(new Position(1,0));
@@ -281,7 +281,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Test passed", true);
+            assertEquals("The position required has no dice", e.getMessage());
         }
     }
 
@@ -317,7 +317,7 @@ public class TestDicePattern {
             dicePattern.moveDice(new Position(2, 3), new Position(1, 2));
         }
         catch (IllegalArgumentException e) {
-            assertTrue("Initial position is empty: test passed", true);
+            assertEquals("Initial position is empty", e.getMessage());
         }
         finally {
             dicePattern.removeDice(new Position(1,2));
@@ -338,7 +338,7 @@ public class TestDicePattern {
         }
         catch (IllegalArgumentException e) {
 
-            assertTrue("Final position is not empty: test passed", true);
+            assertEquals("Final position has already had a dice", e.getMessage());
         }
         finally {
             dicePattern.removeDice(new Position(0,0));

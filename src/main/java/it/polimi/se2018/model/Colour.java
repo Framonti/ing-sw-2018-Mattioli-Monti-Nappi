@@ -6,10 +6,10 @@ package it.polimi.se2018.model;
  */
 public enum Colour {
 
-    YELLOW("#e8cf14", "Y"),
-    GREEN("#0ba363", "G"),
+    YELLOW("#e8cf14", "G"),
+    GREEN("#0ba363", "V"),
     RED("#de3929", "R"),
-    PURPLE("#a1488e", "P"),
+    PURPLE("#a1488e", "F"),
     BLUE("#2da8bb", "B");
 
     private final String colourHEX;
