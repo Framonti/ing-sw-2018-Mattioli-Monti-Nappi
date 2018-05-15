@@ -3,13 +3,14 @@ package it.polimi.se2018;
 import it.polimi.se2018.model.*;
 import org.junit.Before;
 import org.junit.Test;
-
-
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Tests for the WindowPatternCardDeckBuilder Class
+ * @author Framonti
+ */
 public class TestWindowPatternCardDeckBuilder {
 
     private final String filePath = "src/main/java/it/polimi/se2018/xml/WindowPatternCard.xml";
@@ -20,6 +21,7 @@ public class TestWindowPatternCardDeckBuilder {
         return  windowPattern.getName().equals("Kaleidoscopic Dream") ||
                 windowPattern.getName().equals("Firmitas") ||
                 windowPattern.getName().equals("Fractal Drops") ||
+                windowPattern.getName().equals("Ripples of Light") ||
                 windowPattern.getName().equals("Lux Mundi") ||
                 windowPattern.getName().equals("Lux Astram") ||
                 windowPattern.getName().equals("Gravitas") ||
@@ -49,15 +51,18 @@ public class TestWindowPatternCardDeckBuilder {
        windowPatternCardDeckBuilder = new WindowPatternCardDeckBuilder(filePath);
     }
 
+    /**
+     * Tests that every WindowPattern is correctly created
+     */
     @Test
     public void testGetWindowPatternCardDeck(){
 
         Deck<WindowPatternCard> windowPatternCardDeck = windowPatternCardDeckBuilder.getWindowPatternCardDeck();
-        List<WindowPatternCard> windowPatternCards = windowPatternCardDeck.mixAndDistribute(1);
-        WindowPatternCard windowPatternCard = windowPatternCards.get(0);
-        WindowPattern windowPattern = windowPatternCard.getWindowPattern1();
+        List<WindowPatternCard> windowPatternCards = windowPatternCardDeck.mixAndDistribute(12);
 
-        assertTrue(checkWindowPatternName(windowPattern));
-
+        for(WindowPatternCard windowPatternCard : windowPatternCards){
+            assertTrue(checkWindowPatternName(windowPatternCard.getWindowPattern1()));
+            assertTrue(checkWindowPatternName(windowPatternCard.getWindowPattern2()));
+        }
     }
 }

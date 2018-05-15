@@ -87,7 +87,7 @@ public class    DicePattern
      */
     public boolean checkAdjacency(Position position) {
 
-        List<Position> positionsToCheck = position.getAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
+        List<Position> positionsToCheck = position.getAdjacentPositions();
         for(Position positions : positionsToCheck) {
 
             if(!isEmpty(positions)) return true;
@@ -101,7 +101,7 @@ public class    DicePattern
      * */
     public boolean checkAdjacentColour(Position position, Dice dice)
     {
-        List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
+        List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions();
         for(Position positions : positionsToCheck) {
 
             if(!isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour())) {
@@ -117,7 +117,7 @@ public class    DicePattern
      */
     public boolean checkAdjacentValue(Position position, Dice dice)
     {
-        List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions(diceMatrix.length, diceMatrix[0].length);
+        List<Position> positionsToCheck = position.getOrthogonalAdjacentPositions();
         for(Position positions : positionsToCheck) {
 
             if(!isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue()))

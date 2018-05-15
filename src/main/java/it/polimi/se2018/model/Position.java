@@ -3,7 +3,8 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This is a support class for bidimensional arrays.
+/**
+ * This is a support class for bidimensional arrays.
  * The attribute x represents the row index, while the attribute y the column index
  * @author Framonti
  */
@@ -14,7 +15,8 @@ public class Position
 
     //Constructor
     /**
-    * It raises an IllegalArgumentException if the position don't respect the limitation of the bidimensional arrays of the game */
+     * It raises an IllegalArgumentException if the position don't respect the limitation of the bidimensional arrays of the game
+     */
     public Position(int x, int y) {
 
         int rows = 4;
@@ -25,21 +27,32 @@ public class Position
         this.y = y;
     }
 
-    //Getters
+    /**
+     * Gets the row of this position
+     * @return The X attribute
+     */
     public int getX() {
 
         return this.x;
     }
 
+    /**
+     * Gets the column of this position
+     * @return The Y attribute
+     */
     public int getY() {
 
         return this.y;
     }
 
-    /**Crate a List of Position that share an edge with a Position object
-    *@return A List of positions that share am edge with a Position object*/
-    public List<Position> getOrthogonalAdjacentPositions(int maxLimitX, int maxLimitY) {
+    /**
+     * Crate a List of Position that share an edge with a Position object
+     * @return A List of positions that share am edge with a Position object
+     */
+    public List<Position> getOrthogonalAdjacentPositions() {
 
+        int maxLimitX = 4;
+        int maxLimitY = 5;
         List<Position> toReturn = new ArrayList<>();
 
         if(this.y > 0)
@@ -57,11 +70,15 @@ public class Position
         return toReturn;
     }
 
-    /**Crate a List of Position that share an edge or an angle with a Position object
-    //@return a List of positions that share with this position an edge OR an angle */
-    public List<Position> getAdjacentPositions(int maxLimitX, int maxLimitY) {
+    /**
+     * Crate a List of Position that share an edge or an angle with a Position object
+     * @return a List of positions that share with this position an edge OR an angle
+     */
+    public List<Position> getAdjacentPositions() {
 
-        List<Position> toReturn = this.getOrthogonalAdjacentPositions(maxLimitX, maxLimitY);
+        int maxLimitX = 4;
+        int maxLimitY = 5;
+        List<Position> toReturn = this.getOrthogonalAdjacentPositions();
 
         if(this.x > 0) {
             if(this.y > 0)

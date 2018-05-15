@@ -13,7 +13,7 @@ public class PrivateObjectiveCard extends ObjectiveCard {
      * @param description private objective card description
      * @param colour private objective card  colour
      */
-    public PrivateObjectiveCard( String name, String description,Colour colour){
+    public PrivateObjectiveCard(String name, String description,Colour colour){
         super(name, description);
         this.colour = colour;
     }

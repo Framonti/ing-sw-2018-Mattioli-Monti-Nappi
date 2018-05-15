@@ -2,12 +2,14 @@ package it.polimi.se2018;
 
 import it.polimi.se2018.model.Position;
 import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the Position Class
+ * @author Framonti
+ */
 public class TestPosition {
 
     private Position p00 = new Position(0,0);
@@ -26,6 +28,7 @@ public class TestPosition {
     private Position p03 = new Position(0,3);
     private Position p22 = new Position(2,2);
 
+    //Support method
     private boolean containsAllEquals(List<Position> list1, List<Position> list2) {
         int i;
         int j;
@@ -46,6 +49,9 @@ public class TestPosition {
         return false;
     }
 
+    /**
+     * Checks that a Position is correctly created
+     */
     @Test
     public void testPositionConstructedCorrectly() {
 
@@ -61,6 +67,9 @@ public class TestPosition {
         }
     }
 
+    /**
+     * Checks that the Position constructor raises an IllegalArgumentException
+     */
     @Test
     public void testPositionConstructedIncorrectly(){
 
@@ -71,44 +80,44 @@ public class TestPosition {
         }
         catch (IllegalArgumentException e) {
 
+            assertTrue("Test passed", true);
         }
     }
 
+    /**
+     * Tests the getOrthogonalAdjacentPosition method
+     */
     @Test
     public void testGetOrthogonalAdjacentPosition() {
 
-        int rows = 4;
-        int columns = 5;
-
         Position[] arrayPosition = {p01, p10};
-        List<Position> positionList = p00.getOrthogonalAdjacentPositions(rows, columns);
+        List<Position> positionList = p00.getOrthogonalAdjacentPositions();
 
         Position[] arrayPosition1 = {p21, p23, p12, p32};
-        List<Position> positionList1 = p22.getOrthogonalAdjacentPositions(rows, columns);
+        List<Position> positionList1 = p22.getOrthogonalAdjacentPositions();
 
         Position[] arrayPosition2 = {p01, p12, p03};
-        List<Position> positionList2 = p02.getOrthogonalAdjacentPositions(rows, columns);
+        List<Position> positionList2 = p02.getOrthogonalAdjacentPositions();
 
         assertTrue(containsAllEquals(positionList, Arrays.asList(arrayPosition)));
         assertTrue(containsAllEquals(positionList1, Arrays.asList(arrayPosition1)));
         assertTrue(containsAllEquals(positionList2, Arrays.asList(arrayPosition2)));
     }
 
-
+    /**
+     * Tests the getAdjacentPosition method
+     */
     @Test
     public void testGetAdjacentPosition() {
 
-        int rows = 4;
-        int columns = 5;
-
         Position[] arrayPosition = {p01, p11, p10};
-        List<Position> positionList = p00.getAdjacentPositions(rows, columns);
+        List<Position> positionList = p00.getAdjacentPositions();
 
         Position[] arrayPosition1 = {p21, p23, p13, p12, p32, p11, p13, p31, p33};
-        List<Position> positionList1 = p22.getAdjacentPositions(rows, columns);
+        List<Position> positionList1 = p22.getAdjacentPositions();
 
         Position[] arrayPosition2 = {p01, p11, p12, p13, p03};
-        List<Position> positionList2 = p02.getAdjacentPositions(rows, columns);
+        List<Position> positionList2 = p02.getAdjacentPositions();
 
         assertTrue(containsAllEquals(positionList, Arrays.asList(arrayPosition)));
         assertTrue(containsAllEquals(positionList1, Arrays.asList(arrayPosition1)));
