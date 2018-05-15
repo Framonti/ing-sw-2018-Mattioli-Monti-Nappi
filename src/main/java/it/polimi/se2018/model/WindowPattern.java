@@ -10,13 +10,13 @@ public class WindowPattern {
 
     private String name;
     private int difficultyNumber;
-    private Dice[][] windowPattern;
+    private Dice[][] pattern;
 
     //Constructor
     public WindowPattern(String name, int difficultyNumber, Dice[][] windowPattern) {
         this.name = name;
         this.difficultyNumber = difficultyNumber;
-        this.windowPattern = windowPattern;
+        this.pattern = windowPattern;
     }
 
     //Getters
@@ -29,11 +29,11 @@ public class WindowPattern {
     }
 
     public Dice[][] getWindowPattern() {
-        return windowPattern;
+        return pattern;
     }
 
     private Dice getDice(Position position) {
-        return windowPattern[position.getX()][position.getY()];
+        return pattern[position.getX()][position.getY()];
     }
 
 
@@ -80,9 +80,10 @@ public class WindowPattern {
 
         for (row = 0; row < 4; row++) {
             for (column = 0; column < 5; column++) {
-                if (windowPattern[row][column] == null)
+                Position position = new Position(row, column);
+                if (getDice(position) == null)
                     toReturn = toReturn.concat("O\t");
-                else toReturn = toReturn.concat(windowPattern[row][column].toString() + "\t");
+                else toReturn = toReturn.concat(getDice(position).toString() + "\t");
             }
             toReturn = toReturn.concat("\n");
         }

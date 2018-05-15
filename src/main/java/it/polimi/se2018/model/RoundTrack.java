@@ -10,11 +10,11 @@ import java.util.List;
 
 public class RoundTrack {
 
-    private List<List<Dice>> roundTrack;
+    private List<List<Dice>> roundList;
 
     //Constructor
     public RoundTrack() {
-        roundTrack = new ArrayList<>();
+        roundList = new ArrayList<>();
     }
 
     /**
@@ -24,8 +24,8 @@ public class RoundTrack {
      */
     public List<Dice> getList(int round) {
         if(isEmpty(round))
-            throw new IndexOutOfBoundsException();
-        return roundTrack.get(round);
+            throw new IndexOutOfBoundsException("The selected round has no dice");
+        return roundList.get(round);
     }
 
     /**
@@ -36,7 +36,7 @@ public class RoundTrack {
      */
     public Dice getDice(int roundIndex, int listIndex) {
         if (getList(roundIndex).size() <= listIndex)
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("There is no dice in the selected position");
         return getList(roundIndex).get(listIndex);
     }
 
@@ -48,7 +48,7 @@ public class RoundTrack {
      * @param dice Represents the dice that has to be placed on the round track
      */
     public void addDice(int round, Dice dice){
-        roundTrack.get(round).add(dice);
+        roundList.get(round).add(dice);
     }
 
     /**
@@ -56,7 +56,7 @@ public class RoundTrack {
      * @param dices The list of dices remained in the draft pool at the end of the round
      */
     public void addDices(List<Dice> dices) {
-        roundTrack.add(dices);
+        roundList.add(dices);
     }
 
     /**
@@ -67,7 +67,7 @@ public class RoundTrack {
         if(isEmpty(round))
             return "";
         String tmp = "";
-        for(Dice dice: roundTrack.get(round))
+        for(Dice dice: roundList.get(round))
             tmp = tmp.concat(dice.toString() + "\t");
         return tmp;
     }
@@ -79,7 +79,7 @@ public class RoundTrack {
      * @param requestedRound Represents the number of the round requested by the player
      * @return True if the size of roundTrack is smaller than the requested round
      */
-    public boolean isEmpty(int requestedRound) { return roundTrack.size() <= requestedRound; }
+    public boolean isEmpty(int requestedRound) { return roundList.size() <= requestedRound; }
 
     /**
      * This method will be used only in single player mode.
@@ -87,7 +87,7 @@ public class RoundTrack {
      */
     public int sumDiceValue() {
         int sum = 0;
-        for(List<Dice> dices : roundTrack){
+        for(List<Dice> dices : roundList){
             for(Dice dice : dices) {
                 sum += dice.getValue();
             }

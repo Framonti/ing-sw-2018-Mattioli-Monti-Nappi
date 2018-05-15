@@ -58,7 +58,7 @@ public class Player {
 
     public void setScore(int score) { this.score = score; }
 
-    public void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
+    private void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
 
     /**
      * This setter sets also the dicePattern and the favor tokens number
@@ -74,7 +74,7 @@ public class Player {
 
     public void setScoreMarker(ScoreMarker scoreMarker) { this.scoreMarker = scoreMarker; }
 
-    public void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
+    private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
     public void reverseDiceMoved() { diceMoved = !diceMoved; }
 
@@ -90,7 +90,7 @@ public class Player {
      */
     public void reduceFavorTokens(int cost) {
         if(favorTokensNumber < cost)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("The number of favor tokens is not sufficient");
         favorTokensNumber -= cost;
     }
 
@@ -175,6 +175,9 @@ public class Player {
                 case "Diagonali Colorate":
                     sum += colourDiagonals();
                     break;
+
+                default:
+                    break;
             }
         }
 
@@ -198,8 +201,6 @@ public class Player {
      */
     private int colPoints(boolean isColour) {
         int partialSum = 0;
-        int row;
-        int row2;
         int column;
         int colScore;
         if(isColour) {
@@ -207,31 +208,13 @@ public class Player {
         } else {
             colScore = 4;
         }
-        Position p1;
-        Position p2;
 
         //this cicle controlls if there are two dices of the same colour or with the same value in the same column
         //the value of colScore is set to 0 if it has
         for(column = 0; column < 5; column++) {
-            for(row = 0; row < 3 && colScore != 0; row++) {
-                for(row2 = row + 1; row2 < 4 && colScore != 0; row2++) {
-                    p1 = new Position(row, column);
-                    p2 = new Position(row2, column);
-                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
-                            isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
-                            !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
-                        colScore = 0;
-                    }
-                }
-            }
-
             //add the colScore to sum and restore colScore for the next column
-            partialSum += colScore;
-            if(isColour) {
-                colScore = 5;
-            } else {
-                colScore = 4;
-            }
+            if(hasColumnScore(column, isColour))
+                partialSum += colScore;
         }
         return partialSum;
     }
@@ -244,39 +227,18 @@ public class Player {
     private int rowPoints(boolean isColour) {
         int partialSum = 0;
         int row;
-        int column;
-        int column2;
         int rowScore;
         if(isColour) {
             rowScore = 6;
         } else {
             rowScore = 5;
         }
-        Position p1;
-        Position p2;
 
         //this cicle controlls if there are two dices of the same colour or with the same value in the same row
         //the value of rowScore is set to 0 if it has
         for(row = 0; row < 4; row++) {
-            for(column = 0; column < 4 && rowScore != 0; column++) {
-                for(column2 = column + 1; column2 < 5 && rowScore != 0; column2++) {
-                    p1 = new Position(row, column);
-                    p2 = new Position(row, column2);
-                    if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
-                            isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
-                            !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
-                        rowScore = 0;
-                    }
-                }
-            }
-
-            //add the rowScore to sum and restore rowScore for the next row
-            partialSum += rowScore;
-            if(isColour) {
-                rowScore = 6;
-            } else {
-                rowScore = 5;
-            }
+            if(hasRowScore(row, isColour))
+                partialSum += rowScore;
         }
         return partialSum;
     }
@@ -356,34 +318,83 @@ public class Player {
     private int colourDiagonals() {
         int partialSum = 0;
         int row;
-        int row2;
         int column;
-        int column2;
         Position p1;
-        Position p2;
         for(row = 0; row < 4; row++) {
             for (column = 0; column < 5; column++) {
                 p1 = new Position(row, column);
-                if(!dicePattern.isEmpty(p1)) {
-
-                    //this cicle increases partialSum if there is at least one dice with the same colour diagonally adjacent
-                    //break the for named "outer" if it finds one
-                    outer: for (row2 = row - 1; row2 < row + 2; row2 = row2 + 2) {
-                        for (column2 = column - 1; column2 < column + 2; column2 = column2 + 2) {
-                            if (row2 >= 0 && row2 < 4 && column2 >= 0 && column2 < 5) {
-                                p2 = new Position(row2, column2);
-                                if (!dicePattern.isEmpty(p2) && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour())) {
-                                    partialSum++;
-                                    break outer;
-                                }
-                            }
-                        }
-                    }
-                }
+                if(hasSameColourOnDiagonal(p1))
+                    partialSum++;
             }
         }
         return partialSum;
     }
 
+    /**
+     * This is a support method used by colPoints
+     * @param column Represents the column analyzed
+     * @param isColour It's true if the public objective card is "Colori diversi - Colonna", false if "Sfumature diverse - Colonna"
+     * @return True if the column has a score, false otherwise
+     */
+    private boolean hasColumnScore(int column, boolean isColour) {
+        int row;
+        int row2;
+        Position p1;
+        Position p2;
+        for(row = 0; row < 3; row++) {
+            for(row2 = row + 1; row2 < 4; row2++) {
+                p1 = new Position(row, column);
+                p2 = new Position(row2, column);
+                if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
+                        isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
+                        !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    /**
+     * This is a support method used by rowPoints
+     * @param row Represents the row analyzed
+     * @param isColour isColour It's true if the public objective card is "Colori diversi - Riga", false if "Sfumature diverse - Riga"
+     * @return True if the column has a score, false otherwise
+     */
+    private boolean hasRowScore(int row, boolean isColour) {
+        int column;
+        int column2;
+        Position p1;
+        Position p2;
+        for(column = 0; column < 4; column++) {
+            for(column2 = column + 1; column2 < 5; column2++) {
+                p1 = new Position(row, column);
+                p2 = new Position(row, column2);
+                if(dicePattern.isEmpty(p1) || dicePattern.isEmpty(p2) ||
+                        isColour && dicePattern.getDice(p1).getColour().equals(dicePattern.getDice(p2).getColour()) ||
+                        !isColour && dicePattern.getDice(p1).getValue() == dicePattern.getDice(p2).getValue()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This is a support method used by colourDiagonals
+     * @param position Represents the position analyzed
+     * @return True if there is at least one dice with the same colour diagonally adjacent
+     */
+    private boolean hasSameColourOnDiagonal(Position position) {
+        if(!dicePattern.isEmpty(position)) {
+            List<Position> positions = position.getAdjacentPositions();
+            positions.removeAll(position.getOrthogonalAdjacentPositions());
+            for(Position p2: positions) {
+                if (!dicePattern.isEmpty(p2) && dicePattern.getDice(position).getColour().equals(dicePattern.getDice(p2).getColour())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
