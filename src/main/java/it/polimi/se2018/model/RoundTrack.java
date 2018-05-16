@@ -72,14 +72,11 @@ public class RoundTrack {
         return tmp;
     }
 
-    //graphic only method
-    public void showRoundTrack() {}
-
     /**
      * @param requestedRound Represents the number of the round requested by the player
      * @return True if the size of roundTrack is smaller than the requested round
      */
-    public boolean isEmpty(int requestedRound) { return roundList.size() <= requestedRound; }
+    private boolean isEmpty(int requestedRound) { return roundList.size() <= requestedRound; }
 
     /**
      * This method will be used only in single player mode.

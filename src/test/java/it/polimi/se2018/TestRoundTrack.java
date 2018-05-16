@@ -42,6 +42,7 @@ public class TestRoundTrack {
         }
         catch (IndexOutOfBoundsException e) {
             exc = true;
+            assertEquals("The selected round has no dice", e.getMessage());
         }
         assertTrue(exc);
     }
@@ -58,6 +59,7 @@ public class TestRoundTrack {
         }
         catch (IndexOutOfBoundsException e) {
             exc = true;
+            assertEquals("There is no dice in the selected position", e.getMessage());
         }
         assertTrue(exc);
     }

@@ -47,6 +47,7 @@ public class TestPlayer {
         }
         catch (UnsupportedOperationException e) {
             exc = true;
+            assertEquals("The number of favor tokens is not sufficient", e.getMessage());
         }
 
         assertTrue(exc);

@@ -42,9 +42,11 @@ public class ViewCLI extends Observable implements Observer{
      * Opens the standard input
      * @return The player's decision
      */
-    public String getInput() {
-        Scanner input = new Scanner(System.in);
-        return input.next();
+    public void getInput() {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        setChanged();
+        notifyObservers(input);
     }
 
     /**
