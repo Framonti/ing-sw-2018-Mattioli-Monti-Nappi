@@ -19,9 +19,14 @@ public class TestGameSingleton {
         players = new ArrayList<>();
         publicObjectiveCards = new ArrayList<>();
         toolCards = new ArrayList<>();
-        players.add(new Player("daniele",new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE)));
-        players.add(new Player("fabio",new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN)));
-        players.add(new Player("francesco",new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE)));
+        players.add(new Player("daniele"));
+        players.add(new Player("fabio"));
+        players.add(new Player("francesco"));
+
+        players.get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE));
+        players.get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
+        players.get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
+
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 3));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 2));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 1));

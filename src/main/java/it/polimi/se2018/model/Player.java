@@ -1,7 +1,9 @@
 package it.polimi.se2018.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents the player of the game
@@ -21,14 +23,14 @@ public class Player {
     private boolean toolCardUsed;
     private List<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
     private int lap;
+    private Map<String, Integer> publicObjectiveCards = new HashMap<>();
 
 
 
     //Constructor
-    public Player(String name, PrivateObjectiveCard privateObjectiveCard) {
+    public Player(String name) {
         this.name = name;
         this.score = 0;
-        this.privateObjectiveCard = privateObjectiveCard;
         this.lap = 0;
         this.windowPatterns = new ArrayList<>();
     }
@@ -76,6 +78,8 @@ public class Player {
 
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
+    public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) { this.privateObjectiveCard = privateObjectiveCard; }
+
     public void reverseDiceMoved() { diceMoved = !diceMoved; }
 
     public void reverseToolCardUsed() { toolCardUsed = !toolCardUsed; }
@@ -121,64 +125,11 @@ public class Player {
      */
     public void computeMyScore(List<PublicObjectiveCard> publicObjectiveCards) {
         int sum = 0;
+        createMap();
 
         //points obtained with the PublicObjectiveCards
         for(PublicObjectiveCard poc: publicObjectiveCards) {
-            switch (poc.getName()) {
-
-                //points obtained if the card is "Colori diversi - Riga"
-                case "Colori diversi - Riga":
-                    sum += rowPoints(true);
-                    break;
-
-                //points obtained if the card is "Colori diversi - Colonna"
-                case "Colori diversi - Colonna":
-                    sum += colPoints(true);
-                    break;
-
-                //points obtained if the card is "Sfumature diverse - Riga"
-                case "Sfumature diverse - Riga":
-                    sum += rowPoints(false);
-                    break;
-
-                //points obtained if the card is "Sfumature diverse - Colonna"
-                case "Sfumature diverse - Colonna":
-                    sum += colPoints(false);
-                    break;
-
-                //points obtained if the card is "Sfumature Chiare"
-                case "Sfumature Chiare":
-                    sum += shades(1, 2) * poc.getVictoryPoint();
-                    break;
-
-                //points obtained if the card is "Sfumature Medie"
-                case "Sfumature Medie":
-                    sum += shades(3, 4) * poc.getVictoryPoint();
-                    break;
-
-                //points obtained if the card is "Sfumature Scure"
-                case "Sfumature Scure":
-                    sum += shades(5, 6) * poc.getVictoryPoint();
-                    break;
-
-                //points obtained if the card is "Sfumature Diverse"
-                case "Sfumature Diverse":
-                    sum += Math.min(Math.min(shades(1, 2), shades(3, 4)), shades(5, 6)) * poc.getVictoryPoint();
-                    break;
-
-                //points obtained if the card is "Varietà di Colore"
-                case "Varietà di Colore":
-                    sum += colourVariety() * poc.getVictoryPoint();
-                    break;
-
-                //points obtained if the card is "Diagonali Colorate"
-                case "Diagonali Colorate":
-                    sum += colourDiagonals();
-                    break;
-
-                default:
-                    break;
-            }
+            sum +=  this.publicObjectiveCards.get(poc.getName());
         }
 
         //points obtained with the PrivateObjectiveCard
@@ -396,5 +347,22 @@ public class Player {
             }
         }
         return false;
+    }
+
+    /**
+     * Maps the public objective cards to the respective methods
+     */
+    private void createMap() {
+        this.publicObjectiveCards.put("Colori diversi - Riga", rowPoints(true));
+        this.publicObjectiveCards.put("Colori diversi - Colonna", colPoints(true));
+        this.publicObjectiveCards.put("Sfumature diverse - Riga", rowPoints(false));
+        this.publicObjectiveCards.put("Sfumature diverse - Colonna", colPoints(false));
+        this.publicObjectiveCards.put("Sfumature Chiare", shades(1, 2) * 2);
+        this.publicObjectiveCards.put("Sfumature Medie", shades(3, 4) * 2);
+        this.publicObjectiveCards.put("Sfumature Scure", shades(5, 6) * 2);
+        this.publicObjectiveCards.put("Sfumature Diverse", Math.min(Math.min(shades(1, 2), shades(3, 4)), shades(5, 6)) * 5);
+        this.publicObjectiveCards.put("Varietà di Colore", colourVariety() * 4);
+        this.publicObjectiveCards.put("Diagonali Colorate", colourDiagonals());
+
     }
 }

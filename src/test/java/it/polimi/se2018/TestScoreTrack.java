@@ -22,7 +22,7 @@ public class TestScoreTrack {
      */
     @Before
     public void setUp() {
-        player = new Player("Fabio", new PrivateObjectiveCard("", "", Colour.GREEN));
+        player = new Player("Fabio");
     }
 
     /**

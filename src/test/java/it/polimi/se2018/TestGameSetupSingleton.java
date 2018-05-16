@@ -16,9 +16,13 @@ public class TestGameSetupSingleton {
     @Before
     public void setUp(){
         instance = GameSetupSingleton.instance();
-        instance.getPlayers().add(new Player("daniele",new PrivateObjectiveCard("carta1", "carta di daniele",Colour.BLUE)));
-        instance.getPlayers().add(new Player("fabio",new PrivateObjectiveCard("carta2", "carta di fabio",Colour.GREEN)));
-        instance.getPlayers().add(new Player("francesco",new PrivateObjectiveCard("carta3", "carta di francesco",Colour.PURPLE)));
+        instance.getPlayers().add(new Player("daniele"));
+        instance.getPlayers().add(new Player("fabio"));
+        instance.getPlayers().add(new Player("francesco"));
+        instance.getPlayers().get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele",Colour.BLUE));
+        instance.getPlayers().get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio",Colour.GREEN));
+        instance.getPlayers().get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco",Colour.PURPLE));
+
     }
 
     @Test

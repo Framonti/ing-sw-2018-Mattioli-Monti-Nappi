@@ -2,6 +2,9 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
+/**
+ * @author fabio
+ */
 public class FluxRemoverEvent {
 
     private int diceIndex;
@@ -15,8 +18,8 @@ public class FluxRemoverEvent {
     public FluxRemoverEvent(String userInput) {
         try {
             String[] input = userInput.split("\\s+");
-            diceIndex = Integer.parseInt(input[0]);
-            dicePosition = new Position(Integer.parseInt(input[1]), Integer.parseInt(input[2]));
+            diceIndex = Integer.parseInt(input[0]) - 1;
+            dicePosition = new Position(Integer.parseInt(input[1]) - 1, Integer.parseInt(input[2]) - 1);
             yellowDiceValue = Integer.parseInt(input[3]);
             redDiceValue = Integer.parseInt(input[4]);
             greenDiceValue = Integer.parseInt(input[5]);
@@ -57,5 +60,10 @@ public class FluxRemoverEvent {
 
     public int getBlueDiceValue() {
         return blueDiceValue;
+    }
+
+    @Override
+    public String toString() {
+        return "FluxRemoverEvent";
     }
 }

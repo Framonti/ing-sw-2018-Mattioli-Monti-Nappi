@@ -22,7 +22,8 @@ public class TestPlayer {
      */
     @Before
     public void setUp() {
-        player = new Player("", new PrivateObjectiveCard("", "", Colour.PURPLE));
+        player = new Player("");
+        player.setPrivateObjectiveCard(new PrivateObjectiveCard("", "", Colour.PURPLE));
         player.setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
     }
 
