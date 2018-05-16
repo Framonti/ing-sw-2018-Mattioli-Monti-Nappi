@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testEvents;
 
 import it.polimi.se2018.events.PlaceDiceEvent;
 import org.junit.Test;

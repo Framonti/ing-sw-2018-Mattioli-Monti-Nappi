@@ -1,5 +1,6 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testModel;
 
+import it.polimi.se2018.ToolCardDeckBuilder;
 import it.polimi.se2018.model.Deck;
 import it.polimi.se2018.model.ToolCard;
 import org.junit.Before;

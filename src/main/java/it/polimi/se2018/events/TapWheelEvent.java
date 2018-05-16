@@ -3,6 +3,7 @@ package it.polimi.se2018.events;
 import it.polimi.se2018.model.Position;
 
 /**
+ * This class represents the event related to the toolCard TapWheel
  * @author fabio
  */
 public class TapWheelEvent {
@@ -14,6 +15,11 @@ public class TapWheelEvent {
     private Position newFirstDicePosition;
     private Position newSecondDicePosition;
 
+    /**
+     * Constructor of the class
+     * @param userInput It's the string that contains the parameters
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public TapWheelEvent(String userInput) {
         try {
             String[] input = userInput.split("\\s+");
@@ -36,30 +42,51 @@ public class TapWheelEvent {
         }
     }
 
+    /**
+     * @return The roundIndex attribute
+     */
     public int getRoundIndex() {
         return roundIndex;
     }
 
+    /**
+     * @return The diceIndex attribute
+     */
     public int getDiceIndex() {
         return diceIndex;
     }
 
+    /**
+     * @return The firstDicePosition attribute
+     */
     public Position getFirstDicePosition() {
         return firstDicePosition;
     }
 
+    /**
+     * @return The secondDicePosition attribute
+     */
     public Position getSecondDicePosition() {
         return secondDicePosition;
     }
 
+    /**
+     * @return The newFirstDicePosition attribute
+     */
     public Position getNewFirstDicePosition() {
         return newFirstDicePosition;
     }
 
+    /**
+     * @return The newSecondDicePosition attribute
+     */
     public Position getNewSecondDicePosition() {
         return newSecondDicePosition;
     }
 
+    /**
+     * @return The name of this class
+     */
     @Override
     public String toString() {
         return "TapWheelEvent";

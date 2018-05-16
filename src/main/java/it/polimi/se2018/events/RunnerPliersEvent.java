@@ -3,6 +3,7 @@ package it.polimi.se2018.events;
 import it.polimi.se2018.model.Position;
 
 /**
+ * This class represents the event related to the toolCard Runner Pliers
  * @author fabio
  */
 public class RunnerPliersEvent {
@@ -10,7 +11,11 @@ public class RunnerPliersEvent {
     private int diceIndex;
     private Position position;
 
-    //Just creates a new PlaceDiceEvent, the only difference is that the controller must setLap(1)
+    /**
+     * Constructor of the class
+     * @param userInput It's the string that contains the parameters
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public RunnerPliersEvent(String userInput) {
         try {
             String[] input = userInput.split("\\s+");
@@ -25,14 +30,23 @@ public class RunnerPliersEvent {
         }
     }
 
+    /**
+     * @return The diceIndex attribute
+     */
     public int getDiceIndex() {
         return diceIndex;
     }
 
+    /**
+     * @return The position attribute
+     */
     public Position getPosition() {
         return position;
     }
 
+    /**
+     * @return The name of this class
+     */
     @Override
     public String toString() {
         return "RunnerPliersEvent";

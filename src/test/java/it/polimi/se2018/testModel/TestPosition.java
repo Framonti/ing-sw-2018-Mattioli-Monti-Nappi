@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testModel;
 
 import it.polimi.se2018.model.Position;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testModel;
 
 import static org.junit.Assert.assertTrue;
 

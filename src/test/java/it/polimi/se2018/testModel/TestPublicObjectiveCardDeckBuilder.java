@@ -1,5 +1,6 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testModel;
 
+import it.polimi.se2018.PublicObjectiveCardDeckBuilder;
 import it.polimi.se2018.model.*;
 import org.junit.Before;
 import org.junit.Test;

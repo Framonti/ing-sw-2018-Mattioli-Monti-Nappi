@@ -3,6 +3,7 @@ package it.polimi.se2018.events;
 import it.polimi.se2018.model.Position;
 
 /**
+ * This class represents the event related to the toolCard Flux Remover
  * @author fabio
  */
 public class FluxRemoverEvent {
@@ -15,6 +16,11 @@ public class FluxRemoverEvent {
     private int purpleDiceValue;
     private int blueDiceValue;
 
+    /**
+     * Constructor of the class
+     * @param userInput It's the string that contains the parameters
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public FluxRemoverEvent(String userInput) {
         try {
             String[] input = userInput.split("\\s+");
@@ -34,34 +40,58 @@ public class FluxRemoverEvent {
         }
     }
 
+    /**
+     * @return The diceIndex attribute
+     */
     public int getDiceIndex() {
         return diceIndex;
     }
 
+    /**
+     * @return The dicePosition attribute
+     */
     public Position getDicePosition() {
         return dicePosition;
     }
 
+    /**
+     * @return The yellowDiceValue attribute
+     */
     public int getYellowDiceValue() {
         return yellowDiceValue;
     }
 
+    /**
+     * @return The redDiceValue attribute
+     */
     public int getRedDiceValue() {
         return redDiceValue;
     }
 
+    /**
+     * @return The greenDiceValue attribute
+     */
     public int getGreenDiceValue() {
         return greenDiceValue;
     }
 
+    /**
+     * @return The purpeDiceValue attribute
+     */
     public int getPurpleDiceValue() {
         return purpleDiceValue;
     }
 
+    /**
+     * @return The blueDiceValue attribute
+     */
     public int getBlueDiceValue() {
         return blueDiceValue;
     }
 
+    /**
+     * @return The name of this class
+     */
     @Override
     public String toString() {
         return "FluxRemoverEvent";
