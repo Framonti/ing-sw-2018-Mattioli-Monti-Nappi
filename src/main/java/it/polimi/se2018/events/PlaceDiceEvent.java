@@ -55,4 +55,9 @@ public class PlaceDiceEvent {
 
         return positionToPlace;
     }
+
+    @Override
+    public String toString() {
+        return "PlaceDiceEvent";
+    }
 }

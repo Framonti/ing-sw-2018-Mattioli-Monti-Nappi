@@ -16,4 +16,9 @@ public class GrindingStoneEvent {
     public int getDicePosition() {
         return dicePosition;
     }
+
+    @Override
+    public String toString() {
+        return "GrindingStoneEvent";
+    }
 }

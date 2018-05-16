@@ -2,17 +2,17 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
-public class FluxBrushEvent {
-    private int diceIndexInDraftPool;
+public class CorkBakedStraightedgeEvent {
+    private int indexInDraftPool;
     private Position finalPosition;
 
-    public FluxBrushEvent(String userInput){
-        try {
+    public CorkBakedStraightedgeEvent(String userInput){
+        try{
             String[] parameters = userInput.split("\\s+");
-            diceIndexInDraftPool = Integer.parseInt(parameters[0]);
-            int row = Integer.parseInt(parameters[1]);
-            int column = Integer.parseInt(parameters[2]);
-            finalPosition = new Position(row-1, column-1);
+            indexInDraftPool = Integer.parseInt(parameters[0]);
+            int finalRow = Integer.parseInt(parameters[1]);
+            int finalColumn = Integer.parseInt(parameters[2]);
+            finalPosition = new Position (finalRow-1, finalColumn-1);
         }catch(IllegalArgumentException e){
             //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
             // gestite dal controller, ma non sono sicuro
@@ -22,16 +22,17 @@ public class FluxBrushEvent {
         }
     }
 
-    public int getDiceIndexInDraftPool() {
-        return diceIndexInDraftPool;
+    public int getIndexInDraftPool() {
+        return indexInDraftPool;
     }
 
     public Position getFinalPosition() {
+
         return finalPosition;
     }
 
     @Override
     public String toString() {
-        return "FluxBrushEvent";
+        return "CorkBakedStraightedgeEvent";
     }
 }

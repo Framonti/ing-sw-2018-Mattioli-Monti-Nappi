@@ -1,11 +1,11 @@
 package it.polimi.se2018.events;
 
-public class GrozingPilersEvent {
+public class GrozingPliersEvent {
 
     private int diceIndexInDraftPool;
     private int choice;
 
-    public GrozingPilersEvent(String userInput){
+    public GrozingPliersEvent(String userInput){
         try{
             String[] parameters = userInput.split("\\s+");
             diceIndexInDraftPool = Integer.parseInt(parameters[0]);
@@ -31,6 +31,11 @@ public class GrozingPilersEvent {
 
     public int getChoice(){
         return choice;
+    }
+
+    @Override
+    public String toString() {
+        return "GrozingPliersEvent";
     }
 
 

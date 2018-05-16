@@ -34,4 +34,9 @@ public class LensCutterEvent {
     public int getDiceIndexInDraftPool() {
         return diceIndexInDraftPool;
     }
+
+    @Override
+    public String toString() {
+        return "LensCutterEvent";
+    }
 }
