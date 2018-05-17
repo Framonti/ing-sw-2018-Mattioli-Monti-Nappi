@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard Runner Pliers
  * @author fabio
  */
-public class RunnerPliersEvent {
+public class RunnerPliersEvent extends Event {
 
     private int diceIndex;
     private Position position;
@@ -28,6 +28,7 @@ public class RunnerPliersEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
+        setId(8);
     }
 
     /**

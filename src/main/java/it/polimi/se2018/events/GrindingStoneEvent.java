@@ -1,6 +1,6 @@
 package it.polimi.se2018.events;
 
-public class GrindingStoneEvent {
+public class GrindingStoneEvent extends Event {
 
     private int dicePosition;
 
@@ -11,6 +11,7 @@ public class GrindingStoneEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
+        setId(10);
     }
 
     public int getDicePosition() {

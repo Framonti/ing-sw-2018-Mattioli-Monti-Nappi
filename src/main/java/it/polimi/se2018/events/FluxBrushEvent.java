@@ -2,7 +2,7 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
-public class FluxBrushEvent {
+public class FluxBrushEvent extends Event {
     private int diceIndexInDraftPool;
     private Position finalPosition;
 
@@ -20,6 +20,7 @@ public class FluxBrushEvent {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(6);
     }
 
     public int getDiceIndexInDraftPool() {

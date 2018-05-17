@@ -4,7 +4,7 @@ package it.polimi.se2018.events;
  * This class represents the event of choosing the window pattern at the begin of the game
  * @author fabio
  */
-public class WindowPatternChoiceEvent {
+public class WindowPatternChoiceEvent extends Event {
 
     private int choice;
 
@@ -20,6 +20,7 @@ public class WindowPatternChoiceEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
+        setId(-1);
     }
 
     /**

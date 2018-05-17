@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard Flux Remover
  * @author fabio
  */
-public class FluxRemoverEvent {
+public class FluxRemoverEvent extends Event {
 
     private int diceIndex;
     private Position dicePosition;
@@ -38,6 +38,7 @@ public class FluxRemoverEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
+        setId(11);
     }
 
     /**

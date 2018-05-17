@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard TapWheel
  * @author fabio
  */
-public class TapWheelEvent {
+public class TapWheelEvent extends Event {
 
     private int roundIndex;
     private int diceIndex;
@@ -40,6 +40,7 @@ public class TapWheelEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
+        setId(12);
     }
 
     /**

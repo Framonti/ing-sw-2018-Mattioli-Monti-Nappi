@@ -2,7 +2,7 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
-public class CopperFoilBurnisherEvent {
+public class CopperFoilBurnisherEvent extends Event{
     private Position initialPosition;
     private Position finalPosition;
 
@@ -22,6 +22,7 @@ public class CopperFoilBurnisherEvent {
         } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(3);
     }
 
     public Position getInitialPosition() {

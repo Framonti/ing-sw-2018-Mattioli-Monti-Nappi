@@ -2,7 +2,7 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
-public class LathekinEvent {
+public class LathekinEvent extends Event {
     private Position initialPosition1;
     private Position finalPosition1;
     private Position initialPosition2;
@@ -30,6 +30,7 @@ public class LathekinEvent {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(4);
     }
 
     public Position getInitialPosition1() {

@@ -1,6 +1,6 @@
 package it.polimi.se2018.events;
 
-public class LensCutterEvent {
+public class LensCutterEvent extends Event {
     private int roundIndex;  //è quello che nel controller avevo chiamato round
     private int diceIndexInRoundTrack; //è quello che nel controller avevo chiamato indexOfRoundTrack
     private int diceIndexInDraftPool; //è quello che nel controller avevo chiamato indexOfDraftPool
@@ -21,6 +21,7 @@ public class LensCutterEvent {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(5);
     }
 
     public int getRoundIndex() {

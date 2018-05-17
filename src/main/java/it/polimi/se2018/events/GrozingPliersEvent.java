@@ -1,6 +1,6 @@
 package it.polimi.se2018.events;
 
-public class GrozingPliersEvent {
+public class GrozingPliersEvent extends Event {
 
     private int diceIndexInDraftPool;
     private int choice;
@@ -17,7 +17,7 @@ public class GrozingPliersEvent {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-
+        setId(1);
     }
 
     /**

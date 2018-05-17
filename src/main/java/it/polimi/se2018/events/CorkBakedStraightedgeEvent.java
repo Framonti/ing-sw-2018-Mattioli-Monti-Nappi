@@ -2,7 +2,7 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Position;
 
-public class CorkBakedStraightedgeEvent {
+public class CorkBakedStraightedgeEvent extends Event {
     private int indexInDraftPool;
     private Position finalPosition;
 
@@ -20,6 +20,7 @@ public class CorkBakedStraightedgeEvent {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(9);
     }
 
     public int getIndexInDraftPool() {

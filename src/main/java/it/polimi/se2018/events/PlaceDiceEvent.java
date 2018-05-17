@@ -7,7 +7,7 @@ import it.polimi.se2018.model.Position;
  * getting a dice from the DraftPool and putting it on the DicePattern
  * @author Framonti
  */
-public class PlaceDiceEvent {
+public class PlaceDiceEvent extends Event {
 
     private int diceIndexDraftPool;
     private Position positionToPlace;
@@ -36,6 +36,7 @@ public class PlaceDiceEvent {
         catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
+        setId(99);
     }
 
     /**

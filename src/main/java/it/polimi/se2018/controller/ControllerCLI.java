@@ -14,34 +14,34 @@ public class ControllerCLI implements Observer {
     private ViewCLI view;
     private List<ToolCard> toolCards;
     private boolean isGameSetupEnded = false; //used for update method
-    private Map<String, Runnable> eventsHandler = new HashMap<>();
-    private Object event;
-
+    private Map<Integer, Runnable> eventsHandler = new HashMap<>();
+    private Event event;
 
     //constructor TODO DA METTERE METODO choosePlayerOrder di GameSetup
     public ControllerCLI(ViewCLI view, List<ToolCard> toolCards) {
         this.view = view;
         this.toolCards = toolCards;
+        createMap();
     }
 
 
     //TODo: mappare anche skipTurn
     private void createMap() {
-        eventsHandler.put("FluxBrushEvent", () -> fluxBrush());
-        eventsHandler.put("FluxRemoverEvent", () -> fluxRemover());
-        eventsHandler.put("GlazingHammerEvent", () -> glazingHammer());
-        eventsHandler.put("GrindingStoneEvent", () -> grindingStone());
-        eventsHandler.put("GrozingPliersEvent", () -> grozingPliers());
-        eventsHandler.put("LensCutterEvent", () -> lensCutter());
-        eventsHandler.put("EglomiseBrushEvent", () -> eglomiseBrush());
-        eventsHandler.put("CopperFoilBurnisherEvent", () -> copperFoilBurnisher());
-        eventsHandler.put("LathekinEvent", () -> lathekin());
-        eventsHandler.put("PlaceDiceEvent", () -> placeDiceFromDraftPoolToDicePattern());
-        eventsHandler.put("RunnerPliersEvent", () -> runnerPliers());
-        eventsHandler.put("TapWheelEvent", () -> tapWheel());
-        eventsHandler.put("CorkBakedStraightedgeEvent", () -> corkBakedStraightedge());
-        eventsHandler.put("WindowPatternChoiceEvent", () -> setWindowPatternPlayer());
-        eventsHandler.put("SkipTurnEvent", () -> skipTurn());
+        eventsHandler.put(6, this::fluxBrush);
+        eventsHandler.put(11, this::fluxRemover);
+        eventsHandler.put(7, this::glazingHammer);
+        eventsHandler.put(10, this::grindingStone);
+        eventsHandler.put(1, this::grozingPliers);
+        eventsHandler.put(5, this::lensCutter);
+        eventsHandler.put(2, this::eglomiseBrush);
+        eventsHandler.put(3, this::copperFoilBurnisher);
+        eventsHandler.put(4, this::lathekin);
+        eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
+        eventsHandler.put(8, this::runnerPliers);
+        eventsHandler.put(12, this::tapWheel);
+        eventsHandler.put(9, this::corkBakedStraightedge);
+        eventsHandler.put(-1, this::setWindowPatternPlayer);
+        eventsHandler.put(100, this::skipTurn);
     }
 
     //TODO rivedere TUTTO!!!
@@ -489,8 +489,8 @@ public class ControllerCLI implements Observer {
     }*/
 
 
-        private void performAction (Object userInput){
-            eventsHandler.get(event.toString()).run();
+        private void performAction (Event event){
+            eventsHandler.get(event.getId()).run();
         }
 
 
@@ -658,7 +658,8 @@ public class ControllerCLI implements Observer {
         //TODO controllare se va bene
         @Override
         public void update (Observable o, Object arg){
-            performAction(arg);
+            event = (Event)arg;
+            performAction(event);
         }
 
 
