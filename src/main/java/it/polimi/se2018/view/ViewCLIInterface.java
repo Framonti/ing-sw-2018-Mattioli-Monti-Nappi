@@ -4,20 +4,20 @@ import it.polimi.se2018.events.mvevent.*;
 
 public interface ViewCLIInterface {
 
-    void showActionMenu(ActionMenuEvent actionMenuEvent);
+    void showActionMenu();
 
     void getInput();
 
-    void showToolCards(ToolCardEvent toolCardEvent);
+    void showToolCards();
 
-    void showDraftPool(DraftPoolEvent draftPoolEvent);
+    void showDraftPool();
 
-    void showRoundTrack(RoundTrackEvent roundTrackEvent);
+    void showRoundTrack();
 
-    void showScoreTrack(ScoreTrackEvent scoreTrackEvent);
+    void showScoreTrack();
 
-    void showError(ErrorEvent errorEvent);
+    void showError();
 
-    void showAll(ShowAllEvent showAllEvent);
+    void showAll();
 
 }

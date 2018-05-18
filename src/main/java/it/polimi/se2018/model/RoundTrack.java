@@ -92,4 +92,12 @@ public class RoundTrack {
         return sum;
     }
 
+    @Override
+    public String toString() {
+        String roundTrack = "\t\t\t1\t2\t3\t4\t5\t6\t7\t8\t9\n";
+        int round;
+        for(round = 0; round < 10; round++)
+            roundTrack = roundTrack.concat("Round " + (round+1) + ":\t" + roundToString(round) + "\n");
+        return roundTrack;
+    }
 }
