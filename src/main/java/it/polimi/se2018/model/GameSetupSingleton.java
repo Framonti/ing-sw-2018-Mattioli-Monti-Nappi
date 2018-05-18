@@ -58,23 +58,44 @@ public class GameSetupSingleton {
         return windowPatternCardDeck.mixAndDistribute(playersNumber*2);
     }
 
-
+    //serve?
     public  List<Player> getPlayers() {
         return players;
     }
 
+
+    private List<ToolCard> getToolCardList(int numberToExtract){
+        return toolCardDeck.mixAndDistribute(numberToExtract);
+    }
 
     //orders players randomly
     public void choosePlayersOrder(){
         Collections.shuffle(players);
     }
 
+    private void assignPrivateObjective(){
+
+        List<PrivateObjectiveCard> toDistribute = getPrivateObjectiveCardList(players.size());
+        for(int i = 0; i < players.size(); i++){
+            players.get(i).setPrivateObjectiveCard(toDistribute.get(i));
+        }
+    }
+
+
+    public GameSingleton createNewGame(){
+
+        assignWindowPatterns();
+        choosePlayersOrder();
+        return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack(), new ScoreTrack(players));
+    }
 
 
 
-    /**Assigns 4 window patterns for each player */
+    /**
+     * Assigns 4 window patterns to each player
+     * */
 
-    public void assignWindowPattern(){
+    public void assignWindowPatterns(){
         List <WindowPatternCard> deckToDistribute = getWindowPatternCardList(players.size());
         int i = 0;
         int j;

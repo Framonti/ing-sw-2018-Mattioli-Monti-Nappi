@@ -10,7 +10,7 @@ public class ShowAllEvent extends MVEvent{
 
     private List<String> dicePatternsString;
     private List<String> namePlayers;
-    private List<String> publicObjectivCardsString;
+    private List<String> publicObjectiveCardsString;
     private List<String> toolCardsString;
     private String draftPoolString;
     private String roundTrackString;
@@ -21,13 +21,13 @@ public class ShowAllEvent extends MVEvent{
      * Constructor
      * @param dicePatternsString A List of all the DicePattern in game, each represented by a String
      * @param namePlayers A List of all the players nickname
-     * @param publicObjectivCardsString A List of all the PublicObjectiveCard, each represented by a String
+     * @param publicObjectiveCardsString A List of all the PublicObjectiveCard, each represented by a String
      * @param toolCardString A List of all the ToolCard, each represented by a String
      * @param draftPoolString A String representing the draftPool
      * @param roundTrackString A String representing the RoundTrack
      * @param privateObjectiveCardString A String representing a PrivateObjectiveCard
      */
-    public ShowAllEvent(List<String> dicePatternsString, List<String> namePlayers, List<String> publicObjectivCardsString,
+    public ShowAllEvent(List<String> dicePatternsString, List<String> namePlayers, List<String> publicObjectiveCardsString,
                         List<String> toolCardString, String draftPoolString, String roundTrackString, String privateObjectiveCardString){
 
         super(100);
@@ -36,7 +36,7 @@ public class ShowAllEvent extends MVEvent{
         this.namePlayers = namePlayers;
         this.privateObjectiveCardString = privateObjectiveCardString;
         this.toolCardsString = toolCardString;
-        this.publicObjectivCardsString = publicObjectivCardsString;
+        this.publicObjectiveCardsString = publicObjectiveCardsString;
         this.roundTrackString = roundTrackString;
     }
 
@@ -64,7 +64,7 @@ public class ShowAllEvent extends MVEvent{
      */
     public List<String> getPublicObjectivCardsString() {
 
-        return publicObjectivCardsString;
+        return publicObjectiveCardsString;
     }
 
     /**
