@@ -1,9 +1,9 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 public class SkipTurnEvent extends Event {
 
     public SkipTurnEvent() {
-        setId(100);
+        super(100);
     }
 
     @Override

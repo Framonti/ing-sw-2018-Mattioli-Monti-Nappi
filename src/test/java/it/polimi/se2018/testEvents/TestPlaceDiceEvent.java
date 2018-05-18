@@ -1,6 +1,6 @@
 package it.polimi.se2018.testEvents;
 
-import it.polimi.se2018.events.PlaceDiceEvent;
+import it.polimi.se2018.events.vcevent.PlaceDiceEvent;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

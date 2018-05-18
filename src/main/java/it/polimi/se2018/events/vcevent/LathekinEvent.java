@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
@@ -9,6 +9,7 @@ public class LathekinEvent extends Event {
     private Position finalPosition2;
 
     public LathekinEvent(String userInput){
+        super(4);
         try{
             String[] parameters = userInput.split("\\s+");
             int initialRow = Integer.parseInt(parameters[0]);
@@ -30,7 +31,7 @@ public class LathekinEvent extends Event {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-        setId(4);
+
     }
 
     public Position getInitialPosition1() {

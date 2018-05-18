@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 public class GrozingPliersEvent extends Event {
 
@@ -6,6 +6,7 @@ public class GrozingPliersEvent extends Event {
     private int choice;
 
     public GrozingPliersEvent(String userInput){
+        super(1);
         try{
             String[] parameters = userInput.split("\\s+");
             diceIndexInDraftPool = Integer.parseInt(parameters[0]);
@@ -17,7 +18,7 @@ public class GrozingPliersEvent extends Event {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-        setId(1);
+
     }
 
     /**

@@ -1,6 +1,6 @@
 package it.polimi.se2018.testEvents;
 
-import it.polimi.se2018.events.RunnerPliersEvent;
+import it.polimi.se2018.events.vcevent.RunnerPliersEvent;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

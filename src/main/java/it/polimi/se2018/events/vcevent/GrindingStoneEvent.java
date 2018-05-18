@@ -1,17 +1,18 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 public class GrindingStoneEvent extends Event {
 
     private int dicePosition;
 
     public GrindingStoneEvent(String userInput) {
+        super(10);
         try {
             dicePosition = Integer.parseInt(userInput);
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
-        setId(10);
+
     }
 
     public int getDicePosition() {

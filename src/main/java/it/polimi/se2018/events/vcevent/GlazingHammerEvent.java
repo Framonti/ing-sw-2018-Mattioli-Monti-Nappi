@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 /**
  * This class represents the event related to the toolCard Glazing Hammer
@@ -10,7 +10,7 @@ public class GlazingHammerEvent extends Event {
      * Constructor of the class
      */
     public GlazingHammerEvent() {
-        setId(7);
+        super(7);
     }
 
     /**

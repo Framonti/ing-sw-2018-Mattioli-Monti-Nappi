@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 /**
  * This class represents the event of choosing the window pattern at the begin of the game
@@ -14,13 +14,13 @@ public class WindowPatternChoiceEvent extends Event {
      * @throws IllegalArgumentException If the string does not contain a valid number
      */
     public WindowPatternChoiceEvent(String userInput) {
+        super(-1);
         try {
             choice = Integer.parseInt(userInput) - 1;
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
-        setId(-1);
     }
 
     /**

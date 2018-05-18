@@ -1,18 +1,19 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
-public class CorkBakedStraightedgeEvent extends Event {
-    private int indexInDraftPool;
+public class FluxBrushEvent extends Event {
+    private int diceIndexInDraftPool;
     private Position finalPosition;
 
-    public CorkBakedStraightedgeEvent(String userInput){
-        try{
+    public FluxBrushEvent(String userInput){
+        super(6);
+        try {
             String[] parameters = userInput.split("\\s+");
-            indexInDraftPool = Integer.parseInt(parameters[0]);
-            int finalRow = Integer.parseInt(parameters[1]);
-            int finalColumn = Integer.parseInt(parameters[2]);
-            finalPosition = new Position (finalRow-1, finalColumn-1);
+            diceIndexInDraftPool = Integer.parseInt(parameters[0]);
+            int row = Integer.parseInt(parameters[1]);
+            int column = Integer.parseInt(parameters[2]);
+            finalPosition = new Position(row-1, column-1);
         }catch(IllegalArgumentException e){
             //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
             // gestite dal controller, ma non sono sicuro
@@ -20,20 +21,18 @@ public class CorkBakedStraightedgeEvent extends Event {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-        setId(9);
     }
 
-    public int getIndexInDraftPool() {
-        return indexInDraftPool;
+    public int getDiceIndexInDraftPool() {
+        return diceIndexInDraftPool;
     }
 
     public Position getFinalPosition() {
-
         return finalPosition;
     }
 
     @Override
     public String toString() {
-        return "CorkBakedStraightedgeEvent";
+        return "FluxBrushEvent";
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 public class LensCutterEvent extends Event {
     private int roundIndex;  //è quello che nel controller avevo chiamato round
@@ -8,6 +8,7 @@ public class LensCutterEvent extends Event {
 
     // ASSUMO LA STRINGA SIA DEL TIPO: INDICE NELLA DRAFT POOL , ROUND, INDICE DELL'ARRAY PRESENTE NELLA POSIZIONE ROUND DEL ROUNDTRACK
     public LensCutterEvent(String userInput){
+        super(5);
         try{
             String[] parameters = userInput.split("\\s+");
             diceIndexInDraftPool = Integer.parseInt(parameters[0]);
@@ -21,7 +22,6 @@ public class LensCutterEvent extends Event {
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-        setId(5);
     }
 
     public int getRoundIndex() {

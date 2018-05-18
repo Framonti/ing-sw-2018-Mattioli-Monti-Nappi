@@ -1,6 +1,6 @@
 package it.polimi.se2018.testEvents;
 
-import it.polimi.se2018.events.WindowPatternChoiceEvent;
+import it.polimi.se2018.events.vcevent.WindowPatternChoiceEvent;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

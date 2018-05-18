@@ -29,7 +29,8 @@ public abstract class LoaderXML {
             e.printStackTrace();
         }
         try {
-            doc = dBuilder.parse(inputFile);
+            if(dBuilder != null)
+                doc = dBuilder.parse(inputFile);
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {

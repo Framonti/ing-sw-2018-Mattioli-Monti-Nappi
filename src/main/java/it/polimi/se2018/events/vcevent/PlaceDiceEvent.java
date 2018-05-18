@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
@@ -19,6 +19,7 @@ public class PlaceDiceEvent extends Event {
      * @throws IndexOutOfBoundsException if the user don't give enough parameters
      */
     public PlaceDiceEvent(String userInput){
+        super(99);
 
         try{
 
@@ -36,7 +37,7 @@ public class PlaceDiceEvent extends Event {
         catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-        setId(99);
+
     }
 
     /**

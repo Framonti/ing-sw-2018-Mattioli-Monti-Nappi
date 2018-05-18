@@ -1,4 +1,4 @@
-package it.polimi.se2018.events;
+package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
@@ -22,6 +22,7 @@ public class FluxRemoverEvent extends Event {
      * @throws IllegalArgumentException If the string does not contain valid parameters
      */
     public FluxRemoverEvent(String userInput) {
+        super(11);
         try {
             String[] input = userInput.split("\\s+");
             diceIndex = Integer.parseInt(input[0]) - 1;
@@ -38,7 +39,6 @@ public class FluxRemoverEvent extends Event {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
-        setId(11);
     }
 
     /**
