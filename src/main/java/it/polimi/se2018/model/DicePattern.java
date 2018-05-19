@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -214,6 +215,12 @@ public class DicePattern {
             toReturn = toReturn.concat("\n");
         }
         return toReturn;
+    }
+
+    public List<String> dicePatternToString(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add(this.toString());
+        return list;
     }
 
 }
