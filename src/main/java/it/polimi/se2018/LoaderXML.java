@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
@@ -45,13 +46,25 @@ public abstract class LoaderXML {
         return this.doc.getElementsByTagName(tagName);
     }
 
+    public List<String> getStringListAttribute(String tagAttribute){
+
+        List<String> listToReturn = new ArrayList<>();
+        NodeList nodeList = doc.getElementsByTagName(tagAttribute);
+        for(int i = 0; i< nodeList.getLength(); i++){
+
+            Element e = (Element) nodeList.item(i);
+            listToReturn.add(e.getAttribute("id"));
+        }
+        return listToReturn;
+    }
+
     //@return a List of items from an xml file with the tag "tagName"
     public List<String> getStringList(String tagName)
     {
         List<String> listToReturn = new ArrayList<>();
         NodeList nodeList = this.getNodeList(tagName);
-        for (int i = 0; i < nodeList.getLength(); i++)
-        {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+
             listToReturn.add(nodeList.item(i).getTextContent());
         }
         return listToReturn;

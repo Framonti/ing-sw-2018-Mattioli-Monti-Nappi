@@ -30,11 +30,9 @@ public class TestToolCard {
 
     @Test
     public void TestToString(){
-        assertEquals("Nome: carta1\nDescrizione: descrizione della carta 1\nPrezzo: 1\nColore: Verde", toolCard1.toString());
+        assertEquals("Nome: carta1\nDescrizione: descrizione della carta 1\nPrezzo: 1\nColore: Verde\n", toolCard1.toString());
         toolCard1.increaseFavorPoint(3);
-        assertEquals("Nome: carta1\nDescrizione: descrizione della carta 1\nPrezzo: 2\nColore: Verde", toolCard1.toString());
-
-
+        assertEquals("Nome: carta1\nDescrizione: descrizione della carta 1\nPrezzo: 2\nColore: Verde\n", toolCard1.toString());
     }
 
 
