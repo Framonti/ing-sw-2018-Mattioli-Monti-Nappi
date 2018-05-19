@@ -108,12 +108,12 @@ public class ControllerCLI implements Observer  {
 
 
     /**
-     * Gets draft pool dice in diceIndex-1 position
+     * Gets draft pool dice in diceIndex position
      * @param diceIndex Dice index in the draft pool
-     * @return Draft pool dice in diceIndex-1 position
+     * @return Draft pool dice in diceIndex position
      */
     private Dice getDiceFromDraftPool (int diceIndex){
-        return model.getDraftPool().get(diceIndex - 1);
+        return model.getDraftPool().get(diceIndex);
     }
 
 
@@ -121,10 +121,10 @@ public class ControllerCLI implements Observer  {
      * Gets a dice from round track
      * @param round Represents the number of the chosen round
      * @param index Represents the number of the dice in the chosen round
-     * @return (index-1) dice in round (round-1) of the round track
+     * @return (index) dice in round (round) of the round track
      */
     private Dice getDiceFromRoundTrack ( int round, int index){
-        return model.getRoundTrack().getDice(round - 1, index - 1);
+        return model.getRoundTrack().getDice(round, index);
     }
 
     /**
@@ -143,7 +143,7 @@ public class ControllerCLI implements Observer  {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
         int choice = windowPatternChoiceEvent.getChoice();
         if (choice == 1 || choice == 2 || choice == 3 || choice == 4)
-            model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice - 1));
+            model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice));
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
             view.showError(errorEvent);
@@ -343,7 +343,7 @@ public class ControllerCLI implements Observer  {
     private void lensCutter () {
         LensCutterEvent lensCutterEvent = (LensCutterEvent) event;
         try {
-            swapDice(lensCutterEvent.getRoundIndex() - 1, lensCutterEvent.getDiceIndexInRoundTrack() - 1, lensCutterEvent.getDiceIndexInDraftPool() - 1);
+            swapDice(lensCutterEvent.getRoundIndex(), lensCutterEvent.getDiceIndexInRoundTrack(), lensCutterEvent.getDiceIndexInDraftPool());
         } catch (IndexOutOfBoundsException exception){
             ErrorEvent errorEvent = new ErrorEvent("Non ci sono dadi nelle posizioni che hai indicato\n");
             view.showError(errorEvent);
