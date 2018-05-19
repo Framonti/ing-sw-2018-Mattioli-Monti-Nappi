@@ -8,16 +8,18 @@ import java.util.List;
  */
 public class DicePatternEvent extends MVEvent {
 
+    private List<String> playerNames;
     private List<String> dicePatternsString;
 
     /**
      * Constructor
      * @param dicePatternsString The String-representation of all the DicePattern
      */
-    public DicePatternEvent(List<String> dicePatternsString) {
+    public DicePatternEvent(List<String> dicePatternsString, List<String> playerNames) {
 
         super(1);
         this.dicePatternsString = dicePatternsString;
+        this.playerNames = playerNames;
     }
 
     /**
@@ -27,5 +29,14 @@ public class DicePatternEvent extends MVEvent {
     public List<String> getDicePatternsString(){
 
         return this.dicePatternsString;
+    }
+
+    /**
+     * Gets the players' names
+     * @return The playerNames attribute
+     */
+    public List<String> getPlayerNames() {
+
+        return playerNames;
     }
 }

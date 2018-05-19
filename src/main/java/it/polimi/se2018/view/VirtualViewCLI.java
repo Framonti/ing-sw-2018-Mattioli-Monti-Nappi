@@ -1,11 +1,10 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.mvevent.*;
-
 import java.util.Observable;
 import java.util.Observer;
 
-public class VirtualViewCLI extends Observable implements Observer, ViewCLIInterface {
+public class VirtualViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     private MVEvent mvEvent;
 
@@ -14,57 +13,62 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
     }
 
     //TODO
-    @Override
     public void getInput() {
 
     }
 
-    @Override
-    public void showActionMenu(ActionMenuEvent actionMenuEvent) {
 
-        mvEvent = actionMenuEvent;
+    public void showActionMenu(MVEvent showActionMenu) {
+
+        mvEvent = showActionMenu;
     }
 
-    @Override
-    public void showAll(ShowAllEvent showAllEvent) {
+
+    public void showAll(MVEvent showAllEvent) {
 
         mvEvent = showAllEvent;
     }
 
-
-    @Override
-    public void showDraftPool(DraftPoolEvent draftPoolEvent) {
+    public void showDraftPool(MVEvent draftPoolEvent) {
 
         mvEvent = draftPoolEvent;
     }
 
-    @Override
-    public void showError(ErrorEvent errorEvent) {
+
+    public void showError(MVEvent errorEvent) {
 
         mvEvent = errorEvent;
     }
 
-    @Override
-    public void showRoundTrack(RoundTrackEvent roundTrackEvent) {
+
+    public void showRoundTrack(MVEvent roundTrackEvent) {
 
         mvEvent = roundTrackEvent;
     }
 
-    @Override
-    public void showScoreTrack(ScoreTrackEvent scoreTrackEvent) {
+
+    public void showScoreTrack(MVEvent scoreTrackEvent) {
 
         mvEvent = scoreTrackEvent;
     }
 
-    @Override
-    public void showToolCards(ToolCardEvent toolCardEvent) {
+
+    public void showToolCards(MVEvent toolCardEvent) {
 
         mvEvent = toolCardEvent;
+    }
+
+    public void showDicePattern(MVEvent dicePatternEvent){
+
+        mvEvent = dicePatternEvent;
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
 
+        this.mvEvent = (MVEvent) arg;
     }
+
+
 }

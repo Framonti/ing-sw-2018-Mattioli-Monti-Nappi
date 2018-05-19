@@ -4,7 +4,7 @@ package it.polimi.se2018.events.mvevent;
  * This event holds information about the winner
  * @author Daniele Mattioli
  */
-public class WinnerEvent {
+public class WinnerEvent extends MVEvent{
 
     private String winner;
 
@@ -13,6 +13,7 @@ public class WinnerEvent {
      * @param winner String representation of the winner
      */
     public WinnerEvent(String winner){
+        super(10);
         this.winner = winner;
     }
 
