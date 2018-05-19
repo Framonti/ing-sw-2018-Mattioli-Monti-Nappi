@@ -3,7 +3,6 @@ package it.polimi.se2018.controller;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.view.ViewCLI;
 import it.polimi.se2018.view.VirtualViewCLI;
 
 //TODO: GESTIRE LA PARTITA IN GRANDE (IL VECCHIO METODO GAME)
@@ -165,8 +164,10 @@ public class ControllerCLI implements Observer  {
                 toolCard.increaseFavorPoint(1);
                 model.getCurrentPlayer().reduceFavorTokens(1);
                 FavorTokensEvent favorTokensEvent = new FavorTokensEvent(String.valueOf(model.getCurrentPlayer().getFavorTokensNumber()), String.valueOf(model.getCurrentPlayer()));
+                model.mySetChanged();
                 model.notifyObservers(favorTokensEvent);
                 ToolCardEvent toolCardEvent = new ToolCardEvent(model.toolCardsToString());
+                model.mySetChanged();
                 model.notifyObservers(toolCardEvent);
             } catch (UnsupportedOperationException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
@@ -178,8 +179,10 @@ public class ControllerCLI implements Observer  {
                 toolCard.increaseFavorPoint(2);
                 model.getCurrentPlayer().reduceFavorTokens(2);
                 FavorTokensEvent favorTokensEvent = new FavorTokensEvent(String.valueOf(model.getCurrentPlayer().getFavorTokensNumber()), String.valueOf(model.getCurrentPlayer()));
+                model.mySetChanged();
                 model.notifyObservers(favorTokensEvent);
                 ToolCardEvent toolCardEvent = new ToolCardEvent(model.toolCardsToString());
+                model.mySetChanged();
                 model.notifyObservers(toolCardEvent);
             } catch (UnsupportedOperationException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
@@ -201,6 +204,7 @@ public class ControllerCLI implements Observer  {
             try {
                 diceChosen.subOne();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+                model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi decrementare un dado con valore 1\n");
@@ -213,6 +217,7 @@ public class ControllerCLI implements Observer  {
             try {
                 diceChosen.addOne();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+                model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi incrementare un dado con valore 6\n");
@@ -235,7 +240,8 @@ public class ControllerCLI implements Observer  {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(eglomiseBrushEvent.getInitialPosition(), finalPosition);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
@@ -258,7 +264,8 @@ public class ControllerCLI implements Observer  {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(copperFoilBurnisherEvent.getInitialPosition(), finalPosition);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
@@ -288,7 +295,8 @@ public class ControllerCLI implements Observer  {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
                 model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
@@ -317,8 +325,10 @@ public class ControllerCLI implements Observer  {
             model.getDraftPool().add(model.getRoundTrack().getDice(round, indexOfRoundTrack));
             model.getRoundTrack().getList(round).remove(indexOfRoundTrack);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+            model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
             RoundTrackEvent roundTrackEvent = new RoundTrackEvent(model.getRoundTrack().toString());
+            model.mySetChanged();
             model.notifyObservers(roundTrackEvent);
         } catch (IndexOutOfBoundsException exception){
             throw new IndexOutOfBoundsException(nonValidInput);
@@ -361,8 +371,10 @@ public class ControllerCLI implements Observer  {
                 successfulMove = true;
                 model.getDraftPool().remove(diceChosen);
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+                model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
@@ -387,6 +399,7 @@ public class ControllerCLI implements Observer  {
             for (i = 0; i < model.getDraftPool().size(); i++)
                 model.getDraftPool().get(i).roll();
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+            model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
         } else {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno\n");
@@ -408,8 +421,10 @@ public class ControllerCLI implements Observer  {
             model.getDraftPool().remove(diceChosen);
             model.getCurrentPlayer().setLap(1);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+            model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+            model.mySetChanged();
             model.notifyObservers(dicePatternEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -431,8 +446,10 @@ public class ControllerCLI implements Observer  {
             model.getCurrentPlayer().getDicePattern().setDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+            model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+            model.mySetChanged();
             model.notifyObservers(dicePatternEvent);
         } else {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -442,15 +459,23 @@ public class ControllerCLI implements Observer  {
     }
 
 
-    //TODO:  CONTROLLARE SE DEVO LANCIARE ECCEZIONI NEL CASO IN CUI UTENTE INSERISCA UN INDICE FUORI DAL RANGE
+
     /**
      * Tool card 10 method
      */
     private void grindingStone () {
         GrindingStoneEvent grindingStoneEvent = (GrindingStoneEvent) event;
-        getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
-        DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
-        model.notifyObservers(draftPoolEvent);
+        if(grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
+            getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            model.mySetChanged();
+            model.notifyObservers(draftPoolEvent);
+        }
+        else{
+            ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado in questa posizione\n");
+            view.showError(errorEvent);
+            view.getInput();
+        }
     }
 
     //DUBBIO
@@ -495,8 +520,10 @@ public class ControllerCLI implements Observer  {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosenFromDiceBag);
             model.getDraftPool().remove(diceChosenFromDraftPool);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+            model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+            model.mySetChanged();
             model.notifyObservers(dicePatternEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -527,7 +554,8 @@ public class ControllerCLI implements Observer  {
                 model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosenFromRoundTrack)) {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -544,7 +572,8 @@ public class ControllerCLI implements Observer  {
             try {
                 model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
                 model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+                model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -563,95 +592,6 @@ public class ControllerCLI implements Observer  {
     }
 
 
-        //DUBBIO: da controllare se va bene boolean e come ho assegnato il return
-        //prende in ingresso oggetto. eventHandler.get(oggetto passato in ingresso.toString()).run()
-    /* public boolean performAction (String userInput ){
-
-        int choice = Integer.parseInt(userInput);
-        switch(choice){
-
-            //vedere carte utensile
-            case 1:
-                view.showToolCards(toolCards);
-                break;
-
-            //vedere le carte obiettivo pubblico
-            case 2:
-                view.showPublicObjectiveCards(model.getPublicObjectiveCards());
-                break;
-
-            // vedere la carta obiettivo privato
-            case 3:
-                view.showPrivateObjectiveCard(this.getPrivateObjectiveCard());
-                break;
-
-            //vedere la propria carta schema
-            case 4:
-                view.showMyDicePattern(model.getCurrentPlayer());
-                break;
-
-            //vedere le carte schema degli avversari
-            case 5:
-                view.showOthersDicePatterns(model);
-                break;
-
-            //vedere tutte le carte schema in gioco
-            case 6:
-                view.showAllDicePatterns(model);
-                break;
-
-            //vedere la riserva
-            case 7:
-                view.showDraftPool(model.getDraftPool());
-                break;
-
-            //vedere il tracciato dei round
-            case 8:
-                view.showRoundTrack(model.getRoundTrack());
-                break;
-
-            //vedere tutto il tavolo di gioco
-            case 9:
-                view.showAll(model);
-                break;
-
-            //usare una carta utensile
-            case 10:
-                if(!model.getCurrentPlayer().isToolCardUsed()) {
-                    view.showToolCards(toolCards);
-                    useToolCard();
-                }
-                else{
-                    view.printInvalidAction("usare una carta utensile");
-                    return performAction(view.getInput());
-                }
-
-                break;
-
-            //posizionare un dado della riserva nel proprio schema
-            case 11:
-                if(!model.getCurrentPlayer().isDiceMoved())
-                    placeDiceFromDraftPoolToDicePattern();
-                else{
-                    view.printInvalidAction("muovere dado");
-                    return performAction(view.getInput());
-                }
-                break;
-
-            case 12:
-                skipTurn();
-                break;
-
-            //no matches
-            default:
-                view.printInvalidAction("il numero inserito non corrisponde a nessuna operazione possibile, riprova\n");
-                return false;
-
-        }
-        return true;
-    }*/
-
-
     /**
      * Places a dice from the draft pool to the round track
      */
@@ -663,8 +603,10 @@ public class ControllerCLI implements Observer  {
         model.getDraftPool().remove(diceChosen);
         model.getCurrentPlayer().reverseDiceMoved();
         DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
+        model.mySetChanged();
         model.notifyObservers(draftPoolEvent);
-        DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString());
+        DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+        model.mySetChanged();
         model.notifyObservers(dicePatternEvent);
     }
 
@@ -709,6 +651,7 @@ public class ControllerCLI implements Observer  {
         model.fromDraftPoolToRoundTrack();
         model.extractAndRoll();
         ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
+        model.mySetChanged();
         model.notifyObservers(showAllEvent);
     }
 
@@ -732,7 +675,6 @@ public class ControllerCLI implements Observer  {
     }
 
 
-    //TODO controllare se va bene
     @Override
     public void update (Observable o, Object arg){
         event = (VCEvent)arg;

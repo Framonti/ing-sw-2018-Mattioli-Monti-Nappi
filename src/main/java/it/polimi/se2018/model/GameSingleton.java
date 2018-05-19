@@ -333,6 +333,13 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Method called in the controller before a notifyObservers
+     */
+    public void mySetChanged(){
+        setChanged();
+    }
+
 
 
 }
