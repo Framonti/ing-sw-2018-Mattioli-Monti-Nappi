@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.vcevent;
 
-public class GrindingStoneEvent extends Event {
+public class GrindingStoneEvent extends VCEvent {
 
     private int dicePosition;
 

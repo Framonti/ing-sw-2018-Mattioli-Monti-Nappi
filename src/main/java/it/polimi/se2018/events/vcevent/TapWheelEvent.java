@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard TapWheel
  * @author fabio
  */
-public class TapWheelEvent extends Event {
+public class TapWheelEvent extends VCEvent {
 
     private int roundIndex;
     private int diceIndex;

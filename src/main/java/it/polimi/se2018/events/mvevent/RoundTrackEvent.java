@@ -2,6 +2,7 @@ package it.polimi.se2018.events.mvevent;
 
 /**
  * This Event contains informations about the RoundTrack
+ * @author Framonti
  */
 public class RoundTrackEvent extends MVEvent {
 

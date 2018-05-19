@@ -2,7 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
-public class LathekinEvent extends Event {
+public class LathekinEvent extends VCEvent {
     private Position initialPosition1;
     private Position finalPosition1;
     private Position initialPosition2;

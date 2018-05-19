@@ -26,11 +26,13 @@ public class ToolCardDeckBuilder extends LoaderXML {
         List<String> cardNames = this.getStringList("name");
         List<String> cardDescriptions = this.getStringList("description");
         List<String> cardColours = this.getStringList("colour");
+        List<String> cardID = this.getStringList("id");
 
         //Create the cards and add them to a list
         for (int i = 0; i < cardNames.size(); i++) {
 
-            ToolCard toolCard = new ToolCard(cardNames.get(i), cardDescriptions.get(i), Colour.getColourFromString(cardColours.get(i)));
+            ToolCard toolCard = new ToolCard(cardNames.get(i), cardDescriptions.get(i),
+                                             Colour.getColourFromString(cardColours.get(i)), Integer.parseInt(cardID.get(i)));
             cards.add(toolCard);
         }
         return new Deck<>(cards);

@@ -1,29 +1,31 @@
 package it.polimi.se2018.events.mvevent;
 
+import java.util.List;
+
 /**
  * This Event holds informations about the DicePattern
  * @author Framonti
  */
 public class DicePatternEvent extends MVEvent {
 
-    private String dicePatternString;
+    private List<String> dicePatternsString;
 
     /**
      * Constructor
-     * @param dicePatternString The String-representation of a DicePattern
+     * @param dicePatternsString The String-representation of all the DicePattern
      */
-    public DicePatternEvent(String dicePatternString) {
+    public DicePatternEvent(List<String> dicePatternsString) {
 
         super(1);
-        this.dicePatternString = dicePatternString;
+        this.dicePatternsString = dicePatternsString;
     }
 
     /**
      * Gets the dicePatternString attribute
      * @return The dicePatternString attribute
      */
-    public String  getDicePatternString(){
+    public List<String> getDicePatternsString(){
 
-        return this.dicePatternString;
+        return this.dicePatternsString;
     }
 }

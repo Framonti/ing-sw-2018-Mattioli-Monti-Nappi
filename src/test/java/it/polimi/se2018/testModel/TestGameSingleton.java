@@ -30,10 +30,10 @@ public class TestGameSingleton {
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 3));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 2));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 1));
-        toolCards.add(new ToolCard("","", Colour.BLUE));
-        toolCards.add(new ToolCard("","", Colour.PURPLE));
-        toolCards.add(new ToolCard("","", Colour.RED));
-        toolCards.add(new ToolCard("","", Colour.GREEN));
+        toolCards.add(new ToolCard("","", Colour.BLUE, 1));
+        toolCards.add(new ToolCard("","", Colour.PURPLE, 2));
+        toolCards.add(new ToolCard("","", Colour.RED, 3));
+        toolCards.add(new ToolCard("","", Colour.GREEN,4));
         scoreTrack = new ScoreTrack(players);
         roundTrack = new RoundTrack();
 

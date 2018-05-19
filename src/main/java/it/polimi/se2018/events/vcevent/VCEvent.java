@@ -2,12 +2,12 @@ package it.polimi.se2018.events.vcevent;
 
 import java.io.Serializable;
 
-public abstract class Event implements Serializable{
+public abstract class VCEvent implements Serializable{
 
     static final long serialVersionUID = 44L;
     private int id;
 
-    public Event(int id){
+    public VCEvent(int id){
 
         this.id = id;
     }

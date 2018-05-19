@@ -12,7 +12,7 @@ public class TestToolCard {
 
     @Before
     public void setUp(){
-        toolCard1 = new ToolCard("carta1", "descrizione della carta 1", Colour.GREEN );
+        toolCard1 = new ToolCard("carta1", "descrizione della carta 1", Colour.GREEN, 1);
     }
 
     @Test

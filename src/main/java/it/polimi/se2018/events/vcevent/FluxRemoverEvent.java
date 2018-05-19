@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard Flux Remover
  * @author fabio
  */
-public class FluxRemoverEvent extends Event {
+public class FluxRemoverEvent extends VCEvent {
 
     private int diceIndex;
     private Position dicePosition;

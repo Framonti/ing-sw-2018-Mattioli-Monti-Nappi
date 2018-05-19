@@ -2,6 +2,7 @@ package it.polimi.se2018.events.mvevent;
 
 /**
  * This Event contains informations about the ScoreTrack
+ * @author Framonti
  */
 public class ScoreTrackEvent extends MVEvent {
 

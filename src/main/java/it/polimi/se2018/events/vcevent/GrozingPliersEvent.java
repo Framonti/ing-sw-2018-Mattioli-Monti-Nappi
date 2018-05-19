@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.vcevent;
 
-public class GrozingPliersEvent extends Event {
+public class GrozingPliersEvent extends VCEvent {
 
     private int diceIndexInDraftPool;
     private int choice;

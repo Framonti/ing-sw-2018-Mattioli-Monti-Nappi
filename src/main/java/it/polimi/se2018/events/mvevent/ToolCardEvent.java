@@ -1,6 +1,7 @@
 package it.polimi.se2018.events.mvevent;
 
 import java.util.List;
+
 /**
  * This Event holds informations about the ToolCards
  * @author Framonti

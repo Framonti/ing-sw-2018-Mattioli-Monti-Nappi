@@ -7,7 +7,7 @@ import it.polimi.se2018.model.Position;
  * getting a dice from the DraftPool and putting it on the DicePattern
  * @author Framonti
  */
-public class PlaceDiceEvent extends Event {
+public class PlaceDiceEvent extends VCEvent {
 
     private int diceIndexDraftPool;
     private Position positionToPlace;

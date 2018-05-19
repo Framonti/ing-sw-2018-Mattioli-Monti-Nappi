@@ -1,6 +1,6 @@
 package it.polimi.se2018.events.vcevent;
 
-public class LensCutterEvent extends Event {
+public class LensCutterEvent extends VCEvent {
     private int roundIndex;  //è quello che nel controller avevo chiamato round
     private int diceIndexInRoundTrack; //è quello che nel controller avevo chiamato indexOfRoundTrack
     private int diceIndexInDraftPool; //è quello che nel controller avevo chiamato indexOfDraftPool

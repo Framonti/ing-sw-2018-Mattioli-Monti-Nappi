@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Position;
  * This class represents the event related to the toolCard Runner Pliers
  * @author fabio
  */
-public class RunnerPliersEvent extends Event {
+public class RunnerPliersEvent extends VCEvent {
 
     private int diceIndex;
     private Position position;

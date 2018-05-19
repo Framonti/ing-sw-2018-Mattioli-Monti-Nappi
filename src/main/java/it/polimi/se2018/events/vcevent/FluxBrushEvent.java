@@ -2,7 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
-public class FluxBrushEvent extends Event {
+public class FluxBrushEvent extends VCEvent {
     private int diceIndexInDraftPool;
     private Position finalPosition;
 

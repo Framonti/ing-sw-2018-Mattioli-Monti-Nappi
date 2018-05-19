@@ -5,7 +5,7 @@ import it.polimi.se2018.model.Position;
 /**
  * used by tool card 2, 3, 4, 9
  */
-public class EglomiseBrushEvent extends Event {
+public class EglomiseBrushEvent extends VCEvent {
     private Position initialPosition;
     private Position finalPosition;
     public EglomiseBrushEvent(String userInput){

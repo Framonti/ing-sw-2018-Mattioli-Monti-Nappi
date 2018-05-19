@@ -2,7 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
-public class CorkBakedStraightedgeEvent extends Event {
+public class CorkBakedStraightedgeEvent extends VCEvent {
     private int indexInDraftPool;
     private Position finalPosition;
 
