@@ -36,8 +36,8 @@ public class PublicObjectiveCard extends ObjectiveCard {
         String toReturn = "Nome: " + this.getName() + "\n" + "Descrizione: " + this.getDescription() + "\n" + "Punti Vittoria: ";
 
         if(victoryPoint != 0)
-            toReturn = toReturn.concat(String.valueOf(this.victoryPoint));
-        else toReturn = toReturn.concat("#");
+            toReturn = toReturn.concat(String.valueOf(this.victoryPoint)+"\n");
+        else toReturn = toReturn.concat("#\n");
 
         return  toReturn;
     }

@@ -14,7 +14,7 @@ public class ErrorEvent extends MVEvent {
      */
     public ErrorEvent(String messageToDisplay){
 
-        super(-1);
+        super(9);
         this.messageToDisplay = messageToDisplay;
     }
 

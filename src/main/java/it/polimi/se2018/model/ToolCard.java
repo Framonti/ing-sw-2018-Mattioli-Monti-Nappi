@@ -9,6 +9,7 @@ public class ToolCard{
     private final Colour colour;
     private final String name;
     private final String description;
+    private int id;
 
     /**
      * Constructor of the class. Attribute favorPoint is set to 0, because initially there are no
@@ -17,11 +18,12 @@ public class ToolCard{
      * @param description tool card description
      * @param colour tool card colour
      */
-    public ToolCard (String name, String description, Colour colour){
+    public ToolCard (String name, String description, Colour colour, int id){
         this.name = name;
         this.description = description;
         this.colour = colour;
         this.favorPoint = 0;
+        this.id = id;
     }
 
     /**
@@ -32,6 +34,13 @@ public class ToolCard{
         return this.favorPoint;
     }
 
+    /**
+     * Gets tool card id
+     * @return Tool card id
+     */
+    public int getId() {
+        return id;
+    }
 
     /**
      * Gets tool card colour
@@ -62,6 +71,6 @@ public class ToolCard{
     @Override
     public String toString() {
         return "Nome: " + getName() + "\n" + "Descrizione: " + getDescription() + "\n" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
-                "\nColore: " + getColour().toString();
+                "\nColore: " + getColour().toString()+"\n";
     }
 }

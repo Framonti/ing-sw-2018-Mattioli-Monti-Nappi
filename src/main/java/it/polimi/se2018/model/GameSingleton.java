@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ThreadLocalRandom;
 
+import it.polimi.se2018.events.mvevent.DraftPoolEvent;
+import it.polimi.se2018.events.mvevent.RoundTrackEvent;
+import it.polimi.se2018.events.vcevent.*;
+
 /**
  * This class represents the game and contains all the objects on the game table.
  * This class is a singleton because there can be only one game at a time.
@@ -230,6 +234,8 @@ public class GameSingleton extends Observable{
             draftPool.add(diceBag.get(randomNumber));
             diceBag.remove(randomNumber);
         }
+         DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
+         notifyObservers(draftPoolEvent);
     }
 
 
@@ -238,9 +244,15 @@ public class GameSingleton extends Observable{
      */
     public void fromDraftPoolToRoundTrack() {
         roundTrack.addDices(draftPool);
+        DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
+        notifyObservers(draftPoolEvent);
+        RoundTrackEvent roundTrackEvent = new RoundTrackEvent(roundTrack.toString());
+        notifyObservers(roundTrackEvent);
+
     }
 
 
+    //TODO: aggiungere evento WinnerEvent
     /**
      * Computes the winner
      * @return Winner of the game
@@ -260,6 +272,69 @@ public class GameSingleton extends Observable{
         }
         return winner;
     }
+
+    /**
+     *Gets a representation of the draft pool
+     * @return A representation of the draft pool
+     */
+    public String draftPoolToString(){
+        int i = 1;
+        String tmp = "";
+        for( Dice dice : draftPool){
+            tmp = tmp.concat(i+ ":    "+ dice.toString() + "\n");
+            i++;
+        }
+        return tmp;
+    }
+
+    /**
+     * Gets a representation of the dice patterns of all players
+     * @return A representation of the dice patterns of all players
+     */
+    public List<String> dicePatternsToString(){
+        ArrayList<String> list = new ArrayList<>();
+        for(Player player : getPlayers())
+            list.add(player.getDicePattern().toString());
+        return list;
+    }
+
+    /**
+     * Gets a representation of all the tool cards
+     * @return  A representation of all the tool cards
+     */
+    public List<String> toolCardsToString(){
+        ArrayList <String> list = new ArrayList<>();
+        for( ToolCard toolCard : toolCards){
+            list.add(toolCard.toString());
+        }
+        return list;
+    }
+
+    /**
+     * Gets a representation of all players
+     * @return A representation of all players
+     */
+    public List<String> playersToString(){
+        ArrayList<String> list = new ArrayList<>();
+        for(Player player : getPlayers())
+            list.add(player.getName());
+        return list;
+    }
+
+
+    /**
+     * Gets a representation of  public objective cards in the game
+     * @return A representation of  public objective cards in the game
+     */
+    public List <String> publicObjectiveCardsToString(){
+        ArrayList<String> list = new ArrayList<>();
+        for (PublicObjectiveCard card : publicObjectiveCards)
+            list.add(card.toString());
+        return list;
+    }
+
+
+
 }
 
 

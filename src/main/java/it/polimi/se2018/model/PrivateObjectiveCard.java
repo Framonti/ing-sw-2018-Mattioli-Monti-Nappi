@@ -30,6 +30,6 @@ public class PrivateObjectiveCard extends ObjectiveCard {
     //@return a String representing the card itself
     public String toString() {
 
-        return this.getName() + "\n" + this.getDescription();
+        return this.getName() + "\n" + this.getDescription()+"\n";
     }
 }

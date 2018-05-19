@@ -30,7 +30,7 @@ public class ShowAllEvent extends MVEvent{
     public ShowAllEvent(List<String> dicePatternsString, List<String> namePlayers, List<String> publicObjectiveCardsString,
                         List<String> toolCardString, String draftPoolString, String roundTrackString, String privateObjectiveCardString){
 
-        super(100);
+        super(7);
         this.dicePatternsString = dicePatternsString;
         this.draftPoolString = draftPoolString;
         this.namePlayers = namePlayers;

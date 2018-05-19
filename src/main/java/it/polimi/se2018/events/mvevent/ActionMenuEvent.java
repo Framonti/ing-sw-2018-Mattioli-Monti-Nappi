@@ -7,7 +7,7 @@ public class ActionMenuEvent extends MVEvent {
 
     public ActionMenuEvent(Boolean isDiceMoved, boolean isToolCardUsed){
 
-        super(10);
+        super(6);
         this.isDiceMoved = isDiceMoved;
         this.isToolCardUsed = isToolCardUsed;
     }
