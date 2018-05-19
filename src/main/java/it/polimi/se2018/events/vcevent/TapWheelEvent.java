@@ -86,11 +86,4 @@ public class TapWheelEvent extends VCEvent {
         return newSecondDicePosition;
     }
 
-    /**
-     * @return The name of this class
-     */
-    @Override
-    public String toString() {
-        return "TapWheelEvent";
-    }
 }

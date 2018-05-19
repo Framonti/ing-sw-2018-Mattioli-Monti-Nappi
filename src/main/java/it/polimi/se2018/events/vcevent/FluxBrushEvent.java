@@ -10,7 +10,7 @@ public class FluxBrushEvent extends VCEvent {
         super(6);
         try {
             String[] parameters = userInput.split("\\s+");
-            diceIndexInDraftPool = Integer.parseInt(parameters[0]);
+            diceIndexInDraftPool = Integer.parseInt(parameters[0]) -1;
             int row = Integer.parseInt(parameters[1]);
             int column = Integer.parseInt(parameters[2]);
             finalPosition = new Position(row-1, column-1);
@@ -31,8 +31,4 @@ public class FluxBrushEvent extends VCEvent {
         return finalPosition;
     }
 
-    @Override
-    public String toString() {
-        return "FluxBrushEvent";
-    }
 }

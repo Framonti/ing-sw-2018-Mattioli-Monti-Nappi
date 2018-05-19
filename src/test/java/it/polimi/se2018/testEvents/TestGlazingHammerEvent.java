@@ -10,12 +10,4 @@ import static org.junit.Assert.*;
  */
 public class TestGlazingHammerEvent {
 
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        GlazingHammerEvent glazingHammerEvent = new GlazingHammerEvent();
-        assertEquals("GlazingHammerEvent", glazingHammerEvent.toString());
-    }
 }

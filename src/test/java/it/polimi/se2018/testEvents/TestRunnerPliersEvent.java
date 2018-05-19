@@ -40,12 +40,4 @@ public class TestRunnerPliersEvent {
         }
     }
 
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        RunnerPliersEvent runnerPliersEvent = new RunnerPliersEvent("1 2 3");
-        assertEquals("RunnerPliersEvent", runnerPliersEvent.toString());
-    }
 }

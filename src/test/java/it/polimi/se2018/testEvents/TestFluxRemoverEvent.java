@@ -46,12 +46,4 @@ public class TestFluxRemoverEvent {
         }
     }
 
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        FluxRemoverEvent fluxRemoverEvent = new FluxRemoverEvent("1 1 1 1 1 1 1 1");
-        assertEquals("FluxRemoverEvent", fluxRemoverEvent.toString());
-    }
 }

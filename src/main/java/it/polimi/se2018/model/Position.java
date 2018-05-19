@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,10 @@ import java.util.List;
  * The attribute x represents the row index, while the attribute y the column index
  * @author Framonti
  */
-public class Position
-{
+public class Position implements Serializable{
+
+    static final long serialVersionUID = 23L;
+
     private final int x;
     private final int y;
 

@@ -58,8 +58,4 @@ public class PlaceDiceEvent extends VCEvent {
         return positionToPlace;
     }
 
-    @Override
-    public String toString() {
-        return "PlaceDiceEvent";
-    }
 }

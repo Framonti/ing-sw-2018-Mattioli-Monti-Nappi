@@ -8,8 +8,7 @@ public class GrindingStoneEvent extends VCEvent {
         super(10);
         try {
             dicePosition = Integer.parseInt(userInput);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
 
@@ -19,8 +18,4 @@ public class GrindingStoneEvent extends VCEvent {
         return dicePosition;
     }
 
-    @Override
-    public String toString() {
-        return "GrindingStoneEvent";
-    }
 }

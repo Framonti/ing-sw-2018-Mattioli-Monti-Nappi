@@ -36,8 +36,4 @@ public class LensCutterEvent extends VCEvent {
         return diceIndexInDraftPool;
     }
 
-    @Override
-    public String toString() {
-        return "LensCutterEvent";
-    }
 }

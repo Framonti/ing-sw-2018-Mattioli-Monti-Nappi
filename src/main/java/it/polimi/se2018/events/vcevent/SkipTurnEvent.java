@@ -6,8 +6,4 @@ public class SkipTurnEvent extends VCEvent {
         super(100);
     }
 
-    @Override
-    public String toString(){
-        return "SkipTurnEvent";
-    }
 }

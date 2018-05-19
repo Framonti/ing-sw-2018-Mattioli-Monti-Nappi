@@ -3,7 +3,12 @@ package it.polimi.se2018.testEvents;
 import it.polimi.se2018.events.vcevent.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+/**
+ * Test class for the CopperFoilBurnisherEvent
+ * @author Framonti
+ */
 public class TestCopperFoilBurnisherEvent {
 
     /**
@@ -11,11 +16,16 @@ public class TestCopperFoilBurnisherEvent {
      */
     @Test
     public void testGetters() {
-        CopperFoilBurnisherEvent copperFoilBurnisherEvent = new CopperFoilBurnisherEvent("1 2 3 1");
-        assertEquals(0, copperFoilBurnisherEvent.getInitialPosition().getX());
-        assertEquals(1, copperFoilBurnisherEvent.getInitialPosition().getY());
-        assertEquals(2, copperFoilBurnisherEvent.getFinalPosition().getX());
-        assertEquals(0, copperFoilBurnisherEvent.getFinalPosition().getY());
+        try {
+            CopperFoilBurnisherEvent copperFoilBurnisherEvent = new CopperFoilBurnisherEvent("1 2 3 1");
+            assertEquals(0, copperFoilBurnisherEvent.getInitialPosition().getX());
+            assertEquals(1, copperFoilBurnisherEvent.getInitialPosition().getY());
+            assertEquals(2, copperFoilBurnisherEvent.getFinalPosition().getX());
+            assertEquals(0, copperFoilBurnisherEvent.getFinalPosition().getY());
+        }
+        catch (IllegalArgumentException e){
+            fail();
+        }
 
     }
 
@@ -37,14 +47,5 @@ public class TestCopperFoilBurnisherEvent {
         catch (IllegalArgumentException e) {
             assertEquals("Parametri non numerici o sbagliati", e.getMessage());
         }
-    }
-
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        CopperFoilBurnisherEvent copperFoilBurnisherEvent = new CopperFoilBurnisherEvent("1 2 3 4");
-        assertEquals("CopperFoilBurnisherEvent", copperFoilBurnisherEvent.toString());
     }
 }

@@ -30,11 +30,4 @@ public class WindowPatternChoiceEvent extends VCEvent {
         return choice;
     }
 
-    /**
-     * @return The name of this class
-     */
-    @Override
-    public String toString() {
-        return "WindowPatternChoiceEvent";
-    }
 }

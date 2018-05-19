@@ -90,11 +90,4 @@ public class FluxRemoverEvent extends VCEvent {
         return blueDiceValue;
     }
 
-    /**
-     * @return The name of this class
-     */
-    @Override
-    public String toString() {
-        return "FluxRemoverEvent";
-    }
 }

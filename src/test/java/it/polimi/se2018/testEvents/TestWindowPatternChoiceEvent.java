@@ -32,12 +32,4 @@ public class TestWindowPatternChoiceEvent {
         }
     }
 
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent("3");
-        assertEquals("WindowPatternChoiceEvent", windowPatternChoiceEvent.toString());
-    }
 }

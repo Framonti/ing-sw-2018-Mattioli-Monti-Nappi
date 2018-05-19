@@ -50,8 +50,4 @@ public class LathekinEvent extends VCEvent {
         return finalPosition2;
     }
 
-    @Override
-    public String toString() {
-        return "LathekinEvent";
-    }
 }

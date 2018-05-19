@@ -45,11 +45,4 @@ public class RunnerPliersEvent extends VCEvent {
         return position;
     }
 
-    /**
-     * @return The name of this class
-     */
-    @Override
-    public String toString() {
-        return "RunnerPliersEvent";
-    }
 }

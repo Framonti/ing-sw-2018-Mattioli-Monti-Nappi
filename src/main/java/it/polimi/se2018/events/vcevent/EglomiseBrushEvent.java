@@ -3,7 +3,7 @@ package it.polimi.se2018.events.vcevent;
 import it.polimi.se2018.model.Position;
 
 /**
- * used by tool card 2, 3, 4, 9
+ *
  */
 public class EglomiseBrushEvent extends VCEvent {
     private Position initialPosition;
@@ -36,9 +36,4 @@ public class EglomiseBrushEvent extends VCEvent {
 
         return finalPosition;
     }
-    @Override
-    public String toString() {
-        return "EglomiseBrushEvent";
-    }
-
 }

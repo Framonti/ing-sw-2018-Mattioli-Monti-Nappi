@@ -2,5 +2,5 @@
 
 <configurations>
     <setupTimer>100000</setupTimer>
-    <moveTimer>100000</moveTimer>
+    <turnTimer>100000</turnTimer>
 </configurations>

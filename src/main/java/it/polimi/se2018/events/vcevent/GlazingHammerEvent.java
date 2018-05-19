@@ -13,11 +13,4 @@ public class GlazingHammerEvent extends VCEvent {
         super(7);
     }
 
-    /**
-     * @return The name of this class
-     */
-    @Override
-    public String toString() {
-        return "GlazingHammerEvent";
-    }
 }

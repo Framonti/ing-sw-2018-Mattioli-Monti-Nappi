@@ -3,6 +3,7 @@ package it.polimi.se2018.events.vcevent;
 import it.polimi.se2018.model.Position;
 
 public class CopperFoilBurnisherEvent extends VCEvent {
+
     private Position initialPosition;
     private Position finalPosition;
 

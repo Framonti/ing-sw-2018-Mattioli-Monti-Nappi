@@ -42,12 +42,4 @@ public class TestTapWheelEvent {
         assertEquals(2, tapWheelEvent.getNewFirstDicePosition().getY());
     }
 
-    /**
-     * Tests if the string returned is correct
-     */
-    @Test
-    public void testToString() {
-        TapWheelEvent tapWheelEvent = new TapWheelEvent("6 5 4 3 2 1");
-        assertEquals("TapWheelEvent", tapWheelEvent.toString());
-    }
 }

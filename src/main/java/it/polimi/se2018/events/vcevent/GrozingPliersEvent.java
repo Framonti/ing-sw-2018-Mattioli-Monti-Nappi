@@ -34,10 +34,4 @@ public class GrozingPliersEvent extends VCEvent {
         return choice;
     }
 
-    @Override
-    public String toString() {
-        return "GrozingPliersEvent";
-    }
-
-
 }
