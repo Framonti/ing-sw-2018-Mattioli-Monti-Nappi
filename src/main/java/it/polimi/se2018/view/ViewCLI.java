@@ -14,7 +14,7 @@ import java.util.*;
 public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     private List<ToolCard> toolCards;
-    private Map<Integer, Event> vcEvents = new HashMap<>();
+    private Map<Integer, VCEvent> vcEvents = new HashMap<>();
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
     private String eventParameters;
     private MVEvent mvEvent;
@@ -23,7 +23,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * Constructor of this class
      * @param toolCards The list of the toolCards in game
      */
-    public ViewCLI(List<ToolCard>toolCards) {
+    public ViewCLI(List<ToolCard> toolCards) {
         this.toolCards = toolCards;
 
         //vcEvents initialization (toolCard id order)
@@ -37,15 +37,15 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * Initializes the map between the event's id and the relative method
      */
     private void createMVMap() {
-        mvEvents.put(1, this::showAllDicePatterns);
-        mvEvents.put(2, this::showDraftPool);
-        mvEvents.put(3, this::showToolCards);
-        mvEvents.put(4, this::showRoundTrack);
-        mvEvents.put(5, this::showScoreTrack);
-        mvEvents.put(6, this::showActionMenu);
-        mvEvents.put(7, this::showAll);
-        mvEvents.put(8, this::showFavorTokens);
-        mvEvents.put(9, this::showError);
+        mvEvents.put(1, ()-> showAllDicePatterns(mvEvent));
+        mvEvents.put(2, ()-> showDraftPool(mvEvent));
+        mvEvents.put(3, ()-> showToolCards(mvEvent));
+        mvEvents.put(4, ()-> showRoundTrack(mvEvent));
+        mvEvents.put(5, ()-> showScoreTrack(mvEvent));
+        mvEvents.put(6, ()-> showActionMenu(mvEvent));
+        mvEvents.put(7, ()-> showAll(mvEvent));
+        mvEvents.put(8, ()-> showFavorTokens(mvEvent));
+        mvEvents.put(9, ()-> showError(mvEvent));
     }
 
     /**
@@ -80,9 +80,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows all the actions that the player can do
+     * @param event It's the MVEvent received
      */
-    public void showActionMenu() {
-        ActionMenuEvent actionMenuEvent = (ActionMenuEvent) mvEvent;
+    public void showActionMenu(MVEvent event) {
+        ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
         String menu = (actionMenuEvent.isDiceMoved() ? "X" : "A") +
                 "\tPosiziona un dado della riserva nello schema\n" +
                 (actionMenuEvent.isToolCardUsed() ? "X" : "B") +
@@ -98,7 +99,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * @param input It's the string with all the event's information
      * @return The correct event
      */
-    private Event createEvent(String input) {
+    private VCEvent createEvent(String input) {
         int event;
         input = input.toLowerCase();
 
@@ -127,7 +128,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
         try {
-            Event event = createEvent(input);
+            VCEvent event = createEvent(input);
             setChanged();
             notifyObservers(event);
         }
@@ -140,10 +141,11 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows all the tool cards in the game
+     * @param event It's the MVEvent received
      */
-    public void showToolCards() {
+    public void showToolCards(MVEvent event) {
+        ToolCardEvent toolCardEvent = (ToolCardEvent) event;
         System.out.println("CARTE UTENSILI");
-        ToolCardEvent toolCardEvent = (ToolCardEvent) mvEvent;
         for(String toolCard: toolCardEvent.getToolCards())
             System.out.println(toolCard);
     }
@@ -180,9 +182,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows all the dices in the draft pool
+     * @param event It's the MVEvent received
      */
-    public void showDraftPool() {
-        DraftPoolEvent draftPoolEvent = (DraftPoolEvent) mvEvent;
+    public void showDraftPool(MVEvent event) {
+        DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         System.out.println("RISERVA");
         System.out.println(draftPoolEvent.getDraftPoolString());
     }
@@ -197,9 +200,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows the round track and all the dices on it
+     * @param event It's the event received
      */
-    public void showRoundTrack() {
-        RoundTrackEvent roundTrackEvent = (RoundTrackEvent) mvEvent;
+    public void showRoundTrack(MVEvent event) {
+        RoundTrackEvent roundTrackEvent = (RoundTrackEvent) event;
         System.out.println("TRACCIATO DEI ROUND");
         System.out.println(roundTrackEvent.getRoundTrackString());
     }
@@ -215,9 +219,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows the score of each player at the end of the game
+     * @param event It's the MVEvent received
      */
-    public void showScoreTrack() {
-        ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
+    public void showScoreTrack(MVEvent event) {
+        ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) event;
         System.out.println("TRACCIATO DEI PUNTI");
         System.out.println(scoreTrackEvent.getScoreTrackString());
     }
@@ -246,11 +251,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows all the window pattern and the dices on them of all players
+     * @param event It's the MVEvent received
      */
-    public void showAllDicePatterns() {
-        DicePatternEvent dicePatternEvent = (DicePatternEvent) mvEvent;
-        /*showMyDicePattern(dicePatternEvent.);
-        showOthersDicePatterns(dicePatternEvent.);*/
+    private void showAllDicePatterns(MVEvent event) {
+        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
+        for(String dicePattern: dicePatternEvent.getDicePatternsString())
+            System.out.println(dicePattern);
     }
 
     /**
@@ -282,25 +288,28 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Prints the error message if the action selected by the player is not valid
+     * @param event It's the MVEvent received
      */
-    public void showError() {
-        ErrorEvent errorEvent = (ErrorEvent) mvEvent;
+    public void showError(MVEvent event) {
+        ErrorEvent errorEvent = (ErrorEvent) event;
         System.out.println(errorEvent.getMessageToDisplay());
     }
 
     /**
      * Shows the name of the player and how many favor tokens it has
+     * @param event It's the MVEvent received
      */
-    public void showFavorTokens() {
-        FavorTokensEvent favorTokensEvent = (FavorTokensEvent) mvEvent;
-        System.out.println(favorTokensEvent.getPlayerAndFavorTokens);
+    private void showFavorTokens(MVEvent event) {
+        FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
+        System.out.println(favorTokensEvent.getPlayerAndFavorTokens());
     }
 
     /**
      * Shows everything that it's visible to the player
+     * @param event It's the MVEvent received
      */
-    public void showAll() {
-        ShowAllEvent showAllEvent = (ShowAllEvent) mvEvent;
+    public void showAll(MVEvent event) {
+        ShowAllEvent showAllEvent = (ShowAllEvent) event;
         showRoundTrack(showAllEvent.getRoundTrackString());
         showAllDicePatterns(showAllEvent.getDicePatternsString());
         showDraftPool(showAllEvent.getDraftPoolString());
