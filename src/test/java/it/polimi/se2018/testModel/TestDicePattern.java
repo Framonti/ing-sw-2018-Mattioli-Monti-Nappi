@@ -352,7 +352,22 @@ public class TestDicePattern {
     @Test
     public void testToString(){
 
-        String expectedString = "Nome: Name\nDifficoltà: 3\nR\t1\t2\t3\tR\t\nO\tO\tO\tO\tO\t\nO\tO\tO\tO\tO\t\nO\tO\tO\tO\tO\t\n";
+        Dice toPlace = new Dice(Colour.PURPLE);
+        toPlace.setValue(3);
+        dicePattern.setDice(new Position(2,3), toPlace);
+        String expectedString = "Nome: Name\nDifficoltà: 3\n\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "| R  | 1  | 2  | 3  | R  |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    |    |    |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    | 3F |    |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    |    |    |\n" +
+                "|____|____|____|____|____|\n";
         assertEquals(expectedString, dicePattern.toString());
     }
 }

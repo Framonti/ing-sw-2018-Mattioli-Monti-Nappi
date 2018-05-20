@@ -60,9 +60,20 @@ public class TestWindowPattern {
      */
     @Test
     public void testToString() {
-        windowPattern.getWindowPattern()[2][2] = dice;
+        windowPattern.getWindowPattern()[2][2] = new Dice(Colour.PURPLE);
 
-        assertEquals("Nome: wp\nDifficoltà: 4\nO\tO\tO\tO\tO\t\nO\tO\tO\tO\tO\t\nO\tO\t" +
-                dice.toString() + "\tO\tO\t\nO\tO\tO\tO\tO\t\n", windowPattern.toString());
+        assertEquals("Nome: wp\nDifficoltà: 4\n\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    |    |    |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    |    |    |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    | F  |    |    |\n" +
+                "|____|____|____|____|____|\n" +
+                "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
+                "|    |    |    |    |    |\n" +
+                "|____|____|____|____|____|\n", windowPattern.toString());
     }
 }

@@ -24,14 +24,12 @@ public class PlaceDiceEvent extends VCEvent {
         try{
 
             String[] parameters = userInput.split("\\s+");
-            diceIndexDraftPool = Integer.valueOf(parameters[0]);
-            int row = Integer.parseInt(parameters[1]);
-            int column = Integer.parseInt(parameters[2]);
-            positionToPlace = new Position(row-1, column-1);
+
+            diceIndexDraftPool = Integer.valueOf(parameters[0]) -1;
+            positionToPlace = new Position(Integer.parseInt(parameters[1])-1, Integer.parseInt(parameters[2])-1);
         }
         catch(IllegalArgumentException e){
-            //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
-            // gestite dal controller, ma non sono sicuro
+
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
         catch (IndexOutOfBoundsException e){

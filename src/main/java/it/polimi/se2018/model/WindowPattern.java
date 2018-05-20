@@ -76,16 +76,19 @@ public class WindowPattern {
     public String toString() {
         int row;
         int column;
-        String toReturn = "Nome: " + name + "\n" + "Difficoltà: " + this.difficultyNumber +  "\n";
+        String toReturn = "Nome: " + name + "\n" + "Difficoltà: " + this.difficultyNumber +  "\n\n";
 
         for (row = 0; row < 4; row++) {
+            toReturn = toReturn.concat("|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n");
             for (column = 0; column < 5; column++) {
+                toReturn = toReturn.concat("| ");
                 Position position = new Position(row, column);
-                if (getDice(position) == null)
-                    toReturn = toReturn.concat("O\t");
-                else toReturn = toReturn.concat(getDice(position).toString() + "\t");
+                if (getDice(position) != null){
+                    toReturn = toReturn.concat(getDice(position).toString()) + "  ";
+                }
+                else toReturn = toReturn.concat("   ");
             }
-            toReturn = toReturn.concat("\n");
+            toReturn = toReturn.concat("|\n" + "|____|____|____|____|____|\n");
         }
 
         return toReturn;

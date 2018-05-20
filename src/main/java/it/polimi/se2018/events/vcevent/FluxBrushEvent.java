@@ -11,12 +11,9 @@ public class FluxBrushEvent extends VCEvent {
         try {
             String[] parameters = userInput.split("\\s+");
             diceIndexInDraftPool = Integer.parseInt(parameters[0]) -1;
-            int row = Integer.parseInt(parameters[1]);
-            int column = Integer.parseInt(parameters[2]);
-            finalPosition = new Position(row-1, column-1);
-        }catch(IllegalArgumentException e){
-            //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
-            // gestite dal controller, ma non sono sicuro
+            finalPosition = new Position(Integer.parseInt(parameters[1])-1, Integer.parseInt(parameters[2])-1);
+        }
+        catch(IllegalArgumentException e){
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");

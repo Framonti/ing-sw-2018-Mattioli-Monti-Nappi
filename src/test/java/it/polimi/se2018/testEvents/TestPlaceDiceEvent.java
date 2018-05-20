@@ -18,7 +18,7 @@ public class TestPlaceDiceEvent {
 
         try{
             PlaceDiceEvent placeDiceEventToTest = new PlaceDiceEvent("2 3 4");
-            assertEquals(2, placeDiceEventToTest.getDiceIndexDraftPool());
+            assertEquals(1, placeDiceEventToTest.getDiceIndexDraftPool());
             assertEquals(2, placeDiceEventToTest.getPositionToPlace().getX());
             assertEquals(3, placeDiceEventToTest.getPositionToPlace().getY());
         }

@@ -9,11 +9,10 @@ public class GrozingPliersEvent extends VCEvent {
         super(1);
         try{
             String[] parameters = userInput.split("\\s+");
-            diceIndexInDraftPool = Integer.parseInt(parameters[0]);
-            choice = Integer.parseInt(parameters[1]);
-        }catch(IllegalArgumentException e){
-            //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
-            // gestite dal controller, ma non sono sicuro
+            diceIndexInDraftPool = Integer.parseInt(parameters[0]) -1;
+            choice = Integer.parseInt(parameters[1]) -1;
+        }
+        catch(IllegalArgumentException e){
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");

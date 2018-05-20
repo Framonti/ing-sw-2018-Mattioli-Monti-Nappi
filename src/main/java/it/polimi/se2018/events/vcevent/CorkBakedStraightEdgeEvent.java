@@ -1,3 +1,4 @@
+
 package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
@@ -11,7 +12,7 @@ public class CorkBakedStraightedgeEvent extends VCEvent {
         super(9);
         try{
             String[] parameters = userInput.split("\\s+");
-            indexInDraftPool = Integer.parseInt(parameters[0]);
+            indexInDraftPool = Integer.parseInt(parameters[0])-1;
             int finalRow = Integer.parseInt(parameters[1]);
             int finalColumn = Integer.parseInt(parameters[2]);
             finalPosition = new Position (finalRow-1, finalColumn-1);
@@ -33,8 +34,4 @@ public class CorkBakedStraightedgeEvent extends VCEvent {
         return finalPosition;
     }
 
-    @Override
-    public String toString() {
-        return "CorkBakedStraightedgeEvent";
-    }
 }

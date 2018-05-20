@@ -12,26 +12,16 @@ public class LathekinEvent extends VCEvent {
         super(4);
         try{
             String[] parameters = userInput.split("\\s+");
-            int initialRow = Integer.parseInt(parameters[0]);
-            int initialColumn = Integer.parseInt(parameters[1]);
-            initialPosition1 = new Position(initialRow-1, initialColumn-1);
-            int finalRow = Integer.parseInt(parameters[2]);
-            int finalColumn = Integer.parseInt(parameters[3]);
-            finalPosition1 = new Position (finalRow-1, finalColumn-1);
-            initialRow = Integer.parseInt(parameters[4]);
-            initialColumn = Integer.parseInt(parameters[5]);
-            initialPosition2 = new Position ( initialRow-1, initialColumn-1);
-            finalRow = Integer.parseInt(parameters[6]);
-            finalColumn = Integer.parseInt(parameters[7]);
-            finalPosition2 = new Position ( finalRow-1, finalColumn-1);
-        }catch(IllegalArgumentException e){
-            //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
-            // gestite dal controller, ma non sono sicuro
+            initialPosition1 = new Position(Integer.parseInt(parameters[0])-1, Integer.parseInt(parameters[1])-1);
+            finalPosition1 = new Position (Integer.parseInt(parameters[2])-1, Integer.parseInt(parameters[3])-1);
+            initialPosition2 = new Position ( Integer.parseInt(parameters[4])-1, Integer.parseInt(parameters[5])-1);
+            finalPosition2 = new Position ( Integer.parseInt(parameters[6])-1, Integer.parseInt(parameters[7])-1);
+        }
+        catch(IllegalArgumentException e){
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-
     }
 
     public Position getInitialPosition1() {

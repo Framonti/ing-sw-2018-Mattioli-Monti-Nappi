@@ -199,23 +199,26 @@ public class DicePattern {
 
         int row = 4;
         int column = 5;
-        String toReturn = "Nome: " + windowPattern.getName() + "\n" + "Difficoltà: " + windowPattern.getDifficultyNumber()+ "\n";
+        String toReturn = "Nome: " + windowPattern.getName() + "\n" + "Difficoltà: " + windowPattern.getDifficultyNumber()+ "\n\n";
 
         for (int i = 0; i < row; i++){
+            toReturn = toReturn.concat("|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n");
             for (int j = 0; j < column; j++){
+                toReturn = toReturn.concat("| ");
                 //The method concat the WindowPattern only if there isn't a dice on the DicePattern
                 //id est DiceMatrix[i][j] is null
                 if(diceMatrix[i][j] == null){
                     if (windowPattern.getWindowPattern()[i][j] == null)
-                        toReturn = toReturn.concat("O\t");
-                    else toReturn = toReturn.concat(windowPattern.getWindowPattern()[i][j].toString() + "\t");
+                        toReturn = toReturn.concat("   ");
+                    else toReturn = toReturn.concat(windowPattern.getWindowPattern()[i][j].toString() + "  ");
                 }
-                else toReturn = toReturn.concat(diceMatrix[i][j].toString() + "\t");
+                else toReturn = toReturn.concat(diceMatrix[i][j].toString() + " ");
             }
-            toReturn = toReturn.concat("\n");
+            toReturn = toReturn.concat("|\n" + "|____|____|____|____|____|\n");
         }
         return toReturn;
     }
+
 
     public List<String> dicePatternToString(){
         ArrayList<String> list = new ArrayList<>();
