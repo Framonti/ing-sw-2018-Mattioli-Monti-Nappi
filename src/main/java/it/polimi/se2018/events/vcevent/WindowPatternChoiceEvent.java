@@ -17,6 +17,8 @@ public class WindowPatternChoiceEvent extends VCEvent {
         super(-1);
         try {
             choice = Integer.parseInt(userInput) - 1;
+            if(choice < 0 || choice > 3)
+                throw new IllegalArgumentException("Parametro inesistente");
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");

@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.rmi.client.ClientInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Player {
     private List<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
     private int lap;
     private Map<String, Integer> publicObjectiveCards = new HashMap<>();
-
+    private ClientInterface clientInterface;
 
 
     //Constructor
@@ -54,6 +56,8 @@ public class Player {
 
     public DicePattern getDicePattern() {return dicePattern; }
 
+    public ClientInterface getClientInterface() { return clientInterface; }
+
     public boolean isDiceMoved() { return diceMoved; }
 
     public boolean isToolCardUsed() { return toolCardUsed; }
@@ -79,6 +83,8 @@ public class Player {
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) { this.privateObjectiveCard = privateObjectiveCard; }
+
+    public void setClientInterface(ClientInterface clientInterface) { this.clientInterface = clientInterface; }
 
     public void reverseDiceMoved() { diceMoved = !diceMoved; }
 

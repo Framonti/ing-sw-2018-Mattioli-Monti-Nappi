@@ -1,0 +1,10 @@
+it.polimi.se2018
+it.polimi.se2018.controller
+it.polimi.se2018.events.mvevent
+it.polimi.se2018.events.vcevent
+it.polimi.se2018.model
+it.polimi.se2018.rmi.client
+it.polimi.se2018.rmi.server
+it.polimi.se2018.testEvents
+it.polimi.se2018.testModel
+it.polimi.se2018.view

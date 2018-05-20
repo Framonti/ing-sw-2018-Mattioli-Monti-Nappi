@@ -1,74 +1,107 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.mvevent.*;
+import it.polimi.se2018.events.vcevent.VCEvent;
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.rmi.server.ServerImplementation;
+
+import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class is the fake view that is observed by the controller
+ * @author fabio
+ */
 public class VirtualViewCLI extends Observable implements Observer, ViewCLIInterface{
 
-    private MVEvent mvEvent;
+    private ServerImplementation server;
+    private Player currentPlayer;
 
-    public MVEvent getMvEvent() {
-        return mvEvent;
-    }
+    /**
+     * This method sets the currentPlayer attribute
+     * @param currentPlayer It's the current player
+     */
+    public void setCurrentPlayer(Player currentPlayer) { this.currentPlayer = currentPlayer; }
 
-    //TODO
-    public void getInput() {
-
-    }
-
-
-    public void showActionMenu(MVEvent showActionMenu) {
-
-        mvEvent = showActionMenu;
-    }
-
-
-    public void showAll(MVEvent showAllEvent) {
-
-        mvEvent = showAllEvent;
-    }
-
-    public void showDraftPool(MVEvent draftPoolEvent) {
-
-        mvEvent = draftPoolEvent;
+    /**
+     * This method sets the server attribute
+     * @param server It's the serverImplementation that has to be set
+     */
+    public void setServer(ServerImplementation server) {
+        this.server = server;
     }
 
 
-    public void showError(MVEvent errorEvent) {
-
-        mvEvent = errorEvent;
+    /**
+     * This method forwards the VCEvents coming from the view to the controller
+     * @param vcEvent It's the event that must be forwarded
+     */
+    public void forwardVCEvent(VCEvent vcEvent) {
+        setChanged();
+        notifyObservers(vcEvent);
     }
-
-
-    public void showRoundTrack(MVEvent roundTrackEvent) {
-
-        mvEvent = roundTrackEvent;
-    }
-
-
-    public void showScoreTrack(MVEvent scoreTrackEvent) {
-
-        mvEvent = scoreTrackEvent;
-    }
-
-
-    public void showToolCards(MVEvent toolCardEvent) {
-
-        mvEvent = toolCardEvent;
-    }
-
-    public void showDicePattern(MVEvent dicePatternEvent){
-
-        mvEvent = dicePatternEvent;
-    }
-
 
     @Override
-    public void update(Observable o, Object arg) {
-
-        this.mvEvent = (MVEvent) arg;
+    public void getInput() {
+        try {
+            server.sendTo(new GetInputEvent(), currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
     }
 
+    @Override
+    public void showActionMenu(MVEvent showActionMenu) {
+        try {
+            server.sendTo(showActionMenu, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void showError(MVEvent errorEvent) {
+        try {
+            server.sendTo(errorEvent, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void showWindowPatterns(MVEvent windowPatternsEvent) {
+        try {
+            server.sendTo(windowPatternsEvent, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void showAll(MVEvent showAllEvent) {
+        try {
+            server.sendTo(showAllEvent, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    //Qui arrivano solo eventi che modificano il model, quindi devono essere mostrati a tutti
+    @Override
+    public void update(Observable o, Object arg) {
+        MVEvent mvEvent = (MVEvent) arg;
+        try {
+            server.send(mvEvent);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
 
 }
