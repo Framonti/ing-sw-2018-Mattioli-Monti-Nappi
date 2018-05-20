@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public class GameSetupSingleton {
-    private ArrayList<Player> players;
+    private List<Player> players;
     private Deck<PublicObjectiveCard> publicObjectiveCardDeck;
     private Deck<PrivateObjectiveCard> privateObjectiveCardDeck;
     private Deck<ToolCard> toolCardDeck;
@@ -109,9 +109,13 @@ public class GameSetupSingleton {
         }
     }
 
-
-
-
+    /**
+     * Adds a player to the game
+     * @param player Player to be added
+     */
+    public void addPlayer(Player player){
+        players.add(player);
+    }
 
 
 }

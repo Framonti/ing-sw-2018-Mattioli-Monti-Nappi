@@ -32,10 +32,12 @@ public class ControllerCLI implements Observer  {
      */
     //TODO DA METTERE METODO choosePlayerOrder di GameSetup
     //TODO AGGIUNGERE WINNER EVENT
-    public ControllerCLI(VirtualViewCLI view, List<ToolCard> toolCards) {
+    //TODO: rivedere inizializzazione di model nel costruttore
+    public ControllerCLI(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model) {
         this.view = view;
         this.toolCards = toolCards;
         createMap();
+        this.model = model;
     }
 
 
@@ -142,7 +144,7 @@ public class ControllerCLI implements Observer  {
     private void setWindowPatternPlayer () {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
         int choice = windowPatternChoiceEvent.getChoice();
-        if (choice == 1 || choice == 2 || choice == 3 || choice == 4)
+        if (choice == 0 || choice == 1 || choice == 2 || choice == 3)
             model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice));
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
@@ -200,7 +202,7 @@ public class ControllerCLI implements Observer  {
         Dice diceChosen = getDiceFromDraftPool(grozingPliersEvent.getDiceIndexDraftPool());
         int choice = grozingPliersEvent.getChoice();
         //if player wants to decrease the value of the dice by one
-        if (choice == 1) {
+        if (choice == 0) {
             try {
                 diceChosen.subOne();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
@@ -213,7 +215,7 @@ public class ControllerCLI implements Observer  {
             }
 
         }
-        if (choice == 2) {
+        if (choice == 1) {
             try {
                 diceChosen.addOne();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent( model.draftPoolToString());
