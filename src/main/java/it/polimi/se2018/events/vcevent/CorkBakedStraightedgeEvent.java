@@ -1,4 +1,3 @@
-
 package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
@@ -13,12 +12,9 @@ public class CorkBakedStraightedgeEvent extends VCEvent {
         try{
             String[] parameters = userInput.split("\\s+");
             indexInDraftPool = Integer.parseInt(parameters[0])-1;
-            int finalRow = Integer.parseInt(parameters[1]);
-            int finalColumn = Integer.parseInt(parameters[2]);
-            finalPosition = new Position (finalRow-1, finalColumn-1);
-        }catch(IllegalArgumentException e){
-            //Dire all'utente che ha sbagliato; si dovrebbe poter fare con un rilancio di eccezioni,
-            // gestite dal controller, ma non sono sicuro
+            finalPosition = new Position (Integer.parseInt(parameters[1]) -1, Integer.parseInt(parameters[2])-1);
+        }
+        catch(IllegalArgumentException e){
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
