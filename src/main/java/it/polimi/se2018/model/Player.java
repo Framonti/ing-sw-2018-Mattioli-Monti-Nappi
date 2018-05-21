@@ -54,7 +54,7 @@ public class Player {
 
     public List<WindowPattern> getWindowPatterns() { return windowPatterns; }
 
-    public DicePattern getDicePattern() {return dicePattern; }
+    public DicePattern getDicePattern() { return dicePattern; }
 
     public ClientInterface getClientInterface() { return clientInterface; }
 

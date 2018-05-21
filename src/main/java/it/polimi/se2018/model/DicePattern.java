@@ -200,7 +200,6 @@ public class DicePattern {
         int row = 4;
         int column = 5;
         String toReturn = "Nome: " + windowPattern.getName() + "\n" + "Difficoltà: " + windowPattern.getDifficultyNumber()+ "\n\n";
-
         for (int i = 0; i < row; i++){
             toReturn = toReturn.concat("|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n");
             for (int j = 0; j < column; j++){

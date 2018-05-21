@@ -70,7 +70,7 @@ public class ToolCard{
 
     @Override
     public String toString() {
-        return "Nome: " + getName() + "\n" + "Descrizione: " + getDescription() + "\n" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
+        return getId() + ")" + getName() + "\n\t" + getDescription() + "\n\t" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
                 "\nColore: " + getColour().toString()+"\n";
     }
 }

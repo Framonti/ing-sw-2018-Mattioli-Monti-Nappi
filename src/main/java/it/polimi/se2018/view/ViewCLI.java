@@ -88,10 +88,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void showActionMenu(MVEvent event) {
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
-        String menu = (actionMenuEvent.isDiceMoved() ? "X" : "A") +
+        String menu = "\n" + (actionMenuEvent.isDiceMoved() ? "X)" : "A)") +
                 "\tPosiziona un dado della riserva nello schema\n" +
-                (actionMenuEvent.isToolCardUsed() ? "X" : "B") +
-                "\tPassa il turno\n";
+                (actionMenuEvent.isToolCardUsed() ? "X)" : "B)") +
+                "\tPassa il turno\nCARTE UTENSILI\n";
         for(String toolCard: actionMenuEvent.getToolCards())
             menu = menu.concat(toolCard);
 

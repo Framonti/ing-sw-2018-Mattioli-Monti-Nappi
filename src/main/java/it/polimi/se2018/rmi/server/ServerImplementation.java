@@ -60,7 +60,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         try {
             for(Player player: model.getPlayers()) {
                 List<String> windowPatterns = new ArrayList<>();
-                int num = 0;
+                int num = 1;
                 for (WindowPattern windowPattern: player.getWindowPatterns()) {
                     windowPatterns.add("Numero: " + num + "\n" + windowPattern.toString());
                     num++;
@@ -71,7 +71,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         catch (RemoteException e) {
             System.out.println("Errore di connessione: " + e.getMessage());
         }
-        //controllerCLI.game();
+
+        controllerCLI.game();
     }
 
     /**

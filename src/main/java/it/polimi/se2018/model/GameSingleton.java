@@ -194,7 +194,7 @@ public class GameSingleton extends Observable{
      * @return  A new dice bag.
      */
     private List<Dice> createDiceBag() {
-        ArrayList<Dice> diceBagToReturn = new ArrayList<>();
+        List<Dice> diceBagToReturn = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
             Dice diceB = new Dice(Colour.BLUE);
             Dice diceY = new Dice(Colour.YELLOW);
@@ -292,9 +292,10 @@ public class GameSingleton extends Observable{
      * @return A representation of the dice patterns of all players
      */
     public List<String> dicePatternsToString(){
-        ArrayList<String> list = new ArrayList<>();
-        for(Player player : getPlayers())
+        List<String> list = new ArrayList<>();
+        for(Player player : getPlayers()) {
             list.add(player.getDicePattern().toString());
+        }
         return list;
     }
 
@@ -303,7 +304,7 @@ public class GameSingleton extends Observable{
      * @return  A representation of all the tool cards
      */
     public List<String> toolCardsToString(){
-        ArrayList <String> list = new ArrayList<>();
+        List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
             list.add(toolCard.toString());
         }
@@ -315,7 +316,7 @@ public class GameSingleton extends Observable{
      * @return A representation of all players
      */
     public List<String> playersToString(){
-        ArrayList<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for(Player player : getPlayers())
             list.add(player.getName());
         return list;
@@ -327,7 +328,7 @@ public class GameSingleton extends Observable{
      * @return A representation of  public objective cards in the game
      */
     public List <String> publicObjectiveCardsToString(){
-        ArrayList<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (PublicObjectiveCard card : publicObjectiveCards)
             list.add(card.toString());
         return list;

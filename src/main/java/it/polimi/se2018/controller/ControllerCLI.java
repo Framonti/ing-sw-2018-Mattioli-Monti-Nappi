@@ -64,20 +64,31 @@ public class ControllerCLI implements Observer  {
     }
 
     //TODO rivedere TUTTO!!!
-    /*private void game() {
+    public void game() {
+        int i=0;
+        model.extractAndRoll();
+
         while (model.getRound() < 10){
-           while( true ) {
-                view.showActionMenu(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed());
-                String input = view.getInput();
-                update(model, input);
-                if (input.equals("12"))
-                    break;
+            view.setCurrentPlayer(model.getCurrentPlayer());
+            view.showAll(new ShowAllEvent(model.dicePatternsToString(), model.playersToString(),model.publicObjectiveCardsToString(),
+                        model.toolCardsToString(),model.draftPoolToString(),model.getRoundTrack().toString(),
+                        model.getCurrentPlayer().getPrivateObjectiveCard().toString()));
+            while( i<3 ) {
+                view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
+                                    model.toolCardsToString()));
+                view.getInput();
+                i++;
             }
+            nextPlayer();
        }
         computeAllScores();
-        view.showScoreTrack(model.getScoreTrack());
-        view.printWinner(model.selectWinner());
-    }*/
+        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
+        model.mySetChanged();
+        model.notifyObservers(showScoreTrackEvent);
+        WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
+        model.mySetChanged();
+        model.notifyObservers(winnerEvent);
+    }
 
 
 
@@ -89,24 +100,6 @@ public class ControllerCLI implements Observer  {
     private PrivateObjectiveCard getPrivateObjectiveCard () {
             return model.getCurrentPlayer().getPrivateObjectiveCard();
     }
-
-        //returns the tool card chosen by a player
-   /* public ToolCard getChosenToolCard(String userInput)  {
-        int choice = Integer.parseInt(userInput);
-        if ( choice == 1 || choice == 2 || choice == 3 || choice == 4 )
-            return toolCards.get((choice-1));
-        else
-            throw new IllegalArgumentException("The number you chose is not available");
-    }*/
-
-        //returns the window pattern chosen by a player during setup
-    /*private WindowPattern getWindowPattern(String userInput) {
-        int choice = Integer.parseInt(userInput);
-        if( choice == 1 || choice == 2 || choice == 3 || choice == 4)
-            return model.getCurrentPlayer().getWindowPatterns().get(choice-1);
-        else
-            throw new IllegalArgumentException("The number you chose is no available");
-    }*/
 
 
     /**
@@ -144,7 +137,7 @@ public class ControllerCLI implements Observer  {
     private void setWindowPatternPlayer () {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
         int choice = windowPatternChoiceEvent.getChoice();
-        if (choice == 0 || choice == 1 || choice == 2 || choice == 3)
+        if (choice >=0 && choice < 4)
             model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice));
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
@@ -236,12 +229,13 @@ public class ControllerCLI implements Observer  {
         EglomiseBrushEvent eglomiseBrushEvent = (EglomiseBrushEvent) event;
         Dice diceChosen = getDiceFromDicePattern(eglomiseBrushEvent.getInitialPosition());
         Position finalPosition = eglomiseBrushEvent.getFinalPosition();
+        Position initialPosition = eglomiseBrushEvent.getInitialPosition();
         if (model.getCurrentPlayer().getWindowPattern().checkCellValueRestriction(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
             try {
-                model.getCurrentPlayer().getDicePattern().moveDice(eglomiseBrushEvent.getInitialPosition(), finalPosition);
+                model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
                 DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
                 model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
@@ -613,7 +607,7 @@ public class ControllerCLI implements Observer  {
     }
 
     /**
-     * Changes the current player
+     * Changes the current player and if lap is the second, calls nextRound()
      */
     private void nextPlayer () {
         if (model.getLap() == 0) {
@@ -644,7 +638,7 @@ public class ControllerCLI implements Observer  {
 
     /**
      * Increase round, changes players position, puts remaining dices from the draft pool to the round track,
-     * extracts new dices from diceBag and show all
+     * extracts new dices from diceBag and show
      */
     private void nextRound () {
         model.increaseRound();

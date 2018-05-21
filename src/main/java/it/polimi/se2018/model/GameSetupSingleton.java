@@ -85,6 +85,7 @@ public class GameSetupSingleton {
     public GameSingleton createNewGame(){
 
         assignWindowPatterns();
+        assignPrivateObjective();
         choosePlayersOrder();
         return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack(), new ScoreTrack(players));
     }
@@ -110,11 +111,11 @@ public class GameSetupSingleton {
     }
 
     /**
-     * Adds a player to the game
-     * @param player Player to be added
+     * Add players to the game
+     * @param players Player to be added to the game
      */
-    public void addPlayer(Player player){
-        players.add(player);
+    public void addPlayers(List<Player> players){
+        this.players = players;
     }
 
 
