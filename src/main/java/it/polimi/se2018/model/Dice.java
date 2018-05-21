@@ -23,6 +23,7 @@ public class Dice
     /**
      * Creates a dice with a specific value but no colour.
      * This constructor will be only used for the windowPatterns
+     * @param value The initial value of the dice
      */
     public Dice(int value) {
 

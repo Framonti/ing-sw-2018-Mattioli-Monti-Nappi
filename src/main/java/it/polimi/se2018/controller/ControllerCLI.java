@@ -13,6 +13,10 @@ import it.polimi.se2018.view.VirtualViewCLI;
  * @author Daniele Mattioli
  */
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 //da controllare: eccezioni, update()
 
@@ -24,6 +28,9 @@ public class ControllerCLI implements Observer  {
     private Map<Integer, Runnable> eventsHandler = new HashMap<>();
     private VCEvent event;
     private String nonValidInput = "Non valid input";
+    private int turnDuration = 10000;
+    private boolean turnEnded = false;
+    private TurnTimer turnTimer = new TurnTimer();
 
     /**
      * Constructor of the class.
@@ -33,11 +40,12 @@ public class ControllerCLI implements Observer  {
     //TODO DA METTERE METODO choosePlayerOrder di GameSetup
     //TODO AGGIUNGERE WINNER EVENT
     //TODO: rivedere inizializzazione di model nel costruttore
-    public ControllerCLI(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model) {
+    public ControllerCLI(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
         this.view = view;
         this.toolCards = toolCards;
-        createMap();
         this.model = model;
+        this.turnDuration = turnDuration;
+        createMap();
     }
 
 
@@ -65,7 +73,7 @@ public class ControllerCLI implements Observer  {
 
     //TODO rivedere TUTTO!!!
     public void game() {
-        int i=0;
+
         model.extractAndRoll();
 
         while (model.getRound() < 10){
@@ -73,12 +81,15 @@ public class ControllerCLI implements Observer  {
             view.showAll(new ShowAllEvent(model.dicePatternsToString(), model.playersToString(),model.publicObjectiveCardsToString(),
                         model.toolCardsToString(),model.draftPoolToString(),model.getRoundTrack().toString(),
                         model.getCurrentPlayer().getPrivateObjectiveCard().toString()));
-            while( i<3 ) {
+            Thread turnT = new Thread(turnTimer);
+            turnT.start();
+            while(!turnEnded) {
                 view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
-                                    model.toolCardsToString()));
+                                                        model.toolCardsToString()));
                 view.getInput();
-                i++;
             }
+            turnEnded = false;
+            turnT.interrupt();
             nextPlayer();
        }
         computeAllScores();
@@ -89,9 +100,6 @@ public class ControllerCLI implements Observer  {
         model.mySetChanged();
         model.notifyObservers(winnerEvent);
     }
-
-
-
 
     /**
      * Gets the private objective card the player has asked for
@@ -692,5 +700,16 @@ public class ControllerCLI implements Observer  {
         performAction(event);
     }
 
+    class TurnTimer implements Runnable {
+
+        @Override
+        public void run() {
+            long start = System.currentTimeMillis();
+            long end = start + turnDuration;
+            //Just waits
+            while (System.currentTimeMillis() < end) { }
+            turnEnded = true;
+        }
+    }
 
 }

@@ -12,6 +12,10 @@ public class Deck<T> {
 
     private List<T> cardDeck;
 
+    /**
+     * Constructor
+     * @param deck A deck consists of a List of T
+     */
     public Deck(List<T> deck) {
 
         this.cardDeck = deck;
@@ -42,6 +46,7 @@ public class Deck<T> {
 
     /**
      * Mixes and then returns the first "numberToExtract" cards from a deck
+     * @param numberToExtract The number of elements to extract
      * @return A List with "numberToExtract" elements
      */
     public List<T> mixAndDistribute(int numberToExtract) {

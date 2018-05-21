@@ -16,9 +16,11 @@ public class Position implements Serializable{
     private final int x;
     private final int y;
 
-    //Constructor
     /**
+     * Constructor
      * It raises an IllegalArgumentException if the position don't respect the limitation of the bidimensional arrays of the game
+     * @param x The row index
+     * @param y The column index
      */
     public Position(int x, int y) {
 

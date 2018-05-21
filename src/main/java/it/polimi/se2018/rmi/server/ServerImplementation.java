@@ -1,5 +1,6 @@
 package it.polimi.se2018.rmi.server;
 
+import it.polimi.se2018.ConfigurationParametersLoader;
 import it.polimi.se2018.controller.ControllerCLI;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
@@ -49,10 +50,14 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      * This method creates a new game and ask the players to choose their windowPattern
      */
     private void createGame() {
+
+        ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
+        int turnDuration = configurationParametersLoader.getTurnTimer();
+
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(createPlayerList(clients));
         GameSingleton model = GameSetupSingleton.instance().createNewGame();
-        ControllerCLI controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model);
+        ControllerCLI controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
         virtualViewCLI.addObserver(controllerCLI);
         model.addObserver(virtualViewCLI);

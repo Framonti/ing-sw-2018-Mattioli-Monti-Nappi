@@ -32,7 +32,11 @@ public class DicePattern {
         return diceMatrix[position.getX()][position.getY()];
     }
 
-    //setter
+    /**
+     * Set a Dice on the required position
+     * @param position The position a user wants to put a Dice in
+     * @param dice The dice a user wants to put
+     */
     public void setDice(Position position, Dice dice) {
 
         diceMatrix[position.getX()][position.getY()] = dice;
@@ -40,6 +44,7 @@ public class DicePattern {
 
     /**
      * Checks if a position has a dice
+     * @param position The position required
      * @return True if there is no dice in the required position
      */
     public  boolean isEmpty(Position position) {
@@ -73,6 +78,7 @@ public class DicePattern {
     /**
      * Checks if a position is on the edge of the DicePattern and if
      * no dice has already been placed on the DicePattern before
+     * @param position The position to be checked
      * @return True if the position required is on one of the edge of diceMatrix and there are no other dice placed on the DicePattern before
      * */
     public boolean checkEdge(Position position) {
@@ -84,6 +90,7 @@ public class DicePattern {
 
     /**
      * Checks if there is a dice in any adjacent position
+     * @param position The position to be checked
      * @return True if at least an adjacent position has a dice
      */
     public boolean checkAdjacency(Position position) {
@@ -98,6 +105,8 @@ public class DicePattern {
 
     /**
      * Checks if an orthogonal adjacent position has a dice of the same colour of the dice required
+     * @param position The position to be checked
+     * @param dice The dice to be placed
      * @return True if there is no dice with the same colour of the dice required
      * */
     public boolean checkAdjacentColour(Position position, Dice dice)
@@ -114,6 +123,8 @@ public class DicePattern {
 
     /**
      * Checks if an orthogonal adjacent position has a dice of the same value of the dice required
+     * @param dice The Dice to be placed
+     * @param position The position to be checked
      * @return True if there is no dice with the same colour of the dice required
      */
     public boolean checkAdjacentValue(Position position, Dice dice)
@@ -158,6 +169,7 @@ public class DicePattern {
 
     /**
      * Removes and returns a dice from the required position
+     * @param position The position with a dice to be removed
      * @return A dice from the required position.
      * @throws IllegalArgumentException if the position required has no dice
      */
@@ -173,6 +185,8 @@ public class DicePattern {
     /**
      * Moves a dice from a position to another, checking that the initial position has a dice and that
      * the final position is empty
+     * @param finalPosition The position where a user wants to move the dice in
+     * @param initialPosition The position a user wants to take a dice from
      * @throws IllegalArgumentException if the initial position has a dice or the final position is empty
      */
     public void moveDice(Position initialPosition, Position finalPosition) {
@@ -218,7 +232,10 @@ public class DicePattern {
         return toReturn;
     }
 
-
+    /**
+     * A toString used for some events
+     * @return A list with this object.toString as only element
+     */
     public List<String> dicePatternToString(){
         ArrayList<String> list = new ArrayList<>();
         list.add(this.toString());
