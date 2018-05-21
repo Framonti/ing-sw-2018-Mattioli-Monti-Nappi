@@ -245,6 +245,11 @@ public class ControllerCLI implements Observer  {
                 view.getInput();
             }
         }
+        else{
+            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+            view.showError(errorEvent);
+            view.getInput();
+        }
     }
 
     /**
@@ -268,6 +273,11 @@ public class ControllerCLI implements Observer  {
                 view.showError(errorEvent);
                 view.getInput();
             }
+        }
+        else{
+            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+            view.showError(errorEvent);
+            view.getInput();
         }
     }
 
@@ -299,6 +309,11 @@ public class ControllerCLI implements Observer  {
                 view.showError(errorEvent);
                 view.getInput();
             }
+        }
+        else{
+            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+            view.showError(errorEvent);
+            view.getInput();
         }
 
     }
