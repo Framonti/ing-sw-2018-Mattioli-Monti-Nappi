@@ -37,6 +37,8 @@ public class Server {
             ServerImplementation serverImplementation = new ServerImplementation(virtualViewCLI);
 
             Naming.rebind("//localhost/MyServer", serverImplementation);
+
+            System.out.println("Server is up.");
         }
         catch (MalformedURLException e) {
             System.err.println("Impossibile registrare l'oggetto indicato!");

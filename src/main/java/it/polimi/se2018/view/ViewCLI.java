@@ -47,7 +47,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private void createMVMap() {
         mvEvents.put(-1, ()-> showWindowPatterns(mvEvent));
-        mvEvents.put(1, ()-> showAllDicePatterns(mvEvent));
+        mvEvents.put(1, ()-> showDicePattern(mvEvent));
         mvEvents.put(2, ()-> showDraftPool(mvEvent));
         mvEvents.put(3, ()-> showToolCards(mvEvent));
         mvEvents.put(4, ()-> showRoundTrack(mvEvent));
@@ -91,7 +91,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         String menu = "\n" + (actionMenuEvent.isDiceMoved() ? "X)" : "A)") +
                 "\tPosiziona un dado della riserva nello schema\n" +
                 (actionMenuEvent.isToolCardUsed() ? "X)" : "B)") +
-                "\tPassa il turno\nCARTE UTENSILI\n";
+                "\tPassa il turno\n";
         for(String toolCard: actionMenuEvent.getToolCards())
             menu = menu.concat(toolCard);
 
@@ -108,17 +108,18 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         input = input.toLowerCase();
 
         try {
-          //  if(Integer.parseInt(input)>)
+            if(input.charAt(0) == 'b') {
+                System.out.println("TURNO TERMINATO. ATTENDI.");
+                return new SkipTurnEvent();
+            }
+            if(input.charAt(0) == '7')
+                return new GlazingHammerEvent();
             eventParameters = input.substring(2);
             if(input.charAt(0) == 'a')
                 return new PlaceDiceEvent(eventParameters);
-            else if(input.charAt(0) == 'b')
-                return new SkipTurnEvent();
-            else {
-                event = Integer.parseInt(input);
-                vcEvents.get(event).run();
-                return vcEvent;
-            }
+            event = Integer.parseInt(input);
+            vcEvents.get(event).run();
+            return vcEvent;
         }
         catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Parametri insufficienti");
@@ -130,15 +131,21 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void getInput() {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
+        System.out.println("FAI UNA MOSSA");
         try {
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
             VCEvent event = createEvent(input);
             setChanged();
             notifyObservers(event);
+            //scanner.close();
         }
         catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
+            getInput();
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("noSuchElementException");
             getInput();
         }
 
@@ -239,8 +246,11 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private void showDicePattern(MVEvent event) {
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
-        System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(0));
-        System.out.println(dicePatternEvent.getDicePatternsString().get(0));
+        int playerIndex;
+        for(playerIndex = 0; playerIndex < dicePatternEvent.getPlayerNames().size(); playerIndex++) {
+            System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
+            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
+        }
     }
 
     /**
@@ -298,6 +308,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.next());
             setChanged();
             notifyObservers(vcEvent);
+            //scanner.close();
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -308,7 +319,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     //farsi mandare anche la stringa del giocatore corrente
     /**
      * Shows who is the winner of the the match
-     * @param winner It's the player who has won
+     * @param event It's the MVEvent received
      */
     private void printWinner(MVEvent event) {
         WinnerEvent winnerEvent = (WinnerEvent) event;

@@ -145,9 +145,14 @@ public class ControllerCLI implements Observer  {
     private void setWindowPatternPlayer () {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
         int choice = windowPatternChoiceEvent.getChoice();
-        if (choice >=0 && choice < 4)
+        if (choice >=0 && choice < 4) {
             model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice));
-        else {
+            if(model.getPlayers().indexOf(model.getCurrentPlayer()) != model.getPlayers().size() - 1)
+                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1));
+            else
+                model.setCurrentPlayer(model.getPlayers().get(0));
+        }
+        else { //qui non ci va mai, si può anche togliere. Che dici dan?
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
             view.showError(errorEvent);
             view.getInput();
@@ -634,25 +639,20 @@ public class ControllerCLI implements Observer  {
      */
     private void nextPlayer () {
         if (model.getLap() == 0) {
-            for (Player player : model.getPlayers()) {
-                if (!player.equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
-                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(player) + 1)); //currentPlayer is the one following player
-                } else {
-                    model.setCurrentPlayer(player); //currentPlayer is still player
-                    model.setLap(1); //begins second turn of the round
-                }
-
+            if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
+                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
+            } else {
+              //  model.setCurrentPlayer(player); //currentPlayer is still player *andrebbe cambiato in set..(currentPlayer) quindi è inutile
+                model.setLap(1); //begins second turn of the round
             }
 
-        } else if (model.getLap() == 1) {
-            for (Player player : model.getPlayers()) {
-                if (!player.equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
-                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(player) - 1)); //currentPlayer is the previous of player
-                } else {
-                    model.setLap(0); //end of second turn
-                    nextRound();
-                }
 
+        } else if (model.getLap() == 1) {
+            if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
+                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
+            } else {
+                model.setLap(0); //end of second turn
+                nextRound();
             }
         }
     }
@@ -669,9 +669,9 @@ public class ControllerCLI implements Observer  {
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.fromDraftPoolToRoundTrack();
         model.extractAndRoll();
-        ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
-        model.mySetChanged();
-        model.notifyObservers(showAllEvent);
+       // ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
+       // model.mySetChanged();
+       // model.notifyObservers(showAllEvent);
     }
 
 
@@ -690,6 +690,7 @@ public class ControllerCLI implements Observer  {
      * Skips current player's turn
      */
     private void skipTurn () {
+        turnEnded = true;
         nextPlayer();
     }
 

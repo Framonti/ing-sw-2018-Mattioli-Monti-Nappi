@@ -244,9 +244,12 @@ public class GameSingleton extends Observable{
      */
     public void fromDraftPoolToRoundTrack() {
         roundTrack.addDices(draftPool);
+        draftPool.clear();
         DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
+        setChanged();
         notifyObservers(draftPoolEvent);
         RoundTrackEvent roundTrackEvent = new RoundTrackEvent(roundTrack.toString());
+        setChanged();
         notifyObservers(roundTrackEvent);
 
     }
