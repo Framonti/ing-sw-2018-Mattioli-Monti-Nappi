@@ -9,6 +9,7 @@ import it.polimi.se2018.events.mvevent.DraftPoolEvent;
 import it.polimi.se2018.events.mvevent.RoundTrackEvent;
 import it.polimi.se2018.events.vcevent.*;
 
+
 /**
  * This class represents the game and contains all the objects on the game table.
  * This class is a singleton because there can be only one game at a time.
@@ -211,14 +212,11 @@ public class GameSingleton extends Observable{
     }
 
     /**
-     * If it's possible, increase current round by one.
-     * @throws IllegalArgumentException Exception thrown if current round is not in range [0,9].
+     *Increases current round by one.
+
      */
     public void increaseRound() {
-        if (round >= 0 && round <= 9)
-            round++;
-        else
-            throw new IllegalArgumentException("Invalid value");
+        round++;
     }
 
 
@@ -310,6 +308,14 @@ public class GameSingleton extends Observable{
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
             list.add(toolCard.toString());
+        }
+        return list;
+    }
+
+    public List<String> toolCardsToStringAbbreviated(){
+        List <String> list = new ArrayList<>();
+        for( ToolCard toolCard : toolCards){
+            list.add(toolCard.toStringAbbreviated());
         }
         return list;
     }

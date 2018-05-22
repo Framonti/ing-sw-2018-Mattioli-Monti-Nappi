@@ -2,7 +2,9 @@ package it.polimi.se2018.testModel;
 
 import it.polimi.se2018.model.*;
 import org.junit.Before;
+
 import org.junit.Test;
+
 
 import java.util.ArrayList;
 
@@ -117,19 +119,6 @@ public class TestGameSingleton {
     }
 
 
-    //DA CHIEDERE SE VA BENE COSì
-    @Test(expected = IllegalArgumentException.class)
-    public void testIncreaseRoundException(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
-        instance.setRound(-1);
-        instance.increaseRound();
-
-        instance.setRound(9);
-        instance.increaseRound();
-
-        instance.setRound(10);
-        instance.increaseRound();
-    }
 
 
     @Test

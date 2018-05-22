@@ -85,7 +85,7 @@ public class ControllerCLI implements Observer  {
             turnT.start();
             while(!turnEnded) {
                 view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
-                                                        model.toolCardsToString()));
+                                                        model.toolCardsToStringAbbreviated()));
                 view.getInput();
             }
             turnEnded = false;
@@ -336,7 +336,7 @@ public class ControllerCLI implements Observer  {
 
     //TODO: CONTROLLARE SE VA BENE CHE QUESTA RILANCI L'ECCEZIONE E SIA POI LENS CUTTER A RICHIEDERE L'INPUT
     /**
-     * Swaps a dice in the draft pool with a dice in the round track
+     * Swaps a dice in the draft pool with a dice in the round track.
      * @param round Number of the chosen round
      * @param indexOfRoundTrack Index of the dice in the chosen round
      * @param indexOfDraftPool Index of the dice in the draft pool

@@ -73,4 +73,12 @@ public class ToolCard{
         return getId() + ")\t" + getName() + "\n\t" + getDescription() + "\n\t" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
                 "\n\tColore: " + getColour().toString() + "\n";
     }
+
+    /**
+     * Gets a tool card representation without its description and colour
+     * @return Tool card representation without its description and colour
+     */
+    public String toStringAbbreviated(){
+        return getId() + ")\t" + getName() + "\n\t"  + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") + "\n";
+    }
 }
