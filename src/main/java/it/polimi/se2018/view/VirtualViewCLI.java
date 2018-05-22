@@ -92,6 +92,16 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         }
     }
 
+    @Override
+    public void showEndTurn(MVEvent endTurnEvent) {
+        try {
+            server.sendTo(endTurnEvent, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
     //Qui arrivano solo eventi che modificano il model, quindi devono essere mostrati a tutti
     @Override
     public void update(Observable o, Object arg) {

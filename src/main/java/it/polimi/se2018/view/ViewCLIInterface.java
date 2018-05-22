@@ -38,4 +38,6 @@ public interface ViewCLIInterface {
      */
     void showAll(MVEvent mvEvent);
 
+    void showEndTurn(MVEvent mvEvent);
+
 }

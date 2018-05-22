@@ -18,6 +18,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private String eventParameters;
     private MVEvent mvEvent;
     private VCEvent vcEvent;
+    private Scanner scanner;
+
 
     /**
      * Constructor of this class
@@ -29,6 +31,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
         //mvEvents initialization (alphabetic order)
         createMVMap();
+
+        scanner = new Scanner(System.in);
     }
 
     /**
@@ -37,8 +41,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     public String askName() {
         System.out.println("Inserisci username");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
+        return scanner.nextLine();
 
     }
 
@@ -58,6 +61,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> printWinner(mvEvent));
         mvEvents.put(11, this::getInput);
+        mvEvents.put(12, ()-> showEndTurn(mvEvent));
     }
 
     /**
@@ -94,7 +98,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 "\tPassa il turno\n";
         for(String toolCard: actionMenuEvent.getToolCards())
             menu = menu.concat(toolCard);
-
+        menu = menu.concat("\nFAI UNA MOSSA: ");
         System.out.println(menu);
     }
 
@@ -109,7 +113,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
         try {
             if(input.charAt(0) == 'b') {
-                System.out.println("TURNO TERMINATO. ATTENDI.");
                 return new SkipTurnEvent();
             }
             if(input.charAt(0) == '7')
@@ -131,9 +134,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void getInput() {
-        System.out.println("FAI UNA MOSSA");
         try {
-            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             VCEvent event = createEvent(input);
             setChanged();
@@ -141,7 +142,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             //scanner.close();
         }
         catch (IllegalArgumentException e) {
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getMessage());
             getInput();
         }
         catch (NoSuchElementException e) {
@@ -247,7 +248,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private void showDicePattern(MVEvent event) {
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
         int playerIndex;
-        for(playerIndex = 0; playerIndex < dicePatternEvent.getPlayerNames().size(); playerIndex++) {
+        for(playerIndex = 0; playerIndex < dicePatternEvent.getDicePatternsString().size(); playerIndex++) {
             System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
             System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
         }
@@ -304,8 +305,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private void selectWindowPattern() {
         try {
             System.out.println("SELEZIONA UNA CARTA SCHEMA");
-            Scanner scanner = new Scanner(System.in);
-            VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.next());
+            VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.nextLine());
             setChanged();
             notifyObservers(vcEvent);
             //scanner.close();
@@ -350,6 +350,11 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         showPublicObjectiveCards(showAllEvent.getPublicObjectivCardsString());
         showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
         showToolCards(showAllEvent.getToolCardsString());
+    }
+
+    @Override
+    public void showEndTurn(MVEvent event) {
+        System.out.println("TURNO TERMINATO. ATTENDI.\n");
     }
 
     /**

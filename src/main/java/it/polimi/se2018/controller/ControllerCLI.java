@@ -17,6 +17,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 //da controllare: eccezioni, update()
 
@@ -28,9 +29,11 @@ public class ControllerCLI implements Observer  {
     private Map<Integer, Runnable> eventsHandler = new HashMap<>();
     private VCEvent event;
     private String nonValidInput = "Non valid input";
-    private int turnDuration = 10000;
+    private long turnDuration;
     private boolean turnEnded = false;
-    private TurnTimer turnTimer = new TurnTimer();
+    private TurnTimer turnTimer;
+    private PlayerTurn playerTurn;
+    private Object lock;
 
     /**
      * Constructor of the class.
@@ -44,7 +47,7 @@ public class ControllerCLI implements Observer  {
         this.view = view;
         this.toolCards = toolCards;
         this.model = model;
-        this.turnDuration = turnDuration;
+        this.turnDuration = (long)turnDuration;
         createMap();
     }
 
@@ -72,26 +75,29 @@ public class ControllerCLI implements Observer  {
     }
 
     //TODO rivedere TUTTO!!!
-    public void game() {
+    public synchronized void game() {
 
         model.extractAndRoll();
 
         while (model.getRound() < 10){
+            turnTimer = new TurnTimer();
+            playerTurn = new PlayerTurn();
             view.setCurrentPlayer(model.getCurrentPlayer());
             view.showAll(new ShowAllEvent(model.dicePatternsToString(), model.playersToString(),model.publicObjectiveCardsToString(),
-                        model.toolCardsToString(),model.draftPoolToString(),model.getRoundTrack().toString(),
-                        model.getCurrentPlayer().getPrivateObjectiveCard().toString()));
-            Thread turnT = new Thread(turnTimer);
-            turnT.start();
-            while(!turnEnded) {
-                view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
-                                                        model.toolCardsToStringAbbreviated()));
-                view.getInput();
+                    model.toolCardsToString(),model.draftPoolToString(),model.getRoundTrack().toString(),
+                    model.getCurrentPlayer().getPrivateObjectiveCard().toString()));
+            try {
+                turnTimer.start();
+                playerTurn.start();
+                wait();
+
+                view.showEndTurn(new EndTurnEvent());
             }
-            turnEnded = false;
-            turnT.interrupt();
+            catch (InterruptedException e) {
+                System.out.println("interrupted exception è grave");
+            }
             nextPlayer();
-       }
+        }
         computeAllScores();
         ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
         model.mySetChanged();
@@ -689,9 +695,10 @@ public class ControllerCLI implements Observer  {
     /**
      * Skips current player's turn
      */
-    private void skipTurn () {
-        turnEnded = true;
-        nextPlayer();
+    private synchronized void skipTurn () {
+        turnTimer.interrupt();
+        playerTurn.interrupt();
+        notifyAll();
     }
 
 
@@ -701,15 +708,29 @@ public class ControllerCLI implements Observer  {
         performAction(event);
     }
 
-    class TurnTimer implements Runnable {
+    class TurnTimer extends Thread {
 
         @Override
         public void run() {
-            long start = System.currentTimeMillis();
-            long end = start + turnDuration;
-            //Just waits
-            while (System.currentTimeMillis() < end) { }
-            turnEnded = true;
+            try {
+                sleep(turnDuration);
+                skipTurn();
+            }
+            catch (InterruptedException e) {
+                System.out.println("errore");
+            }
+        }
+    }
+
+    class PlayerTurn extends Thread {
+
+        @Override
+        public void run() {
+            while (true) {
+                view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
+                        model.toolCardsToString()));
+                view.getInput();
+            }
         }
     }
 
