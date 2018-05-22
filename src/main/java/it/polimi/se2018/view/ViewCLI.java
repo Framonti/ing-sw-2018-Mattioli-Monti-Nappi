@@ -40,7 +40,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * @return The player's name
      */
     public String askName() {
-        System.out.println("Inserisci username");
+        System.out.println("INSERISCI USERNAME:");
         return scanner.nextLine();
 
     }
@@ -142,7 +142,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             //scanner.close();
         }
         catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println("IllegalArgument in getInput");
             getInput();
         }
         catch (NoSuchElementException e) {
@@ -243,7 +243,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     /**
      * Shows the window pattern of the player with the dices on it
      * @param event It's the MVEvent received
-     * @deprecated
      */
     private void showDicePattern(MVEvent event) {
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
@@ -344,12 +343,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void showAll(MVEvent event) {
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
-        showRoundTrack(showAllEvent.getRoundTrackString());
-        showAllDicePatterns(showAllEvent.getDicePatternsString());
-        showDraftPool(showAllEvent.getDraftPoolString());
-        showPublicObjectiveCards(showAllEvent.getPublicObjectivCardsString());
+        showRoundTrack(showAllEvent.getRoundTrack());
+        showDicePattern(showAllEvent.getDicePatterns());
+        showDraftPool(showAllEvent.getDraftPool());
+        showPublicObjectiveCards(showAllEvent.getPublicObjectiveCardsString());
         showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
-        showToolCards(showAllEvent.getToolCardsString());
+        showToolCards(showAllEvent.getToolCards());
     }
 
     @Override
