@@ -83,10 +83,16 @@ public class ControllerCLI implements Observer  {
             turnTimer = new TurnTimer();
             playerTurn = new PlayerTurn();
             view.setCurrentPlayer(model.getCurrentPlayer());
-            view.showAll(new ShowAllEvent(model.dicePatternsToString(), model.playersToString(),model.publicObjectiveCardsToString(),
-                    model.toolCardsToString(),model.draftPoolToString(),model.getRoundTrack().toString(),
-                    model.getCurrentPlayer().getPrivateObjectiveCard().toString()));
+            view.showAll(new ShowAllEvent(
+                    new DicePatternEvent(model.dicePatternsToString(), model.playersToString()),
+                    model.publicObjectiveCardsToString(),
+                    new ToolCardEvent(model.toolCardsToString()),
+                    new DraftPoolEvent( model.draftPoolToString()),
+                    new RoundTrackEvent(model.getRoundTrack().toString()),
+                    model.getCurrentPlayer().getPrivateObjectiveCard().toString())
+            );
             try {
+                turnEnded = false;
                 turnTimer.start();
                 playerTurn.start();
                 wait();
@@ -696,6 +702,7 @@ public class ControllerCLI implements Observer  {
      * Skips current player's turn
      */
     private synchronized void skipTurn () {
+        turnEnded = true;
         turnTimer.interrupt();
         playerTurn.interrupt();
         notifyAll();
@@ -726,9 +733,9 @@ public class ControllerCLI implements Observer  {
 
         @Override
         public void run() {
-            while (true) {
+            while (!turnEnded) {
                 view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
-                        model.toolCardsToString()));
+                        model.toolCardsToStringAbbreviated()));
                 view.getInput();
             }
         }
