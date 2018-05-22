@@ -8,61 +8,49 @@ import java.util.List;
  */
 public class ShowAllEvent extends MVEvent{
 
-    private List<String> dicePatternsString;
-    private List<String> namePlayers;
+    private DicePatternEvent dicePatternEvent;
     private List<String> publicObjectiveCardsString;
-    private List<String> toolCardsString;
-    private String draftPoolString;
-    private String roundTrackString;
+    private ToolCardEvent toolCardEvent;
+    private DraftPoolEvent draftPoolEvent;
+    private RoundTrackEvent roundTrackEvent;
     private String privateObjectiveCardString;
 
 
     /**
      * Constructor
-     * @param dicePatternsString A List of all the DicePattern in game, each represented by a String
-     * @param namePlayers A List of all the players nickname
+     * @param dicePatternEvent A DicePatternEvent with all the DicePattern in game and their owner, each represented by a String
      * @param publicObjectiveCardsString A List of all the PublicObjectiveCard, each represented by a String
-     * @param toolCardString A List of all the ToolCard, each represented by a String
-     * @param draftPoolString A String representing the draftPool
-     * @param roundTrackString A String representing the RoundTrack
+     * @param toolCardEvent A ToolCardEvent with all the ToolCard, each represented by a String
+     * @param draftPoolEvent A DraftPoolEvent representing the draftPool
+     * @param roundTrackEvent A RoundTrackEvent representing the RoundTrack
      * @param privateObjectiveCardString A String representing a PrivateObjectiveCard
      */
-    public ShowAllEvent(List<String> dicePatternsString, List<String> namePlayers, List<String> publicObjectiveCardsString,
-                        List<String> toolCardString, String draftPoolString, String roundTrackString, String privateObjectiveCardString){
+    public ShowAllEvent(DicePatternEvent dicePatternEvent, List<String> publicObjectiveCardsString,
+                        ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent, String privateObjectiveCardString){
 
         super(7);
-        this.dicePatternsString = dicePatternsString;
-        this.draftPoolString = draftPoolString;
-        this.namePlayers = namePlayers;
+        this.dicePatternEvent = dicePatternEvent;
+        this.draftPoolEvent = draftPoolEvent;
         this.privateObjectiveCardString = privateObjectiveCardString;
-        this.toolCardsString = toolCardString;
+        this.toolCardEvent = toolCardEvent;
         this.publicObjectiveCardsString = publicObjectiveCardsString;
-        this.roundTrackString = roundTrackString;
+        this.roundTrackEvent = roundTrackEvent;
     }
 
     /**
      * Gets all the DicePattern
      * @return A List of String representing all the DicePattern
      */
-    public List<String> getDicePatternsString() {
+    public DicePatternEvent getDicePatterns() {
 
-        return dicePatternsString;
-    }
-
-    /**
-     * Gets all the players' nicknames
-     * @return A List of String representing all the players' nicknames
-     */
-    public List<String> getNamePlayers() {
-
-        return namePlayers;
+        return dicePatternEvent;
     }
 
     /**
      * Gets all the PublicObjectiveCard
      * @return A List of String representing all the PublicObjectiveCard
      */
-    public List<String> getPublicObjectivCardsString() {
+    public List<String> getPublicObjectiveCardsString() {
 
         return publicObjectiveCardsString;
     }
@@ -71,27 +59,27 @@ public class ShowAllEvent extends MVEvent{
      * Gets all the ToolCard
      * @return A List of String representing all the ToolCard
      */
-    public List<String> getToolCardsString() {
+    public ToolCardEvent getToolCards() {
 
-        return toolCardsString;
+        return toolCardEvent;
     }
 
     /**
      * Gets the draftPool
      * @return A String representing the draftPool
      */
-    public String getDraftPoolString() {
+    public DraftPoolEvent getDraftPool() {
 
-        return draftPoolString;
+        return draftPoolEvent;
     }
 
     /**
      * Gets the RoundTrack
      * @return A String representing the RoundTrack
      */
-    public String getRoundTrackString() {
+    public RoundTrackEvent getRoundTrack() {
 
-        return roundTrackString;
+        return roundTrackEvent;
     }
 
     /**
