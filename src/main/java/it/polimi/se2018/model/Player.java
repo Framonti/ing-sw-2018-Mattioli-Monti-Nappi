@@ -86,9 +86,9 @@ public class Player {
 
     public void setClientInterface(ClientInterface clientInterface) { this.clientInterface = clientInterface; }
 
-    public void reverseDiceMoved() { diceMoved = !diceMoved; }
+    public void setDiceMoved(boolean diceMoved) { this.diceMoved = diceMoved; }
 
-    public void reverseToolCardUsed() { toolCardUsed = !toolCardUsed; }
+    public void setToolCardUsed(boolean toolCardUsed) { this.toolCardUsed = toolCardUsed; }
 
     public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 

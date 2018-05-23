@@ -279,6 +279,8 @@ public class GameSingleton extends Observable{
      * @return A representation of the draft pool
      */
     public String draftPoolToString(){
+        if (draftPool.isEmpty())
+            return "[]";
         int i = 1;
         String tmp = "";
         for( Dice dice : draftPool){
