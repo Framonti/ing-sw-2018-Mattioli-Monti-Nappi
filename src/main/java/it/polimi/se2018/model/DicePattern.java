@@ -61,18 +61,40 @@ public class DicePattern {
         int partialSum = 0;
         int rows = 4;
         int columns = 5;
-        Position p1;
+        Position p;
 
         //Checks if every cell is empty or has a dice on it
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
 
-                p1 = new Position(i, j);
-                if(this.isEmpty(p1))
+                p = new Position(i, j);
+                if(this.isEmpty(p))
                     partialSum++;
             }
         }
         return partialSum;
+    }
+
+    /**
+     * Gets every empty position on the DicePattern
+     * @return A List with all the empty Position on the DicePattern
+     */
+    public List<Position> getEmptyPositions(){
+
+        List<Position> toReturn = new ArrayList<>();
+        int rows = 4;
+        int columns = 5;
+        Position p;
+
+        for(int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+
+                p = new Position(i, j);
+                if (this.isEmpty(p))
+                    toReturn.add(p);
+            }
+        }
+        return toReturn;
     }
 
     /**
@@ -142,13 +164,24 @@ public class DicePattern {
      * Checks if all the DicePattern limitations are respected
      * @param position The position a player wants to place a dice on
      * @param dice The dice a player wants to place
-     * @return True if all the limitations are respected
+     * @return True if all the dicePattern limitations are respected
      */
     public boolean checkDicePatternLimitations(Position position, Dice dice) {
 
         if(checkEdge(position))
             return  true;
         else return checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
+    }
+
+    /**
+     * Checks if a dice can be placed on the DicePattern
+     * @param position The Position a Player wants to place a dice on
+     * @param dice The dice a player wants to place
+     * @return True if the D
+     */
+    public boolean isDicePlaceable(Position position, Dice dice){
+
+        return checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice);
     }
 
     /**
@@ -159,7 +192,7 @@ public class DicePattern {
      */
     public void placeDice(Position position, Dice dice) {
 
-        if(checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice)) {
+        if(isDicePlaceable(position, dice)) {
 
             setDice(position, dice);
             firstDice = false;
