@@ -15,9 +15,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     private Map<Integer, Runnable> vcEvents = new HashMap<>();
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
-    private String eventParameters;
     private MVEvent mvEvent;
     private VCEvent vcEvent;
+
+    private boolean diceMoved;
+    private boolean toolCardUsed;
+
+    private String eventParameters;
+
     private Scanner scanner;
 
 
@@ -41,8 +46,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     public String askName() {
         System.out.println("INSERISCI USERNAME:");
-        return scanner.nextLine();
-
+        String name = scanner.nextLine().toLowerCase();
+        if(name.length() < 2) {
+            System.out.println("LO USERNAME DEVE ESSERE LUNGO ALMENO 2 CARATTERI\n");
+            return askName();
+        }
+        name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+        System.out.println("USERNAME INSERITO. ATTENDI.\n");
+        return name;
     }
 
     /**
@@ -62,25 +73,27 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(10, ()-> printWinner(mvEvent));
         mvEvents.put(11, this::getInput);
         mvEvents.put(12, ()-> showEndTurn(mvEvent));
+        mvEvents.put(13, this::fluxBrushChoice);
     }
 
     /**
      * Initializes the map between the event's id and the event itself
      */
     private void createVCMap() {
-        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));
+        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));  //può non stare nella mappa
         vcEvents.put(1, ()-> vcEvent = new GrozingPliersEvent(eventParameters));
         vcEvents.put(2, ()-> vcEvent = new EglomiseBrushEvent(eventParameters));
         vcEvents.put(3, ()-> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
         vcEvents.put(4, ()-> vcEvent = new LathekinEvent(eventParameters));
         vcEvents.put(5, ()-> vcEvent = new LensCutterEvent(eventParameters));
-        vcEvents.put(6, ()-> vcEvent = new FluxBrushEvent(eventParameters));
-        vcEvents.put(7, ()-> vcEvent = new GlazingHammerEvent());
+        vcEvents.put(6, ()-> vcEvent = new FluxBrushChooseDiceEvent(eventParameters));
+        vcEvents.put(7, ()-> vcEvent = new GlazingHammerEvent());                       //può non stare nella mappa
         vcEvents.put(8, ()-> vcEvent = new RunnerPliersEvent(eventParameters));
         vcEvents.put(9, ()-> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
         vcEvents.put(10, ()-> vcEvent = new GrindingStoneEvent(eventParameters));
         vcEvents.put(11, ()-> vcEvent = new FluxRemoverEvent(eventParameters));
         vcEvents.put(12, ()-> vcEvent = new TapWheelEvent(eventParameters));
+        vcEvents.put(13, ()-> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
     }
 
     @Override
@@ -92,13 +105,16 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void showActionMenu(MVEvent event) {
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
-        String menu = "\n" + (actionMenuEvent.isDiceMoved() ? "X)" : "A)") +
-                "\tPosiziona un dado della riserva nello schema\n" +
-                (actionMenuEvent.isToolCardUsed() ? "X)" : "B)") +
-                "\tPassa il turno\n";
-        for(String toolCard: actionMenuEvent.getToolCards())
-            menu = menu.concat(toolCard);
-        menu = menu.concat("\nFAI UNA MOSSA: ");
+        diceMoved = actionMenuEvent.isDiceMoved();
+        toolCardUsed = actionMenuEvent.isToolCardUsed();
+
+        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n") +
+                "B)\tPassa il turno\n";
+        if(!toolCardUsed) {
+            for (String toolCard : actionMenuEvent.getToolCards())
+                menu = menu.concat(toolCard);
+        }
+        menu = menu.concat("\nFAI UNA MOSSA:");
         System.out.println(menu);
     }
 
@@ -109,26 +125,40 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private VCEvent createEvent(String input) {
         int event;
-        input = input.toLowerCase();
+        String[] param = input.toLowerCase().split("\\s+");
 
         try {
-            if(input.charAt(0) == 'b') {
+            if(param[0].equals("b"))
                 return new SkipTurnEvent();
+
+            if(param[0].equals("7")) {
+                if(!toolCardUsed)
+                    return new GlazingHammerEvent();
+                else
+                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
             }
-            if(input.charAt(0) == '7')
-                return new GlazingHammerEvent();
+
             eventParameters = input.substring(2);
-            if(input.charAt(0) == 'a')
-                return new PlaceDiceEvent(eventParameters);
-            event = Integer.parseInt(input);
-            vcEvents.get(event).run();
-            return vcEvent;
+            if(param[0].equals("a")) {
+                if(!diceMoved)
+                    return new PlaceDiceEvent(eventParameters);
+                else
+                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
+            }
+            if(!toolCardUsed) {
+                event = Integer.parseInt(param[0]);
+                vcEvents.get(event).run();
+                return vcEvent;
+            }
+            else {
+                throw new UnsupportedOperationException("MOSSA NON VALIDA");
+            }
         }
         catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Parametri insufficienti");
+            throw new IllegalArgumentException("PARAMETRI INSUFFICIENTI");
         }
         catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Parametri non numerici o sbagliati");
+            throw new IllegalArgumentException("PARAMETRI NON NUMERICI O SBAGLIATI");
         }
     }
 
@@ -139,17 +169,15 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             VCEvent event = createEvent(input);
             setChanged();
             notifyObservers(event);
-            //scanner.close();
         }
-        catch (IllegalArgumentException e) {
-            System.out.println("IllegalArgument in getInput");
+        catch (IllegalArgumentException | UnsupportedOperationException e) {
+            System.out.println(e.getMessage());
             getInput();
         }
         catch (NoSuchElementException e) {
             System.out.println("noSuchElementException");
             getInput();
         }
-
     }
 
     /**
@@ -160,16 +188,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         ToolCardEvent toolCardEvent = (ToolCardEvent) event;
         System.out.println("CARTE UTENSILI");
         for(String toolCard: toolCardEvent.getToolCards())
-            System.out.println(toolCard);
-    }
-
-    /**
-     * Overloading of showToolCards, this is only used in showAll method
-     * @param toolCards It's the list of strings representing the toolCards in game
-     */
-    private void showToolCards(List<String> toolCards) {
-        System.out.println("CARTE UTENSILI");
-        for(String toolCard: toolCards)
             System.out.println(toolCard);
     }
 
@@ -204,14 +222,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     /**
-     * Overloading of showDraftPool, this is only used in showAll method
-     * @param draftPool It's the string representing the DraftPool
-     */
-    private void showDraftPool(String draftPool) {
-        System.out.println("RISERVA\n" + draftPool);
-    }
-
-    /**
      * Shows the round track and all the dices on it
      * @param event It's the event received
      */
@@ -219,15 +229,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         RoundTrackEvent roundTrackEvent = (RoundTrackEvent) event;
         System.out.println("TRACCIATO DEI ROUND");
         System.out.println(roundTrackEvent.getRoundTrackString());
-    }
-
-    /**
-     * Overloading of showRoundTrack, this is only used in showAll method
-     * @param roundTrack It's the string representing the RoundTrack
-     */
-    private void showRoundTrack(String roundTrack) {
-        System.out.println("TRACCIATO DEI ROUND");
-        System.out.println(roundTrack);
     }
 
     /**
@@ -254,20 +255,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     /**
-     * Shows the window patterns and the dices on them of the opponents
-     * @param model It's the whole model
-     * @deprecated
-     */
-    private void showOthersDicePatterns(GameSingleton model) {
-        for(Player player: model.getPlayers()) {
-            if(!player.equals(model.getCurrentPlayer())) {
-                System.out.println("CARTA SCHEMA DI " + player.getName());
-                System.out.println(player.getDicePattern().toString());
-            }
-        }
-    }
-
-    /**
      * Shows all the window pattern and the dices on them of all players
      * @param event It's the MVEvent received
      */
@@ -278,16 +265,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
             System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
         }
-    }
-
-    /**
-     * Overloading of showAllDicePatterns, this is only used in showAll method
-     * @param dicePatterns It's the list of strings representing the dicePatterns
-     * @deprecated
-     */
-    private void showAllDicePatterns(List<String> dicePatterns) {
-        for(String dicePattern: dicePatterns)
-            System.out.println(dicePattern);
     }
 
     @Override
@@ -307,7 +284,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.nextLine());
             setChanged();
             notifyObservers(vcEvent);
-            //scanner.close();
+            System.out.println("SCELTA ESEGUITA. ATTENDI.\n");
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -362,5 +339,22 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     public void printMessage(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void fluxBrushChoice() {
+        try {
+            String choice = scanner.nextLine();
+            setChanged();
+            notifyObservers(new FluxBrushPlaceDiceEvent(choice));
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            fluxBrushChoice();
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("noSuchElementException");
+            fluxBrushChoice();
+        }
     }
 }

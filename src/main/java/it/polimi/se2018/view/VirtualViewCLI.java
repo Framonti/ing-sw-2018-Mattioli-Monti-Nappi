@@ -1,6 +1,7 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.mvevent.*;
+import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.rmi.server.ServerImplementation;
@@ -47,8 +48,10 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         try {
             server.sendTo(new GetInputEvent(), currentPlayer);
         }
-        catch (RemoteException e) {
+        catch (RemoteException | IndexOutOfBoundsException e) {
             System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println("provo a mandare l'evento di skipTurn");
+            forwardVCEvent(new SkipTurnEvent());
         }
     }
 
@@ -96,6 +99,15 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
     public void showEndTurn(MVEvent endTurnEvent) {
         try {
             server.sendTo(endTurnEvent, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println("Errore di connessione: " + e.getMessage());
+        }
+    }
+
+    public void fluxBrushChoice() {
+        try {
+            server.sendTo(new FluxBrushChoiceEvent(), currentPlayer);
         }
         catch (RemoteException e) {
             System.out.println("Errore di connessione: " + e.getMessage());

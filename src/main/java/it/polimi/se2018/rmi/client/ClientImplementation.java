@@ -50,6 +50,8 @@ public class ClientImplementation extends Observable implements ClientInterface,
         notifyObservers(mvEvent);
     }
 
+    @Override
+    public void testIfConnected() {}
 
     @Override
     public void update (Observable o, Object event){

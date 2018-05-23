@@ -28,7 +28,6 @@ public interface ViewCLIInterface {
     /**
      * Shows the 4 window patterns among which the player has to choose one (at the start of the game)
      * @param mvEvent It's the MVEvent received
-     * @deprecated
      */
     void showWindowPatterns(MVEvent mvEvent);
 
@@ -39,5 +38,7 @@ public interface ViewCLIInterface {
     void showAll(MVEvent mvEvent);
 
     void showEndTurn(MVEvent mvEvent);
+
+    void fluxBrushChoice();
 
 }

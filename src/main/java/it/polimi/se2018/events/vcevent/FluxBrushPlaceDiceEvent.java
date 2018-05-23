@@ -12,7 +12,11 @@ public class FluxBrushPlaceDiceEvent extends VCEvent{
         super(13);
         try {
             String[] parameters = userInput.split("\\s+");
-            finalPosition = new Position(Integer.parseInt(parameters[0])-1, Integer.parseInt(parameters[1])-1);
+            int row = Integer.parseInt(parameters[0])-1;
+            int col = Integer.parseInt(parameters[1])-1;
+            if(row < 0 || row > 3 || col < 0 || col > 4)
+                throw new IllegalArgumentException("Parametri sbagliati");
+            finalPosition = new Position(row, col);
         }
         catch(IllegalArgumentException e){
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");

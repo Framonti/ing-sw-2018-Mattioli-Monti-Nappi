@@ -39,5 +39,7 @@ public interface ClientInterface extends Remote {
      */
     void notify(MVEvent mvEvent) throws RemoteException;
 
+    void testIfConnected() throws RemoteException;
+
 }
 
