@@ -13,11 +13,6 @@ import it.polimi.se2018.view.VirtualViewCLI;
  * @author Daniele Mattioli
  */
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 //da controllare: eccezioni, update()
 
@@ -33,7 +28,7 @@ public class ControllerCLI implements Observer {
     private boolean turnEnded = false;
     private TurnTimer turnTimer;
     private PlayerTurn playerTurn;
-    private Object lock;
+    private Dice diceForFluxBrush;
 
     /**
      * Constructor of the class.
@@ -64,13 +59,14 @@ public class ControllerCLI implements Observer {
         eventsHandler.put(3, this::copperFoilBurnisher);
         eventsHandler.put(4, this::lathekin);
         eventsHandler.put(5, this::lensCutter);
-        eventsHandler.put(6, this::fluxBrush);
+        eventsHandler.put(6, this::fluxBrushChooseDice);
         eventsHandler.put(7, this::glazingHammer);
         eventsHandler.put(8, this::runnerPliers);
         eventsHandler.put(9, this::corkBakedStraightedge);
         eventsHandler.put(10, this::grindingStone);
         eventsHandler.put(11, this::fluxRemover);
         eventsHandler.put(12, this::tapWheel);
+        eventsHandler.put(13, this::fluxBrushPlaceDice);
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
@@ -247,8 +243,7 @@ public class ControllerCLI implements Observer {
      * Tool card 1 method
      */
     private void grozingPliers() {
-        try {
-            handleFavorTokensNumber(searchToolCard(1));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(1).getFavorPoint()) {
             GrozingPliersEvent grozingPliersEvent = (GrozingPliersEvent) event;
             Dice diceChosen = getDiceFromDraftPool(grozingPliersEvent.getDiceIndexDraftPool());
             int choice = grozingPliersEvent.getChoice();
@@ -259,7 +254,9 @@ public class ControllerCLI implements Observer {
             if (choice == 1) {
                 grozingPliersAddOne(diceChosen);
             }
-        } catch (UnsupportedOperationException excpetion) {
+            handleFavorTokensNumber(searchToolCard(1));
+        }
+        else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -287,8 +284,7 @@ public class ControllerCLI implements Observer {
      * Tool card 2 method
      */
     private void eglomiseBrush() {
-        try {
-            handleFavorTokensNumber(searchToolCard(2));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(2).getFavorPoint()) {
             EglomiseBrushEvent eglomiseBrushEvent = (EglomiseBrushEvent) event;
             Dice diceChosen = getDiceFromDicePattern(eglomiseBrushEvent.getInitialPosition());
             Position finalPosition = eglomiseBrushEvent.getFinalPosition();
@@ -298,13 +294,14 @@ public class ControllerCLI implements Observer {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
                     eglomiseBrushValidRestriction(initialPosition, finalPosition);
-
+                    handleFavorTokensNumber(searchToolCard(2));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -330,8 +327,7 @@ public class ControllerCLI implements Observer {
      * Tool card 3 method
      */
     private void copperFoilBurnisher() {
-        try {
-            handleFavorTokensNumber(searchToolCard(3));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(3).getFavorPoint()) {
             CopperFoilBurnisherEvent copperFoilBurnisherEvent = (CopperFoilBurnisherEvent) event;
             Dice diceChosen = getDiceFromDicePattern(copperFoilBurnisherEvent.getInitialPosition());
             Position finalPosition = copperFoilBurnisherEvent.getFinalPosition();
@@ -341,12 +337,14 @@ public class ControllerCLI implements Observer {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
                     copperFoilBurnisherValidRestriction(initialPosition, finalPosition);
+                    handleFavorTokensNumber(searchToolCard(3));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -373,8 +371,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 4 method
      */
     private void lathekin() {
-        try {
-            handleFavorTokensNumber(searchToolCard(4));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(4).getFavorPoint()) {
             LathekinEvent lathekinEvent = (LathekinEvent) event;
             Dice diceChosen1 = getDiceFromDicePattern(lathekinEvent.getInitialPosition1());
             Position initialPosition1 = lathekinEvent.getInitialPosition1();
@@ -388,13 +385,14 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, diceChosen2) &&
                 model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, diceChosen2)) {
                     lathekinValidRestriction(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
-
+                    handleFavorTokensNumber(searchToolCard(4));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -447,14 +445,15 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 5 method
      */
     private void lensCutter() {
-        try {
-            handleFavorTokensNumber(searchToolCard(5));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(5).getFavorPoint()) {
             LensCutterEvent lensCutterEvent = (LensCutterEvent) event;
             int roundIndex = lensCutterEvent.getRoundIndex();
             int diceIndexInRoundTrack = lensCutterEvent.getDiceIndexInRoundTrack();
             int diceIndexInDraftPool = lensCutterEvent.getDiceIndexInDraftPool();
             lensCutterHelper(roundIndex, diceIndexInRoundTrack, diceIndexInDraftPool);
-        } catch (UnsupportedOperationException excpetion) {
+            handleFavorTokensNumber(searchToolCard(5));
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -463,7 +462,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
 
     //TODO: rivedere il nome del metodo
     //il metodo inizialmente era void e c'era l'attributo successfulMove che però era del metodo chiamante
-    private boolean fluxBrushHelper(Position finalPosition, Dice diceChosen){
+    private boolean fluxBrushPutDiceHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
             //successfulMove = true;
@@ -485,55 +484,66 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         }
     }
 
+    private void fluxBrushPlaceDice(){
+        FluxBrushPlaceDiceEvent fluxBrushEvent = (FluxBrushPlaceDiceEvent) event;
+        Position finalPosition = fluxBrushEvent.getFinalPosition();
+        int i;
+        boolean successfulMove = false;
+        for (i = 0; i < model.getCurrentPlayer().getDicePattern().emptySpaces() && !successfulMove; i++) {
+            //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
+            successfulMove = fluxBrushPutDiceHelper(finalPosition, diceForFluxBrush);
+        }
+        if (!successfulMove) {
+            ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
+            view.showError(errorEvent);
+        }
+        else
+            handleFavorTokensNumber(searchToolCard(6));
+    }
+
     //TODO: controllare se può andare bene la gestione con il metodo helper che ritorna un booleano
     /**
      * Tool card 6 method
      */
-    private void fluxBrush() {
-        try {
-            handleFavorTokensNumber(searchToolCard(6));
-            FluxBrushEvent fluxBrushEvent = (FluxBrushEvent) event;
+    //mi tengo io la posizione
+    private void fluxBrushChooseDice() {
+        if (model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(6).getFavorPoint()) {
+            FluxBrushChooseDiceEvent fluxBrushEvent = (FluxBrushChooseDiceEvent) event;
             Dice diceChosen = getDiceFromDraftPool(fluxBrushEvent.getDiceIndexInDraftPool());
             diceChosen.roll();
-            Position finalPosition = fluxBrushEvent.getFinalPosition();
-            int i;
-            boolean successfulMove = false;
-            for (i = 0; i < model.getCurrentPlayer().getDicePattern().emptySpaces() && !successfulMove; i++) {
-                //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
-                successfulMove = fluxBrushHelper(finalPosition, diceChosen);
-            }
-            if (!successfulMove) {
-                ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
-                view.showError(errorEvent);
-            }
-        } catch (UnsupportedOperationException excpetion) {
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            model.mySetChanged();
+            model.notifyObservers(draftPoolEvent);
+            this.diceForFluxBrush = diceChosen;
+            view.fluxBrushChoice();
+        } else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
         }
     }
 
-
     /**
      * Tool card 7 method
      */
     private void glazingHammer() {
-        try {
-            handleFavorTokensNumber(searchToolCard(7));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(7).getFavorPoint()) {
             int i;
-            if (model.getCurrentPlayer().getLap() == 1) {
+            if (model.getLap() == 1) {
                 for (i = 0; i < model.getDraftPool().size(); i++)
                     model.getDraftPool().get(i).roll();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
                 model.getCurrentPlayer().setToolCardUsed(true);
                 model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
+                handleFavorTokensNumber(searchToolCard(7));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -564,13 +574,14 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 8 method
      */
     private void runnerPliers() {
-        try {
-            handleFavorTokensNumber(searchToolCard(8));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(8).getFavorPoint()) {
             RunnerPliersEvent runnerPliersEvent = (RunnerPliersEvent) event;
             Dice diceChosen = getDiceFromDraftPool(runnerPliersEvent.getDiceIndex());
             Position finalPosition = runnerPliersEvent.getPosition();
             runnerPliersHelper(finalPosition, diceChosen);
-        } catch (UnsupportedOperationException excpetion) {
+            handleFavorTokensNumber(searchToolCard(8));
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -584,8 +595,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 9 method
      */
     private void corkBakedStraightedge() {
-        try {
-            handleFavorTokensNumber(searchToolCard(9));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(9).getFavorPoint()) {
             CorkBakedStraightedgeEvent corkBakedStraightedgeEvent = (CorkBakedStraightedgeEvent) event;
             Dice diceChosen = getDiceFromDraftPool(corkBakedStraightedgeEvent.getIndexInDraftPool());
             Position finalPosition = corkBakedStraightedgeEvent.getFinalPosition();
@@ -599,12 +609,13 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
                 model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
+                handleFavorTokensNumber(searchToolCard(9));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        } else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -616,8 +627,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 10 method
      */
     private void grindingStone() {
-        try {
-            handleFavorTokensNumber(searchToolCard(10));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(10).getFavorPoint()) {
             GrindingStoneEvent grindingStoneEvent = (GrindingStoneEvent) event;
             if (grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
                 getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
@@ -625,12 +635,14 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 model.getCurrentPlayer().setToolCardUsed(true);
                 model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
+                handleFavorTokensNumber(searchToolCard(10));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado in questa posizione\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -643,8 +655,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 11 method
      */
     private void fluxRemover() {
-        try {
-            handleFavorTokensNumber(searchToolCard(11));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(11).getFavorPoint()) {
             FluxRemoverEvent fluxRemoverEvent = (FluxRemoverEvent) event;
             Dice diceChosenFromDraftPool = getDiceFromDraftPool(fluxRemoverEvent.getDiceIndex());
             model.getDiceBag().add(diceChosenFromDraftPool);
@@ -688,12 +699,14 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
                 model.mySetChanged();
                 model.notifyObservers(dicePatternEvent);
+                handleFavorTokensNumber(searchToolCard(11));
             } catch (IllegalArgumentException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
                 view.showError(errorEvent);
                 view.getInput();
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -735,8 +748,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 12 method
      */
     private void tapWheel() {
-        try {
-            handleFavorTokensNumber(searchToolCard(12));
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= searchToolCard(12).getFavorPoint()) {
             TapWheelEvent tapWheelEvent = (TapWheelEvent) event;
             int round = tapWheelEvent.getRoundIndex();
             int indexOfRoundTrack = tapWheelEvent.getDiceIndex();
@@ -752,6 +764,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                     model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, diceChosenFromRoundTrack) &&
                     model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosenFromRoundTrack)) {
                         tapWheelOneDiceMoved(initialPosition1,finalPosition1);
+                        handleFavorTokensNumber(searchToolCard(12));
             }
 
             //if the player wants to move two dices
@@ -763,9 +776,11 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                     model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, diceChosenFromRoundTrack) &&
                     model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, diceChosenFromRoundTrack)) {
                         tapWheelTwoDiceMoved(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
+                        handleFavorTokensNumber(searchToolCard(12));
 
             }
-        } catch (UnsupportedOperationException excpetion) {
+        }
+        else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
             view.getInput();
@@ -877,7 +892,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 sleep(turnDuration);
                 skipTurn();
             } catch (InterruptedException e) {
-                System.out.println("errore");
+                Thread.currentThread().interrupt();
             }
         }
     }
