@@ -478,7 +478,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
             view.showError(errorEvent);
-            view.getInput();
             //successfulMove = false;
             return false;
         }
@@ -487,18 +486,16 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     private void fluxBrushPlaceDice(){
         FluxBrushPlaceDiceEvent fluxBrushEvent = (FluxBrushPlaceDiceEvent) event;
         Position finalPosition = fluxBrushEvent.getFinalPosition();
-        int i;
-        boolean successfulMove = false;
-        for (i = 0; i < model.getCurrentPlayer().getDicePattern().emptySpaces() && !successfulMove; i++) {
+        boolean successfulMove;
+        while(true) {
             //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
             successfulMove = fluxBrushPutDiceHelper(finalPosition, diceForFluxBrush);
+            if(successfulMove)
+                break;
+            view.fluxBrushChoice();
+
         }
-        if (!successfulMove) {
-            ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
-            view.showError(errorEvent);
-        }
-        else
-            handleFavorTokensNumber(searchToolCard(6));
+        handleFavorTokensNumber(searchToolCard(6));
     }
 
     //TODO: controllare se può andare bene la gestione con il metodo helper che ritorna un booleano
@@ -514,8 +511,19 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
             model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
-            this.diceForFluxBrush = diceChosen;
-            view.fluxBrushChoice();
+            boolean succesfulMove = false;
+            for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
+                if(model.getCurrentPlayer().getDicePattern().isDicePlaceable(position, diceChosen))
+                    succesfulMove = true;
+            }
+            if(!succesfulMove){
+                ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
+                view.showError(errorEvent);
+            }
+            else {
+                this.diceForFluxBrush = diceChosen;
+                view.fluxBrushChoice();
+            }
         } else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);

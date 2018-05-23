@@ -7,6 +7,7 @@ import org.junit.Test;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -38,6 +39,7 @@ public class TestGameSingleton {
         toolCards.add(new ToolCard("","", Colour.GREEN,4));
         scoreTrack = new ScoreTrack(players);
         roundTrack = new RoundTrack();
+
 
 
     }
@@ -206,6 +208,34 @@ public class TestGameSingleton {
         instance.getPlayers().get(0).getDicePattern().setDice(new Position(1, 0), d2);
         instance.getPlayers().get(2).getDicePattern().setDice(new Position(3, 0), d3);
         assertEquals(instance.getPlayers().get(0), instance.selectWinner());
+
+
+    }
+
+    @Test
+    public void testFromDraftPoolToRoundTrack(){
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        List<Dice> pool = new ArrayList<>();
+        Dice dice1 = new Dice (Colour.PURPLE);
+        dice1.setValue(1);
+        Dice dice2 = new Dice (Colour.GREEN);
+        dice2.setValue(1);
+        Dice dice3 = new Dice (Colour.YELLOW);
+        dice3.setValue(1);
+
+        pool.add(dice1);
+        pool.add(dice2);
+        pool.add(dice3);
+
+        instance.getDraftPool().add(dice1);
+        instance.getDraftPool().add(dice2);
+        instance.getDraftPool().add(dice3);
+
+
+        instance.fromDraftPoolToRoundTrack();
+
+
+        assertEquals(pool,instance.getRoundTrack().getList(0));
 
 
     }
