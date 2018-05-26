@@ -3,6 +3,10 @@ package it.polimi.se2018.testModel;
 import it.polimi.se2018.model.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,7 +18,7 @@ public class TestDicePattern {
     private DicePattern dicePattern;
 
     /**
-     * Create a DicePattern that will be used for the tests
+     * Creates a DicePattern that will be used for the tests
      */
     @Before
     public void setUP(){
@@ -30,7 +34,7 @@ public class TestDicePattern {
     }
 
     /**
-     * Check that the method getDice raises an IllegalArgumentException
+     * Checks that the method getDice raises an IllegalArgumentException
      */
     @Test
     public void testGetDiceException() {
@@ -64,7 +68,7 @@ public class TestDicePattern {
 
 
     /**
-     * Test the emptySpaces method
+     * Tests the emptySpaces method
      */
     @Test
     public void testEmptySpaces(){
@@ -88,6 +92,42 @@ public class TestDicePattern {
         dicePattern.removeDice(new Position(2,3));
         dicePattern.removeDice(new Position(3,2));
     }
+
+    /**
+     * Tests the getEmptyPosition method
+     */
+    @Test
+    public void testGetEmptyPosition(){
+
+        Dice toPlace = new Dice(Colour.PURPLE);
+        dicePattern.setDice(new Position(0,0), toPlace);
+        dicePattern.setDice(new Position(0,1), toPlace);
+        dicePattern.setDice(new Position(0,2), toPlace);
+        dicePattern.setDice(new Position(0,3), toPlace);
+        dicePattern.setDice(new Position(1,1), toPlace);
+        dicePattern.setDice(new Position(1,2), toPlace);
+        dicePattern.setDice(new Position(1,3), toPlace);
+        dicePattern.setDice(new Position(2,0), toPlace);
+        dicePattern.setDice(new Position(2,1), toPlace);
+        dicePattern.setDice(new Position(2,2), toPlace);
+        dicePattern.setDice(new Position(2,3), toPlace);
+        dicePattern.setDice(new Position(2,4), toPlace);
+        dicePattern.setDice(new Position(3,0), toPlace);
+        dicePattern.setDice(new Position(3,1), toPlace);
+        dicePattern.setDice(new Position(3,1), toPlace);
+        dicePattern.setDice(new Position(3,3), toPlace);
+        dicePattern.setDice(new Position(3,4), toPlace);
+        List<Position> emptyPositions = dicePattern.getEmptyPositions();
+        assertEquals(emptyPositions.get(0).getX(), new Position(0,4).getX());
+        assertEquals(emptyPositions.get(0).getX(), new Position(0,4).getX());
+        assertEquals(emptyPositions.get(1).getX(), new Position(1,0).getX());
+        assertEquals(emptyPositions.get(1).getX(), new Position(1,0).getX());
+        assertEquals(emptyPositions.get(2).getX(), new Position(1,4).getX());
+        assertEquals(emptyPositions.get(2).getX(), new Position(1,4).getX());
+        assertEquals(emptyPositions.get(3).getX(), new Position(3,2).getX());
+        assertEquals(emptyPositions.get(3).getX(), new Position(3,2).getX());
+    }
+
 
     /**
      * Tests the checkEdge method
@@ -121,7 +161,7 @@ public class TestDicePattern {
     }
 
     /**
-     * test the CheckAdjacentColour method
+     * Tests the CheckAdjacentColour method
      */
     @Test
     public void testCheckAdjacentColour() {
