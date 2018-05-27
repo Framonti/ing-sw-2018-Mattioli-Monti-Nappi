@@ -1,5 +1,7 @@
 package it.polimi.se2018.events.mvevent;
 
+import java.util.List;
+
 /**
  * This Event holds informations about the DraftPool
  * @author Framonti
@@ -7,13 +9,13 @@ package it.polimi.se2018.events.mvevent;
 public class DraftPoolEvent extends MVEvent{
 
 
-    private String draftPoolString;
+    private List<String> draftPoolString;
 
     /**
      * Constructor
      * @param draftPoolString A String representing the draftPool
      */
-    public DraftPoolEvent(String draftPoolString){
+    public DraftPoolEvent(List<String> draftPoolString){
 
         super(2);
         this.draftPoolString = draftPoolString;
@@ -23,7 +25,7 @@ public class DraftPoolEvent extends MVEvent{
      * Gets the draftPoolString attribute
      * @return The draftPoolString attribute
      */
-    public String getDraftPoolString() {
+    public List<String> getDraftPoolString() {
 
         return draftPoolString;
     }

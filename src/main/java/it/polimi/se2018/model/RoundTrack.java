@@ -103,4 +103,8 @@ public class RoundTrack {
             roundTrack = roundTrack.concat("Round " + (round+1) + ":\t" + roundToString(round) + "\n");
         return roundTrack;
     }
+
+    public void removeAll(){
+        roundList.removeAll(roundList);
+    }
 }
