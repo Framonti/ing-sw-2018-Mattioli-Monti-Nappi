@@ -1,44 +1,41 @@
-package it.polimi.se2018.rmi.client;
+package it.polimi.se2018.network.client;
 
 import it.polimi.se2018.events.mvevent.MVEvent;
-import it.polimi.se2018.events.vcevent.VCEvent;
-import it.polimi.se2018.rmi.server.ServerInterface;
+import it.polimi.se2018.network.server.ServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * This interface is used as a remote object in the server
+ * This interface is used as a remote object of the client in the server
  * @author fabio
  */
-public interface ClientInterface extends Remote {
+public interface ClientInterfaceRMI extends Remote {
 
     /**
-     * @return The name of this client
+     * @return The name of the related client
      * @throws RemoteException If there is a problem with the connection
      */
     String getName() throws RemoteException;
 
     /**
-     * @return The vcEvent attribute
-     * @throws RemoteException If there is a problem with the connection
-     */
-    VCEvent getVCEvent() throws RemoteException;
-
-    /**
-     * This method sets the server attribute
+     * This method sets the server attribute of ClientImplementation
      * @param server It's the serverInterface that has to be set
      * @throws RemoteException If there is a problem with the connection
      */
     void setServer(ServerInterface server) throws RemoteException;
 
     /**
-     * This method calls the update method of viewCLI
-     * @param mvEvent It's the event that must be forwarded
+     * This method sets the ClientImplementation as changed, this causes the call of the update method of viewCLI
+     * @param mvEvent It's the event that must be forwarded to the view
      * @throws RemoteException If there is a problem with the connection
      */
     void notify(MVEvent mvEvent) throws RemoteException;
 
+    /**
+     * This method is used only to check that the client is still connected
+     * @throws RemoteException If the client is not connected anymore
+     */
     void testIfConnected() throws RemoteException;
 
 }

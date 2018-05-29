@@ -1,11 +1,10 @@
-package it.polimi.se2018.rmi.client;
+package it.polimi.se2018.network.client;
 
 import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
-import it.polimi.se2018.rmi.server.ServerInterface;
+import it.polimi.se2018.network.server.ServerInterface;
 
-import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,11 +13,10 @@ import java.util.Observer;
  * This class represents the implementation of the client
  * @author fabio
  */
-public class ClientImplementation extends Observable implements ClientInterface, Observer {
+public class ClientImplementation extends Observable implements ClientInterfaceRMI, ClientInterfaceSocket, Observer {
 
     private ServerInterface server;
     private String name;
-    private VCEvent vcEvent;
 
 
     @Override
@@ -27,8 +25,9 @@ public class ClientImplementation extends Observable implements ClientInterface,
     }
 
     @Override
-    public VCEvent getVCEvent() {
-        return vcEvent;
+    public void notify(MVEvent mvEvent) {
+        setChanged();
+        notifyObservers(mvEvent);
     }
 
     /**
@@ -45,21 +44,16 @@ public class ClientImplementation extends Observable implements ClientInterface,
     }
 
     @Override
-    public void notify (MVEvent mvEvent) {
-        setChanged();
-        notifyObservers(mvEvent);
+    public void testIfConnected() {
+        //This method is used only to test if the connection of a client is lost.
     }
 
     @Override
-    public void testIfConnected() {}
-
-    @Override
-    public void update (Observable o, Object event){
-        vcEvent = (VCEvent) event;
+    public void update(Observable o, Object event){
+        VCEvent vcEvent = (VCEvent) event;
         try {
             server.notify(vcEvent);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             setChanged();
             notifyObservers(new ErrorEvent("Errore di connessione: " + e.getMessage() + "!"));
         }

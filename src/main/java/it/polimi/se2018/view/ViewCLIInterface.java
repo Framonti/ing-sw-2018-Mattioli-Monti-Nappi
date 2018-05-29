@@ -37,8 +37,16 @@ public interface ViewCLIInterface {
      */
     void showAll(MVEvent mvEvent);
 
+    /**
+     * Shows the message of the turn's end
+     * @param mvEvent It's the MVEvent received
+     */
     void showEndTurn(MVEvent mvEvent);
 
+    /**
+     * To be used only during fluxBrush ToolCard
+     * Asks where the player wants to place the dice
+     */
     void fluxBrushChoice();
 
 }

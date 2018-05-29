@@ -4,7 +4,7 @@ import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.model.Player;
-import it.polimi.se2018.rmi.server.ServerImplementation;
+import it.polimi.se2018.network.server.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.Observable;
@@ -16,8 +16,9 @@ import java.util.Observer;
  */
 public class VirtualViewCLI extends Observable implements Observer, ViewCLIInterface{
 
-    private ServerImplementation server;
+    private ServerInterface server;
     private Player currentPlayer;
+    private static final String CONNECTION_EXCEPTION = "Errore di connessione: ";
 
     /**
      * This method sets the currentPlayer attribute
@@ -29,9 +30,10 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
      * This method sets the server attribute
      * @param server It's the serverImplementation that has to be set
      */
-    public void setServer(ServerImplementation server) {
+    public void setServer(ServerInterface server) {
         this.server = server;
     }
+
 
 
     /**
@@ -49,8 +51,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(new GetInputEvent(), currentPlayer);
         }
         catch (RemoteException | IndexOutOfBoundsException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
-            System.out.println("provo a mandare l'evento di skipTurn");
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
             forwardVCEvent(new SkipTurnEvent());
         }
     }
@@ -61,7 +62,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(showActionMenu, currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
@@ -71,7 +72,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(errorEvent, currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
@@ -81,7 +82,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(windowPatternsEvent, currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
@@ -91,7 +92,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(showAllEvent, currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
@@ -101,16 +102,17 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.sendTo(endTurnEvent, currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
+    @Override
     public void fluxBrushChoice() {
         try {
             server.sendTo(new FluxBrushChoiceEvent(), currentPlayer);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 
@@ -122,7 +124,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
             server.send(mvEvent);
         }
         catch (RemoteException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }
 

@@ -1,6 +1,8 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.rmi.client.ClientInterface;
+import it.polimi.se2018.network.client.ClientInterfaceRMI;
+import it.polimi.se2018.network.client.ClientInterfaceSocket;
+import it.polimi.se2018.network.server.Server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +28,8 @@ public class Player {
     private List<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
     private int lap;
     private Map<String, Integer> publicObjectiveCards = new HashMap<>();
-    private ClientInterface clientInterface;
+    private ClientInterfaceRMI clientInterfaceRMI;
+    private ClientInterfaceSocket clientInterfaceSocket;
 
 
     //Constructor
@@ -56,7 +59,9 @@ public class Player {
 
     public DicePattern getDicePattern() { return dicePattern; }
 
-    public ClientInterface getClientInterface() { return clientInterface; }
+    public ClientInterfaceRMI getClientInterfaceRMI() { return clientInterfaceRMI; }
+
+    public ClientInterfaceSocket getClientInterfaceSocket() { return clientInterfaceSocket; }
 
     public boolean isDiceMoved() { return diceMoved; }
 
@@ -74,6 +79,9 @@ public class Player {
         this.windowPattern = windowPattern;
         setDicePattern(windowPattern);
         setFavorTokens();
+        synchronized (Server.windowPatternLock) {
+            Server.windowPatternLock.notifyAll();
+        }
     }
 
     public void setLap(int lap) { this.lap = lap; }
@@ -84,7 +92,9 @@ public class Player {
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) { this.privateObjectiveCard = privateObjectiveCard; }
 
-    public void setClientInterface(ClientInterface clientInterface) { this.clientInterface = clientInterface; }
+    public void setClientInterface(ClientInterfaceRMI clientInterface) { this.clientInterfaceRMI = clientInterface; }
+
+    public void setClientInterface(ClientInterfaceSocket clientInterface) { this.clientInterfaceSocket = clientInterface; }
 
     public void setDiceMoved(boolean diceMoved) { this.diceMoved = diceMoved; }
 

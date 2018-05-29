@@ -2,7 +2,6 @@ package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
-import it.polimi.se2018.model.*;
 
 import java.util.*;
 
@@ -15,15 +14,13 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     private Map<Integer, Runnable> vcEvents = new HashMap<>();
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
+    private String eventParameters;
+    private boolean toolCardUsed;
+    private boolean diceMoved;
     private MVEvent mvEvent;
     private VCEvent vcEvent;
-
-    private boolean diceMoved;
-    private boolean toolCardUsed;
-
-    private String eventParameters;
-
     private Scanner scanner;
+
 
 
     /**
@@ -54,6 +51,55 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
         System.out.println("USERNAME INSERITO. ATTENDI.\n");
         return name;
+    }
+
+    /**
+     * It's a support method of getInput. Receives a string and creates the correct event
+     * @param input It's the string with all the event's information
+     * @return The correct event
+     */
+    private VCEvent createEvent(String input) {
+        int event;
+        eventParameters = "";
+        String[] param = input.toLowerCase().split("\\s+");
+
+        try {
+            if(param[0].equals("b"))
+                return new SkipTurnEvent();
+
+            if(param[0].equals("7")) {
+                if(!toolCardUsed)
+                    return new GlazingHammerEvent();
+                else
+                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
+            }
+
+            int index;
+            for(index = 1; index < param.length; index++) {
+                eventParameters = eventParameters.concat(param[index] + " ");
+            }
+
+            if(param[0].equals("a")) {
+                if(!diceMoved)
+                    return new PlaceDiceEvent(eventParameters);
+                else
+                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
+            }
+            if(!toolCardUsed) {
+                event = Integer.parseInt(param[0]);
+                vcEvents.get(event).run();
+                return vcEvent;
+            }
+            else {
+                throw new UnsupportedOperationException("MOSSA NON VALIDA");
+            }
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("PARAMETRI INSUFFICIENTI");
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("PARAMETRI NON NUMERICI O SBAGLIATI");
+        }
     }
 
     /**
@@ -97,68 +143,19 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     @Override
-    public void update(Observable model, Object event) {
-        mvEvent = (MVEvent) event;
-        mvEvents.get(mvEvent.getId()).run();
-    }
-
-    @Override
-    public void showActionMenu(MVEvent event) {
-        ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
-        diceMoved = actionMenuEvent.isDiceMoved();
-        toolCardUsed = actionMenuEvent.isToolCardUsed();
-
-        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n") +
-                "B)\tPassa il turno\n";
-        if(!toolCardUsed) {
-            for (String toolCard : actionMenuEvent.getToolCards())
-                menu = menu.concat(toolCard);
-        }
-        menu = menu.concat("\nFAI UNA MOSSA:");
-        System.out.println(menu);
-    }
-
-    /**
-     * It's a support method of getInput. Receives a string and creates the correct event
-     * @param input It's the string with all the event's information
-     * @return The correct event
-     */
-    private VCEvent createEvent(String input) {
-        int event;
-        String[] param = input.toLowerCase().split("\\s+");
-
+    public void fluxBrushChoice() {
         try {
-            if(param[0].equals("b"))
-                return new SkipTurnEvent();
-
-            if(param[0].equals("7")) {
-                if(!toolCardUsed)
-                    return new GlazingHammerEvent();
-                else
-                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
-            }
-
-            eventParameters = input.substring(2);
-            if(param[0].equals("a")) {
-                if(!diceMoved)
-                    return new PlaceDiceEvent(eventParameters);
-                else
-                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
-            }
-            if(!toolCardUsed) {
-                event = Integer.parseInt(param[0]);
-                vcEvents.get(event).run();
-                return vcEvent;
-            }
-            else {
-                throw new UnsupportedOperationException("MOSSA NON VALIDA");
-            }
-        }
-        catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("PARAMETRI INSUFFICIENTI");
+            String choice = scanner.nextLine();
+            setChanged();
+            notifyObservers(new FluxBrushPlaceDiceEvent(choice));
         }
         catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("PARAMETRI NON NUMERICI O SBAGLIATI");
+            System.out.println(e.getMessage());
+            fluxBrushChoice();
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("noSuchElementException");
+            fluxBrushChoice();
         }
     }
 
@@ -181,25 +178,121 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     /**
-     * Shows all the tool cards in the game
+     * Prints the parameter
+     * @param message The string that will be printed
+     */
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    //farsi mandare anche la stringa del giocatore corrente
+    /**
+     * Shows who is the winner of the the match
      * @param event It's the MVEvent received
      */
-    private void showToolCards(MVEvent event) {
-        ToolCardEvent toolCardEvent = (ToolCardEvent) event;
-        System.out.println("CARTE UTENSILI");
-        for(String toolCard: toolCardEvent.getToolCards())
-            System.out.println(toolCard);
+    private void printWinner(MVEvent event) {
+        WinnerEvent winnerEvent = (WinnerEvent) event;
+        System.out.println("Il vincitore è " + winnerEvent.getWinner());
     }
 
     /**
-     * Shows all the public objective cards in the game
-     * @param publicObjectiveCards It's the list of all the public objective cards in the game
+     * This method asks the player which windowPattern he wants
      */
-    private void showPublicObjectiveCards(List<String> publicObjectiveCards) {
-        System.out.println("CARTE OBIETTIVO PUBBLICO");
-        for(String publicObjectiveCard: publicObjectiveCards) {
-            System.out.println(publicObjectiveCard);
+    private void selectWindowPattern() {
+        try {
+            System.out.println("SELEZIONA UNA CARTA SCHEMA");
+            VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.nextLine());
+            setChanged();
+            notifyObservers(vcEvent);
+            System.out.println("SCELTA ESEGUITA. ATTENDI.\n");
         }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            selectWindowPattern();
+        }
+    }
+
+    @Override
+    public void showActionMenu(MVEvent event) {
+        ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
+        diceMoved = actionMenuEvent.isDiceMoved();
+        toolCardUsed = actionMenuEvent.isToolCardUsed();
+
+        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n") +
+                "B)\tPassa il turno\n";
+        if(!toolCardUsed) {
+            for (String toolCard : actionMenuEvent.getToolCards())
+                menu = menu.concat(toolCard);
+        }
+        menu = menu.concat("\nFAI UNA MOSSA:");
+        System.out.println(menu);
+    }
+
+    @Override
+    public void showAll(MVEvent event) {
+        ShowAllEvent showAllEvent = (ShowAllEvent) event;
+        showRoundTrack(showAllEvent.getRoundTrack());
+        showDicePattern(showAllEvent.getDicePatterns());
+        showDraftPool(showAllEvent.getDraftPool());
+        showPublicObjectiveCards(showAllEvent.getPublicObjectiveCardsString());
+        showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
+        showToolCards(showAllEvent.getToolCards());
+    }
+
+    /**
+     * Shows all the window pattern and the dices on them of all players
+     * @param event It's the MVEvent received
+     */
+    private void showAllDicePatterns(MVEvent event) {
+        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
+        int playerIndex;
+        for(playerIndex = 0; playerIndex < dicePatternEvent.getPlayerNames().size(); playerIndex++) {
+            System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
+            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
+        }
+    }
+
+    /**
+     * Shows the window pattern of the players with the dices on it
+     * @param event It's the MVEvent received
+     */
+    private void showDicePattern(MVEvent event) {
+        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
+        int playerIndex;
+        for(playerIndex = 0; playerIndex < dicePatternEvent.getDicePatternsString().size(); playerIndex++) {
+            System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
+            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
+        }
+    }
+
+    /**
+     * Shows all the dices in the draft pool
+     * @param event It's the MVEvent received
+     */
+    private void showDraftPool(MVEvent event) {
+        DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
+        System.out.println("RISERVA");
+        System.out.println(draftPoolEvent.getDraftPoolString());
+    }
+
+    @Override
+    public void showEndTurn(MVEvent event) {
+        System.out.println("TURNO TERMINATO. ATTENDI.\n");
+    }
+
+    @Override
+    public void showError(MVEvent event) {
+        ErrorEvent errorEvent = (ErrorEvent) event;
+        System.out.println(errorEvent.getMessageToDisplay());
+    }
+
+    /**
+     * Shows the name of the player and how many favor tokens it has
+     * @param event It's the MVEvent received
+     */
+    private void showFavorTokens(MVEvent event) {
+        FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
+        System.out.println(favorTokensEvent.getPlayerAndFavorTokens());
     }
 
     /**
@@ -212,13 +305,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     /**
-     * Shows all the dices in the draft pool
-     * @param event It's the MVEvent received
+     * Shows all the public objective cards in the game
+     * @param publicObjectiveCards It's the list of all the public objective cards in the game
      */
-    private void showDraftPool(MVEvent event) {
-        DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
-        System.out.println("RISERVA");
-        System.out.println(draftPoolEvent.getDraftPoolString());
+    private void showPublicObjectiveCards(List<String> publicObjectiveCards) {
+        System.out.println("CARTE OBIETTIVO PUBBLICO");
+        for(String publicObjectiveCard: publicObjectiveCards) {
+            System.out.println(publicObjectiveCard);
+        }
     }
 
     /**
@@ -242,29 +336,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     /**
-     * Shows the window pattern of the player with the dices on it
+     * Shows all the tool cards in the game
      * @param event It's the MVEvent received
      */
-    private void showDicePattern(MVEvent event) {
-        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
-        int playerIndex;
-        for(playerIndex = 0; playerIndex < dicePatternEvent.getDicePatternsString().size(); playerIndex++) {
-            System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
-            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
-        }
-    }
-
-    /**
-     * Shows all the window pattern and the dices on them of all players
-     * @param event It's the MVEvent received
-     */
-    private void showAllDicePatterns(MVEvent event) {
-        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
-        int playerIndex;
-        for(playerIndex = 0; playerIndex < dicePatternEvent.getPlayerNames().size(); playerIndex++) {
-            System.out.println("CARTA SCHEMA DI " + dicePatternEvent.getPlayerNames().get(playerIndex));
-            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
-        }
+    private void showToolCards(MVEvent event) {
+        ToolCardEvent toolCardEvent = (ToolCardEvent) event;
+        System.out.println("CARTE UTENSILI");
+        for(String toolCard: toolCardEvent.getToolCards())
+            System.out.println(toolCard);
     }
 
     @Override
@@ -275,86 +354,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         selectWindowPattern();
     }
 
-    /**
-     * This method asks the player which windowPattern he wants
-     */
-    private void selectWindowPattern() {
-        try {
-            System.out.println("SELEZIONA UNA CARTA SCHEMA");
-            VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.nextLine());
-            setChanged();
-            notifyObservers(vcEvent);
-            System.out.println("SCELTA ESEGUITA. ATTENDI.\n");
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            selectWindowPattern();
-        }
-    }
-
-    //farsi mandare anche la stringa del giocatore corrente
-    /**
-     * Shows who is the winner of the the match
-     * @param event It's the MVEvent received
-     */
-    private void printWinner(MVEvent event) {
-        WinnerEvent winnerEvent = (WinnerEvent) event;
-        System.out.println("Il vincitore è " + winnerEvent.getWinner());
-    }
-
     @Override
-    public void showError(MVEvent event) {
-        ErrorEvent errorEvent = (ErrorEvent) event;
-        System.out.println(errorEvent.getMessageToDisplay());
+    public void update(Observable model, Object event) {
+        mvEvent = (MVEvent) event;
+        mvEvents.get(mvEvent.getId()).run();
     }
 
-    /**
-     * Shows the name of the player and how many favor tokens it has
-     * @param event It's the MVEvent received
-     */
-    private void showFavorTokens(MVEvent event) {
-        FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
-        System.out.println(favorTokensEvent.getPlayerAndFavorTokens());
-    }
-
-    @Override
-    public void showAll(MVEvent event) {
-        ShowAllEvent showAllEvent = (ShowAllEvent) event;
-        showRoundTrack(showAllEvent.getRoundTrack());
-        showDicePattern(showAllEvent.getDicePatterns());
-        showDraftPool(showAllEvent.getDraftPool());
-        showPublicObjectiveCards(showAllEvent.getPublicObjectiveCardsString());
-        showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
-        showToolCards(showAllEvent.getToolCards());
-    }
-
-    @Override
-    public void showEndTurn(MVEvent event) {
-        System.out.println("TURNO TERMINATO. ATTENDI.\n");
-    }
-
-    /**
-     * Prints the parameter
-     * @param message The string that will be printed
-     */
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    @Override
-    public void fluxBrushChoice() {
-        try {
-            String choice = scanner.nextLine();
-            setChanged();
-            notifyObservers(new FluxBrushPlaceDiceEvent(choice));
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            fluxBrushChoice();
-        }
-        catch (NoSuchElementException e) {
-            System.out.println("noSuchElementException");
-            fluxBrushChoice();
-        }
-    }
 }
