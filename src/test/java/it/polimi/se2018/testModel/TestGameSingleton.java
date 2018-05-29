@@ -1,6 +1,7 @@
 package it.polimi.se2018.testModel;
 
 import it.polimi.se2018.model.*;
+import org.junit.After;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -139,6 +140,7 @@ public class TestGameSingleton {
 
         //rimetto i dadi nel diceBag
         boolean b = instance.getDiceBag().addAll(instance.getDraftPool());
+        instance.getDraftPool().removeAll(instance.getDraftPool());
         assertEquals(90,instance.getDiceBag().size());
         assertTrue(b);
 
@@ -231,12 +233,15 @@ public class TestGameSingleton {
         instance.getDraftPool().add(dice2);
         instance.getDraftPool().add(dice3);
 
+        System.out.println(instance.draftPoolToString());
+        System.out.println(instance.getRoundTrack().toString());
 
         instance.fromDraftPoolToRoundTrack();
-
 
         assertEquals(pool,instance.getRoundTrack().getList(0));
 
 
     }
+
+
 }

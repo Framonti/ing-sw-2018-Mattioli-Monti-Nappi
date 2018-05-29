@@ -1,18 +1,13 @@
 package it.polimi.se2018.testController;
 
-import it.polimi.se2018.WindowPatternCardDeckBuilder;
 import it.polimi.se2018.controller.ControllerCLI;
-import it.polimi.se2018.events.mvevent.FavorTokensEvent;
-import it.polimi.se2018.events.mvevent.MVEvent;
+
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualViewCLI;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,18 +45,24 @@ public class TestControllerCLI {
         toolCards.add(new ToolCard("","", Colour.PURPLE, 2));
         toolCards.add(new ToolCard("","", Colour.RED, 3));
         toolCards.add(new ToolCard("","", Colour.GREEN,4));
+        toolCards.add(new ToolCard("","", Colour.GREEN,5));
+        toolCards.add(new ToolCard("","", Colour.GREEN,6));
+        toolCards.add(new ToolCard("","", Colour.GREEN,7));
+        toolCards.add(new ToolCard("","", Colour.GREEN,8));
+        toolCards.add(new ToolCard("","", Colour.GREEN,9));
+        toolCards.add(new ToolCard("","", Colour.GREEN,10));
+        toolCards.add(new ToolCard("","", Colour.GREEN,11));
+        toolCards.add(new ToolCard("","", Colour.GREEN,12));
         scoreTrack = new ScoreTrack(players);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetWindowPatternPlayerTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
-
-
-    }
-
-    @Test
-    public void testSetWindowPatternPlayerTrue(){
         model.setCurrentPlayer(model.getPlayers().get(0));
         ArrayList<WindowPattern> windowPatterns = new ArrayList<>();
         windowPatterns.add(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -91,12 +92,21 @@ public class TestControllerCLI {
         controllerCLI.update(view, event);
         assertEquals(windowPatterns.get(3),model.getPlayers().get(0).getWindowPattern() );
 
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        event = new WindowPatternChoiceEvent("10");
+        controllerCLI.update(view, event);
+
     }
 
 
 
     @Test(expected = NullPointerException.class)
     public void testGrozinPliersFalse1(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
         model.getDraftPool().add(new Dice(1));
@@ -111,6 +121,11 @@ public class TestControllerCLI {
 
     @Test(expected = NullPointerException.class)
     public void testGrozinPliersFalse2(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
         model.getDraftPool().add(new Dice(1));
@@ -124,7 +139,31 @@ public class TestControllerCLI {
     }
 
     @Test(expected = NullPointerException.class)
+    public void testGrozinPliersFalse3(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
+        model.getDraftPool().add(new Dice(1));
+        model.getDraftPool().add(new Dice(6));
+        model.getDraftPool().add(new Dice(3));
+
+
+        GrozingPliersEvent event = new GrozingPliersEvent("4    2 ");
+        controllerCLI.update(view,event);
+
+    }
+
+    @Test(expected = NullPointerException.class)
     public void testGrozingPliersTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
         model.getDraftPool().add(new Dice(1));
@@ -170,6 +209,11 @@ public class TestControllerCLI {
 
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse1(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -212,6 +256,11 @@ public class TestControllerCLI {
 
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse2() {
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -251,8 +300,13 @@ public class TestControllerCLI {
 
 
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testEglomiseBrushTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -270,10 +324,9 @@ public class TestControllerCLI {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         model.setCurrentPlayer(model.getPlayers().get(0));
-        WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
+        WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
 
         Dice diceGreen = new Dice(Colour.GREEN);
         diceGreen.setValue(4);
@@ -284,7 +337,6 @@ public class TestControllerCLI {
         model.getCurrentPlayer().getDicePattern().setDice(new Position (3,3), diceToMove );
 
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
         EglomiseBrushEvent event = new EglomiseBrushEvent("4 4 3 3 ");
 
         controllerCLI.update(view,event);
@@ -292,11 +344,20 @@ public class TestControllerCLI {
 
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position (3,3)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,2)), diceToMove);
+
+        event = new EglomiseBrushEvent("4 4 3 3 ");
+
+        controllerCLI.update(view,event);
     }
 
 
     @Test(expected = NullPointerException.class)
-    public void testCopperFoilBurnisher(){
+    public void testCopperFoilBurnisherFalse() {
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack, scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view, toolCards, model, 1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -318,7 +379,52 @@ public class TestControllerCLI {
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+        //test1
+        Dice diceToMove = new Dice(Colour.YELLOW);
+        diceToMove.setValue(4);
+        Position positionDiceToMove = new Position(2, 1);
+        model.getCurrentPlayer().getDicePattern().setDice(positionDiceToMove, diceToMove);
+
+        Dice dice2 = new Dice(Colour.RED);
+        dice2.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2, 2), dice2);
+
+        CopperFoilBurnisherEvent event = new CopperFoilBurnisherEvent("3 2 1 2");
+        controllerCLI.update(view, event);
+
+
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void testCopperFoilBurnisher(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
 
         //test1
         Dice diceToMove = new Dice(Colour.YELLOW);
@@ -332,7 +438,7 @@ public class TestControllerCLI {
 
         CopperFoilBurnisherEvent event = new CopperFoilBurnisherEvent("3 2 2 3");
         controllerCLI.update(view, event);
-        System.out.println(model.getCurrentPlayer().getDicePattern());
+
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(positionDiceToMove), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,2)), diceToMove);
 
@@ -343,19 +449,22 @@ public class TestControllerCLI {
 
         event = new CopperFoilBurnisherEvent("3 4 4 3");
         controllerCLI.update(view, event);
-        System.out.println(model.getCurrentPlayer().getDicePattern());
 
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,3)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)), dice3);
-
 
 
         event = new CopperFoilBurnisherEvent("4 3 3 3 ");
         controllerCLI.update(view, event);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testLathekinTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -377,7 +486,6 @@ public class TestControllerCLI {
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
 
 
         Dice diceY = new Dice(Colour.YELLOW);
@@ -396,33 +504,36 @@ public class TestControllerCLI {
         diceP2.setValue(1);
         model.getCurrentPlayer().getDicePattern().setDice(new Position (1,1),diceP2);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
 
         LathekinEvent event = new LathekinEvent("3 2 3 1 3 3 4 3 ");
-
         controllerCLI.update(view, event);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,1)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,0)),diceY );
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,2)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)),diceR );
 
         event = new LathekinEvent("3 1 2 1 4 3 2 4");
-
         controllerCLI.update(view, event);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,0)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,0)),diceY );
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)), null);
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,3)),diceR );
+
+        event = new LathekinEvent("3 1 2 1 4 3 2 4");
+        controllerCLI.update(view, event);
 
     }
 
 
     @Test( expected = NullPointerException.class)
     public void testLathekinFalse(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         //Via Lux
@@ -443,7 +554,679 @@ public class TestControllerCLI {
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position (1,1),diceP2);
+
+
+        LathekinEvent event = new LathekinEvent("3 3 2 5 3 2 3 1");
+
+        controllerCLI.update(view, event);
+
+
+
+    }
+
+    @Test
+    public void testLensCutterTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+
+
+        Dice dice1 = new Dice(2);
+        Dice dice2 = new Dice(5);
+        Dice dice3 = new Dice (4);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+
+        System.out.println("draft pool iniziale\n"+ model.getDraftPool());
+
+        model.fromDraftPoolToRoundTrack();
+
+
+        Dice dice4 = new Dice (Colour.YELLOW);
+        dice4.setValue(5);
+        model.getDraftPool().add(dice4);
+
+        LensCutterEvent event = new LensCutterEvent("1 1 2");
+        controllerCLI.update(view,event);
+
+        List<Dice> list = new ArrayList<>();
+        list.add(dice1);
+        list.add(dice3);
+        list.add(dice4);
+
+        assertEquals(model.getDraftPool().get(model.getDraftPool().size()-1),dice2);
+        assertEquals(list, model.getRoundTrack().getList(0));
+
+    }
+
+    //TODO: devo risolvere il problema (ovvero quello che ogni volta che faccio from draft pool to round track
+    @Test(expected = NullPointerException.class)
+    public void testLensCutterFalse1() {
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+
+        model.getDraftPool().add(new Dice(1));
+        Dice dice1 = new Dice(1);
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(new Dice(1));
+
+        model.fromDraftPoolToRoundTrack();
+
+        LensCutterEvent event = new LensCutterEvent("1 6 2");
+        controllerCLI.update(view, event);
+
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testLensCutterFalse2() {
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+
+        model.getDraftPool().add(new Dice(2));
+        Dice dice1 = new Dice(2);
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(new Dice(2));
+
+        model.fromDraftPoolToRoundTrack();
+
+        Dice dice2 = new Dice(Colour.YELLOW);
+        dice2.setValue(5);
+        model.getDraftPool().add(dice2);
+
+        LensCutterEvent event = new LensCutterEvent("5 1 2");
+        controllerCLI.update(view, event);
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testLensCutterFalse3() {
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+
+        model.getDraftPool().add(new Dice(3));
+        Dice dice1 = new Dice(3);
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(new Dice(3));
+
+        model.fromDraftPoolToRoundTrack();
+
+        Dice dice2 = new Dice(Colour.YELLOW);
+        dice2.setValue(5);
+        model.getDraftPool().add(dice2);
+
+        LensCutterEvent event = new LensCutterEvent("1 1 8");
+        controllerCLI.update(view, event);
+
+    }
+
+
+    @Test
+    public void testFluxBrushChooseDice(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice [4][5]);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+
+        int size = model.getDraftPool().size();
+
+        FluxBrushChooseDiceEvent event = new FluxBrushChooseDiceEvent("1");
+        try{
+            controllerCLI.update(view,event);
+        } catch (NullPointerException e){
+            assertEquals(size, model.getDraftPool().size());
+            assertEquals(dice2, model.getDraftPool().get(1));
+            assertEquals(dice3, model.getDraftPool().get(2));
+            assertEquals(dice1.getColour(), model.getDraftPool().get(0).getColour());
+        }
+
+    }
+
+
+    @Test (expected = NullPointerException.class)
+    public void testFluxBrushChooseDiceFalse(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+
+        int size = model.getDraftPool().size();
+
+        FluxBrushChooseDiceEvent event = new FluxBrushChooseDiceEvent("5");
+
+        controllerCLI.update(view,event);
+
+    }
+
+
+    //TODO: in questo test dovrei poter settare il diceForFluxBrush (attributo di ControllerCLI). Però questo significherebbe avere getter e setter per l'attributo
+    @Test
+    public void testFluxBrushPlaceDice(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+
+        FluxBrushPlaceDiceEvent event = new FluxBrushPlaceDiceEvent("3 5");
+
         System.out.println(model.getCurrentPlayer().getDicePattern());
+
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void testGlazingHammerTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.setLap(1);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+
+        int size = model.getDraftPool().size();
+
+        GlazingHammerEvent event = new GlazingHammerEvent();
+        controllerCLI.update(view,event);
+
+        assertEquals(size, model.getDraftPool().size());
+        assertEquals(dice1.getColour(), model.getDraftPool().get(0).getColour());
+        assertEquals(dice2.getColour(), model.getDraftPool().get(1).getColour());
+        assertEquals(dice3.getColour(), model.getDraftPool().get(2).getColour());
+
+
+        event = new GlazingHammerEvent();
+        controllerCLI.update(view,event);
+
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGlazingHammerFalse() {
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice[4][5]);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.setLap(0);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+
+        GlazingHammerEvent event = new GlazingHammerEvent();
+
+        controllerCLI.update(view, event);
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void testRunnerPliers(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.getCurrentPlayer().setLap(0);
+
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+        model.getDraftPool().add(diceP2);
+
+        RunnerPliersEvent event = new RunnerPliersEvent("1 2 2 ");
+        controllerCLI.update(view,event);
+
+        assertEquals(diceP2,model.getCurrentPlayer().getDicePattern().getDice(new Position (1,1)));
+        assertEquals(model.getDraftPool().size(), 0);
+        assertEquals(1,model.getCurrentPlayer().getLap());
+
+        event = new RunnerPliersEvent("1 1 4 ");
+        controllerCLI.update(view,event);
+
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testCorkBakedStrightedge(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+        model.getDraftPool().add(diceP2);
+
+        CorkBakedStraightedgeEvent event = new CorkBakedStraightedgeEvent("1 1 4");
+        controllerCLI.update(view, event);
+
+        assertEquals(0, model.getDraftPool().size());
+        assertEquals(diceP2, model.getCurrentPlayer().getDicePattern().getDice(new Position(0,3)));
+
+        Dice diceG = new Dice(Colour.GREEN);
+        diceG.setValue(6);
+        model.getDraftPool().add(diceG);
+
+        event = new CorkBakedStraightedgeEvent("1 1 1");
+        controllerCLI.update(view, event);
+
+    }
+
+
+    @Test (expected = NullPointerException.class)
+    public void testGrindingStone(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        WindowPattern windowPatternTest = new WindowPattern("Name", 18, new Dice[4][5]);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+        Dice dice4 = new Dice(Colour.YELLOW);
+        Dice dice5 = new Dice(Colour.GREEN);
+        Dice dice6 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+        dice4.setValue(4);
+        dice5.setValue(5);
+        dice6.setValue(6);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+        model.getDraftPool().add(dice4);
+        model.getDraftPool().add(dice5);
+        model.getDraftPool().add(dice6);
+
+        GrindingStoneEvent event = new GrindingStoneEvent("1");
+        controllerCLI.update(view,event);
+
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("6F",model.getDraftPool().get(0).toString());
+
+        event = new GrindingStoneEvent("2");
+        controllerCLI.update(view,event);
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("5B",model.getDraftPool().get(1).toString());
+
+        event = new GrindingStoneEvent("3");
+        controllerCLI.update(view,event);
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("4R",model.getDraftPool().get(2).toString());
+
+        event = new GrindingStoneEvent("4");
+        controllerCLI.update(view,event);
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("3G",model.getDraftPool().get(3).toString());
+
+        event = new GrindingStoneEvent("5");
+        controllerCLI.update(view,event);
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("2V",model.getDraftPool().get(4).toString());
+
+        event = new GrindingStoneEvent("6");
+        controllerCLI.update(view,event);
+        assertEquals(6,model.getDraftPool().size());
+        assertEquals("1R",model.getDraftPool().get(5).toString());
+
+        event = new GrindingStoneEvent("7");
+        controllerCLI.update(view,event);
+
+
+    }
+
+    //TODO : da fare
+    /*@Test
+    public void testFluxRemover(){
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceG = new Dice(Colour.GREEN);
+        diceG.setValue(1);
+        model.getDraftPool().add(diceG);
+
+
+
+        FluxRemoverEvent event = new FluxRemoverEvent("");
+
+    }*/
+
+
+    @Test
+    public void testTapWheel(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
+
+
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(3,0),diceP2);
+
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+        Dice dice4 = new Dice(Colour.YELLOW);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+        dice4.setValue(4);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+        model.getDraftPool().add(dice4);
+
+        model.fromDraftPoolToRoundTrack();
+
+
+        System.out.println(model.getRoundTrack().toString());
+        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+        TapWheelEvent event = new TapWheelEvent("1 1 3 4 4 1 2 4 4 4 ");
+         controllerCLI.update(view,event);
+
+        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testPlaceDiceFromDraftPoolToDicePattern(){
+
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
 
 
         Dice diceY = new Dice(Colour.YELLOW);
@@ -464,140 +1247,42 @@ public class TestControllerCLI {
 
         System.out.println(model.getCurrentPlayer().getDicePattern());
 
-        LathekinEvent event = new LathekinEvent("3 3 2 5 3 2 3 1");
+        Dice dice1 = new Dice(Colour.GREEN);
+        dice1.setValue(5);
 
-        controllerCLI.update(view, event);
+        Dice dice2 = new Dice(Colour.RED);
+        dice2.setValue(2);
 
-        System.out.println(model.getCurrentPlayer().getDicePattern());
+        Dice dice3 = new Dice(Colour.BLUE);
+        dice3.setValue(2);
 
-
-    }
-
-    @Test
-    public void testLensCutterTrue(){
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
-
-        model.getDraftPool().add(new Dice(1));
-        Dice dice1 = new Dice(6);
         model.getDraftPool().add(dice1);
-        model.getDraftPool().add(new Dice(3));
-        System.out.println("draft pool iniziale\n"+ model.getDraftPool());
-
-        model.fromDraftPoolToRoundTrack();
-        System.out.println("roundtrack dopo che ho spostato la prima draftpool\n" + model.getRoundTrack().toString());
-        System.out.println("draft pool dopo che l'ho svuotata\n"+ model.getDraftPool());
-
-        Dice dice2 = new Dice (Colour.YELLOW);
-        dice2.setValue(5);
         model.getDraftPool().add(dice2);
-        System.out.println("draft pool con nuovo dado\n"+ model.getDraftPool());
+        model.getDraftPool().add(dice3);
 
-        LensCutterEvent event = new LensCutterEvent("1 1 2");
+        PlaceDiceEvent event = new PlaceDiceEvent("1 2 3 ");
+        controllerCLI.update(view, event);
+        assertEquals(2,model.getDraftPool().size());
+        assertEquals(dice1, model.getCurrentPlayer().getDicePattern().getDice(new Position(1,2)));
+
+        event = new PlaceDiceEvent("1 2 5 ");
         controllerCLI.update(view,event);
+        assertEquals(1,model.getDraftPool().size());
+        assertEquals(dice2, model.getCurrentPlayer().getDicePattern().getDice(new Position(1,4)));
 
-        System.out.println("round track dopo evento\n"+model.getRoundTrack());
-        System.out.println(" draft pool dopo evento\n"+model.getDraftPool());
-
-
-        List<Dice> currentRoundTrack = new ArrayList<>();
-        currentRoundTrack.add(new Dice(1));
-        currentRoundTrack.add(new Dice(3));
-        currentRoundTrack.add(dice2);
-        //System.out.println(currentRoundTrack);
-        //System.out.println(model.getRoundTrack().getList(0));
-        assertEquals(model.getDraftPool().get(model.getDraftPool().size()-1),dice1);
-        //TODO: controllare l'errore qui
-        //assertEquals(currentRoundTrack, model.getRoundTrack().getList(0));
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testLensCutterFalse1() {
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
-
-        model.getDraftPool().add(new Dice(1));
-        Dice dice1 = new Dice(6);
-        model.getDraftPool().add(dice1);
-        model.getDraftPool().add(new Dice(3));
-        System.out.println("draft pool iniziale\n" + model.getDraftPool());
-
-        model.fromDraftPoolToRoundTrack();
-        System.out.println("roundtrack dopo che ho spostato la prima draftpool\n" + model.getRoundTrack().toString());
-        System.out.println("draft pool dopo che l'ho svuotata\n" + model.getDraftPool());
-
-        Dice dice2 = new Dice(Colour.YELLOW);
-        dice2.setValue(5);
-        model.getDraftPool().add(dice2);
-        System.out.println("draft pool con nuovo dado\n" + model.getDraftPool());
-
-        LensCutterEvent event = new LensCutterEvent("1 6 2");
-        controllerCLI.update(view, event);
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testLensCutterFalse2() {
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
-
-        model.getDraftPool().add(new Dice(1));
-        Dice dice1 = new Dice(6);
-        model.getDraftPool().add(dice1);
-        model.getDraftPool().add(new Dice(3));
-        System.out.println("draft pool iniziale\n" + model.getDraftPool());
-
-        model.fromDraftPoolToRoundTrack();
-        System.out.println("roundtrack dopo che ho spostato la prima draftpool\n" + model.getRoundTrack().toString());
-        System.out.println("draft pool dopo che l'ho svuotata\n" + model.getDraftPool());
-
-        Dice dice2 = new Dice(Colour.YELLOW);
-        dice2.setValue(5);
-        model.getDraftPool().add(dice2);
-        System.out.println("draft pool con nuovo dado\n" + model.getDraftPool());
-
-        LensCutterEvent event = new LensCutterEvent("5 1 2");
-        controllerCLI.update(view, event);
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testLensCutterFalse3() {
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
-
-        model.getDraftPool().add(new Dice(1));
-        Dice dice1 = new Dice(6);
-        model.getDraftPool().add(dice1);
-        model.getDraftPool().add(new Dice(3));
-        System.out.println("draft pool iniziale\n" + model.getDraftPool());
-
-        model.fromDraftPoolToRoundTrack();
-        System.out.println("roundtrack dopo che ho spostato la prima draftpool\n" + model.getRoundTrack().toString());
-        System.out.println("draft pool dopo che l'ho svuotata\n" + model.getDraftPool());
-
-        Dice dice2 = new Dice(Colour.YELLOW);
-        dice2.setValue(5);
-        model.getDraftPool().add(dice2);
-        System.out.println("draft pool con nuovo dado\n" + model.getDraftPool());
-
-        LensCutterEvent event = new LensCutterEvent("1 1 8");
-        controllerCLI.update(view, event);
-
+        event = new PlaceDiceEvent("1  2 4 ");
+        controllerCLI.update(view,event);
     }
 
 
-    /*@Test
-    public void testFluxBrushEvent(){
-
-    }*/
 
 
 
-        @After
+
+    @After
     public void tearDown(){
         model.getDraftPool().removeAll(model.getDraftPool());
+        model.getRoundTrack().removeAll();
         model = null;
         view = null;
         controllerCLI = null;
