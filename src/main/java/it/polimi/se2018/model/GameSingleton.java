@@ -220,17 +220,20 @@ public class GameSingleton extends Observable{
     }
 
 
+    public void extractAndRollOneDice(){
+        int randomNumber;
+        randomNumber = ThreadLocalRandom.current().nextInt(diceBag.size());
+        diceBag.get(randomNumber).roll();
+        draftPool.add(diceBag.get(randomNumber));
+        diceBag.remove(randomNumber);
+    }
     /**
      * Extracts dices from dice bag and put them in the draft pool
      */
     public void extractAndRoll() {
         int i;
-        int randomNumber;
         for (i = 0; i < diceNumberToExtract; i++) {
-            randomNumber = ThreadLocalRandom.current().nextInt(diceBag.size());
-            diceBag.get(randomNumber).roll();
-            draftPool.add(diceBag.get(randomNumber));
-            diceBag.remove(randomNumber);
+            extractAndRollOneDice();
         }
          DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
          notifyObservers(draftPoolEvent);

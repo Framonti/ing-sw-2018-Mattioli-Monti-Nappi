@@ -9,16 +9,19 @@ import java.util.List;
 public class DraftPoolEvent extends MVEvent{
 
 
-    private List<String> draftPoolString;
+    private List<String> draftPoolStringCLI;
+    private List<String> draftPoolStringGUI;
 
     /**
-     * Constructor
-     * @param draftPoolString A String representing the draftPool
+     *
+     * @param draftPoolStringCLI
+    // * @param draftPoolStringGUI
      */
-    public DraftPoolEvent(List<String> draftPoolString){
+    public DraftPoolEvent(List<String> draftPoolStringCLI /*,List<String> draftPoolStringGUI*/){
 
         super(2);
-        this.draftPoolString = draftPoolString;
+        this.draftPoolStringCLI = draftPoolStringCLI;
+        //this.draftPoolStringGUI = draftPoolStringGUI;
     }
 
     /**
@@ -27,6 +30,10 @@ public class DraftPoolEvent extends MVEvent{
      */
     public List<String> getDraftPoolString() {
 
-        return draftPoolString;
+        return draftPoolStringCLI;
+    }
+
+    public List<String> getDraftPoolStringGUI() {
+        return draftPoolStringGUI;
     }
 }
