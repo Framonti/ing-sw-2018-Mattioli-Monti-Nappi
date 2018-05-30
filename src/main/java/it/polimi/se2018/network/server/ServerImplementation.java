@@ -52,6 +52,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         virtualViewCLI.setServer(this);
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
+        setupDuration = 5000;
         new ClientCollector().start();
     }
 
@@ -362,6 +363,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
             new ClientCollector().start();
         }
+    }
+
+    public void removeClient(ClientInterfaceSocket client) {
+        connectionSocketLostClients.add(client);
+        socketClients.remove(client);
     }
 
 }

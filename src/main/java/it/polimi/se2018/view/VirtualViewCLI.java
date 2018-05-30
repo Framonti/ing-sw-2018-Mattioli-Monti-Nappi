@@ -34,7 +34,25 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         this.server = server;
     }
 
-    //TODO tutti (o quasi) i blocchi try catch sono evitabili: send gestisce già l'eccezione Remote
+
+    @Override
+    public void fluxBrushChoice(MVEvent fluxBrushPlaceDice) {
+        try {
+            server.sendTo(fluxBrushPlaceDice, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
+        }
+    }
+
+    public void fluxRemoverChoice(MVEvent fluxRemoverPlaceDice) {
+        try {
+            server.sendTo(fluxRemoverPlaceDice, currentPlayer);
+        }
+        catch (RemoteException e) {
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
+        }
+    }
 
     /**
      * This method forwards the VCEvents coming from the view to the controller
@@ -99,16 +117,6 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
     public void showEndTurn(MVEvent endTurnEvent) {
         try {
             server.sendTo(endTurnEvent, currentPlayer);
-        }
-        catch (RemoteException e) {
-            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
-        }
-    }
-
-    @Override
-    public void fluxBrushChoice() {
-        try {
-            server.sendTo(new FluxBrushChoiceEvent(), currentPlayer);
         }
         catch (RemoteException e) {
             System.out.println(CONNECTION_EXCEPTION + e.getMessage());

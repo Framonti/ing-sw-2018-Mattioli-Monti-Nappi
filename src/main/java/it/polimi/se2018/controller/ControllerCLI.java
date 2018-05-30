@@ -444,7 +444,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             successfulMove = fluxBrushPlaceDiceHelper(finalPosition, diceForFlux);
             if(successfulMove)
                 break;
-            view.fluxBrushChoice();
+            view.showError(new ErrorEvent("Non puoi inserire il dado in questa posizione\n"));
+            view.fluxBrushChoice(new FluxBrushChoiceEvent(diceForFlux.toString()));
 
         }
 
@@ -645,6 +646,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
+            view.fluxRemoverChoice(new FluxRemoverChoiceEvent(diceForFlux.toString()));
         }
     }
     /**
