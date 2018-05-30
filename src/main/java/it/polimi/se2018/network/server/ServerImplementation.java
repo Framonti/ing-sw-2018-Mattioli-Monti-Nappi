@@ -28,6 +28,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
     private transient List<ClientInterfaceRMI> rmiClients = new ArrayList<>();
     private transient List<ClientInterfaceRMI> connectionRMILostClients = new ArrayList<>();
+    private transient List<ClientInterfaceRMI> RMIClientsToBeRemoved = new ArrayList<>();
+
     private transient List<ClientInterfaceSocket> socketClients = new ArrayList<>();
     private transient List<ClientInterfaceSocket> connectionSocketLostClients = new ArrayList<>();
     private transient List<Player> players = new ArrayList<>();
@@ -255,13 +257,12 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             try {
                 currentPlayer.getClientInterfaceRMI().notify(mvEvent);
             } catch (RemoteException e) {
-                if (connectionRMILostClients.contains(currentPlayer.getClientInterfaceRMI()))
-                    notify(new SkipTurnEvent());
-                else {
+                if (!connectionRMILostClients.contains(currentPlayer.getClientInterfaceRMI())) {
                     connectionRMILostClients.add(currentPlayer.getClientInterfaceRMI());
                     rmiClients.remove(currentPlayer.getClientInterfaceRMI());
                     System.out.println("Connection lost with " + currentPlayer.getName());
                 }
+                notify(new SkipTurnEvent());
             }
         } else {
             currentPlayer.getClientInterfaceSocket().notify(mvEvent);
@@ -302,6 +303,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         public void run() {
             try {
                 sleep(setupDuration);
+                if(gameStarted)
+                    return;
                 if(rmiClients.size() + socketClients.size() > 1) {
                     gameStarted = true;
                     createGame();
@@ -337,7 +340,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         if(gameStarted) {
                             connectionRMILostClients.add(client);
                         } else {
-                            rmiClients.remove(client);
+                            RMIClientsToBeRemoved.add(client);
                         }
                         System.out.println("Connection lost with a client.");
                     }
@@ -346,6 +349,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
                 for(ClientInterfaceRMI client: connectionRMILostClients)
                     rmiClients.remove(client);
+                for(ClientInterfaceRMI client: RMIClientsToBeRemoved)
+                    rmiClients.remove(client);
+                RMIClientsToBeRemoved.clear();
+
                 for(ClientInterfaceSocket client: connectionSocketLostClients)
                     socketClients.remove(client);
 

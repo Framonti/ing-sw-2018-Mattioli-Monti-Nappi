@@ -27,7 +27,10 @@ public class ControllerCLI implements Observer {
     private boolean turnEnded = false;
     private TurnTimer turnTimer;
     private PlayerTurn playerTurn;
+    private Game game;
     private Dice diceForFluxBrush;
+    private final Object lock = new Object();
+    private final Object turnLock = new Object();
 
     /**
      * Constructor of the class.
@@ -69,42 +72,7 @@ public class ControllerCLI implements Observer {
         eventsHandler.put(-1, this::setWindowPatternPlayer);
     }
 
-    public synchronized void game() {
 
-        model.extractAndRoll();
-
-        while (model.getRound() < 11) {
-            turnTimer = new TurnTimer();
-            playerTurn = new PlayerTurn();
-            view.setCurrentPlayer(model.getCurrentPlayer());
-            view.showAll(new ShowAllEvent(
-                    new DicePatternEvent(model.dicePatternsToString(), model.playersToString()),
-                    model.publicObjectiveCardsToString(),
-                    new ToolCardEvent(model.toolCardsToString()),
-                    new DraftPoolEvent(model.draftPoolToString()),
-                    new RoundTrackEvent(model.getRoundTrack().toString()),
-                    model.getCurrentPlayer().getPrivateObjectiveCard().toString())
-            );
-            try {
-                turnEnded = false;
-                turnTimer.start(); //thread for time
-                playerTurn.start(); //thread to ask input
-                wait();
-
-                view.showEndTurn(new EndTurnEvent());
-            } catch (InterruptedException e) {
-                System.out.println("interrupted exception è grave");
-            }
-            nextPlayer();
-        }
-        computeAllScores();
-        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
-        model.mySetChanged();
-        model.notifyObservers(showScoreTrackEvent);
-        WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
-        model.mySetChanged();
-        model.notifyObservers(winnerEvent);
-    }
 
 
 
@@ -866,7 +834,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             else
                 errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
-            view.getInput();
+           // view.getInput();
         }
     }
 
@@ -925,11 +893,13 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     /**
      * Skips current player's turn
      */
-    private synchronized void skipTurn() {
+    private void skipTurn() {
         turnEnded = true;
         turnTimer.interrupt(); //è finito il turno del giocatore
         playerTurn.interrupt(); //non voglio più input
-        notifyAll(); //risveglia il thread principale
+        synchronized (turnLock) {
+            turnLock.notifyAll(); //risveglia il thread principale
+        }
     }
 
 
@@ -937,6 +907,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     public void update(Observable o, Object arg) {
         event = (VCEvent) arg;
         performAction(event);
+        synchronized (lock){
+            lock.notifyAll();
+        }
     }
 
     class TurnTimer extends Thread {
@@ -960,8 +933,73 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
                         model.toolCardsToStringAbbreviated()));
                 view.getInput();
+                if(model.getCurrentPlayer().getClientInterfaceRMI() == null) {
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
             }
         }
+    }
+
+    class Game extends Thread {
+
+        @Override
+        public void run() {
+            model.extractAndRoll();
+
+            while (model.getRound() < 11) {
+                turnTimer = new TurnTimer();
+                playerTurn = new PlayerTurn();
+                view.setCurrentPlayer(model.getCurrentPlayer());
+                view.showAll(new ShowAllEvent(
+                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString()),
+                        model.publicObjectiveCardsToString(),
+                        new ToolCardEvent(model.toolCardsToString()),
+                        new DraftPoolEvent(model.draftPoolToString()),
+                        new RoundTrackEvent(model.getRoundTrack().toString()),
+                        model.getCurrentPlayer().getPrivateObjectiveCard().toString())
+                );
+                turnEnded = false;
+                turnTimer.start(); //thread for time
+                playerTurn.start(); //thread to ask input
+
+                synchronized (turnLock) {
+                    try {
+                        turnLock.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println("interrupted exception è grave");
+                        e.printStackTrace();
+                    }
+                }
+
+                view.showEndTurn(new EndTurnEvent());
+                nextPlayer();
+            }
+
+        }
+    }
+
+    public void game() {
+        game = new Game();
+        game.start();
+    }
+
+    public void endGame() {
+        if(game.isAlive()) {
+            game.interrupt();
+        }
+        computeAllScores();
+        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
+        model.mySetChanged();
+        model.notifyObservers(showScoreTrackEvent);
+        WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
+        model.mySetChanged();
+        model.notifyObservers(winnerEvent);
     }
 
 }

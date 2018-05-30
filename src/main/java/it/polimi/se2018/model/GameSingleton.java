@@ -286,9 +286,10 @@ public class GameSingleton extends Observable{
         }
         int i = 1;
         for( Dice dice : draftPool){
-            tmp.add(i+ ":    "+ dice.toString() + "\n");
+            tmp.add("\n\t" + i + ":    "+ dice.toString());
             i++;
         }
+        tmp.add("\n");
         return tmp;
     }
 

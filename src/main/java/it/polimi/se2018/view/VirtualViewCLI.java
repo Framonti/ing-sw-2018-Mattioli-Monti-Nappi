@@ -34,7 +34,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         this.server = server;
     }
 
-
+    //TODO tutti (o quasi) i blocchi try catch sono evitabili: send gestisce già l'eccezione Remote
 
     /**
      * This method forwards the VCEvents coming from the view to the controller
@@ -52,7 +52,6 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         }
         catch (RemoteException | IndexOutOfBoundsException e) {
             System.out.println(CONNECTION_EXCEPTION + e.getMessage());
-            forwardVCEvent(new SkipTurnEvent());
         }
     }
 
