@@ -28,7 +28,7 @@ public class ControllerCLI implements Observer {
     private TurnTimer turnTimer;
     private PlayerTurn playerTurn;
     private Game game;
-    private Dice diceForFluxBrush;
+    private Dice diceForFlux;
     private final Object lock = new Object();
     private final Object turnLock = new Object();
 
@@ -64,9 +64,10 @@ public class ControllerCLI implements Observer {
         eventsHandler.put(8, this::runnerPliers);
         eventsHandler.put(9, this::corkBakedStraightedge);
         eventsHandler.put(10, this::grindingStone);
-        eventsHandler.put(11, this::fluxRemover);
+        eventsHandler.put(11, this::fluxRemoverChooseDice);
         eventsHandler.put(12, this::tapWheel);
         eventsHandler.put(13, this::fluxBrushPlaceDice);
+        eventsHandler.put(14, this::fluxRemoverPlaceDice);
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
@@ -128,7 +129,6 @@ public class ControllerCLI implements Observer {
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -181,7 +181,6 @@ public class ControllerCLI implements Observer {
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi decrementare un dado con valore 1\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -196,7 +195,6 @@ public class ControllerCLI implements Observer {
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi incrementare un dado con valore 6\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -220,13 +218,11 @@ public class ControllerCLI implements Observer {
             }catch (IndexOutOfBoundsException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -242,7 +238,6 @@ public class ControllerCLI implements Observer {
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -265,13 +260,11 @@ public class ControllerCLI implements Observer {
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -286,7 +279,6 @@ public class ControllerCLI implements Observer {
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -308,13 +300,11 @@ public class ControllerCLI implements Observer {
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -329,7 +319,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     } catch (IllegalArgumentException exception) {
         ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
         view.showError(errorEvent);
-        view.getInput();
     }
 }
 
@@ -356,13 +345,11 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
 
         }
     }
@@ -404,7 +391,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IndexOutOfBoundsException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non ci sono dadi nelle posizioni che hai indicato\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -423,7 +409,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -438,7 +423,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
             DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-            model.getCurrentPlayer().setToolCardUsed(true);
+
             model.mySetChanged();
             model.notifyObservers(dicePatternEvent);
             return true;
@@ -456,31 +441,31 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         boolean successfulMove;
         while(true) {
             //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
-            successfulMove = fluxBrushPlaceDiceHelper(finalPosition, diceForFluxBrush);
+            successfulMove = fluxBrushPlaceDiceHelper(finalPosition, diceForFlux);
             if(successfulMove)
                 break;
-            view.fluxBrushChoice();
+            view.showError(new ErrorEvent("Non puoi inserire il dado in questa posizione\n"));
+            view.fluxBrushChoice(new FluxBrushChoiceEvent(diceForFlux.toString()));
 
         }
-        handleFavorTokensNumber(searchToolCard(6));
+
     }
 
 
 
-    //TODO: controllare se può andare bene la gestione con il metodo helper che ritorna un booleano
     /**
      * Tool card 6 method
      */
     //mi tengo io la posizione
     private void fluxBrushChooseDice() {
         if (model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(6).getFavorPoint()) {
+            model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(6));
             FluxBrushChooseDiceEvent fluxBrushEvent = (FluxBrushChooseDiceEvent) event;
             try{
                 Dice diceChosen = getDiceFromDraftPool(fluxBrushEvent.getDiceIndexInDraftPool());
                 diceChosen.roll();
-                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
-                model.mySetChanged();
-                model.notifyObservers(draftPoolEvent);
+                FluxBrushChoiceEvent fluxBrushChoiceEvent = new FluxBrushChoiceEvent(diceChosen.toString());
                 boolean succesfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if(model.getCurrentPlayer().getDicePattern().isDicePlaceable(position, diceChosen))
@@ -491,19 +476,17 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                     view.showError(errorEvent);
                 }
                 else {
-                    this.diceForFluxBrush = diceChosen;
-                    view.fluxBrushChoice();
+                    this.diceForFlux = diceChosen;
+                    view.fluxBrushChoice(fluxBrushChoiceEvent);
                 }
             }catch (IndexOutOfBoundsException exception){
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
-                view.fluxBrushChoice();
             }
 
         } else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -524,13 +507,11 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -550,7 +531,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -568,13 +548,11 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             }catch (IndexOutOfBoundsException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -604,18 +582,15 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 } else {
                     ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
                     view.showError(errorEvent);
-                    view.getInput();
                 }
             }catch (IndexOutOfBoundsException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
 
         } else {
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -637,37 +612,95 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 }catch (IndexOutOfBoundsException exception) {
                     ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                     view.showError(errorEvent);
-                    view.getInput();
                 }
 
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado in questa posizione\n");
                 view.showError(errorEvent);
-                view.getInput();
             }
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
     //DUBBIO
 
+
+    //TODO: cambiare nome all'attributo diceForFluxBrush
+    private void fluxRemoverPlaceDice(){
+        try{
+            FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
+            diceForFlux.setValue(fluxRemoverPlaceDiceEvent.getDiceValue());
+            Position finalPosition = fluxRemoverPlaceDiceEvent.getDicePosition();
+            model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceForFlux);
+            model.getDraftPool().remove(diceForFlux);
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            model.getCurrentPlayer().setToolCardUsed(true);
+            model.mySetChanged();
+            model.notifyObservers(draftPoolEvent);
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
+            model.mySetChanged();
+            model.notifyObservers(dicePatternEvent);
+        } catch (IllegalArgumentException exception) {
+            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+            view.showError(errorEvent);
+            view.fluxRemoverChoice(new FluxRemoverChoiceEvent(diceForFlux.toString()));
+        }
+    }
     /**
      * Tool card 11 method
      */
-    private void fluxRemover() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(11).getFavorPoint()) {
-            FluxRemoverEvent fluxRemoverEvent = (FluxRemoverEvent) event;
+    private void fluxRemoverChooseDice() {
+        if (model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(11).getFavorPoint()) {
+            handleFavorTokensNumber(searchToolCard(11));
+            model.getCurrentPlayer().setToolCardUsed(true);
+            FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
+            //TODO: controllare che possa essere inserito in base al colore
             try {
                 Dice diceChosenFromDraftPool = getDiceFromDraftPool(fluxRemoverEvent.getDiceIndex());
-
                 model.getDiceBag().add(diceChosenFromDraftPool);
                 model.getDraftPool().remove(diceChosenFromDraftPool);
-                model.extractAndRoll();
-                Dice diceChosenFromDiceBag = model.getDraftPool().get(model.getDraftPool().size() - 1);
+                model.extractAndRollOneDice();
+                Dice diceChosen = model.getDraftPool().get(model.getDraftPool().size() - 1);
+                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+                model.mySetChanged();
+                model.notifyObservers(draftPoolEvent);
+                boolean succesfulMove = false;
+                //TODO: il controllo deve essere solo per il colore.Controllo che sia giusto
+                for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
+                    if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(position, diceChosen)&&
+                            model.getCurrentPlayer().getDicePattern().checkAdjacency(position) &&
+                            model.getCurrentPlayer().getDicePattern().checkAdjacentColour(position, diceChosen)) {
+                        succesfulMove = true;
+                    }
+                }
+                if(!succesfulMove){
+                    ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
+                    view.showError(errorEvent);
+                }
+                else {
+                    this.diceForFlux = diceChosen;
+                    FluxRemoverChoiceEvent fluxRemoverChoiceEvent = new FluxRemoverChoiceEvent(diceChosen.toString());
+                    view.fluxRemoverChoice(fluxRemoverChoiceEvent);
+                }
+
+            } catch (IndexOutOfBoundsException exception) {
+                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                view.showError(errorEvent);
+            }
+        } else {
+            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
+            view.showError(errorEvent);
+        }
+    }
+
+
+
+
+
+                /*Dice diceChosenFromDiceBag = model.getDraftPool().get(model.getDraftPool().size() - 1);
                 switch (diceChosenFromDiceBag.getColour()) {
                     case YELLOW:
                         diceChosenFromDiceBag.setValue(fluxRemoverEvent.getYellowDiceValue());
@@ -724,7 +757,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             view.showError(errorEvent);
             view.getInput();
         }
-    }
+    }*/
 
 
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
@@ -737,7 +770,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -752,7 +784,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
     //TODO CONTROLLARE SE BISOGNA LANCIARE ECCEZIONI AL LIVELLO PIù ALTO
@@ -796,7 +827,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-            view.getInput();
         }
     }
 
@@ -834,7 +864,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             else
                 errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
-           // view.getInput();
         }
     }
 

@@ -8,11 +8,13 @@ import it.polimi.se2018.events.mvevent.*;
  */
 public interface ViewCLIInterface {
 
+    void fluxRemoverChoice(MVEvent mvEvent);
+
     /**
-     * Shows all the actions that the player can do
-     * @param mvEvent It's the MVEvent received
+     * To be used only during fluxBrush ToolCard
+     * Asks where the player wants to place the dice
      */
-    void showActionMenu(MVEvent mvEvent);
+    void fluxBrushChoice(MVEvent mvEvent);
 
     /**
      * Opens the standard input, creates an event and notify it to its observer
@@ -20,16 +22,10 @@ public interface ViewCLIInterface {
     void getInput();
 
     /**
-     * Prints the error message if the action selected by the player is not valid
+     * Shows all the actions that the player can do
      * @param mvEvent It's the MVEvent received
      */
-    void showError(MVEvent mvEvent);
-
-    /**
-     * Shows the 4 window patterns among which the player has to choose one (at the start of the game)
-     * @param mvEvent It's the MVEvent received
-     */
-    void showWindowPatterns(MVEvent mvEvent);
+    void showActionMenu(MVEvent mvEvent);
 
     /**
      * Shows everything that it's visible to the player
@@ -38,15 +34,21 @@ public interface ViewCLIInterface {
     void showAll(MVEvent mvEvent);
 
     /**
+     * Prints the error message if the action selected by the player is not valid
+     * @param mvEvent It's the MVEvent received
+     */
+    void showError(MVEvent mvEvent);
+
+    /**
      * Shows the message of the turn's end
      * @param mvEvent It's the MVEvent received
      */
     void showEndTurn(MVEvent mvEvent);
 
     /**
-     * To be used only during fluxBrush ToolCard
-     * Asks where the player wants to place the dice
+     * Shows the 4 window patterns among which the player has to choose one (at the start of the game)
+     * @param mvEvent It's the MVEvent received
      */
-    void fluxBrushChoice();
+    void showWindowPatterns(MVEvent mvEvent);
 
 }

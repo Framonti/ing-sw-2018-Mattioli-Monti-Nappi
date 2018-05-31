@@ -119,7 +119,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(10, ()-> printWinner(mvEvent));
         mvEvents.put(11, this::getInput);
         mvEvents.put(12, ()-> showEndTurn(mvEvent));
-        mvEvents.put(13, this::fluxBrushChoice);
+        mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
+        mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
     }
 
     /**
@@ -137,13 +138,15 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         vcEvents.put(8, ()-> vcEvent = new RunnerPliersEvent(eventParameters));
         vcEvents.put(9, ()-> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
         vcEvents.put(10, ()-> vcEvent = new GrindingStoneEvent(eventParameters));
-        vcEvents.put(11, ()-> vcEvent = new FluxRemoverEvent(eventParameters));
+        vcEvents.put(11, ()-> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
         vcEvents.put(12, ()-> vcEvent = new TapWheelEvent(eventParameters));
         vcEvents.put(13, ()-> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
     }
 
     @Override
-    public void fluxBrushChoice() {
+    public void fluxBrushChoice(MVEvent event) {
+        FluxBrushChoiceEvent fluxBrushChoiceEvent = (FluxBrushChoiceEvent) event;
+        System.out.println(fluxBrushChoiceEvent.getDice() + "\nDove vuoi piazzare il dado?");
         try {
             String choice = scanner.nextLine();
             setChanged();
@@ -151,11 +154,26 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            fluxBrushChoice();
+            fluxBrushChoice(event);
         }
         catch (NoSuchElementException e) {
             System.out.println("noSuchElementException");
-            fluxBrushChoice();
+            fluxBrushChoice(event);
+        }
+    }
+
+    @Override
+    public void fluxRemoverChoice(MVEvent event) {
+        FluxRemoverChoiceEvent fluxRemoverChoiceEvent = (FluxRemoverChoiceEvent) event;
+        System.out.println(fluxRemoverChoiceEvent.getDice() + "\nScegli il valore del dado e piazzalo.");
+        try {
+            String choice = scanner.nextLine();
+            setChanged();
+            notifyObservers(new FluxRemoverPlaceDiceEvent(choice));
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            fluxRemoverChoice(event);
         }
     }
 

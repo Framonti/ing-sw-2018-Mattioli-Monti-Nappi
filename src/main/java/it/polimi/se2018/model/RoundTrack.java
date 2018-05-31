@@ -105,6 +105,6 @@ public class RoundTrack {
     }
 
     public void removeAll(){
-        roundList.removeAll(roundList);
+        roundList.clear();
     }
 }

@@ -57,7 +57,8 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
 //            getServerImplementation().removeClient(this); non capisco perché dovrei toglierlo dalla lista di clients
         }
         catch (IOException | ClassNotFoundException e) {
-            System.out.println("Failed sending events!");
+            getServerImplementation().removeClient(this);
+            System.out.println("Connection lost with a socketClient!");
         }
     }
 
