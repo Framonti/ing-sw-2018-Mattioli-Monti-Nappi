@@ -1,30 +1,34 @@
 package it.polimi.se2018.events.mvevent;
 
+import java.util.List;
+
 /**
  * This Event contains informations about the ScoreTrack
  * @author Framonti
  */
 public class ScoreTrackEvent extends MVEvent {
 
-    private String scoreTrackString;
+    private List<String> playersNames;
+    private List<Integer> scores;
 
     /**
      * Constructor
-     * @param scoreTrackString A String representing the ScoreTrack
+     * @param playersNames A String representing the ScoreTrack
      */
-    public ScoreTrackEvent(String scoreTrackString){
+    public ScoreTrackEvent(List<String> playersNames, List<Integer> scores){
 
         super(5);
-        this.scoreTrackString = scoreTrackString;
+        this.playersNames = playersNames;
+        this.scores = scores;
     }
 
-    /**
-     * Gets the scoreTrackString
-     * @return The scoreTrackString
-     */
-    public String getScoreTrackString() {
+    public List<String> getPlayersNames() {
 
-        return scoreTrackString;
+        return playersNames;
     }
 
+    public List<Integer> getScores() {
+
+        return scores;
+    }
 }

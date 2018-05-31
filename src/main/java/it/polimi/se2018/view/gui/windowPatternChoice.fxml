@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-image: url(/Others/background2.jpg);" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WindowPatternChoiceController">
+   <children>
+      <ImageView fx:id="windowPattern2" fitHeight="350.0" fitWidth="450.0" layoutX="771.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="windowPattern3" fitHeight="350.0" fitWidth="410.0" layoutX="159.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="windowPattern4" fitHeight="350.0" fitWidth="450.0" layoutX="770.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="cancelButton" cancelButton="true" disable="true" layoutX="1316.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #d80909;" text="Cancella" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="confirmButton" disable="true" layoutX="1316.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #0ad837;" text="Conferma" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="25.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="windowPattern1" fitHeight="350.0" fitWidth="450.0" layoutX="159.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

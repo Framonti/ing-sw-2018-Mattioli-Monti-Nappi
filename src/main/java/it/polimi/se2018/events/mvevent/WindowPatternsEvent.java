@@ -8,22 +8,29 @@ import java.util.List;
  */
 public class WindowPatternsEvent extends MVEvent {
 
-    List<String> windowPatterns;
+    private List<String> windowPatternsCLI;
+    private List<String> windowPatternsGUI;
 
     /**
      * The constructor sets the event id and the list of strings representing the 4 windowPatterns
-     * @param windowPatterns It's the list of strings representing the 4 windowPattens
+     * @param windowPatternsCLI It's the list of strings representing the 4 windowPattens
      */
-    public WindowPatternsEvent(List<String> windowPatterns) {
+    public WindowPatternsEvent(List<String> windowPatternsCLI, List<String> windowPatternsGUI) {
         super(-1);
-        this.windowPatterns = windowPatterns;
+        this.windowPatternsCLI = windowPatternsCLI;
+        this.windowPatternsGUI = windowPatternsGUI;
     }
 
     /**
      * @return The list of strings representing the 4 windowPatterns
      */
     public List<String> getWindowPatterns() {
-        return windowPatterns;
+        return windowPatternsCLI;
     }
+
+    public List<String> getWindowPatternsGUI() {
+        return windowPatternsGUI;
+    }
+
 
 }
