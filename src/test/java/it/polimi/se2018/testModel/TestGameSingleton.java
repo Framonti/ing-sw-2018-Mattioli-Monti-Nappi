@@ -116,9 +116,6 @@ public class TestGameSingleton {
         } catch (IllegalArgumentException exception){
             fail();
         }
-
-
-
     }
 
 
@@ -137,6 +134,30 @@ public class TestGameSingleton {
         instance.extractAndRoll();
         assertEquals(83-7,instance.getDiceBag().size());
         assertEquals(7+7,instance.getDraftPool().size());
+
+        //rimetto i dadi nel diceBag
+        boolean b = instance.getDiceBag().addAll(instance.getDraftPool());
+        instance.getDraftPool().removeAll(instance.getDraftPool());
+        assertEquals(90,instance.getDiceBag().size());
+        assertTrue(b);
+
+
+    }
+
+    @Test
+    public void testExtractAndRollOneDice(){
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        instance.extractAndRollOneDice();
+        assertEquals(89,instance.getDiceBag().size());
+        assertEquals(1,instance.getDraftPool().size());
+
+        instance.extractAndRollOneDice();
+        assertEquals(88,instance.getDiceBag().size());
+        assertEquals(2,instance.getDraftPool().size());
+
+        instance.extractAndRollOneDice();
+        assertEquals(87,instance.getDiceBag().size());
+        assertEquals(3,instance.getDraftPool().size());
 
         //rimetto i dadi nel diceBag
         boolean b = instance.getDiceBag().addAll(instance.getDraftPool());

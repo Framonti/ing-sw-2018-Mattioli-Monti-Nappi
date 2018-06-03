@@ -74,8 +74,13 @@ public class ControllerCLI implements Observer {
     }
 
 
+    public Dice getDiceForFlux() {
+        return diceForFlux;
+    }
 
-
+    public void setDiceForFlux(Dice diceForFlux) {
+        this.diceForFlux = diceForFlux;
+    }
 
     /**
      * Gets draft pool dice in diceIndex position
@@ -801,33 +806,32 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             Position finalPosition1 = tapWheelEvent.getNewFirstDicePosition();
             Position initialPosition2 = tapWheelEvent.getSecondDicePosition();
             Position finalPosition2 = tapWheelEvent.getNewSecondDicePosition();
-
+            handleFavorTokensNumber(searchToolCard(12));
             //if the player wants to move only one dice
             if (initialPosition2 == null && finalPosition2 == null &&
                     model.getCurrentPlayer().getDicePattern().getDice(initialPosition1).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, diceChosenFromRoundTrack) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosenFromRoundTrack)) {
+                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
+                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1))) {
                         tapWheelOneDiceMoved(initialPosition1,finalPosition1);
-                        handleFavorTokensNumber(searchToolCard(12));
             }
 
             //if the player wants to move two dices
             else if (initialPosition2 != null && finalPosition2 != null &&
                     model.getCurrentPlayer().getDicePattern().getDice(initialPosition1).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, diceChosenFromRoundTrack) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosenFromRoundTrack) &&
+                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
+                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
                     model.getCurrentPlayer().getDicePattern().getDice(initialPosition2).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, diceChosenFromRoundTrack) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, diceChosenFromRoundTrack)) {
+                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, model.getCurrentPlayer().getDicePattern().getDice(initialPosition2)) &&
+                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, model.getCurrentPlayer().getDicePattern().getDice(initialPosition2))) {
                         tapWheelTwoDiceMoved(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
-                        handleFavorTokensNumber(searchToolCard(12));
+
 
             }
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
             view.showError(errorEvent);
-        }
+        }//TODO: manca una gestione nel caso in cui non passi i controlli
     }
 
     /**
@@ -1023,9 +1027,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             game.interrupt();
         }
         computeAllScores();
-        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
+       // ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
         model.mySetChanged();
-        model.notifyObservers(showScoreTrackEvent);
+       // model.notifyObservers(showScoreTrackEvent);
         WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
         model.mySetChanged();
         model.notifyObservers(winnerEvent);

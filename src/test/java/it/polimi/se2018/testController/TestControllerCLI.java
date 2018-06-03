@@ -2,6 +2,7 @@ package it.polimi.se2018.testController;
 
 import it.polimi.se2018.controller.ControllerCLI;
 
+import it.polimi.se2018.events.mvevent.FluxRemoverChoiceEvent;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualViewCLI;
@@ -97,6 +98,8 @@ public class TestControllerCLI {
         controllerCLI.update(view, event);
 
     }
+
+
 
 
 
@@ -796,7 +799,7 @@ public class TestControllerCLI {
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
-
+        System.out.println(model.getCurrentPlayer().getDicePattern());
 
         Dice diceY = new Dice(Colour.YELLOW);
         diceY.setValue(3);
@@ -813,8 +816,12 @@ public class TestControllerCLI {
         Dice diceP2 = new Dice(Colour.PURPLE);
         diceP2.setValue(1);
 
-        FluxBrushPlaceDiceEvent event = new FluxBrushPlaceDiceEvent("3 5");
+        System.out.println(model.getCurrentPlayer().getDicePattern());
 
+
+
+        FluxBrushPlaceDiceEvent event = new FluxBrushPlaceDiceEvent("3 5");
+        controllerCLI.update(view, event);
         System.out.println(model.getCurrentPlayer().getDicePattern());
 
     }
@@ -1079,11 +1086,16 @@ public class TestControllerCLI {
 
     }
 
-    //TODO : da fare
+    //TODO : da rivedere perchè ci sono errori
     /*@Test
-    public void testFluxRemover(){
+    public void testFluxRemoverChooseDice(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        //Via Lux
+
         Dice[][] diceMatrix = new Dice[4][5];
         diceMatrix[0][0] = new Dice(Colour.YELLOW);
         diceMatrix[0][2] = new Dice(6);
@@ -1101,6 +1113,64 @@ public class TestControllerCLI {
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
+        Dice dice1 = new Dice(Colour.PURPLE);
+        Dice dice2 = new Dice(Colour.BLUE);
+        Dice dice3 = new Dice(Colour.RED);
+        Dice dice4 = new Dice(Colour.YELLOW);
+        Dice dice5 = new Dice(Colour.GREEN);
+        Dice dice6 = new Dice(Colour.RED);
+
+        dice1.setValue(1);
+        dice2.setValue(2);
+        dice3.setValue(3);
+        dice4.setValue(4);
+        dice5.setValue(5);
+        dice6.setValue(6);
+
+        model.getDraftPool().add(dice1);
+        model.getDraftPool().add(dice2);
+        model.getDraftPool().add(dice3);
+        model.getDraftPool().add(dice4);
+        model.getDraftPool().add(dice5);
+        model.getDraftPool().add(dice6);
+
+
+        FluxRemoverChooseDiceEvent event = new FluxRemoverChooseDiceEvent("3");
+        controllerCLI.update(view, event);
+
+        assertEquals(6,model.getDraftPool().size());
+        assertNotEquals(dice3, model.getDraftPool().contains(dice3));
+        assertEquals(dice3, model.getDiceBag().get(model.getDiceBag().size()-1));
+
+    }*/
+
+    @Test
+    public void testFluxRemoverPlaceDiceTrue(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+
 
 
         Dice diceY = new Dice(Colour.YELLOW);
@@ -1115,18 +1185,80 @@ public class TestControllerCLI {
         diceP.setValue(1);
         model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
 
-        Dice diceG = new Dice(Colour.GREEN);
-        diceG.setValue(1);
-        model.getDraftPool().add(diceG);
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+
+        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+        Dice tmp =new Dice(Colour.BLUE);
+        controllerCLI.setDiceForFlux(tmp);
+
+        FluxRemoverPlaceDiceEvent event = new FluxRemoverPlaceDiceEvent("4 3 5");
+        controllerCLI.update(view,event);
+
+        tmp.setValue(4);
+        assertEquals(controllerCLI.getDiceForFlux(),model.getCurrentPlayer().getDicePattern().getDice(new Position(2,4)));
+        assertEquals(controllerCLI.getDiceForFlux(),tmp);
+        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testFluxRemoverPlaceDiceFalse(){
+        roundTrack = new RoundTrack();
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        view = new VirtualViewCLI();
+        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        setup = GameSetupSingleton.instance();
+        model.setCurrentPlayer(model.getPlayers().get(0));
+
+        //Via Lux
+        Dice[][] diceMatrix = new Dice[4][5];
+        diceMatrix[0][0] = new Dice(Colour.YELLOW);
+        diceMatrix[0][2] = new Dice(6);
+        diceMatrix[1][1] = new Dice(1);
+        diceMatrix[1][2] = new Dice(5);
+        diceMatrix[1][4] = new Dice(2);
+        diceMatrix[2][0] = new Dice(3);
+        diceMatrix[2][1] = new Dice(Colour.YELLOW);
+        diceMatrix[2][2] = new Dice(Colour.RED);
+        diceMatrix[2][3] = new Dice(Colour.PURPLE);
+        diceMatrix[3][2] = new Dice(4);
+        diceMatrix[3][3] = new Dice(3);
+        diceMatrix[3][4] = new Dice(Colour.RED);
+
+        WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
 
 
-        FluxRemoverEvent event = new FluxRemoverEvent("");
+        Dice diceY = new Dice(Colour.YELLOW);
+        diceY.setValue(3);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
 
-    }*/
+        Dice diceR = new Dice(Colour.RED);
+        diceR.setValue(4);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+
+        Dice diceP = new Dice(Colour.PURPLE);
+        diceP.setValue(1);
+        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(1);
+
+        System.out.println(model.getCurrentPlayer().getDicePattern());
+
+        Dice tmp =new Dice(Colour.BLUE);
+        controllerCLI.setDiceForFlux(tmp);
+
+        FluxRemoverPlaceDiceEvent event = new FluxRemoverPlaceDiceEvent("4 3 4");
+        controllerCLI.update(view,event);
+    }
 
 
-    @Test
+    @Test//(expected = NullPointerException.class)
     public void testTapWheel(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
@@ -1149,7 +1281,7 @@ public class TestControllerCLI {
         diceMatrix[3][3] = new Dice(3);
         diceMatrix[3][4] = new Dice(Colour.RED);
 
-        WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
+        WindowPattern windowPatternTest = new WindowPattern("Name", 7, diceMatrix);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
 
@@ -1187,14 +1319,33 @@ public class TestControllerCLI {
 
         model.fromDraftPoolToRoundTrack();
 
+        System.out.println(model.getCurrentPlayer().getDicePattern().toString());
 
         System.out.println(model.getRoundTrack().toString());
+
+        TapWheelEvent event = new TapWheelEvent("1 1 4 1 4 2 ");
+        controllerCLI.update(view,event);
+
+
+        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,1)), diceP2);
+
+        event = new TapWheelEvent("1 3 3 3 2 3");
+        controllerCLI.update(view,event);
+        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,2)),diceR );
         System.out.println(model.getCurrentPlayer().getDicePattern());
 
-        TapWheelEvent event = new TapWheelEvent("1 1 3 4 4 1 2 4 4 4 ");
-         controllerCLI.update(view,event);
-
+        //TODO: non funziona e non so perchè
+        event = new TapWheelEvent("1 1 3 4 2 4");
+        controllerCLI.update(view,event);
         System.out.println(model.getCurrentPlayer().getDicePattern());
+
+        /*event = new TapWheelEvent("1 1 3 4 4 2 2 4 4 1");
+        controllerCLI.update(view,event);
+        System.out.println(model.getCurrentPlayer().getDicePattern());*/
+
+
+        //event = new TapWheelEvent("1 3 3 3 2 3");
+        //controllerCLI.update(view,event);
 
     }
 
