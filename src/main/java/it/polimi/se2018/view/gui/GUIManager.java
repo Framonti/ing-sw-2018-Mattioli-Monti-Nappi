@@ -1,15 +1,12 @@
 package it.polimi.se2018.view.gui;
 
  import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
- import it.polimi.se2018.events.vcevent.ConnectionChoiceEvent;
- import javafx.application.Application;
  import javafx.fxml.FXMLLoader;
  import javafx.scene.Parent;
  import javafx.scene.Scene;
  import javafx.scene.transform.Scale;
  import javafx.stage.Stage;
-import javafx.scene.image.Image;
-
+ import javafx.scene.image.Image;
  import java.awt.*;
  import java.io.File;
  import java.io.FileInputStream;
@@ -18,6 +15,9 @@ import javafx.scene.image.Image;
  import java.util.*;
  import java.util.List;
 
+/**
+ * This class sets the Stage for the GUI and manages all the various Scenes
+ */
 public class GUIManager{
 
     private static Stage window;
@@ -27,30 +27,58 @@ public class GUIManager{
     private static WindowPatternChoiceController windowPatternChoiceController;
     private static EndScreenController endScreenController;
 
+    /**
+     * Gets the controller associated to the nickname.fxml file
+     * @return The controller for the nickname.fxml file
+     */
     public static NicknameChoiceController getNicknameChoiceController() {
         return nicknameChoiceController;
     }
 
+    /**
+     * Gets the controller associated to the ConnectionChoice.fxml file
+     * @return The controller for the ConnectionChoice.fxml file
+     */
     public static ConnectionChoiceController getConnectionChoiceController() {
         return connectionChoiceController;
     }
 
+    /**
+     * Gets the controller associated to the waitingRoom.fxml file
+     * @return The controller for the waitingRoom.fxml file
+     */
     public static WaitingRoomController getWaitingRoomController() {
         return waitingRoomController;
     }
 
+    /**
+     * Gets the controller associated to the windowPatternChoice.fxml file
+     * @return The controller for the windowPatternChoice.fxml file
+     */
     public static WindowPatternChoiceController getWindowPatternChoiceController() {
         return windowPatternChoiceController;
     }
 
+    /**
+     * Gets the controller associated to the EndScreen.fxml file
+     * @return The controller for the EndScreen.fxml file
+     */
     public static EndScreenController getEndScreenController() {
         return endScreenController;
     }
 
+    /**
+     * Gets the Stage of the GUI
+     * @return The Stage of the GUI
+     */
     public static Stage getWindow(){
         return window;
     }
 
+    /**
+     * Create the Stage of the GUI and sets its parameters
+     * @param primaryStage
+     */
     public static void startGUI(Stage primaryStage){
 
         window = primaryStage;
@@ -75,21 +103,22 @@ public class GUIManager{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //GUIManager.setLobbyScene();
-        //GUIManager.setWindowPatternChoiceScene();
-      //  try {
-        //    GUIManager.setEndScreen();
-        //} catch (IOException e) {
-       // }
     }
 
 
+    /**
+     * Closes the program, after a confirmation from the user
+     */
     public static void closeProgram() {
 
         if (ConfirmChoiceBox.confirmChoice("Conferma chiusura", "Sei sicuro di volere uscire?"))
             window.close();
     }
 
+    /**
+     * Sets the first Scene
+     * @throws IOException
+     */
     private static void setNicknameChoiceScene() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -100,7 +129,10 @@ public class GUIManager{
         window.show();
     }
 
-
+    /**
+     * Sets the second Scene
+     * @throws IOException
+     */
     public static void setConnectionChoiceScene() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -111,7 +143,10 @@ public class GUIManager{
         window.show();
     }
 
-
+    /**
+     * Sets the third Scene
+     * @throws IOException
+     */
     public static void setLobbyScene() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -122,6 +157,10 @@ public class GUIManager{
         window.show();
     }
 
+    /**
+     * Sets the forth Scene
+     * @throws IOException
+     */
     public static void setWindowPatternChoiceScene() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -155,6 +194,10 @@ public class GUIManager{
         window.show();
     }
 
+    /**
+     * Sets the sixth Scene
+     * @throws IOException
+     */
     public static void setEndScreen() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();

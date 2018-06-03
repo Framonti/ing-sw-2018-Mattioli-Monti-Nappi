@@ -7,12 +7,18 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Observable;
 
+/**
+ * This class manages the nickname.fxml file
+ */
 public class NicknameChoiceController extends Observable{
 
     @FXML private Button confirmButton;
     @FXML private Button exitButton;
     @FXML private TextField textField;
 
+    /**
+     * Manages the behaviour of the textField
+     */
     @FXML
     public void nicknameEntered(){
 
@@ -28,7 +34,9 @@ public class NicknameChoiceController extends Observable{
         }
     }
 
-
+    /**
+     * Manages the behaviour of the exitButton
+     */
     @FXML
     private void exitFromButton(){
 

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 /**
  * This class is used in order to create a simply and customizable confirmation box
  * The box blocks any interaction with the scene that calls it until the user gives an answer
+ * @author Framonti
  */
 public class ConfirmChoiceBox {
 

@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
 import java.util.*;
 
 public class WaitingRoomController extends Observable implements Observer{
@@ -45,13 +44,9 @@ public class WaitingRoomController extends Observable implements Observer{
             label2.setText(clientAlreadyConnectedList.get(1));
             if (clientAlreadyConnectedList.size() > 2){
                 label3.setText(clientAlreadyConnectedList.get(2));
-                //Parte subito?
-                //if (clientAlreadyConnectedList.size() > 3){
-                  //  cl
-                //}
+
             }
         }
-
     }
 
     private void createMap(){

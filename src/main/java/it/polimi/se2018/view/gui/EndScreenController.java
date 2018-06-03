@@ -9,12 +9,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.*;
 
+/**
+ * This class manages the EndScreen.fxml file
+ * @author Framonti
+ */
 public class EndScreenController extends Observable implements Observer{
+
     @FXML private Button exitButton;
     @FXML private Button playAgainButton;
     @FXML private Label winnerLabel;
@@ -36,7 +40,9 @@ public class EndScreenController extends Observable implements Observer{
     private ImageView greenScoreMarker = new ImageView();
     private ImageView greenScoreMarker2 = new ImageView();
 
-
+    /**
+     * Manages the behaviour of ExitButton
+     */
     @FXML
     private void exitButtonAction(){
 
@@ -48,15 +54,21 @@ public class EndScreenController extends Observable implements Observer{
     @FXML
     private void playAgainButtonAction(){
 
-        List<Integer> list = new ArrayList<>();
+       /* List<Integer> list = new ArrayList<>();
         list.add(56);
         list.add(46);
         list.add(24);
         list.add(18);
-        placeScoreMarkersOnScene(list);
+        placeScoreMarkersOnScene(list);*/
 
     }
 
+    /**
+     * Sets a ImageView on the scene, given the required X and Y values
+     * @param marker The imageView to place
+     * @param X The X value in pixel
+     * @param Y The Y value in pixel
+     */
     private void setImageOnScene(ImageView marker, int X, int Y){
 
         marker.setX(X);
@@ -64,6 +76,11 @@ public class EndScreenController extends Observable implements Observer{
         scene.getChildren().add(marker);
     }
 
+    /**
+     * Sets all the scoreMarker on the right part of the ScoreTrack
+     * @param marker The market of the player
+     * @param score The score of the player
+     */
     private void setScoreMarkerUnit(ImageView marker, int score){
 
         switch (score%10){
@@ -89,6 +106,11 @@ public class EndScreenController extends Observable implements Observer{
         }
     }
 
+    /**
+     * Sets all the scoreMarker on the left part of the ScoreTrack
+     * @param marker The market of the player
+     * @param score The score of the player
+     */
     private void setScoreMarkerDecine(ImageView marker, int score){
 
         switch (score/10){
@@ -114,6 +136,10 @@ public class EndScreenController extends Observable implements Observer{
         }
     }
 
+    /**
+     * Sets all the scoreMarker on the ScoreTrack and
+     * @param scoreTrackEvent the event that contains all the info required
+     */
     private void setRankingLabels(ScoreTrackEvent scoreTrackEvent){
 
         firstPlaceLabel.setText(scoreTrackEvent.getPlayersNames().get(0));
@@ -123,14 +149,17 @@ public class EndScreenController extends Observable implements Observer{
         if(scoreTrackEvent.getPlayersNames().size() > 2){
             thirdPlaceLabel.setText(scoreTrackEvent.getPlayersNames().get(2));
             thirdPlacePoints.setText(String.valueOf(scoreTrackEvent.getScores().get(2)) + " pts");
+            if(scoreTrackEvent.getPlayersNames().size() > 3){
+                forthPlaceLabel.setText(scoreTrackEvent.getPlayersNames().get(3));
+                forthPlacePoints.setText(String.valueOf(scoreTrackEvent.getScores().get(3)) + " pts");
+            }
         }
-        if(scoreTrackEvent.getPlayersNames().size() > 3){
-            forthPlaceLabel.setText(scoreTrackEvent.getPlayersNames().get(3));
-            forthPlacePoints.setText(String.valueOf(scoreTrackEvent.getScores().get(3)) + " pts");
-        }
-
     }
 
+    /**
+     * Place all the scoreMarker on the scene
+     * @param scores the Score of the players
+     */
     private void placeScoreMarkersOnScene(List<Integer> scores){
 
         setScoreMarkerDecine(blueScoreMarker, scores.get(0));
@@ -144,40 +173,21 @@ public class EndScreenController extends Observable implements Observer{
             setScoreMarkerUnit(redScoreMarker2, scores.get(2));
             redScoreMarker.toFront();
             redScoreMarker2.toFront();
+            if(scores.size() > 3){
+                setScoreMarkerDecine(yellowScoreMarker, scores.get(3));
+                setScoreMarkerUnit(yellowScoreMarker2, scores.get(3));
+                yellowScoreMarker.toFront();
+                yellowScoreMarker2.toFront();
+            }
         }
-        if(scores.size() > 3){
-            setScoreMarkerDecine(yellowScoreMarker, scores.get(3));
-            setScoreMarkerUnit(yellowScoreMarker2, scores.get(3));
-            yellowScoreMarker.toFront();
-            yellowScoreMarker2.toFront();
-        }
-
-
     }
 
     private void scoreTrackEventHandler(MVEvent mvEvent){
 
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
-        sortPlayers(scoreTrackEvent);
+        //sortPlayers(scoreTrackEvent);
         setRankingLabels(scoreTrackEvent);
         placeScoreMarkersOnScene(scoreTrackEvent.getScores());
-    }
-
-    private void sortPlayers(ScoreTrackEvent scoreTrackEvent){
-
-        int n = scoreTrackEvent.getPlayersNames().size();
-        int i;
-        while(n!= 0){
-            i = 0;
-            for(int j = 1; j < n; j++) {
-                if(scoreTrackEvent.getScores().get(j-1) < scoreTrackEvent.getScores().get(j)){
-                    Collections.swap(scoreTrackEvent.getScores(), j-1, j);
-                    Collections.swap(scoreTrackEvent.getPlayersNames(), j-1, j);
-                    i = j;
-                }
-            }
-            n = i;
-        }
     }
 
     private void winnerEventHandler(MVEvent mvEvent){
@@ -185,6 +195,9 @@ public class EndScreenController extends Observable implements Observer{
         winnerLabel.setText(winnerEvent.getWinner());
     }
 
+    /**
+     * Initialized the scene, loading all the ScoreMarker from files
+     */
     public void initialize(){
 
         imageLoader("src/main/Images/ScoreMarker/ScoreMarkerB.png", blueScoreMarker);
@@ -197,6 +210,11 @@ public class EndScreenController extends Observable implements Observer{
         imageLoader("src/main/Images/ScoreMarker/ScoreMarkerG.png", greenScoreMarker2);
     }
 
+    /**
+     * Loads an image from a path
+     * @param path The path from which load the image
+     * @param imageView The ImageView that will contains the image
+     */
     private void imageLoader(String path, ImageView imageView){
         File imageFile = new File(path);
         String url = null;
@@ -208,6 +226,7 @@ public class EndScreenController extends Observable implements Observer{
         imageView.setImage(new Image(url));
     }
 
+
     @Override
     public void update(Observable o, Object arg) {
         MVEvent mvEvent = (MVEvent) arg;
@@ -215,6 +234,5 @@ public class EndScreenController extends Observable implements Observer{
             scoreTrackEventHandler(mvEvent);
         else winnerEventHandler(mvEvent);
     }
-
 
 }
