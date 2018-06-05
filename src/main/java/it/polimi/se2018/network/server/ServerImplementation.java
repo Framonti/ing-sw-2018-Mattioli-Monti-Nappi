@@ -34,6 +34,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private transient List<ClientInterfaceSocket> connectionSocketLostClients = new ArrayList<>();
     private transient List<Player> players = new ArrayList<>();
 
+    private transient ControllerCLI controllerCLI;
     private final transient Object lock = new Object();
     private transient VirtualViewCLI virtualViewCLI;
     private transient Timer timer = new Timer();
@@ -75,7 +76,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(createPlayerList(rmiClients, socketClients));
         GameSingleton model = GameSetupSingleton.instance().createNewGame();
-        ControllerCLI controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model, turnDuration);
+        controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
         virtualViewCLI.addObserver(controllerCLI);
         model.addObserver(virtualViewCLI);
@@ -87,7 +88,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 windowPatterns.add("Numero: " + num + "\n" + windowPattern.toString());
                 num++;
             }
-            sendTo(new WindowPatternsEvent(windowPatterns), player);
+            sendTo(new WindowPatternsEvent(windowPatterns, windowPatterns), player);
 
             synchronized (Server.windowPatternLock) {
                 while (player.getWindowPattern() == null) {
@@ -153,13 +154,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         gameStarted = true;
                         createGame();
                     }
-
-                    return;
-
                 } else {
                     handleSocketLostClient(client);
-                    return;
                 }
+                return;
             }
         }
         cantPlay(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
@@ -263,7 +261,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     rmiClients.remove(currentPlayer.getClientInterfaceRMI());
                     System.out.println("Connection lost with " + currentPlayer.getName());
                 }
-                notify(new SkipTurnEvent());
+                if(socketClients.size() + rmiClients.size() < 2)
+                    controllerCLI.endGame();
+                else
+                    notify(new SkipTurnEvent());
             }
         } else {
             currentPlayer.getClientInterfaceSocket().notify(mvEvent);
@@ -302,20 +303,18 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
         @Override
         public void run() {
-            try {
-                sleep(setupDuration);
-                if(gameStarted)
-                    return;
-                if(rmiClients.size() + socketClients.size() > 1) {
-                    gameStarted = true;
-                    createGame();
-                } else {
-                    timer = new Timer();
-                    timer.start();
+            while (!gameStarted) {
+                try {
+                    sleep(setupDuration);
+                    if (gameStarted)
+                        return;
+                    if (rmiClients.size() + socketClients.size() > 1) {
+                        gameStarted = true;
+                        createGame();
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
-            }
-            catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
             }
         }
     }
@@ -368,6 +367,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     public void removeClient(ClientInterfaceSocket client) {
         connectionSocketLostClients.add(client);
         socketClients.remove(client);
+
+        if(socketClients.size() + rmiClients.size() < 2)
+            controllerCLI.endGame();
+        else
+            notify(new SkipTurnEvent());
     }
 
 }

@@ -35,7 +35,7 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
             stream.flush();
         }
         catch (IOException e) {
-            System.out.println("Notify failed in VirtualClient");
+            System.out.println("Connection lost with a socketClient!");
         }
     }
 
@@ -58,11 +58,10 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
         }
         catch (IOException | ClassNotFoundException e) {
             getServerImplementation().removeClient(this);
-            System.out.println("Connection lost with a socketClient!");
         }
     }
 
-    //TODO vedere se serve davvero questo metodo
+    //TODO vedere se serve davvero questo metodo --> sempre più convinto di no
     public void testIfConnected() {
         //This method is used only to test if the connection of a client is lost.
     }
