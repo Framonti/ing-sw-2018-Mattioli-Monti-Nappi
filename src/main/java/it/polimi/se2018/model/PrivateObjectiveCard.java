@@ -32,4 +32,8 @@ public class PrivateObjectiveCard extends ObjectiveCard {
 
         return this.getName() + "\n" + this.getDescription()+"\n";
     }
+
+    public String toStringPath(){
+        return "src/main/Images/PrivateObjectiveCard/Sfumature"+this.getColour().getAbbreviation()+".jpg";
+    }
 }

@@ -3,10 +3,10 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.ThreadLocalRandom;
 
-import it.polimi.se2018.events.mvevent.DraftPoolEvent;
-import it.polimi.se2018.events.mvevent.RoundTrackEvent;
+import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 
 
@@ -235,8 +235,8 @@ public class GameSingleton extends Observable{
         for (i = 0; i < diceNumberToExtract; i++) {
             extractAndRollOneDice();
         }
-         DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
-         notifyObservers(draftPoolEvent);
+         //DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
+         //notifyObservers(draftPoolEvent);
     }
 
 
@@ -246,12 +246,12 @@ public class GameSingleton extends Observable{
     public void fromDraftPoolToRoundTrack() {
         roundTrack.addDices(draftPool);
         draftPool.clear();
-        DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
-        setChanged();
-        notifyObservers(draftPoolEvent);
-        RoundTrackEvent roundTrackEvent = new RoundTrackEvent(roundTrack.toString());
-        setChanged();
-        notifyObservers(roundTrackEvent);
+        //DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
+        //setChanged();
+        //notifyObservers(draftPoolEvent);
+        //RoundTrackEvent roundTrackEvent = new RoundTrackEvent(roundTrack.toString());
+        //setChanged();
+        //notifyObservers(roundTrackEvent);
 
     }
 
@@ -296,6 +296,17 @@ public class GameSingleton extends Observable{
         return tmp;
     }
 
+    public List<String> draftPoolToStringPath(){
+        List<String> tmp = new ArrayList<>();
+        if (draftPool.isEmpty()) {
+            tmp.add("");            //TODO: controllare se va  bene così oppure se devo passare 9 path "falsi"
+            return tmp;
+        }
+        for( Dice dice : draftPool)
+            tmp.add(dice.toStringPath());
+        return tmp;
+    }
+
     /**
      * Gets a representation of the dice patterns of all players
      * @return A representation of the dice patterns of all players
@@ -328,6 +339,14 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    public List<String> toolCardsToStringPath(){
+        List <String> list = new ArrayList<>();
+        for( ToolCard toolCard : toolCards){
+            list.add(toolCard.toStringPath());
+        }
+        return list;
+    }
+
     /**
      * Gets a representation of all players
      * @return A representation of all players
@@ -354,11 +373,29 @@ public class GameSingleton extends Observable{
     /**
      * Method called in the controller before a notifyObservers
      */
-    public void mySetChanged(){
+    public void myNotify(MVEvent event){
         setChanged();
+        notifyObservers(event);
     }
 
+    public static GameSingleton getInstance(){
+        return instance;
+    }
 
+    public void rollEveryDice() {
+        int i;
+        for (i = 0; i < draftPool.size(); i++)
+            draftPool.get(i).roll();
+        DraftPoolEvent draftPoolEvent = new DraftPoolEvent(draftPoolToString(), draftPoolToStringPath());
+        myNotify(draftPoolEvent);
+    }
+
+    public void createScoreTrack(List<Integer> scores) {
+        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(playersToString(), scores);
+        myNotify(showScoreTrackEvent);
+        WinnerEvent winnerEvent = new WinnerEvent(selectWinner().getName());
+        myNotify(winnerEvent);
+    }
 
 }
 

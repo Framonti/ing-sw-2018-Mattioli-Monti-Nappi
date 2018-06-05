@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.events.mvevent.ToolCardEvent;
+
 /**
  * This class represents a tool card
  * @author Daniele Mattioli
@@ -66,6 +68,8 @@ public class ToolCard{
      */
     public void increaseFavorPoint (int n){
         this.favorPoint += n;
+        ToolCardEvent toolCardEvent = new ToolCardEvent(GameSingleton.getInstance().toolCardsToString(), GameSingleton.getInstance().toolCardsToStringPath());
+        GameSingleton.getInstance().myNotify(toolCardEvent);
     }
 
     @Override
@@ -80,5 +84,9 @@ public class ToolCard{
      */
     public String toStringAbbreviated(){
         return getId() + ")\t" + getName() + "\n\t"  + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") + "\n";
+    }
+
+    public String toStringPath(){
+        return "src/main/Images/ToolCard/ToolCard"+this.getId()+".jpg";
     }
 }

@@ -144,23 +144,9 @@ public class ControllerCLI implements Observer {
         if (toolCard.getFavorPoint() == 0) {
             model.getCurrentPlayer().reduceFavorTokens(1);
             toolCard.increaseFavorPoint(1);
-            FavorTokensEvent favorTokensEvent = new FavorTokensEvent(String.valueOf(model.getCurrentPlayer().getFavorTokensNumber()), String.valueOf(model.getCurrentPlayer()));
-            model.mySetChanged();
-            model.notifyObservers(favorTokensEvent);
-            ToolCardEvent toolCardEvent = new ToolCardEvent(model.toolCardsToString());
-            model.mySetChanged();
-            model.notifyObservers(toolCardEvent);
-
-
         } else {
             model.getCurrentPlayer().reduceFavorTokens(2);
             toolCard.increaseFavorPoint(2);
-            FavorTokensEvent favorTokensEvent = new FavorTokensEvent(String.valueOf(model.getCurrentPlayer().getFavorTokensNumber()), String.valueOf(model.getCurrentPlayer()));
-            model.mySetChanged();
-            model.notifyObservers(favorTokensEvent);
-            ToolCardEvent toolCardEvent = new ToolCardEvent(model.toolCardsToString());
-            model.mySetChanged();
-            model.notifyObservers(toolCardEvent);
         }
     }
 
@@ -176,10 +162,7 @@ public class ControllerCLI implements Observer {
     private void grozingPliersSubOne(Dice diceChosen){
         try {
             diceChosen.subOne();
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi decrementare un dado con valore 1\n");
             view.showError(errorEvent);
@@ -190,10 +173,7 @@ public class ControllerCLI implements Observer {
     private void grozingPliersAddOne(Dice diceChosen){
         try {
             diceChosen.addOne();
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi incrementare un dado con valore 6\n");
             view.showError(errorEvent);
@@ -233,10 +213,7 @@ public class ControllerCLI implements Observer {
     private void eglomiseBrushValidRestriction( Position initialPosition, Position finalPosition ){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
@@ -273,10 +250,8 @@ public class ControllerCLI implements Observer {
     private void copperFoilBurnisherValidRestriction(Position initialPosition, Position finalPosition){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
+
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
@@ -313,10 +288,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     try {
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-        DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
         model.getCurrentPlayer().setToolCardUsed(true);
-        model.mySetChanged();
-        model.notifyObservers(dicePatternEvent);
     } catch (IllegalArgumentException exception) {
         ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
         view.showError(errorEvent);
@@ -369,13 +341,11 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             model.getDraftPool().remove(indexOfDraftPool);
             model.getDraftPool().add(model.getRoundTrack().getDice(round, indexOfRoundTrack));
             model.getRoundTrack().getList(round).remove(indexOfRoundTrack);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
-            RoundTrackEvent roundTrackEvent = new RoundTrackEvent(model.getRoundTrack().toString());
-            model.mySetChanged();
-            model.notifyObservers(roundTrackEvent);
+            model.myNotify(draftPoolEvent);
+            RoundTrackEvent roundTrackEvent = new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath());
+            model.myNotify(roundTrackEvent);
         } catch (IndexOutOfBoundsException exception) {
             throw new IndexOutOfBoundsException(nonValidInput);
         }
@@ -416,12 +386,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+            model.myNotify(draftPoolEvent);
             return true;
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
@@ -490,14 +456,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      */
     private void glazingHammer() {
         if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(7).getFavorPoint()) {
-            int i;
             if (model.getLap() == 1) {
-                for (i = 0; i < model.getDraftPool().size(); i++)
-                    model.getDraftPool().get(i).roll();
-                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+                model.rollEveryDice();
                 model.getCurrentPlayer().setToolCardUsed(true);
-                model.mySetChanged();
-                model.notifyObservers(draftPoolEvent);
                 handleFavorTokensNumber(searchToolCard(7));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno\n");
@@ -516,13 +477,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
             model.getCurrentPlayer().setLap(1);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
+            model.myNotify(draftPoolEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -566,13 +523,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 if (model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition, diceChosen)) {
                     model.getCurrentPlayer().getDicePattern().setDice(finalPosition, diceChosen);
                     model.getDraftPool().remove(diceChosen);
-                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                     model.getCurrentPlayer().setToolCardUsed(true);
-                    model.mySetChanged();
-                    model.notifyObservers(draftPoolEvent);
-                    DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-                    model.mySetChanged();
-                    model.notifyObservers(dicePatternEvent);
+                    model.myNotify(draftPoolEvent);
                     handleFavorTokensNumber(searchToolCard(9));
                 } else {
                     ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
@@ -599,10 +552,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             if (grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
                 try {
                     getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
-                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                     model.getCurrentPlayer().setToolCardUsed(true);
-                    model.mySetChanged();
-                    model.notifyObservers(draftPoolEvent);
+                    model.myNotify(draftPoolEvent);
                     handleFavorTokensNumber(searchToolCard(10));
                 }catch (IndexOutOfBoundsException exception) {
                     ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
@@ -629,13 +581,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             Position finalPosition = fluxRemoverPlaceDiceEvent.getDicePosition();
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceForFlux);
             model.getDraftPool().remove(diceForFlux);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
+            model.myNotify(draftPoolEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -656,9 +604,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 model.getDraftPool().remove(diceChosenFromDraftPool);
                 model.extractAndRollOneDice();
                 Dice diceChosen = model.getDraftPool().get(model.getDraftPool().size() - 1);
-                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
-                model.mySetChanged();
-                model.notifyObservers(draftPoolEvent);
+                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+                model.myNotify(draftPoolEvent);
                 boolean succesfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(position, diceChosen)&&
@@ -692,10 +639,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -706,10 +650,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
             model.getCurrentPlayer().setToolCardUsed(true);
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -787,12 +728,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
             model.getDraftPool().remove(diceChosen);
             model.getCurrentPlayer().setDiceMoved(true);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
-            model.mySetChanged();
-            model.notifyObservers(draftPoolEvent);
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-            model.mySetChanged();
-            model.notifyObservers(dicePatternEvent);
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+            model.myNotify(draftPoolEvent);
         }catch (IndexOutOfBoundsException | IllegalArgumentException exception) {
             ErrorEvent errorEvent;
             if(exception instanceof IndexOutOfBoundsException)
@@ -923,12 +860,12 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 playerTurn = new PlayerTurn();
                 view.setCurrentPlayer(model.getCurrentPlayer());
                 view.showAll(new ShowAllEvent(
-                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString()),
-                        model.publicObjectiveCardsToString(),
-                        new ToolCardEvent(model.toolCardsToString()),
-                        new DraftPoolEvent(model.draftPoolToString()),
-                        new RoundTrackEvent(model.getRoundTrack().toString()),
-                        model.getCurrentPlayer().getPrivateObjectiveCard().toString())
+                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.getCurrentPlayer().getDicePattern().dicePatternToStringPath()),
+                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToString(),
+                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
+                        new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
+                        new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
+                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString() )
                 );
                 turnEnded = false;
                 turnTimer.start(); //thread for time
@@ -976,12 +913,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         for(Player player: model.getPlayers())
             scores.add(player.getScore());
 
-        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.playersToString(), scores);
-        model.mySetChanged();
-        model.notifyObservers(showScoreTrackEvent);
-        WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
-        model.mySetChanged();
-        model.notifyObservers(winnerEvent);
+        model.createScoreTrack(scores);
     }
 
 }

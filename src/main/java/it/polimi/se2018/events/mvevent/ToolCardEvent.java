@@ -9,15 +9,17 @@ import java.util.List;
 public class ToolCardEvent extends MVEvent{
 
     private List<String> toolCards;
+    private List<String> toolCardsGUI;
 
     /**
      * Constructor
      * @param toolCards A List representing all the ToolCard in the game
      */
-    public ToolCardEvent(List<String> toolCards){
+    public ToolCardEvent(List<String> toolCards, List<String> toolCardsGUI){
 
         super(3);
         this.toolCards = toolCards;
+        this.toolCardsGUI = toolCardsGUI;
     }
 
     /**
@@ -27,6 +29,10 @@ public class ToolCardEvent extends MVEvent{
     public List<String> getToolCards() {
 
         return toolCards;
+    }
+
+    public List<String> getToolCardsGUI(){
+        return toolCardsGUI;
     }
 
 }

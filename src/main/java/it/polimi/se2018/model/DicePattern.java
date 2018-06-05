@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.events.mvevent.DicePatternEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,8 @@ public class DicePattern {
     public void setDice(Position position, Dice dice) {
 
         diceMatrix[position.getX()][position.getY()] = dice;
+        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPath());
+        GameSingleton.getInstance().myNotify(dicePatternEvent);
     }
 
     /**
@@ -193,6 +197,8 @@ public class DicePattern {
 
             setDice(position, dice);
             firstDice = false;
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToStringPath());
+            GameSingleton.getInstance().myNotify(dicePatternEvent);
         }
         else throw new IllegalArgumentException("Illegal move");
     }
@@ -229,6 +235,8 @@ public class DicePattern {
             else {
                 Dice toMove = removeDice(initialPosition);
                 this.setDice(finalPosition, toMove);
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToString(), GameSingleton.getInstance().playersToString(), GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToStringPath());
+                GameSingleton.getInstance().myNotify(dicePatternEvent);
             }
         }
     }
@@ -269,6 +277,22 @@ public class DicePattern {
     public List<String> dicePatternToString(){
         ArrayList<String> list = new ArrayList<>();
         list.add(this.toString());
+        return list;
+    }
+
+    public List<String> dicePatternToStringPath(){
+        ArrayList<String> list = new ArrayList<>();
+        int row = 4;
+        int column = 5;
+        for(int i = 0; i< row; i++){
+            for(int j = 0; j< column ; j++){
+                if(diceMatrix[i][j] == null){
+                    list.add(" ");
+                }
+                else
+                    list.add(diceMatrix[i][j].toStringPath());
+            }
+        }
         return list;
     }
 

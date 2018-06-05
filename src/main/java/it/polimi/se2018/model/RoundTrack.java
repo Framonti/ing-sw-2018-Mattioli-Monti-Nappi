@@ -104,6 +104,25 @@ public class RoundTrack {
         return roundTrack;
     }
 
+    public List<String> roundToStringPath(int round){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 9 ; i++)
+                list.add(roundList.get(round).get(i).toStringPath());
+        return list;
+    }
+
+    public List<String> toStringPath(){
+        ArrayList<String> list = new ArrayList<>();
+        for(int i = 0 ; i < 10; i++){
+            if(isEmpty(i)){
+                for(int j = 0; j < 9 ; j++)
+                    list.add(" ");
+            }
+            else
+                list.addAll(roundToStringPath(i));
+        }
+        return list;
+    }
     public void removeAll(){
         roundList.clear();
     }

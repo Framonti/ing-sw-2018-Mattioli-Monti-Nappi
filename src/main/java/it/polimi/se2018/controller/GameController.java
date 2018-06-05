@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller;
 
-//TODO: eventi che mancano nella mappa (tipo skip turn, in cui probabilmente ripristino gli attributi)
+//TODO: favor tokens e mostrare i dice pattern degli altri
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.Dice;
@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -147,8 +148,6 @@ public class GameController extends Observable implements Observer {
     private GridPane favorTokensGridPane;
 
 
-
-
     private ImageView diceChosenFromDraftPool;
     private ImageView diceChosenFromRoundTrack;
     private ImageView diceChosenFromDicePattern;
@@ -169,9 +168,9 @@ public class GameController extends Observable implements Observer {
     private boolean isToolCard3Selected = false;
     private boolean isToolCardSelected = false;
 
-    private int idToolCard1 ;
-    private int idToolCard2 ;
-    private int idToolCard3 ;
+    private int idToolCard1;
+    private int idToolCard2;
+    private int idToolCard3;
     private int idToolCardSelected;
 
     private int choiceGrozingPliers;
@@ -190,10 +189,11 @@ public class GameController extends Observable implements Observer {
 
     @FXML
     void initialize() {
-        initializeGridPaneImagesView(roundTrackGridPane,10,9,39,49);
-        initializeGridPaneImagesView(dicePatternGridPane,4,5,59,69);
-        initializeGridPaneImagesView(draftPool,1,9,59,69);
+        initializeGridPaneImagesView(roundTrackGridPane, 10, 9, 39, 49);
+        initializeGridPaneImagesView(dicePatternGridPane, 4, 5, 59, 69);
+        initializeGridPaneImagesView(draftPool, 1, 9, 59, 69);
 
+        addImageToImageView("src/main/Images/Others/RoundTrack.png",roundTrack,150,776);
         //TODO: questa cosa non mi piace molto, ma con i metodi initialize se poi clicco su un'immagine vuola, non so perchè ma non prende il click
 
         listDicePattern.add(dicePatternImage00);
@@ -216,11 +216,11 @@ public class GameController extends Observable implements Observer {
         listDicePattern.add(dicePatternImage32);
         listDicePattern.add(dicePatternImage33);
         listDicePattern.add(dicePatternImage34);
-        addImagesViewToGridPane(dicePatternGridPane,listDicePattern);
+        addImagesViewToGridPane(dicePatternGridPane, listDicePattern);
 
-        publicObjectiveCard1.setOnMouseMoved(event-> zoomIn(publicObjectiveCard1));
-        publicObjectiveCard2.setOnMouseMoved(event-> zoomIn(publicObjectiveCard2));
-        publicObjectiveCard3.setOnMouseMoved(event-> zoomIn(publicObjectiveCard3));
+        publicObjectiveCard1.setOnMouseMoved(event -> zoomIn(publicObjectiveCard1));
+        publicObjectiveCard2.setOnMouseMoved(event -> zoomIn(publicObjectiveCard2));
+        publicObjectiveCard3.setOnMouseMoved(event -> zoomIn(publicObjectiveCard3));
         toolCard1.setOnMouseMoved(event -> zoomIn(toolCard1));
         toolCard2.setOnMouseMoved(event -> zoomIn(toolCard2));
         toolCard3.setOnMouseMoved(event -> zoomIn(toolCard3));
@@ -235,6 +235,8 @@ public class GameController extends Observable implements Observer {
         toolCard1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard1());
         toolCard2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard2());
         toolCard3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard3());
+        skipTurnButton.setOnMouseClicked(event -> skipTurn());
+        //showOthersDicePatternButton.setOnMouseClicked(event -> );
 
         initializeRoundTrackEventHandler(roundTrackGridPane);
         initializeDicePatternEventHandler(dicePatternGridPane);
@@ -244,13 +246,11 @@ public class GameController extends Observable implements Observer {
         dicePatternGridPane.toFront();
         roundTrackGridPane.toFront();
 
-        /*for(ImageView imageView: listDicePattern)
-            imageView.setDisable(true);*/
 
     }
 
-    public void initializeDraftPoolEventHandler(GridPane gridPane){
-        for(Node node : gridPane.getChildren()) {
+    public void initializeDraftPoolEventHandler(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 ImageView tmp = (ImageView) node;
                 tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDiceIndexFromDraftPool(tmp));
@@ -258,14 +258,14 @@ public class GameController extends Observable implements Observer {
         }
     }
 
-    public void addImagesViewToGridPane(GridPane gridPane, List<ImageView> imagesView){
+    public void addImagesViewToGridPane(GridPane gridPane, List<ImageView> imagesView) {
         int row = 0;
         int column = 0;
-        for(ImageView imageView : imagesView){
-            gridPane.add(imageView,column,row);
-            if(column != 4)
+        for (ImageView imageView : imagesView) {
+            gridPane.add(imageView, column, row);
+            if (column != 4)
                 column++;
-            else{
+            else {
                 column = 0;
                 row++;
             }
@@ -273,9 +273,9 @@ public class GameController extends Observable implements Observer {
     }
 
 
-    public void initializeDicePatternEventHandler(GridPane gridPane){
+    public void initializeDicePatternEventHandler(GridPane gridPane) {
         //int i = 1;
-        for(Node node : gridPane.getChildren()) {
+        for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 ImageView tmp = (ImageView) node;
                 tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDicePositionFromDicePattern(tmp));
@@ -285,39 +285,40 @@ public class GameController extends Observable implements Observer {
         //System.out.println(i);
     }
 
-    public void initializeRoundTrackEventHandler(GridPane gridPane){
-        for(Node node : gridPane.getChildren()) {
+    public void initializeRoundTrackEventHandler(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 ImageView tmp = (ImageView) node;
                 tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDicePositionFromRoundTrack(tmp));
             }
         }
     }
+
     //l'evento che passa le toolcard, oltre al path passa anche l'id delle toolcard, così posso usare la mappa e lanciare il metodo corretto
-    public void useToolCard1(){
+    public void useToolCard1() {
         isToolCard1Selected = true;
         isToolCardSelected = true;
         idToolCardSelected = idToolCard1;
-        System.out.println("hai selezionato la tool card"+idToolCardSelected);
+        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         //handleToolCards(idToolCardSelected);
 
     }
 
-    public void useToolCard2(){
+    public void useToolCard2() {
         //toolCard2.setEffect(setBorderGlow());
         isToolCard2Selected = true;
         isToolCardSelected = true;
         idToolCardSelected = idToolCard2;
-        System.out.println("hai selezionato la tool card"+idToolCardSelected);
+        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         //handleToolCards(idToolCardSelected);
     }
 
-    public void useToolCard3(){
+    public void useToolCard3() {
         //toolCard3.setEffect(setBorderGlow());
         isToolCard3Selected = true;
         isToolCardSelected = true;
         idToolCardSelected = idToolCard3;
-        System.out.println("hai selezionato la tool card"+idToolCardSelected);
+        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         //handleToolCards(idToolCardSelected);
 
     }
@@ -393,7 +394,7 @@ public class GameController extends Observable implements Observer {
 
 
     //TODO: DEVO FARE IN MODO CHE NELLA DRAFTPOOL NON SIANO CLICCABILI IMAGEVIEW CHE NON CI DEVONO ESSERE
-    private DropShadow setBorderGlow(){
+    private DropShadow setBorderGlow() {
         DropShadow borderGlow = new DropShadow();
         borderGlow.setColor(Color.BLUE);
         borderGlow.setOffsetX(0f);
@@ -402,85 +403,105 @@ public class GameController extends Observable implements Observer {
         return borderGlow;
     }
 
-    public void initializeGridPaneImagesView(GridPane gridPane, int row, int column,int height, int width ){
+    public void initializeGridPaneImagesView(GridPane gridPane, int row, int column, int height, int width) {
         int i;
         int j;
-        for (i = 0; i < row; i++){
-            for(j = 0; j < column ; j++){
+        for (i = 0; i < row; i++) {
+            for (j = 0; j < column; j++) {
                 ImageView img = new ImageView();
                 img.setFitHeight(height);
                 img.setFitWidth(width);
                 img.setPreserveRatio(true);
-                gridPane.add(img,j,i);
+                gridPane.add(img, j, i);
             }
         }
     }
 
-    public void zoomIn(ImageView imageView){
+    public void zoomIn(ImageView imageView) {
         imageView.setFitHeight(470);
         imageView.setFitWidth(357);
         imageView.toFront();
         imageView.setPreserveRatio(true);
     }
 
-    public void zoomOut(ImageView imageView){
+    public void zoomOut(ImageView imageView) {
         imageView.setFitHeight(144);
         imageView.setFitWidth(95);
         imageView.toBack();
         imageView.setPreserveRatio(true);
     }
 
+    public VCEvent skipTurn(){
+        return new SkipTurnEvent();
+    }
 
     @Override
-    public void update(Observable o, Object arg) {
-        vcEvent = (VCEvent) arg;
-        mvEvents.get(vcEvent.getId()).run();
+    public void update(Observable o, Object event) {
+        mvEvent = (MVEvent) event;
+        mvEvents.get(mvEvent.getId()).run();
     }
 
 
     //TODO: decommentare
-    /*private void createMVMap() {
+    private void createMVMap() {
         mvEvents.put(-1, ()-> {});
         mvEvents.put(1, ()-> updateDicePattern(mvEvent));
         mvEvents.put(2, ()-> updateDraftPool(mvEvent));
         mvEvents.put(3, ()-> updateToolCards(mvEvent));
-        mvEvents.put(4, ()-> showRoundTrack(mvEvent));
+        mvEvents.put(4, ()-> {});
         mvEvents.put(5, ()-> {});
         mvEvents.put(6, ()->{});
         mvEvents.put(7, ()->{});
-        mvEvents.put(8, ()-> updateFavorTokens(mvEvent));
+       // mvEvents.put(8, ()-> updateFavorTokens(mvEvent)); //TODO: da fare
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> {});
         mvEvents.put(11, ()->{});
         mvEvents.put(12, ()-> showEndTurn(mvEvent)); //questo arriva se è finito il tempo, giusto?
-        mvEvents.put(13, ()-> updateDraftPool(mvEvent));
-    }*/
-
-
-    private void createVCMap() {
-        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));
-        vcEvents.put(1, ()-> vcEvent = new GrozingPliersEvent(eventParameters));
-        vcEvents.put(2, ()-> vcEvent = new EglomiseBrushEvent(eventParameters));
-        vcEvents.put(3, ()-> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
-        vcEvents.put(4, ()-> vcEvent = new LathekinEvent(eventParameters));
-        vcEvents.put(5, ()-> vcEvent = new LensCutterEvent(eventParameters));
-        vcEvents.put(6, ()-> vcEvent = new FluxBrushChooseDiceEvent(eventParameters));
-        vcEvents.put(7, ()-> vcEvent = new GlazingHammerEvent());                       //può non stare nella mappa
-        vcEvents.put(8, ()-> vcEvent = new RunnerPliersEvent(eventParameters));
-        vcEvents.put(9, ()-> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
-        vcEvents.put(10, ()-> vcEvent = new GrindingStoneEvent(eventParameters));
-        vcEvents.put(11, ()-> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
-        vcEvents.put(12, ()-> vcEvent = new TapWheelEvent(eventParameters));
-        vcEvents.put(13, ()-> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
+        mvEvents.put(13, ()-> {});
     }
 
 
+    private void createVCMap() {
+        vcEvents.put(-1, () -> vcEvent = new WindowPatternChoiceEvent(eventParameters));
+        vcEvents.put(1, () -> vcEvent = new GrozingPliersEvent(eventParameters));
+        vcEvents.put(2, () -> vcEvent = new EglomiseBrushEvent(eventParameters));
+        vcEvents.put(3, () -> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
+        vcEvents.put(4, () -> vcEvent = new LathekinEvent(eventParameters));
+        vcEvents.put(5, () -> vcEvent = new LensCutterEvent(eventParameters));
+        vcEvents.put(6, () -> vcEvent = new FluxBrushChooseDiceEvent(eventParameters));
+        vcEvents.put(7, () -> vcEvent = new GlazingHammerEvent());                       //può non stare nella mappa
+        vcEvents.put(8, () -> vcEvent = new RunnerPliersEvent(eventParameters));
+        vcEvents.put(9, () -> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
+        vcEvents.put(10, () -> vcEvent = new GrindingStoneEvent(eventParameters));
+        vcEvents.put(11, () -> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
+        vcEvents.put(12, () -> vcEvent = new TapWheelEvent(eventParameters));
+        vcEvents.put(13, () -> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
+    }
+
+
+    public void showEndTurn(MVEvent event){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Avviso");
+        alert.setContentText("Turno terminato. Attendi.");
+
+        alert.showAndWait();
+
+    }
+    public void showError(MVEvent event){
+        ErrorEvent errorEvent = (ErrorEvent) event;
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore");
+        alert.setContentText(((ErrorEvent) event).getMessageToDisplay());
+
+        alert.showAndWait();
+    }
+
     //TODO: decommentare e creare il metodo getDraftPoolStringGUI()
     //metodo per costruire la draft pool con il path delle immagini contenuto nell'evento
-    /*public void updateDraftPool(MVEvent event) {
+    public void updateDraftPool(MVEvent event) {
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         int column = 0;
-        for (String path : draftPoolEvent.getDraftPoolStringGUI()) {
+        for (String path : draftPoolEvent.getDraftPoolGUI()) {
             Object foundNode = getNodeByRowColumnIndex(0,column, draftPool,0 );
             if (foundNode instanceof ImageView) {
                 ImageView img = (ImageView) foundNode;
@@ -488,16 +509,16 @@ public class GameController extends Observable implements Observer {
             }
             column++;
         }
-    }*/
+    }
 
 
     public void myUpdateDraftPool(List<String> paths) {
         int column = 0;
         for (String path : paths) {
-            Object foundNode = getNodeByRowColumnIndex(0,column, draftPool,0 );
+            Object foundNode = getNodeByRowColumnIndex(0, column, draftPool, 0);
             if (foundNode instanceof ImageView) {
                 ImageView img = (ImageView) foundNode;
-                addImageToImageView(path,img, 59, 69);
+                addImageToImageView(path, img, 59, 69);
             }
             column++;
         }
@@ -506,34 +527,15 @@ public class GameController extends Observable implements Observer {
 
     //TODO: decommentare
     //sto supponendo che il metodo getDicePatternsStringGUI mi resituisca una lista con tutti i path, anche quelli che non sono cambiati. Se passi "null" lascia vuoto (perchè non trova nessuna immagine con questo nome)
-    /*public void updateDicePattern(MVEvent event){
+    public void updateDicePattern(MVEvent event){
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
         int column = 0;
         int row = 0;
-        for (String path : dicePatternEvent.getDicePatternsStringGUI()) {
+        for (String path : dicePatternEvent.getDicePatternsGUI()) {
             Object foundNode = getNodeByRowColumnIndex(0,column, dicePatternGridPane,5);
             if (foundNode instanceof ImageView) {
                 ImageView img = (ImageView) foundNode;
-                addImageToImageView(path,img);
-            }
-            if(column != 4)
-                column++;
-            else{
-                row++;
-                column = 0;
-            }
-
-        }
-    }*/
-
-    public void myUpdateDicePattern(List<String> paths){
-        int column = 0;
-        int row = 0;
-        for (String path : paths) {
-            Object foundNode = getNodeByRowColumnIndex(row,column, dicePatternGridPane,5);
-            if (foundNode instanceof ImageView) {
-                ImageView img = (ImageView) foundNode;
-                addImageToImageView(path,img, 59, 69);
+                addImageToImageView(path,img,460,520);
             }
             if(column != 4)
                 column++;
@@ -545,12 +547,31 @@ public class GameController extends Observable implements Observer {
         }
     }
 
+    public void myUpdateDicePattern(List<String> paths) {
+        int column = 0;
+        int row = 0;
+        for (String path : paths) {
+            Object foundNode = getNodeByRowColumnIndex(row, column, dicePatternGridPane, 5);
+            if (foundNode instanceof ImageView) {
+                ImageView img = (ImageView) foundNode;
+                addImageToImageView(path, img, 59, 69);
+            }
+            if (column != 4)
+                column++;
+            else {
+                row++;
+                column = 0;
+            }
+
+        }
+    }
+
     //TODO: decommentare
-    /*public void updateRoundTrack(MVEvent event){
+    public void updateRoundTrack(MVEvent event){
         RoundTrackEvent roundTrackEvent = (RoundTrackEvent) event;
         int column = 0;
         int row = 0;
-        for (String path : roundTrackEvent.getRoundTrackStringGUI()) {
+        for (String path : roundTrackEvent.getRoundTrackGUI()) {
             Object foundNode = getNodeByRowColumnIndex(row,column, roundTrackGridPane,9);
             if (foundNode instanceof ImageView) {
                 ImageView img = (ImageView) foundNode;
@@ -564,20 +585,20 @@ public class GameController extends Observable implements Observer {
             }
 
         }
-    }*/
+    }
 
-    public void myUpdateRoundTrack(List<String> paths){
+    public void myUpdateRoundTrack(List<String> paths) {
         int column = 0;
         int row = 0;
         for (String path : paths) {
-            Object foundNode = getNodeByRowColumnIndex(row,column, roundTrackGridPane,9);
+            Object foundNode = getNodeByRowColumnIndex(row, column, roundTrackGridPane, 9);
             if (foundNode instanceof ImageView) {
                 ImageView img = (ImageView) foundNode;
-                addImageToImageView(path,img,39,49);
+                addImageToImageView(path, img, 39, 49);
             }
-            if(column != 8)
+            if (column != 8)
                 column++;
-            else{
+            else {
                 row++;
                 column = 0;
             }
@@ -587,26 +608,26 @@ public class GameController extends Observable implements Observer {
 
     //TODO: decommentare
     //suppongo che il metodo getToolCardsGUI mi passi il path e l'id della toolcard associato al path
-    /*public void updateToolCards(MVEvent event){
+    public void updateToolCards(MVEvent event){
         ToolCardEvent toolCardEvent = (ToolCardEvent) event;
-        addImageToImageView(toolCardEvent.getToolCardsGUI().get(0),toolCard1);
+        addImageToImageView(toolCardEvent.getToolCardsGUI().get(0),toolCard1,144,95);
         idToolCard1 = Integer.parseInt(toolCardEvent.getToolCardsGUI().get(1));
-        addImageToImageView(toolCardEvent.getToolCardsGUI().get(2),toolCard2);
+        addImageToImageView(toolCardEvent.getToolCardsGUI().get(2),toolCard2,144,95);
         idToolCard2 = Integer.parseInt(toolCardEvent.getToolCardsGUI().get(3));
-        addImageToImageView(toolCardEvent.getToolCardsGUI().get(4),toolCard3);
+        addImageToImageView(toolCardEvent.getToolCardsGUI().get(4),toolCard3,144,95);
         idToolCard3 = Integer.parseInt(toolCardEvent.getToolCardsGUI().get(5));
-    }*/
+    }
 
-    public void myUpdateToolCards(List<String> paths){
-        addImageToImageView(paths.get(0),toolCard1,144,95);
+    public void myUpdateToolCards(List<String> paths) {
+        addImageToImageView(paths.get(0), toolCard1, 144, 95);
         idToolCard1 = Integer.parseInt(paths.get(1));
-        addImageToImageView(paths.get(2),toolCard2,144,95);
+        addImageToImageView(paths.get(2), toolCard2, 144, 95);
         idToolCard2 = Integer.parseInt(paths.get(3));
-        addImageToImageView(paths.get(4),toolCard3,144,95);
+        addImageToImageView(paths.get(4), toolCard3, 144, 95);
         idToolCard3 = Integer.parseInt(paths.get(5));
     }
 
-    public void grozingPliersWindow(){
+    public void grozingPliersWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -632,8 +653,14 @@ public class GameController extends Observable implements Observer {
         vBox.getChildren().addAll(label, hBox);
         hBox.getChildren().addAll(increaseButton, decreaseButton);
 
-        increaseButton.setOnAction(event -> {choiceGrozingPliers = 2; window.close();});
-        decreaseButton.setOnAction(event -> {choiceGrozingPliers = 1; window.close();});
+        increaseButton.setOnAction(event -> {
+            choiceGrozingPliers = 2;
+            window.close();
+        });
+        decreaseButton.setOnAction(event -> {
+            choiceGrozingPliers = 1;
+            window.close();
+        });
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
@@ -644,46 +671,41 @@ public class GameController extends Observable implements Observer {
     //tool card che intragiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
     //tool card che interagiscono con il round track : 5, 12
 
-    public void getDiceIndexFromDraftPool(ImageView imageView){
+    public void getDiceIndexFromDraftPool(ImageView imageView) {
         System.out.println("sono nella draftppol");
         imageView.setEffect(setBorderGlow());
         diceChosenFromDraftPool = imageView;
-        diceIndexDraftPool =  GridPane.getColumnIndex(imageView);
+        diceIndexDraftPool = GridPane.getColumnIndex(imageView);
         System.out.println(diceIndexDraftPool);
-        if ( (!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected) || (idToolCardSelected >= 8 && idToolCardSelected <= 9)){
+        if ((!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected) || (idToolCardSelected >= 8 && idToolCardSelected <= 9)) {
             //hai selezionato un dado nella draftpool, quindi disattivo tutto a parte il dice pattern e aspetto che ci sia un click sul dicepattern
             isDraftPoolUsed = true;
             //disableAllExceptDicePattern();
-        }
-        else if (idToolCardSelected == 1){
+        } else if (idToolCardSelected == 1) {
             grozingPliersWindow();
-            VCEvent event = new GrozingPliersEvent(Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(choiceGrozingPliers));
+            VCEvent event = new GrozingPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(choiceGrozingPliers));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
             diceChosenFromDraftPool.setEffect(null);
-        }
-        else if (idToolCardSelected == 5){
+        } else if (idToolCardSelected == 5) {
             //disableAllExceptRoundTrack();
-        }
-        else if (idToolCardSelected == 6){
-            VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool+1));
-            System.out.println("tool card6:"+Integer.toString(diceIndexDraftPool+1));
+        } else if (idToolCardSelected == 6) {
+            VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
+            System.out.println("tool card6:" + Integer.toString(diceIndexDraftPool + 1));
             setChanged();
             notifyObservers(event);
             //disableAllExceptDicePattern();
             diceChosenFromDraftPool.setEffect(null);
-        }
-        else if( idToolCardSelected == 10){
-            VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool+1));
-            System.out.println("tool card 10:"+Integer.toString(diceIndexDraftPool+1));
+        } else if (idToolCardSelected == 10) {
+            VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool + 1));
+            System.out.println("tool card 10:" + Integer.toString(diceIndexDraftPool + 1));
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
-        }
-        else if (idToolCardSelected == 11){
-            VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool+1));
-            System.out.println("ttol card 11:"+Integer.toString(diceIndexDraftPool+1));
+        } else if (idToolCardSelected == 11) {
+            VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
+            System.out.println("ttol card 11:" + Integer.toString(diceIndexDraftPool + 1));
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
@@ -694,7 +716,7 @@ public class GameController extends Observable implements Observer {
     }
 
 
-    public void fluxRemoverWindow(){
+    public void fluxRemoverWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -718,22 +740,22 @@ public class GameController extends Observable implements Observer {
         Label label = new Label("Inserire il valore del dado");
         Button confirmButton = new Button("Conferma");
 
-        vBox.getChildren().addAll(label,textField, hBox);
+        vBox.getChildren().addAll(label, textField, hBox);
         hBox.getChildren().addAll(confirmButton);
 
         confirmButton.setOnAction(event -> {
-            if(!textField.getText().equals("")) {
+            if (!textField.getText().equals("")) {
                 choiceFluxRemover = Integer.parseInt(textField.getText());
                 window.close();
             }
-            });
+        });
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.showAndWait();
     }
 
-    public void tapWheelWindow(){
+    public void tapWheelWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -759,8 +781,14 @@ public class GameController extends Observable implements Observer {
         vBox.getChildren().addAll(label, hBox);
         hBox.getChildren().addAll(oneButton, twoButton);
 
-        oneButton.setOnAction(event -> {choiceTapWheel = 1; window.close();});
-        twoButton.setOnAction(event -> {choiceTapWheel = 2; window.close();});
+        oneButton.setOnAction(event -> {
+            choiceTapWheel = 1;
+            window.close();
+        });
+        twoButton.setOnAction(event -> {
+            choiceTapWheel = 2;
+            window.close();
+        });
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
@@ -769,107 +797,94 @@ public class GameController extends Observable implements Observer {
     }
 
     //tool card che intragiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
-    public void getDicePositionFromDicePattern(ImageView imageView){
+    public void getDicePositionFromDicePattern(ImageView imageView) {
         diceChosenFromDicePattern = imageView;
         int row = GridPane.getRowIndex(imageView);
         int column = GridPane.getColumnIndex(imageView);
-        if ( !isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected && isDraftPoolUsed){
+        if (!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected && isDraftPoolUsed) {
             dicePatternPosition = new Position(row, column);
-            System.out.println("mossa su dice pattern:"+Integer.toString(diceIndexDraftPool)+" "+Integer.toString(dicePatternPosition.getX())+" "+ Integer.toString(dicePatternPosition.getY()));
-            VCEvent event = new PlaceDiceEvent(Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+ Integer.toString(dicePatternPosition.getY()+1));
+            System.out.println("mossa su dice pattern:" + Integer.toString(diceIndexDraftPool) + " " + Integer.toString(dicePatternPosition.getX()) + " " + Integer.toString(dicePatternPosition.getY()));
+            VCEvent event = new PlaceDiceEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
             //ableMajorObjects();
-        }
-        else if ( (idToolCardSelected == 2 && step == 1) ||(idToolCardSelected == 3 && step == 1) ||(idToolCardSelected == 4 && step == 1)||(idToolCardSelected == 12 && step == 1 ) ){
-            initialPosition = new Position(row,column);
+        } else if ((idToolCardSelected == 2 && step == 1) || (idToolCardSelected == 3 && step == 1) || (idToolCardSelected == 4 && step == 1) || (idToolCardSelected == 12 && step == 1)) {
+            initialPosition = new Position(row, column);
             step++;
-        }
-        else if(idToolCardSelected == 2 && step == 2){
-            finalPosition = new Position (row,column);
+        } else if (idToolCardSelected == 2 && step == 2) {
+            finalPosition = new Position(row, column);
             step = 1;
-            System.out.println("tool card 2 :"+Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+ Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1));
-            VCEvent event = new EglomiseBrushEvent(Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+ Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1) );
+            System.out.println("tool card 2 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+            VCEvent event = new EglomiseBrushEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if( idToolCardSelected == 3 && step == 2){
-            finalPosition = new Position (row,column);
+        } else if (idToolCardSelected == 3 && step == 2) {
+            finalPosition = new Position(row, column);
             step = 1;
-            System.out.println("tool card 3 :"+Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+ Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1));
-            VCEvent event = new CopperFoilBurnisherEvent(Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+ Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1) );
+            System.out.println("tool card 3 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+            VCEvent event = new CopperFoilBurnisherEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
-        }
-        else if ( idToolCardSelected == 4  && step == 2){
-            finalPosition = new Position(row,column);
+        } else if (idToolCardSelected == 4 && step == 2) {
+            finalPosition = new Position(row, column);
             step++;
-        }
-        else if ((idToolCardSelected == 4 && step == 3) ||(idToolCardSelected == 12 && step == 3)){
-            initialPosition2 = new Position(row,column);
+        } else if ((idToolCardSelected == 4 && step == 3) || (idToolCardSelected == 12 && step == 3)) {
+            initialPosition2 = new Position(row, column);
             step++;
-        }
-        else if ( idToolCardSelected == 4 && step == 4){
-            finalPosition2 = new Position(row,column);
+        } else if (idToolCardSelected == 4 && step == 4) {
+            finalPosition2 = new Position(row, column);
             step = 1;
-            VCEvent event = new LathekinEvent(Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1)+" "+Integer.toString(initialPosition2.getX()+1)+" "+Integer.toString(initialPosition2.getY()+1)+" "+Integer.toString(finalPosition2.getX()+1)+" "+Integer.toString(finalPosition2.getY()+1));
-            System.out.println("tool card 4: "+Integer.toString(initialPosition.getX()+1)+" "+Integer.toString(initialPosition.getY()+1)+" "+Integer.toString(finalPosition.getX()+1)+" "+Integer.toString(finalPosition.getY()+1)+" "+Integer.toString(initialPosition2.getX()+1)+" "+Integer.toString(initialPosition2.getY()+1)+" "+Integer.toString(finalPosition2.getX()+1)+" "+Integer.toString(finalPosition2.getY()+1));
+            VCEvent event = new LathekinEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+            System.out.println("tool card 4: " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if ( idToolCardSelected == 6 ){
+        } else if (idToolCardSelected == 6) {
             dicePatternPosition = new Position(row, column);
-            VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
-            System.out.println("tool card 6: "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
+            VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+            System.out.println("tool card 6: " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if ( idToolCardSelected == 8){
-            dicePatternPosition = new Position(row,column);
-            VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
-            System.out.println("tool card 8: "+Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
+        } else if (idToolCardSelected == 8) {
+            dicePatternPosition = new Position(row, column);
+            VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+            System.out.println("tool card 8: " + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if (idToolCardSelected == 9){
-            dicePatternPosition = new Position(row,column);
-            VCEvent event = new CorkBakedStraightedgeEvent(Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
-            System.out.println("tool card 9 :"+Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
+        } else if (idToolCardSelected == 9) {
+            dicePatternPosition = new Position(row, column);
+            VCEvent event = new CorkBakedStraightedgeEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+            System.out.println("tool card 9 :" + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if (idToolCardSelected == 11){
-            dicePatternPosition = new Position(row,column);
-            VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
-            System.out.println("tool card 11: "+Integer.toString(choiceFluxRemover)+" "+Integer.toString(dicePatternPosition.getX()+1)+" "+Integer.toString(dicePatternPosition.getY()+1));
+        } else if (idToolCardSelected == 11) {
+            dicePatternPosition = new Position(row, column);
+            VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+            System.out.println("tool card 11: " + Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
-        }
-        else if(idToolCardSelected == 12 && step == 2 ) {
+        } else if (idToolCardSelected == 12 && step == 2) {
             finalPosition = new Position(row, column);
             if (choiceTapWheel == 1) {
                 step = 1;
-                VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack+1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
-                System.out.println("tool card 12: "+Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack+1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+                VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+                System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
                 setChanged();
                 notifyObservers(event);
                 //ableMajorObjects();
-            }
-            else
+            } else
                 step++;
-        }
-        else if (idToolCardSelected == 12 && step == 4){
+        } else if (idToolCardSelected == 12 && step == 4) {
             finalPosition2 = new Position(row, column);
             step = 1;
-            VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack+1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1)+" "+Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1)+" "+Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
-            System.out.println("tool card 12: "+Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack+1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1)+" "+Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1)+" "+Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+            VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+            System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
@@ -879,20 +894,19 @@ public class GameController extends Observable implements Observer {
 
 
     //tool card che interagiscono con il round track : 5, 12
-    public void getDicePositionFromRoundTrack(ImageView imageView){
-        roundIndex = 9- GridPane.getRowIndex(imageView);
+    public void getDicePositionFromRoundTrack(ImageView imageView) {
+        roundIndex = 9 - GridPane.getRowIndex(imageView);
         diceIndexRoundTrack = GridPane.getColumnIndex(imageView);
-        System.out.println("riga"+roundIndex);
-        System.out.println("colonna"+diceIndexRoundTrack);
-        if(idToolCardSelected == 5){
-            VCEvent event = new LensCutterEvent(Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(roundIndex+1)+" "+Integer.toString(diceIndexRoundTrack+1));
-            System.out.println("tool card 5 :"+Integer.toString(diceIndexDraftPool+1)+" "+Integer.toString(roundIndex+1)+" "+Integer.toString(diceIndexRoundTrack+1));
+        System.out.println("riga" + roundIndex);
+        System.out.println("colonna" + diceIndexRoundTrack);
+        if (idToolCardSelected == 5) {
+            VCEvent event = new LensCutterEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1));
+            System.out.println("tool card 5 :" + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1));
             setChanged();
             notifyObservers(event);
             //ableMajorObjects();
             diceChosenFromDraftPool.setEffect(null);
-        }
-        else if (idToolCardSelected == 12){
+        } else if (idToolCardSelected == 12) {
             tapWheelWindow();
             //disableAllExceptDicePattern();
         }
@@ -902,14 +916,12 @@ public class GameController extends Observable implements Observer {
     //TODO: quando clicco su una toolcard, in base all'id devo lanciare un altro metodo. un metodo per ogni toolcard che lasicia solo le cose che devo premere
 
 
-
-    public Object getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane, int dimension) {
-        return gridPane.getChildren().get(dimension*row+column);
+    public Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
+        return gridPane.getChildren().get(dimension * row + column);
     }
 
 
-
-    public void addImageToImageView( String path, ImageView imageView, int height, int width){
+    public void addImageToImageView(String path, ImageView imageView, int height, int width) {
         File fileImage = new File(path);
         String url = "";
         try {
@@ -923,35 +935,31 @@ public class GameController extends Observable implements Observer {
         imageView.setFitWidth(width);
     }
 
-    public void removeImageFromImageView(ImageView imageView){
+    public void removeImageFromImageView(ImageView imageView) {
         imageView.setImage(null);
     }
 
-    public void setImagesView(MVEvent event ){
-        SetImageViewEvent setImageViewEvent = (SetImageViewEvent) event;
-        List <String> urlStringList = new ArrayList<>();
-        for (int i = 0; i < setImageViewEvent.getPaths().size(); i++){
-            File fileImage = new File (setImageViewEvent.getPaths().get(i));
+    public void setImagesView(MVEvent event, List<ImageView> imageViews) {
+        ShowAllEvent showAllEvent = (ShowAllEvent) event;
+        List<String> urlStringList = new ArrayList<>();
+        int i;
+        for (i = 0; i < showAllEvent.getPublicObjectiveCardsGUI().size(); i++) {
+            File fileImage = new File(showAllEvent.getPublicObjectiveCardsGUI().get(i));
             try {
-                String url =fileImage.toURI().toURL().toString();
+                String url = fileImage.toURI().toURL().toString();
                 urlStringList.add(url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 System.out.println("problema nel caricamento dell'immagine ");
             }
         }
+        i = 0;
+        for (ImageView imageView : imageViews) {
+            imageView.setImage(new Image(urlStringList.get(i)));
+            i++;
 
-        publicObjectiveCard1.setImage(new Image(urlStringList.get(0)));
-        publicObjectiveCard2.setImage(new Image(urlStringList.get(1)));
-        publicObjectiveCard3.setImage(new Image(urlStringList.get(2)));
-        toolCard1.setImage(new Image(urlStringList.get(3)));
-        toolCard2.setImage(new Image(urlStringList.get(4)));
-        toolCard3.setImage(new Image(urlStringList.get(5)));
-        roundTrack.setImage(new Image(urlStringList.get(6)));
-        windowPattern.setImage(new Image(urlStringList.get(7)));
-        privateObjectiveCard.setImage(new Image(urlStringList.get(8)));
-
+        }
     }
 
-
 }
+

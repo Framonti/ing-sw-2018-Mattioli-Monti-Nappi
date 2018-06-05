@@ -10,18 +10,18 @@ public class DraftPoolEvent extends MVEvent{
 
 
     private List<String> draftPoolStringCLI;
-    private List<String> draftPoolStringGUI;
+    private List<String> draftPoolGUI;
 
     /**
      *
      * @param draftPoolStringCLI
     // * @param draftPoolStringGUI
      */
-    public DraftPoolEvent(List<String> draftPoolStringCLI /*,List<String> draftPoolStringGUI*/){
+    public DraftPoolEvent(List<String> draftPoolStringCLI ,List<String> draftPoolGUI){
 
         super(2);
         this.draftPoolStringCLI = draftPoolStringCLI;
-        //this.draftPoolStringGUI = draftPoolStringGUI;
+        this.draftPoolGUI = draftPoolGUI;
     }
 
     /**
@@ -33,7 +33,7 @@ public class DraftPoolEvent extends MVEvent{
         return draftPoolStringCLI;
     }
 
-    public List<String> getDraftPoolStringGUI() {
-        return draftPoolStringGUI;
+    public List<String> getDraftPoolGUI() {
+        return draftPoolGUI;
     }
 }

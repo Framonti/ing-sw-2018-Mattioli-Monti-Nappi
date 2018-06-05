@@ -1,5 +1,7 @@
 package it.polimi.se2018.events.mvevent;
 
+import java.util.List;
+
 /**
  * This Event contains informations about the RoundTrack
  * @author Framonti
@@ -7,15 +9,17 @@ package it.polimi.se2018.events.mvevent;
 public class RoundTrackEvent extends MVEvent {
 
     private String roundTrackString;
+    private List<String> roundTrackGUI;
 
     /**
      * Constructor
      * @param roundTrackString A String representing the RoundTrack
      */
-    public RoundTrackEvent(String roundTrackString){
+    public RoundTrackEvent(String roundTrackString, List<String> roundTrackGUI){
 
         super(4);
         this.roundTrackString = roundTrackString;
+        this.roundTrackGUI = roundTrackGUI;
     }
 
     /**
@@ -25,6 +29,11 @@ public class RoundTrackEvent extends MVEvent {
     public String getRoundTrackString() {
 
         return roundTrackString;
+    }
+
+
+    public List<String> getRoundTrackGUI() {
+        return roundTrackGUI;
     }
 }
 

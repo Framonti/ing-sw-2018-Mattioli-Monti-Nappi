@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.events.mvevent.FavorTokensEvent;
 import it.polimi.se2018.network.client.ClientInterfaceRMI;
 import it.polimi.se2018.network.client.ClientInterfaceSocket;
 import it.polimi.se2018.network.server.Server;
@@ -52,6 +53,8 @@ public class Player {
     public String getName() { return name; }
 
     public PrivateObjectiveCard getPrivateObjectiveCard() { return privateObjectiveCard; }
+
+    public String getPrivateObjectiveCardToString(){return privateObjectiveCard.toStringPath();}
 
     public WindowPattern getWindowPattern() { return windowPattern; }
 
@@ -112,6 +115,8 @@ public class Player {
         if(favorTokensNumber < cost)
             throw new UnsupportedOperationException("The number of favor tokens is not sufficient");
         favorTokensNumber -= cost;
+        FavorTokensEvent favorTokensEvent = new FavorTokensEvent(String.valueOf(favorTokensNumber), name);
+        GameSingleton.getInstance().myNotify(favorTokensEvent);
     }
 
     /**

@@ -1,4 +1,6 @@
 package it.polimi.se2018.model;
+import it.polimi.se2018.events.mvevent.DraftPoolEvent;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -70,7 +72,11 @@ public class Dice
         if (this.value == 1)
             throw new IllegalArgumentException("Dice's value can't be decreased");
 
-        else this.value --;
+        else{
+            this.value --;
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(GameSingleton.getInstance().draftPoolToString(), GameSingleton.getInstance().draftPoolToStringPath());
+            GameSingleton.getInstance().myNotify(draftPoolEvent);
+        }
     }
 
     /**
@@ -82,7 +88,11 @@ public class Dice
         if (this.value == 6)
             throw new IllegalArgumentException("Dice's value can't be increased");
 
-        else this.value ++;
+        else{
+            this.value ++;
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(GameSingleton.getInstance().draftPoolToString(), GameSingleton.getInstance().draftPoolToStringPath());
+            GameSingleton.getInstance().myNotify(draftPoolEvent);
+        }
     }
 
     /**
@@ -111,6 +121,10 @@ public class Dice
 
         this.roll();
         return this.getValue();
+    }
+
+    public String toStringPath(){
+        return "src/main/Images/Dices/dice"+this.getValue()+this.getColour().getAbbreviation()+".png";
     }
 
     @Override
