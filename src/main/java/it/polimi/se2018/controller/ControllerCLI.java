@@ -904,6 +904,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                             lock.wait();
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
+                            return;
                         }
                     }
                 }
@@ -937,8 +938,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                     try {
                         turnLock.wait();
                     } catch (InterruptedException e) {
-                        System.out.println("interrupted exception è grave");
-                        e.printStackTrace();
+                        System.out.println("Just one client left!");
+                        Thread.currentThread().interrupt();
+                        return;      //Ho dovuto perché interrupt() per qualche motivo non vuole
                     }
                 }
 
@@ -946,7 +948,19 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 nextPlayer();
             }
 
+            showScores();
         }
+    }
+
+    public void endGame() {
+        turnEnded = true;
+        if (game.isAlive())
+            game.interrupt();
+        if (playerTurn.isAlive())
+            playerTurn.interrupt();
+        if (turnTimer.isAlive())
+            turnTimer.interrupt();
+        showScores();
     }
 
     public void game() {
@@ -954,14 +968,17 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         game.start();
     }
 
-    public void endGame() {
-        if(game.isAlive()) {
-            game.interrupt();
-        }
+    private void showScores() {
         computeAllScores();
-       // ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.getScoreTrack().toString());
+
+        model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+        List<Integer> scores = new ArrayList<>();
+        for(Player player: model.getPlayers())
+            scores.add(player.getScore());
+
+        ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(model.playersToString(), scores);
         model.mySetChanged();
-       // model.notifyObservers(showScoreTrackEvent);
+        model.notifyObservers(showScoreTrackEvent);
         WinnerEvent winnerEvent = new WinnerEvent(model.selectWinner().getName());
         model.mySetChanged();
         model.notifyObservers(winnerEvent);

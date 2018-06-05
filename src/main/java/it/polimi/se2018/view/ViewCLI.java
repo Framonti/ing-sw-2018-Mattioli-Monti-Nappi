@@ -127,20 +127,21 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * Initializes the map between the event's id and the event itself
      */
     private void createVCMap() {
-        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));  //può non stare nella mappa
+        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));      //può non stare nella mappa
         vcEvents.put(1, ()-> vcEvent = new GrozingPliersEvent(eventParameters));
         vcEvents.put(2, ()-> vcEvent = new EglomiseBrushEvent(eventParameters));
         vcEvents.put(3, ()-> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
         vcEvents.put(4, ()-> vcEvent = new LathekinEvent(eventParameters));
         vcEvents.put(5, ()-> vcEvent = new LensCutterEvent(eventParameters));
         vcEvents.put(6, ()-> vcEvent = new FluxBrushChooseDiceEvent(eventParameters));
-        vcEvents.put(7, ()-> vcEvent = new GlazingHammerEvent());                       //può non stare nella mappa
+        vcEvents.put(7, ()-> vcEvent = new GlazingHammerEvent());                           //può non stare nella mappa
         vcEvents.put(8, ()-> vcEvent = new RunnerPliersEvent(eventParameters));
         vcEvents.put(9, ()-> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
         vcEvents.put(10, ()-> vcEvent = new GrindingStoneEvent(eventParameters));
         vcEvents.put(11, ()-> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
         vcEvents.put(12, ()-> vcEvent = new TapWheelEvent(eventParameters));
-        vcEvents.put(13, ()-> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
+        vcEvents.put(13, ()-> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));      //può non stare nella mappa
+        vcEvents.put(14, ()-> vcEvent = new FluxRemoverPlaceDiceEvent(eventParameters));    //può non stare nella mappa
     }
 
     @Override
@@ -350,7 +351,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private void showScoreTrack(MVEvent event) {
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) event;
         System.out.println("TRACCIATO DEI PUNTI");
-        System.out.println(scoreTrackEvent.getScoreTrackString());
+        int i;
+        for(i = 0; i < scoreTrackEvent.getPlayersNames().size(); i++)
+            System.out.println(scoreTrackEvent.getPlayersNames().get(i) + ": " + scoreTrackEvent.getScores().get(i));
     }
 
     /**
