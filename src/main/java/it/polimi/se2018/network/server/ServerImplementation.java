@@ -2,9 +2,7 @@ package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.ConfigurationParametersLoader;
 import it.polimi.se2018.controller.ControllerCLI;
-import it.polimi.se2018.events.mvevent.ErrorEvent;
-import it.polimi.se2018.events.mvevent.MVEvent;
-import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
+import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.model.GameSetupSingleton;
@@ -81,14 +79,18 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         virtualViewCLI.addObserver(controllerCLI);
         model.addObserver(virtualViewCLI);
 
+        send(new GameStartEvent());
+
         for(Player player: model.getPlayers()) {
             List<String> windowPatterns = new ArrayList<>();
+            List<String> windowPatternsPath = new ArrayList<>();
             int num = 1;
             for (WindowPattern windowPattern: player.getWindowPatterns()) {
                 windowPatterns.add("Numero: " + num + "\n" + windowPattern.toString());
+                windowPatternsPath.add(windowPattern.toStringPath());
                 num++;
             }
-            sendTo(new WindowPatternsEvent(windowPatterns, windowPatterns), player);
+            sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath), player);
 
             synchronized (Server.windowPatternLock) {
                 while (player.getWindowPattern() == null) {
@@ -102,6 +104,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             }
 
         }
+
+        send(new AllWindowPatternChosen());
 
         controllerCLI.game();
     }

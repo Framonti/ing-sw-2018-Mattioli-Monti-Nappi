@@ -281,7 +281,7 @@
             </row>
         </patternCard>
         <patternCard side = "back" id="4">
-            <name>Ripples of Light</name>
+            <name>Ripples Of Light</name>
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">
@@ -653,7 +653,7 @@
             </row>
         </patternCard>
         <patternCard side = "back" id="8">
-            <name>Water of Life</name>
+            <name>Water Of Life</name>
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
@@ -1119,7 +1119,7 @@
     </card>
     <card id = "7">
         <patternCard side = "front" id="13">
-            <name>Symphony of Light</name>
+            <name>Symphony Of Light</name>
             <difficulty>6</difficulty>
             <row x = "1">
                 <column y = "1">
@@ -1677,7 +1677,7 @@
     </card>
     <card id = "10">
         <patternCard side = "front" id="19">
-            <name>Fulgor del Cielo</name>
+            <name>Fulgor Del Cielo</name>
             <difficulty>5</difficulty>
             <row x = "1">
                 <column y = "1">

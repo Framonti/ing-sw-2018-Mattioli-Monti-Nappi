@@ -4,7 +4,6 @@ import it.polimi.se2018.events.mvevent.ClientAlreadyConnectedEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.vcevent.SinglePlayerEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import java.util.*;
@@ -12,12 +11,9 @@ import java.util.*;
 public class WaitingRoomController extends Observable implements Observer{
 
     @FXML private TextArea notificationTextArea;
-    @FXML private Button singlePlayerButton;
     @FXML private Label label1;
     @FXML private Label label2;
     @FXML private Label label3;
-    @FXML private Label label4; //Serve?
-    private Map<Integer, Runnable> eventHandler = new HashMap();
     private MVEvent mvEvent;
 
     @FXML
@@ -32,7 +28,7 @@ public class WaitingRoomController extends Observable implements Observer{
     public void update(Observable o, Object arg) {
 
         this.mvEvent = (MVEvent) arg;
-        eventHandler.get(mvEvent.getId()).run();
+        showOtherClientsAlreadyConnected();
     }
 
     private void showOtherClientsAlreadyConnected(){
@@ -49,12 +45,4 @@ public class WaitingRoomController extends Observable implements Observer{
         }
     }
 
-    private void createMap(){
-
-        eventHandler.put(14, this::showOtherClientsAlreadyConnected);
-    }
-
-    public void initialize(){
-        createMap();
-    }
 }

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class WindowPatternChoiceController extends Observable implements Observer{
@@ -24,6 +26,7 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private ImageView windowPattern4;
     @FXML private Button confirmButton;
     @FXML private Button cancelButton;
+    @FXML private AnchorPane scene;
     private int chosen;
 
     private void windowPatternSelected(){
@@ -97,8 +100,8 @@ public class WindowPatternChoiceController extends Observable implements Observe
         WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent(String.valueOf(chosen));
         setChanged();
         notifyObservers(windowPatternChoiceEvent);
-        //TODO setta scena successiva
-        ConfirmChoiceBox.confirmChoice("Da implementare", "Si passerà alla scena successiva");
+        scene.setOpacity(0.5);
+        scene.setDisable(true);
     }
 
     @FXML
@@ -113,15 +116,19 @@ public class WindowPatternChoiceController extends Observable implements Observe
 
     }
 
-    //TODO gestire l'eccezione malformedURLException all'interno invece che rigettarla
-    public void setWindowPatterns(WindowPatternsEvent windowPatternsEvent) throws MalformedURLException {
+    public void setWindowPatterns(WindowPatternsEvent windowPatternsEvent){
 
         List<String> urlStringList = new ArrayList<>();
 
         for(int i = 0; i<windowPatternsEvent.getWindowPatternsGUI().size(); i++) {
 
             File fileWindowPattern1 = new File(windowPatternsEvent.getWindowPatternsGUI().get(i));
-            String url = fileWindowPattern1.toURI().toURL().toString();
+            String url = null;
+            try {
+                url = fileWindowPattern1.toURI().toURL().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             urlStringList.add(url);
         }
 
@@ -140,17 +147,12 @@ public class WindowPatternChoiceController extends Observable implements Observe
         windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
         windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
         windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
-
     }
 
     @Override
     public void update(Observable o, Object arg) {
 
-        WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
-        try {
-            this.setWindowPatterns(windowPatternsEvent);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+       WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
+       this.setWindowPatterns(windowPatternsEvent);
     }
 }

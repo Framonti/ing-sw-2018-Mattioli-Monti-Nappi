@@ -7,40 +7,40 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #838383;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.ConnectionChoiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #838383;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.ConnectionChoiceController">
    <children>
-      <Label layoutX="229.0" layoutY="179.0" text="Scegli il tipo di connessione" textFill="WHITE">
+      <Label layoutX="533.0" layoutY="230.0" text="Scegli il tipo di connessione" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font>
       </Label>
-      <Label layoutX="284.0" layoutY="220.0" text="con cui vuoi giocare" textFill="WHITE">
+      <Label layoutX="607.0" layoutY="292.0" text="con cui vuoi giocare" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="rmiButton" disable="true" layoutX="68.0" layoutY="292.0" mnemonicParsing="false" onAction="#rmiButtonAction" opacity="0.5" prefHeight="272.0" prefWidth="290.0" style="-fx-background-color: #42c2f4;" text="RMI">
+      <Button fx:id="rmiButton" disable="true" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onAction="#rmiButtonAction" opacity="0.5" prefHeight="425.0" prefWidth="600.0" style="-fx-background-color: #42c2f4;" text="RMI">
          <font>
             <Font name="Calibri" size="40.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="socketButton" disable="true" layoutX="570.0" layoutY="292.0" mnemonicParsing="false" onAction="#socketButtonAction" opacity="0.5" prefHeight="272.0" prefWidth="290.0" style="-fx-background-color: #42c2f4;" text="Socket">
+      <Button fx:id="socketButton" disable="true" layoutX="900.0" layoutY="400.0" mnemonicParsing="false" onAction="#socketButtonAction" opacity="0.5" prefHeight="425.0" prefWidth="600.0" style="-fx-background-color: #42c2f4;" text="Socket">
          <font>
             <Font name="Calibri" size="40.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label layoutX="213.0" layoutY="23.0" prefHeight="41.0" prefWidth="472.0" text="Inserisci indirizzo IP del server" textFill="WHITE">
+      <Label layoutX="504.0" layoutY="55.0" prefHeight="70.0" prefWidth="592.0" text="Inserisci indirizzo IP del server" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font>
       </Label>
-      <TextField fx:id="ipServer" layoutX="331.0" layoutY="93.0" onAction="#getIpServer" prefHeight="41.0" prefWidth="197.0" promptText="192.168.0.1">
+      <TextField fx:id="ipServer" layoutX="651.0" layoutY="134.0" onAction="#getIpServer" prefHeight="70.0" prefWidth="298.0" promptText="192.168.0.1">
          <font>
-            <Font name="Calibri" size="24.0" />
+            <Font name="Calibri" size="32.0" />
          </font></TextField>
    </children>
 </AnchorPane>

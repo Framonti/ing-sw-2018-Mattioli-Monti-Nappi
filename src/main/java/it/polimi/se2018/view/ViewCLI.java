@@ -1,5 +1,7 @@
 package it.polimi.se2018.view;
 
+import it.polimi.se2018.events.ConnectionChoiceEvent;
+import it.polimi.se2018.events.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 
@@ -37,20 +39,39 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         scanner = new Scanner(System.in);
     }
 
+    public void askConnection(){
+
+        System.out.println("Inserisci l'indirizzo IP del server");
+        String ipAddress = scanner.nextLine();
+
+        String choice = "";
+        int choiceInt;
+        while(!choice.equals("1") && !choice.equals("2")) {
+            System.out.println("Scegli il tipo di connessione che preferisci\n1)\tRMI\n2)\tSocket");
+            choice = scanner.nextLine();
+        }
+        choiceInt = Integer.parseInt(choice);
+        ConnectionChoiceEvent connectionChoiceEvent = new ConnectionChoiceEvent(choiceInt, ipAddress);
+        setChanged();
+        notifyObservers(connectionChoiceEvent);
+    }
+
+
     /**
      * This method asks the player's name
-     * @return The player's name
      */
-    public String askName() {
+    public void askName() {
         System.out.println("INSERISCI USERNAME:");
         String name = scanner.nextLine().toLowerCase();
         if(name.length() < 2) {
             System.out.println("LO USERNAME DEVE ESSERE LUNGO ALMENO 2 CARATTERI\n");
-            return askName();
+            askName();
         }
         name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
         System.out.println("USERNAME INSERITO. ATTENDI.\n");
-        return name;
+        NicknameEvent nicknameEvent = new NicknameEvent(name);
+        setChanged();
+        notifyObservers(nicknameEvent);
     }
 
     /**
@@ -377,8 +398,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void update(Observable model, Object event) {
-        mvEvent = (MVEvent) event;
-        mvEvents.get(mvEvent.getId()).run();
+        if(ConnectionEstablishedEvent.class == event.getClass()){
+            askName();
+        }
+        else{
+            mvEvent = (MVEvent) event;
+            mvEvents.get(mvEvent.getId()).run();
+        }
+
     }
 
 }

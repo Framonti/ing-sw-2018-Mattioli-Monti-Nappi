@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.gui;
 
- import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
+ import it.polimi.se2018.controller.GameController;
  import javafx.fxml.FXMLLoader;
  import javafx.scene.Parent;
  import javafx.scene.Scene;
@@ -10,10 +10,9 @@ package it.polimi.se2018.view.gui;
  import java.awt.*;
  import java.io.File;
  import java.io.FileInputStream;
+ import java.io.FileNotFoundException;
  import java.io.IOException;
  import java.net.MalformedURLException;
- import java.util.*;
- import java.util.List;
 
 /**
  * This class sets the Stage for the GUI and manages all the various Scenes
@@ -21,11 +20,15 @@ package it.polimi.se2018.view.gui;
 public class GUIManager{
 
     private static Stage window;
+    private static Scene scene;
     private static NicknameChoiceController nicknameChoiceController;
     private static ConnectionChoiceController connectionChoiceController;
     private static WaitingRoomController waitingRoomController;
     private static WindowPatternChoiceController windowPatternChoiceController;
+    private static GameController gameController;
     private static EndScreenController endScreenController;
+
+
 
     /**
      * Gets the controller associated to the nickname.fxml file
@@ -57,6 +60,10 @@ public class GUIManager{
      */
     public static WindowPatternChoiceController getWindowPatternChoiceController() {
         return windowPatternChoiceController;
+    }
+
+    public static GameController getGameController(){
+        return gameController;
     }
 
     /**
@@ -98,11 +105,7 @@ public class GUIManager{
             closeProgram();
         });
 
-        try {
-            GUIManager.setNicknameChoiceScene();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GUIManager.setConnectionChoiceScene();
     }
 
 
@@ -117,59 +120,121 @@ public class GUIManager{
 
     /**
      * Sets the first Scene
-     * @throws IOException
      */
-    private static void setNicknameChoiceScene() throws IOException {
+    public static void setNicknameChoiceScene(){
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/nickname.fxml"));
-        Parent root = loader.load(fileInputStream);
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/nickname.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Parent root = null;
+        try {
+            root = loader.load(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         nicknameChoiceController = loader.getController();
-        window.setScene(new Scene(root));
-        window.show();
+        scene.setRoot(root);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double resolutionX = 1600;
+        double resolutionY = 900;
+        Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
+        scale.setPivotX(0);
+        scale.setPivotY(0);
+        scene.getRoot().getTransforms().setAll(scale);
     }
 
     /**
      * Sets the second Scene
-     * @throws IOException
      */
-    public static void setConnectionChoiceScene() throws IOException {
+    public static void setConnectionChoiceScene(){
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/ConnectionChoice.fxml"));
-        Parent root = loader.load(fileInputStream);
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/ConnectionChoice.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Parent root = null;
+        try {
+            root = loader.load(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         connectionChoiceController = loader.getController();
-        window.setScene(new Scene(root));
+        scene = new Scene(root);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double resolutionX = 1600;
+        double resolutionY = 900;
+        Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
+        scale.setPivotX(0);
+        scale.setPivotY(0);
+        scene.getRoot().getTransforms().setAll(scale);
+        window.setMaximized(true);
+        window.setScene(scene);
         window.show();
     }
 
     /**
      * Sets the third Scene
-     * @throws IOException
      */
-    public static void setLobbyScene() throws IOException {
+    public static void setLobbyScene(){
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/waitingRoom.fxml"));
-        Parent root = loader.load(fileInputStream);
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/waitingRoom.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Parent root = null;
+        try {
+            root = loader.load(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         waitingRoomController = loader.getController();
-        window.setScene(new Scene(root));
-        window.show();
+        scene.setRoot(root);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double resolutionX = 1600;
+        double resolutionY = 900;
+        Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
+        scale.setPivotX(0);
+        scale.setPivotY(0);
+        scene.getRoot().getTransforms().setAll(scale);
     }
 
     /**
      * Sets the forth Scene
-     * @throws IOException
      */
-    public static void setWindowPatternChoiceScene() throws IOException {
+    public static void setWindowPatternChoiceScene() {
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/windowPatternChoice.fxml"));
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/windowPatternChoice.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        Parent root = loader.load(fileInputStream);
-        Scene windowPatternChoiceScene = new Scene(root);
+        Parent root = null;
+        try {
+            if (fileInputStream != null) {
+                root = loader.load(fileInputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         windowPatternChoiceController = loader.getController();
+        scene.setRoot(root);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double resolutionX = 1600;
@@ -177,44 +242,67 @@ public class GUIManager{
         Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
         scale.setPivotX(0);
         scale.setPivotY(0);
-        windowPatternChoiceScene.getRoot().getTransforms().setAll(scale);
-        window.setScene(windowPatternChoiceScene);
+        scene.getRoot().getTransforms().setAll(scale);
+    }
 
-        List<String> list = new ArrayList<>();
-        list.add("src/main/Images/WindowPattern/AuroraeMagnificus.png");
-        List<String> list1 = new ArrayList<>();
-        list1.add("src/main/Images/WindowPattern/AuroraeMagnificus.png");
-        list1.add("src/main/Images/WindowPattern/AuroraSagradis.png");
-        list1.add("src/main/Images/WindowPattern/Comitas.png");
-        list1.add("src/main/Images/WindowPattern/LuxMundi.png");
-        WindowPatternsEvent windowPatternsEvent = new WindowPatternsEvent(list, list1);
-        windowPatternChoiceController.setWindowPatterns(windowPatternsEvent);
+    public static void setGameScene(){
 
-        window.setMaximized(true);
-        window.show();
+        FXMLLoader loader = new FXMLLoader();
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/Prova.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = null;
+        try {
+            root = loader.load(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        gameController = loader.getController();
+
+        scene.setRoot(root);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double resolutionX = 1600;
+        double resolutionY = 900;
+        Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
+        scale.setPivotX(0);
+        scale.setPivotY(0);
+        scene.getRoot().getTransforms().setAll(scale);
     }
 
     /**
      * Sets the sixth Scene
-     * @throws IOException
      */
-    public static void setEndScreen() throws IOException {
+    public static void setEndScreen() {
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/EndScreen.fxml"));
-        Parent root = loader.load(fileInputStream);
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("src/main/java/it/polimi/se2018/view/gui/EndScreen.fxml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Parent root = null;
+        try {
+            root = loader.load(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         endScreenController = loader.getController();
-        Scene endScreen = new Scene(root);
+
+        scene.setRoot(root);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double resolutionX = 1600;
         double resolutionY = 900;
         Scale scale = new Scale(screenSize.width/resolutionX, screenSize.height/resolutionY);
         scale.setPivotX(0);
         scale.setPivotY(0);
-        endScreen.getRoot().getTransforms().setAll(scale);
-        window.setScene(endScreen);
-        window.setMaximized(true);
-        window.show();
+        scene.getRoot().getTransforms().setAll(scale);
     }
 
 }
