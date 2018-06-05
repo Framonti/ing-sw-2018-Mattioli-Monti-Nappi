@@ -10,7 +10,7 @@ public class FluxRemoverPlaceDiceEvent extends VCEvent{
         super(14);
         try {
             String[] input = userInput.split("\\s+");
-            diceValue = Integer.parseInt(input[0]) - 1;
+            diceValue = Integer.parseInt(input[0]);
             dicePosition = new Position(Integer.parseInt(input[1]) - 1, Integer.parseInt(input[2]) - 1);
         }
         catch (IndexOutOfBoundsException e) {

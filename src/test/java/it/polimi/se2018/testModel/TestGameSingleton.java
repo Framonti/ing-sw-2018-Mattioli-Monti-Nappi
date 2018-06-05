@@ -85,7 +85,7 @@ public class TestGameSingleton {
                 n++;
         }
         assertEquals(18, n);
-
+        //instance.getDiceBag().removeAll(instance.getDiceBag());
     }
 
     @Test
@@ -140,7 +140,7 @@ public class TestGameSingleton {
         instance.getDraftPool().removeAll(instance.getDraftPool());
         assertEquals(90,instance.getDiceBag().size());
         assertTrue(b);
-
+        //instance.getDiceBag().removeAll(instance.getDiceBag());
 
     }
 
@@ -164,6 +164,8 @@ public class TestGameSingleton {
         instance.getDraftPool().removeAll(instance.getDraftPool());
         assertEquals(90,instance.getDiceBag().size());
         assertTrue(b);
+        //instance.getDiceBag().removeAll(instance.getDiceBag());
+
 
 
     }

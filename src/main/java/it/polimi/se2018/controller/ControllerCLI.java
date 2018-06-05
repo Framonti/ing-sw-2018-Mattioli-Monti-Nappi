@@ -5,7 +5,6 @@ import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualViewCLI;
 
-//TODO: GESTIRE LA PARTITA IN GRANDE (IL VECCHIO METODO GAME)
 
 /**
  * This class represents the controller. It implements the Observer interface because the controller is an
@@ -48,7 +47,6 @@ public class ControllerCLI implements Observer {
     }
 
 
-    //TODO: rivedere commento javadoc
 
     /**
      * Associates a key to a method
@@ -118,7 +116,6 @@ public class ControllerCLI implements Observer {
     }
 
 
-    //TODO: togliere try cathc?
     /**
      * Sets window pattern of the player
      */
@@ -246,7 +243,6 @@ public class ControllerCLI implements Observer {
         }
     }
 
-    //TODO CONTROLLARE LE ECCEZIONI
     /**
      * Tool card 2 method
      */
@@ -341,10 +337,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             Position initialPosition2 = lathekinEvent.getInitialPosition2();
             Position finalPosition2 = lathekinEvent.getFinalPosition2();
 
-            if (model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, diceChosen1) &&
-                model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosen1) &&
-                model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, diceChosen2) &&
-                model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, diceChosen2)) {
+            if (model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, diceChosen1) &&
+                model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, diceChosen2)) {
                     lathekinValidRestriction(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
                     handleFavorTokensNumber(searchToolCard(4));
             } else {
@@ -360,7 +354,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     }
 
 
-    //TODO: CONTROLLARE SE VA BENE CHE QUESTA RILANCI L'ECCEZIONE E SIA POI LENS CUTTER A RICHIEDERE L'INPUT
 
     /**
      * Swaps a dice in the draft pool with a dice in the round track.
@@ -422,20 +415,17 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
     private boolean fluxBrushPlaceDiceHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
-            //successfulMove = true;
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
             model.mySetChanged();
             model.notifyObservers(draftPoolEvent);
             DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-
             model.mySetChanged();
             model.notifyObservers(dicePatternEvent);
             return true;
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
             view.showError(errorEvent);
-            //successfulMove = false;
             return false;
         }
     }
@@ -630,10 +620,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         }
     }
 
-    //DUBBIO
 
 
-    //TODO: cambiare nome all'attributo diceForFluxBrush
     private void fluxRemoverPlaceDice(){
         try{
             FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
@@ -662,7 +650,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             handleFavorTokensNumber(searchToolCard(11));
             model.getCurrentPlayer().setToolCardUsed(true);
             FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
-            //TODO: controllare che possa essere inserito in base al colore
             try {
                 Dice diceChosenFromDraftPool = getDiceFromDraftPool(fluxRemoverEvent.getDiceIndex());
                 model.getDiceBag().add(diceChosenFromDraftPool);
@@ -673,10 +660,9 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 model.mySetChanged();
                 model.notifyObservers(draftPoolEvent);
                 boolean succesfulMove = false;
-                //TODO: il controllo deve essere solo per il colore.Controllo che sia giusto
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(position, diceChosen)&&
-                            model.getCurrentPlayer().getDicePattern().checkAdjacency(position) &&
+                            model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(position,diceChosen) &&
                             model.getCurrentPlayer().getDicePattern().checkAdjacentColour(position, diceChosen)) {
                         succesfulMove = true;
                     }
@@ -701,68 +687,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         }
     }
 
-
-
-
-
-                /*Dice diceChosenFromDiceBag = model.getDraftPool().get(model.getDraftPool().size() - 1);
-                switch (diceChosenFromDiceBag.getColour()) {
-                    case YELLOW:
-                        diceChosenFromDiceBag.setValue(fluxRemoverEvent.getYellowDiceValue());
-                        break;
-
-                    case GREEN:
-                        diceChosenFromDiceBag.setValue(fluxRemoverEvent.getGreenDiceValue());
-                        break;
-
-                    case RED:
-                        diceChosenFromDiceBag.setValue(fluxRemoverEvent.getRedDiceValue());
-                        break;
-
-                    case BLUE:
-                        diceChosenFromDiceBag.setValue(fluxRemoverEvent.getBlueDiceValue());
-                        break;
-
-                    case PURPLE:
-                        diceChosenFromDiceBag.setValue(fluxRemoverEvent.getPurpleDiceValue());
-                        break;
-
-                    default:
-                        break;
-
-                }
-
-                Position finalPosition = fluxRemoverEvent.getDicePosition();
-                try {
-                    model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosenFromDiceBag);
-                    model.getDraftPool().remove(diceChosenFromDraftPool);
-                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString());
-                    model.getCurrentPlayer().setToolCardUsed(true);
-                    model.mySetChanged();
-                    model.notifyObservers(draftPoolEvent);
-                    DicePatternEvent dicePatternEvent = new DicePatternEvent(model.getCurrentPlayer().getDicePattern().dicePatternToString(), model.playersToString());
-                    model.mySetChanged();
-                    model.notifyObservers(dicePatternEvent);
-                    handleFavorTokensNumber(searchToolCard(11));
-                } catch (IllegalArgumentException exception) {
-                    ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
-                    view.showError(errorEvent);
-                    view.getInput();
-                }
-
-            } catch (IndexOutOfBoundsException exception) {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
-                view.showError(errorEvent);
-                view.getInput();
-            }
-        }
-
-        else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
-            view.getInput();
-        }
-    }*/
 
 
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
@@ -791,7 +715,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             view.showError(errorEvent);
         }
     }
-    //TODO CONTROLLARE SE BISOGNA LANCIARE ECCEZIONI AL LIVELLO PIù ALTO
 
     /**
      * Tool card 12 method
@@ -807,26 +730,35 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             Position initialPosition2 = tapWheelEvent.getSecondDicePosition();
             Position finalPosition2 = tapWheelEvent.getNewSecondDicePosition();
             handleFavorTokensNumber(searchToolCard(12));
+            Dice tmp1 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition1);
             //if the player wants to move only one dice
-            if (initialPosition2 == null && finalPosition2 == null &&
-                    model.getCurrentPlayer().getDicePattern().getDice(initialPosition1).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1))) {
-                        tapWheelOneDiceMoved(initialPosition1,finalPosition1);
-            }
-
-            //if the player wants to move two dices
-            else if (initialPosition2 != null && finalPosition2 != null &&
-                    model.getCurrentPlayer().getDicePattern().getDice(initialPosition1).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, model.getCurrentPlayer().getDicePattern().getDice(initialPosition1)) &&
-                    model.getCurrentPlayer().getDicePattern().getDice(initialPosition2).getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(finalPosition2, model.getCurrentPlayer().getDicePattern().getDice(initialPosition2)) &&
-                    model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, model.getCurrentPlayer().getDicePattern().getDice(initialPosition2))) {
+            if (tmp1.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
+                    model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, tmp1)){
+                if (initialPosition2 == null && finalPosition2 == null) {
+                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition1,tmp1);
+                            tapWheelOneDiceMoved(initialPosition1,finalPosition1);
+                }
+                //if the player wants to move two dices
+                else if (initialPosition2 != null && finalPosition2 != null){
+                    Dice tmp2 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition2);
+                    if(tmp2.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
+                        model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, tmp2)) {
+                        model.getCurrentPlayer().getDicePattern().setDice(initialPosition1,tmp1);
+                        model.getCurrentPlayer().getDicePattern().setDice(initialPosition2,tmp2);
                         tapWheelTwoDiceMoved(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
+                    }
 
+                }
+                else {
+                    ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
+                    view.showError(errorEvent);
+                }
 
+            }else{
+                ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
+                view.showError(errorEvent);
             }
+
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");

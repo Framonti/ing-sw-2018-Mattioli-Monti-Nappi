@@ -168,9 +168,7 @@ public class DicePattern {
      */
     public boolean checkDicePatternLimitations(Position position, Dice dice) {
 
-        if(checkEdge(position))
-            return  true;
-        else return checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
+        return checkEdge(position) || checkAdjacency(position) && checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice);
     }
 
     /**
@@ -180,7 +178,6 @@ public class DicePattern {
      * @return True if the D
      */
     public boolean isDicePlaceable(Position position, Dice dice){
-
         return checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice);
     }
 

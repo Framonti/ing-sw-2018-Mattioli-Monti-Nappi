@@ -625,9 +625,9 @@ public class TestControllerCLI {
 
     }
 
-    //TODO: devo risolvere il problema (ovvero quello che ogni volta che faccio from draft pool to round track
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse1() {
+        roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
@@ -733,6 +733,7 @@ public class TestControllerCLI {
             assertEquals(dice2, model.getDraftPool().get(1));
             assertEquals(dice3, model.getDraftPool().get(2));
             assertEquals(dice1.getColour(), model.getDraftPool().get(0).getColour());
+           // model.getDiceBag().add(new Dice(Colour.BLUE));   //TODO: è la riga di codice che ho aggiunto sul treno per far fronte al problema del dice bag in GameSingleton
         }
 
     }
@@ -1086,8 +1087,8 @@ public class TestControllerCLI {
 
     }
 
-    //TODO : da rivedere perchè ci sono errori
-    /*@Test
+
+    @Test(expected = NullPointerException.class)
     public void testFluxRemoverChooseDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
@@ -1135,6 +1136,10 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice6);
 
 
+        System.out.println(model.draftPoolToString());
+        System.out.println(model.getCurrentPlayer().getDicePattern().toString());
+
+
         FluxRemoverChooseDiceEvent event = new FluxRemoverChooseDiceEvent("3");
         controllerCLI.update(view, event);
 
@@ -1142,7 +1147,7 @@ public class TestControllerCLI {
         assertNotEquals(dice3, model.getDraftPool().contains(dice3));
         assertEquals(dice3, model.getDiceBag().get(model.getDiceBag().size()-1));
 
-    }*/
+    }
 
     @Test
     public void testFluxRemoverPlaceDiceTrue(){
@@ -1258,7 +1263,7 @@ public class TestControllerCLI {
     }
 
 
-    @Test//(expected = NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testTapWheel(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
@@ -1285,22 +1290,23 @@ public class TestControllerCLI {
         model.getCurrentPlayer().setWindowPattern(windowPatternTest);
 
 
+        Dice diceP2 = new Dice(Colour.PURPLE);
+        diceP2.setValue(3);
+        model.getCurrentPlayer().getDicePattern().placeDice(new Position(3,0),diceP2);
+
 
         Dice diceY = new Dice(Colour.YELLOW);
-        diceY.setValue(3);
-        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,1), diceY);
+        diceY.setValue(2);
+        model.getCurrentPlayer().getDicePattern().placeDice(new Position(2,1), diceY);
 
         Dice diceR = new Dice(Colour.RED);
         diceR.setValue(4);
-        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), diceR);
+        model.getCurrentPlayer().getDicePattern().placeDice(new Position(2,2), diceR);
 
         Dice diceP = new Dice(Colour.PURPLE);
         diceP.setValue(1);
-        model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3),diceP);
+        model.getCurrentPlayer().getDicePattern().placeDice(new Position(2,3),diceP);
 
-        Dice diceP2 = new Dice(Colour.PURPLE);
-        diceP2.setValue(3);
-        model.getCurrentPlayer().getDicePattern().setDice(new Position(3,0),diceP2);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         Dice dice2 = new Dice(Colour.BLUE);
@@ -1329,23 +1335,14 @@ public class TestControllerCLI {
 
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,1)), diceP2);
 
-        event = new TapWheelEvent("1 3 3 3 2 3");
-        controllerCLI.update(view,event);
-        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,2)),diceR );
-        System.out.println(model.getCurrentPlayer().getDicePattern());
+        System.out.println(model.getCurrentPlayer().getDicePattern().toString());
 
-        //TODO: non funziona e non so perchè
-        event = new TapWheelEvent("1 1 3 4 2 4");
+        event = new TapWheelEvent("1 1 3 4 2 4 4 2 4 1");
         controllerCLI.update(view,event);
         System.out.println(model.getCurrentPlayer().getDicePattern());
 
-        /*event = new TapWheelEvent("1 1 3 4 4 2 2 4 4 1");
-        controllerCLI.update(view,event);
-        System.out.println(model.getCurrentPlayer().getDicePattern());*/
-
-
-        //event = new TapWheelEvent("1 3 3 3 2 3");
-        //controllerCLI.update(view,event);
+        event = new TapWheelEvent("1 1 4 1 4 3");
+        controllerCLI.update(view, event);
 
     }
 
