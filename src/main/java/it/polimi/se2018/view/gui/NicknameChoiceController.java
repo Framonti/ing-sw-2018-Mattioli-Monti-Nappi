@@ -23,14 +23,9 @@ public class NicknameChoiceController extends Observable{
     public void nicknameEntered(){
 
         if(!textField.getText().equals("")){
-            try{
-                GUIManager.setConnectionChoiceScene();
                 NicknameEvent nicknameEvent = new NicknameEvent(textField.getText());
                 setChanged();
                 notifyObservers(nicknameEvent);
-            }catch (IOException e){
-                System.out.println("errore");
-            }
         }
     }
 
