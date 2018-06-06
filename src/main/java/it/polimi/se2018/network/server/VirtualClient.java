@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.events.mvevent.MVEvent;
+import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.network.client.ClientInterfaceSocket;
 
@@ -49,7 +50,10 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
                 VCEvent vcEvent = (VCEvent) inputStream.readObject();
                 if(vcEvent == null)
                     loop = false;
-                else
+                else if (vcEvent.getId() == 20) {
+                    NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;
+                    getServerImplementation().addSocketClient(this, nicknameEvent.getNickname());
+                } else
                     getServerImplementation().notify(vcEvent);
             }
 

@@ -142,6 +142,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(12, ()-> showEndTurn(mvEvent));
         mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
         mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
+        mvEvents.put(15, ()->{});
     }
 
     /**

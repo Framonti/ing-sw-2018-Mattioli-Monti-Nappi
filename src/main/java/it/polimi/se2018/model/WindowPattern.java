@@ -93,5 +93,12 @@ public class WindowPattern {
 
         return toReturn;
     }
-    
+
+    public String toStringPath(){
+        String toReturn = "src/main/Images/WindowPattern/";
+        String toConcat = this.name.replaceAll("\\s","");
+        toReturn = toReturn.concat(toConcat) + ".png";
+        return toReturn;
+    }
+
 }

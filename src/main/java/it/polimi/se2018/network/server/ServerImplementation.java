@@ -72,7 +72,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         int turnDuration = configurationParametersLoader.getTurnTimer();
 
         GameSetupSingleton.instance();
-        GameSetupSingleton.instance().addPlayers(createPlayerList(rmiClients, socketClients));
+        GameSetupSingleton.instance().addPlayers(players);
         GameSingleton model = GameSetupSingleton.instance().createNewGame();
         controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
@@ -110,50 +110,35 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         controllerCLI.game();
     }
 
-    /**
-     * This method creates as many players as clients are and return them in a list
-     * @param rmiClients It's the list of clients connected via RMI
-     * @param socketClients It's the list of clients connected via socket
-     * @return The list of players in the game
-     */
-    private List<Player> createPlayerList(List<ClientInterfaceRMI> rmiClients, List<ClientInterfaceSocket> socketClients) {
-        for(ClientInterfaceRMI client: rmiClients) {
-            try {
-                Player player = new Player(client.getName());
-                player.setClientInterface(client);
-                players.add(player);
-            } catch (RemoteException e) {
-                System.out.println("Errore di connessione in createPlayerList: " + e.getMessage());
-            }
-        }
-
-        for(ClientInterfaceSocket client: socketClients) {
-            Player player = new Player(client.getName());
-            player.setClientInterface(client);
-            players.add(player);
-        }
-
-        return players;
-    }
 
     /**
      * This method adds the clientInterface to the list of the clients connected via socket.
      * If the conditions are respected it launches the game creation
      * @param client It's the clientInterface to be added
      */
-    public void addSocketClient(ClientInterfaceSocket client) {
+    public void addSocketClient(ClientInterfaceSocket client, String name) {
         synchronized (lock) {
             if(rmiClients.size() + socketClients.size() < 4) {
                 if(!gameStarted) {
+                    for (Player player: players) {
+                        if (player.getName().equals(name)) {
+                            sendTo(new ErrorEvent("Nickname già in uso!"), client);
+                            return;
+                        }
+                    }
+                    Player player = new Player(name);
+                    player.setClientInterface(client);
+                    players.add(player);
                     socketClients.add(client);
+                    sendTo(new ErrorEvent("Nickname valido."), client);
                     System.out.println("socketClient added.");
 
-                    if(rmiClients.size() + socketClients.size() == 2) {
+                    if(players.size() == 2) {
                         timer = new Timer();
                         timer.start();
                     }
 
-                    if(rmiClients.size() + socketClients.size() == 4) {
+                    if(players.size() == 4) {
                         timer.interrupt();
                         gameStarted = true;
                         createGame();
@@ -164,7 +149,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 return;
             }
         }
-        cantPlay(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
+        sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
     }
 
     @Override
@@ -172,22 +157,34 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         synchronized (lock) {
             if(rmiClients.size() + socketClients.size() < 4) {
                 if(!gameStarted) {
-                    rmiClients.add(client);
+                    try {
+                        for (Player player: players) {
+                            if (player.getName().equals(client.getName()))
+                                throw new IllegalArgumentException("Nickname già in uso!");
+                        }
+                        Player player = new Player(client.getName());
+                        player.setClientInterface(client);
+                        players.add(player);
+                        rmiClients.add(client);
 
-                    System.out.println("rmiClient added.");
+                        System.out.println("rmiClient added.");
 
-                    if (rmiClients.size() + socketClients.size() == 2) {
-                        timer = new Timer();
-                        timer.start();
+                        if (players.size() == 2) {
+                            timer = new Timer();
+                            timer.start();
+                        }
+
+                        if (players.size() == 4) {
+                            timer.interrupt();
+                            gameStarted = true;
+                            createGame();
+                        }
+
+                        return;
                     }
-
-                    if (rmiClients.size() + socketClients.size() == 4) {
-                        timer.interrupt();
-                        gameStarted = true;
-                        createGame();
+                    catch (RemoteException e) {
+                        System.out.println("Errore di connessione in addClient: " + e.getMessage());
                     }
-
-                    return;
 
                 } else {
                     handleRMILostClients(client);
@@ -195,7 +192,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 }
             }
         }
-        cantPlay(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
+        sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
     }
 
     /**
@@ -237,7 +234,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      * @param mvEvent It's the error event that must be sent
      * @param clientInterface It's the RMIClient that can't access to the game
      */
-    private void cantPlay(MVEvent mvEvent, ClientInterfaceRMI clientInterface) {
+    private void sendTo(MVEvent mvEvent, ClientInterfaceRMI clientInterface) {
         try {
             clientInterface.notify(mvEvent);
         } catch (RemoteException e) {
@@ -250,7 +247,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      * @param mvEvent It's the error event that must be sent
      * @param clientInterface It's the socketClient that can't access to the game
      */
-    private void cantPlay(MVEvent mvEvent, ClientInterfaceSocket clientInterface) {
+    private void sendTo(MVEvent mvEvent, ClientInterfaceSocket clientInterface) {
         clientInterface.notify(mvEvent);
     }
 

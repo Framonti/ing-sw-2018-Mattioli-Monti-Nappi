@@ -4,14 +4,10 @@ import it.polimi.se2018.events.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.ConnectionChoiceEvent;
-import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
-import it.polimi.se2018.events.vcevent.WindowPatternChoiceEvent;
 import it.polimi.se2018.network.server.ServerInterface;
-import it.polimi.se2018.view.gui.ConnectionChoiceController;
 import it.polimi.se2018.view.gui.GUIManager;
-import javafx.application.Platform;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -27,11 +23,12 @@ import java.util.Observer;
  */
 public class ClientImplementation extends Observable implements ClientInterfaceRMI, ClientInterfaceSocket, Observer {
 
-    private static final String HOST = "localhost";
-    private static final int PORT = 1111;
+    private static final int SOCKET_PORT = 1111;
+    private static final int RMI_PORT = 1099;
     private ServerInterface server;
     private String name;
     private int viewChoice;
+    private final Object nameLock = new Object();
 
     public ClientImplementation(int viewChoice){
         this.viewChoice = viewChoice;
@@ -61,6 +58,18 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 this.addObserver(GUIManager.getGameController());
             }
         }
+        else if (mvEvent.getId() == 9) {
+            setChanged();
+            notifyObservers(mvEvent);
+            ErrorEvent errorEvent = (ErrorEvent) mvEvent;
+            if (errorEvent.getMessageToDisplay().equals("Nickname già in uso!"))
+                askName(null);
+            else if (errorEvent.getMessageToDisplay().equals("Nickname valido.")) {
+                synchronized (nameLock) {
+                    nameLock.notifyAll();
+                }
+            }
+        }
         else {
             setChanged();
             notifyObservers(mvEvent);
@@ -87,9 +96,9 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
 
     @Override
     public void update(Observable o, Object event) {
-        if (event.getClass() == ConnectionChoiceEvent.class) {
+        if (event.getClass() == ConnectionChoiceEvent.class)
             this.connection((ConnectionChoiceEvent) event);
-        } else {
+        else {
             VCEvent vcEvent = (VCEvent) event;
             if (vcEvent.getId() == 20) {
                 NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;
@@ -106,6 +115,28 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 setChanged();
                 notifyObservers(new ErrorEvent("Errore di connessione: " + e.getMessage() + "!"));
             }
+
+        }
+    }
+
+    private void askName(ClientInterfaceRMI remoteReference) {
+        setChanged();
+        notifyObservers(new ConnectionEstablishedEvent());
+        if(remoteReference != null) {
+            try {
+                server.addClient(remoteReference);
+            } catch (RemoteException e) {
+                System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                askName(remoteReference);
+            }
+        } else {
+            try {
+                server.notify(new NicknameEvent(name));
+            } catch (RemoteException e) {
+                System.out.println("This should never happen!");
+            }
         }
     }
 
@@ -113,11 +144,10 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
 
         if(connectionChoiceEvent.getChoice() == 1) {
             try {
-                server = (ServerInterface) Naming.lookup("//localhost/MyServer");
+                server = (ServerInterface) Naming.lookup("//" + connectionChoiceEvent.getIpAddress() + ":" + RMI_PORT + "/MyServer");
                 ClientInterfaceRMI remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
-                server.addClient(remoteReference);
-                setChanged();
-                notifyObservers(new ConnectionEstablishedEvent());
+                askName(remoteReference);
+
                 if(viewChoice == 1){
                     GUIManager.setNicknameChoiceScene();
                     GUIManager.getNicknameChoiceController().addObserver(this);
@@ -133,10 +163,17 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         }
         else if(connectionChoiceEvent.getChoice() == 2){
 
-            server = new NetworkHandler(HOST, PORT, this);
+            server = new NetworkHandler(connectionChoiceEvent.getIpAddress(), SOCKET_PORT, this);
             this.setServer(server);
-            setChanged();
-            notifyObservers(new ConnectionEstablishedEvent());
+            askName(null);
+            synchronized (nameLock) {
+                try {
+                    nameLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+
             if(viewChoice == 1) {
                 GUIManager.setNicknameChoiceScene();
                 GUIManager.getNicknameChoiceController().addObserver(this);

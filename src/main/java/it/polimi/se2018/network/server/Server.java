@@ -34,7 +34,6 @@ public class Server {
      */
     public void addClient(Socket newClient) {
         VirtualClient virtualClient = new VirtualClient(newClient);
-        serverImplementation.addSocketClient(virtualClient);
         virtualClient.start();
     }
 
