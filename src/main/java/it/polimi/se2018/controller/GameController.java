@@ -149,8 +149,6 @@ public class GameController extends Observable implements Observer {
 
 
     private ImageView diceChosenFromDraftPool;
-    private ImageView diceChosenFromRoundTrack;
-    private ImageView diceChosenFromDicePattern;
     private Position dicePatternPosition;
     private int diceIndexDraftPool;
     private int diceIndexRoundTrack;
@@ -192,6 +190,9 @@ public class GameController extends Observable implements Observer {
         initializeGridPaneImagesView(roundTrackGridPane, 10, 9, 39, 49);
         initializeGridPaneImagesView(dicePatternGridPane, 4, 5, 59, 69);
         initializeGridPaneImagesView(draftPool, 1, 9, 59, 69);
+
+        createMVMap();
+        createVCMap();
 
         addImageToImageView("src/main/Images/Others/RoundTrack.png",roundTrack,150,776);
         //TODO: questa cosa non mi piace molto, ma con i metodi initialize se poi clicco su un'immagine vuola, non so perchè ma non prende il click
@@ -245,6 +246,8 @@ public class GameController extends Observable implements Observer {
 
         dicePatternGridPane.toFront();
         roundTrackGridPane.toFront();
+
+
 
 
     }
@@ -448,10 +451,10 @@ public class GameController extends Observable implements Observer {
         mvEvents.put(1, ()-> updateDicePattern(mvEvent));
         mvEvents.put(2, ()-> updateDraftPool(mvEvent));
         mvEvents.put(3, ()-> updateToolCards(mvEvent));
-        mvEvents.put(4, ()-> {});
+        mvEvents.put(4, ()-> updateRoundTrack(mvEvent));
         mvEvents.put(5, ()-> {});
         mvEvents.put(6, ()->{});
-        mvEvents.put(7, ()->{});
+        mvEvents.put(7, ()-> showAll(mvEvent));
        // mvEvents.put(8, ()-> updateFavorTokens(mvEvent)); //TODO: da fare
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> {});
@@ -479,6 +482,16 @@ public class GameController extends Observable implements Observer {
     }
 
 
+    public void showAll(MVEvent event){
+        ShowAllEvent showAllEvent = (ShowAllEvent) event;
+        updateDraftPool(showAllEvent.getDraftPool());
+        updateToolCards(showAllEvent.getToolCards());
+        updateDicePattern(showAllEvent.getDicePatterns());
+        updateRoundTrack(showAllEvent.getRoundTrack());
+        updatePublicObjectiveCards(showAllEvent.getPublicObjectiveCardsGUI());
+        updatePrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
+    }
+
     public void showEndTurn(MVEvent event){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Avviso");
@@ -495,6 +508,17 @@ public class GameController extends Observable implements Observer {
 
         alert.showAndWait();
     }
+
+    public void updatePrivateObjectiveCard(String path){
+        addImageToImageView(path,privateObjectiveCard,144,95);
+    }
+
+    public void updatePublicObjectiveCards(List<String> publicObjectiveCards){
+        addImageToImageView(publicObjectiveCards.get(0),publicObjectiveCard1,144,95);
+        addImageToImageView(publicObjectiveCards.get(1),publicObjectiveCard2,144,95);
+        addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
+    }
+
 
     //TODO: decommentare e creare il metodo getDraftPoolStringGUI()
     //metodo per costruire la draft pool con il path delle immagini contenuto nell'evento
@@ -798,7 +822,6 @@ public class GameController extends Observable implements Observer {
 
     //tool card che intragiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
     public void getDicePositionFromDicePattern(ImageView imageView) {
-        diceChosenFromDicePattern = imageView;
         int row = GridPane.getRowIndex(imageView);
         int column = GridPane.getColumnIndex(imageView);
         if (!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected && isDraftPoolUsed) {
@@ -935,31 +958,7 @@ public class GameController extends Observable implements Observer {
         imageView.setFitWidth(width);
     }
 
-    public void removeImageFromImageView(ImageView imageView) {
-        imageView.setImage(null);
-    }
 
-    public void setImagesView(MVEvent event, List<ImageView> imageViews) {
-        ShowAllEvent showAllEvent = (ShowAllEvent) event;
-        List<String> urlStringList = new ArrayList<>();
-        int i;
-        for (i = 0; i < showAllEvent.getPublicObjectiveCardsGUI().size(); i++) {
-            File fileImage = new File(showAllEvent.getPublicObjectiveCardsGUI().get(i));
-            try {
-                String url = fileImage.toURI().toURL().toString();
-                urlStringList.add(url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                System.out.println("problema nel caricamento dell'immagine ");
-            }
-        }
-        i = 0;
-        for (ImageView imageView : imageViews) {
-            imageView.setImage(new Image(urlStringList.get(i)));
-            i++;
-
-        }
-    }
 
 }
 
