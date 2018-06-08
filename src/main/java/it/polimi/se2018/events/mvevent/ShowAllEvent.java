@@ -16,6 +16,7 @@ public class ShowAllEvent extends MVEvent{
     private String privateObjectiveCardString;
     private String privateObjectiveCardStringGUI;
     private List<String> publicObjectiveCardsGUI;
+    private SetWindowPatternsGUIEvent setWindowPatternsGUIEvent;
 
 
     /**
@@ -28,7 +29,7 @@ public class ShowAllEvent extends MVEvent{
      * @param privateObjectiveCardString A String representing a PrivateObjectiveCard
      */
     public ShowAllEvent(DicePatternEvent dicePatternEvent, List<String> publicObjectiveCardsString, List<String> publicObjectiveCardsGUI,
-                        ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent, String privateObjectiveCardString, String privateObjectiveCardStringGUI){
+                        ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent, String privateObjectiveCardString, String privateObjectiveCardStringGUI, SetWindowPatternsGUIEvent setWindowPatternsGUIEvent){
 
         super(7);
         this.dicePatternEvent = dicePatternEvent;
@@ -39,6 +40,7 @@ public class ShowAllEvent extends MVEvent{
         this.roundTrackEvent = roundTrackEvent;
         this.publicObjectiveCardsGUI = publicObjectiveCardsGUI;
         this.privateObjectiveCardStringGUI = privateObjectiveCardStringGUI;
+        this.setWindowPatternsGUIEvent = setWindowPatternsGUIEvent;
     }
 
     /**
@@ -97,6 +99,10 @@ public class ShowAllEvent extends MVEvent{
 
     public List<String> getPublicObjectiveCardsGUI() {
         return publicObjectiveCardsGUI;
+    }
+
+    public SetWindowPatternsGUIEvent getSetWindowPatternsGUIEvent() {
+        return setWindowPatternsGUIEvent;
     }
 
     public String getPrivateObjectiveCardStringGUI() {

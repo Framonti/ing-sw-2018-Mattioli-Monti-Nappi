@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-image: url(/Others/gameBackground.png);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.controller.GameController">
+   <children>
+      <GridPane fx:id="draftPool" layoutX="54.0" layoutY="222.0" prefHeight="114.0" prefWidth="734.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="publicObjectiveCard1" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="378.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="toolCard1" fitHeight="144.0" fitWidth="95.0" layoutX="56.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="toolCard3" fitHeight="144.0" fitWidth="95.0" layoutX="284.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="roundTrack" fitHeight="150.0" fitWidth="776.0" layoutX="996.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" />
+      <Button fx:id="skipTurnButton" layoutX="62.0" layoutY="826.0" mnemonicParsing="false" text="Salta Turno" />
+      <ImageView fx:id="toolCard2" fitHeight="144.0" fitWidth="95.0" layoutX="165.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="publicObjectiveCard2" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="532.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="publicObjectiveCard3" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="windowPattern1" fitHeight="460.0" fitWidth="520.0" layoutX="260.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="dicePatternGridPane1" alignment="CENTER" layoutX="288.0" layoutY="378.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="504.0" vgap="18.0">
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+         </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="privateObjectiveCard" fitHeight="144.0" fitWidth="95.0" layoutX="54.0" layoutY="378.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="favorTokensGridPane" layoutX="56.0" layoutY="579.0" prefHeight="90.0" prefWidth="95.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="roundTrackGridPane" layoutX="1146.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="658.0" prefWidth="455.0" vgap="7.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="dicePatternImage00" fitHeight="59.0" fitWidth="69.0" layoutX="1029.0" layoutY="712.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage02" fitHeight="59.0" fitWidth="69.0" layoutX="1047.0" layoutY="731.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage03" fitHeight="59.0" fitWidth="69.0" layoutX="1064.0" layoutY="742.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage01" fitHeight="59.0" fitWidth="69.0" layoutX="1039.0" layoutY="722.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage04" fitHeight="59.0" fitWidth="69.0" layoutX="1083.0" layoutY="761.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage10" fitHeight="59.0" fitWidth="69.0" layoutX="1093.0" layoutY="771.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage11" fitHeight="59.0" fitWidth="69.0" layoutX="1104.0" layoutY="781.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage12" fitHeight="59.0" fitWidth="69.0" layoutX="1116.0" layoutY="781.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage13" fitHeight="59.0" fitWidth="69.0" layoutX="1116.0" layoutY="791.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage14" fitHeight="59.0" fitWidth="69.0" layoutX="1118.0" layoutY="801.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage20" fitHeight="59.0" fitWidth="69.0" layoutX="1139.0" layoutY="811.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage21" fitHeight="59.0" fitWidth="69.0" layoutX="1153.0" layoutY="811.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage22" fitHeight="59.0" fitWidth="69.0" layoutX="1166.0" layoutY="819.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage24" fitHeight="59.0" fitWidth="69.0" layoutX="1195.0" layoutY="841.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage23" fitHeight="59.0" fitWidth="69.0" layoutX="1188.0" layoutY="831.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage30" fitHeight="59.0" fitWidth="69.0" layoutX="1149.0" layoutY="821.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage31" fitHeight="59.0" fitWidth="69.0" layoutX="1149.0" layoutY="821.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage32" fitHeight="59.0" fitWidth="69.0" layoutX="1149.0" layoutY="821.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage33" fitHeight="59.0" fitWidth="69.0" layoutX="1188.0" layoutY="831.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dicePatternImage34" fitHeight="59.0" fitWidth="69.0" layoutX="1149.0" layoutY="821.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="dicePatternGridPane2" alignment="CENTER" layoutX="463.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="154.0" prefWidth="191.0" vgap="18.0">
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+         </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="windowPattern2" fitHeight="180.0" fitWidth="199.0" layoutX="441.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="windowPattern3" fitHeight="180.0" fitWidth="199.0" layoutX="713.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="dicePatternGridPane3" alignment="CENTER" layoutX="735.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="154.0" prefWidth="191.0" vgap="18.0">
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+         </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="windowPattern4" fitHeight="180.0" fitWidth="199.0" layoutX="958.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="dicePatternGridPane4" alignment="CENTER" layoutX="980.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="154.0" prefWidth="191.0" vgap="18.0">
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="85.0" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

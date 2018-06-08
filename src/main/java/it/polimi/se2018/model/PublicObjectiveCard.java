@@ -41,4 +41,11 @@ public class PublicObjectiveCard extends ObjectiveCard {
 
         return  toReturn;
     }
+
+    public String toStringPath(){
+        String toReturn = "src/main/Images/PublicObjectiveCard/";
+        String toConcat = this.getName().replaceAll("\\s","");
+        toReturn = toReturn.concat(toConcat) + ".jpg";
+        return toReturn;
+    }
 }

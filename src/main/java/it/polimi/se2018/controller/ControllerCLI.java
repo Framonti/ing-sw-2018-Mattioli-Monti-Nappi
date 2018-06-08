@@ -860,12 +860,13 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 playerTurn = new PlayerTurn();
                 view.setCurrentPlayer(model.getCurrentPlayer());
                 view.showAll(new ShowAllEvent(
-                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.getCurrentPlayer().getDicePattern().dicePatternToStringPath()),
+                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath()),
                         model.publicObjectiveCardsToString(), model.publicObjectiveCardsToString(),
                         new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString() )
+                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
+                        new SetWindowPatternsGUIEvent(model.windwoPatternsToStringPath()))
                 );
                 turnEnded = false;
                 turnTimer.start(); //thread for time

@@ -319,6 +319,7 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+
     /**
      * Gets a representation of all the tool cards
      * @return  A representation of all the tool cards
@@ -343,6 +344,7 @@ public class GameSingleton extends Observable{
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
             list.add(toolCard.toStringPath());
+            list.add(String.valueOf(toolCard.getId()));
         }
         return list;
     }
@@ -357,6 +359,21 @@ public class GameSingleton extends Observable{
             list.add(player.getName());
         return list;
     }
+
+    public List<List<String>> dicePatternsToStringPath(){
+        List<List<String>> list = new ArrayList<>();
+        for(Player player : players)
+            list.add(player.getDicePattern().dicePatternToStringPath());
+        return list;
+    }
+
+    public List<String> windwoPatternsToStringPath(){
+        List<String> list = new ArrayList<>();
+        for(Player player : players)
+            list.add(player.getDicePattern().getWindowPattern().toStringPath());
+        return list;
+    }
+
 
 
     /**

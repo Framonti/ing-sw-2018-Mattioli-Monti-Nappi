@@ -10,13 +10,13 @@ public class DicePatternEvent extends MVEvent {
 
     private List<String> playerNames;
     private List<String> dicePatternsString;
-    private List<String> dicePatternsGUI;
+    private List<List<String>> dicePatternsGUI;
 
     /**
      * Constructor
      * @param dicePatternsString The String-representation of all the DicePattern
      */
-    public DicePatternEvent(List<String> dicePatternsString, List<String> playerNames, List<String> dicePatternsGUI) {
+    public DicePatternEvent(List<String> dicePatternsString, List<String> playerNames, List<List<String>> dicePatternsGUI) {
 
         super(1);
         this.dicePatternsString = dicePatternsString;
@@ -42,7 +42,8 @@ public class DicePatternEvent extends MVEvent {
         return playerNames;
     }
 
-    public List<String> getDicePatternsGUI() {
+    public List<List<String>> getDicePatternsGUI() {
         return dicePatternsGUI;
     }
+
 }

@@ -42,7 +42,7 @@ public class DicePattern {
     public void setDice(Position position, Dice dice) {
 
         diceMatrix[position.getX()][position.getY()] = dice;
-        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPath());
+        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
         GameSingleton.getInstance().myNotify(dicePatternEvent);
     }
 
@@ -197,7 +197,7 @@ public class DicePattern {
 
             setDice(position, dice);
             firstDice = false;
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToStringPath());
+            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
             GameSingleton.getInstance().myNotify(dicePatternEvent);
         }
         else throw new IllegalArgumentException("Illegal move");
@@ -235,7 +235,7 @@ public class DicePattern {
             else {
                 Dice toMove = removeDice(initialPosition);
                 this.setDice(finalPosition, toMove);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToString(), GameSingleton.getInstance().playersToString(), GameSingleton.getInstance().getCurrentPlayer().getDicePattern().dicePatternToStringPath());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
                 GameSingleton.getInstance().myNotify(dicePatternEvent);
             }
         }
@@ -296,4 +296,13 @@ public class DicePattern {
         return list;
     }
 
+    public List<List<String>> dicePatternToStringPathOneList() {
+        List<List<String>> list = new ArrayList<>();
+        list.add(this.dicePatternToStringPath());
+        return list;
+    }
+
+    public WindowPattern getWindowPattern() {
+        return windowPattern;
+    }
 }
