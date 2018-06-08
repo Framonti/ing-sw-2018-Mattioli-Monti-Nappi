@@ -41,12 +41,15 @@ public class ConnectionChoiceController extends Observable{
     @FXML
     private void socketButtonAction(){
 
-       // GUIManager.setNicknameChoiceScene();
         ConnectionChoiceEvent connectionChoiceEvent = new ConnectionChoiceEvent(2, ipAddressString);
         setChanged();
         notifyObservers(connectionChoiceEvent);
     }
 
+    /**
+     * Manges the behaviour of the ipServer TextField
+     * On action, it saves the value inserted and
+     */
     @FXML
     private void getIpServer(){
         if(!ipServer.getText().equals("")){

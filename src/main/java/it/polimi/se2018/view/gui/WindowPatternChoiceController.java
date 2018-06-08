@@ -18,7 +18,7 @@ import java.util.Observer;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
-public class WindowPatternChoiceController extends Observable implements Observer{
+public class WindowPatternChoiceController extends Observable implements Observer {
 
     @FXML private ImageView windowPattern1;
     @FXML private ImageView windowPattern2;

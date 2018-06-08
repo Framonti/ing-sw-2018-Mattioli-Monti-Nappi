@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import java.util.*;
 
-public class WaitingRoomController extends Observable implements Observer{
+public class WaitingRoomController extends Observable implements Observer {
 
     @FXML private TextArea notificationTextArea;
     @FXML private Label label1;

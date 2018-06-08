@@ -17,7 +17,7 @@ import java.util.*;
  * This class manages the EndScreen.fxml file
  * @author Framonti
  */
-public class EndScreenController extends Observable implements Observer{
+public class EndScreenController extends Observable implements Observer {
 
     @FXML private Button exitButton;
     @FXML private Button playAgainButton;
@@ -229,10 +229,12 @@ public class EndScreenController extends Observable implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        MVEvent mvEvent = (MVEvent) arg;
-        if(arg.getClass() == ScoreTrackEvent.class)
-            scoreTrackEventHandler(mvEvent);
-        else winnerEventHandler(mvEvent);
+        if(arg.getClass() == MVEvent.class){
+            MVEvent mvEvent = (MVEvent) arg;
+            if(arg.getClass() == ScoreTrackEvent.class)
+                scoreTrackEventHandler(mvEvent);
+            else winnerEventHandler(mvEvent);
+        }
     }
 
 }
