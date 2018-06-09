@@ -866,7 +866,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
                         model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
-                        new SetWindowPatternsGUIEvent(model.windwoPatternsToStringPath()))
+                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath()))
                 );
                 turnEnded = false;
                 turnTimer.start(); //thread for time
@@ -888,6 +888,17 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
 
             showScores();
         }
+
+        private void showScores() {
+            computeAllScores();
+
+            model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+            List<Integer> scores = new ArrayList<>();
+            for(Player player: model.getPlayers())
+                scores.add(player.getScore());
+
+            model.createScoreTrack(scores);
+        }
     }
 
     public void endGame() {
@@ -898,23 +909,12 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
             playerTurn.interrupt();
         if (turnTimer.isAlive())
             turnTimer.interrupt();
-        showScores();
+        model.lastPlayer();
     }
 
     public void game() {
         game = new Game();
         game.start();
-    }
-
-    private void showScores() {
-        computeAllScores();
-
-        model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
-        List<Integer> scores = new ArrayList<>();
-        for(Player player: model.getPlayers())
-            scores.add(player.getScore());
-
-        model.createScoreTrack(scores);
     }
 
 }

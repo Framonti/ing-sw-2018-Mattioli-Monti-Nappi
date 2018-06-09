@@ -59,7 +59,7 @@ public class ViewGUI  extends Observable implements Observer{
             window.close();
     }
 
-    public void setConnectionChoiceScene(){
+    private void setConnectionChoiceScene(){
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -76,8 +76,6 @@ public class ViewGUI  extends Observable implements Observer{
         }
 
         guiControllerObservable = loader.getController();
-        //this.addObserver(guiControllerObservable);
-        //guiControllerObservable.addObserver(this);
 
         scene = new Scene(root);
 
@@ -93,7 +91,7 @@ public class ViewGUI  extends Observable implements Observer{
         window.show();
     }
 
-    public void setNicknameChoiceScene(){
+    private void setNicknameChoiceScene(){
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -110,6 +108,8 @@ public class ViewGUI  extends Observable implements Observer{
         }
 
         guiControllerObservable = loader.getController();
+        guiControllerObserver = loader.getController();
+        this.addObserver(guiControllerObserver);
 
         scene.setRoot(root);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -121,7 +121,7 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(scale);
     }
 
-    public void setLobbyScene(){
+    private void setLobbyScene(){
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -137,7 +137,7 @@ public class ViewGUI  extends Observable implements Observer{
             e.printStackTrace();
         }
 
-
+        this.deleteObservers();
         guiControllerObservable = loader.getController();
         guiControllerObserver = loader.getController();
         this.addObserver(guiControllerObserver);
@@ -153,7 +153,7 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(scale);
     }
 
-    public void setWindowPatternChoiceScene() {
+    private void setWindowPatternChoiceScene() {
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -188,7 +188,7 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(scale);
     }
 
-    public void setGameScene(){
+    private void setGameScene(){
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -220,7 +220,7 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(scale);
     }
 
-    public void setEndScreen() {
+    private void setEndScreen() {
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = null;
@@ -256,11 +256,14 @@ public class ViewGUI  extends Observable implements Observer{
 
         if(arg.getClass() == ConnectionEstablishedEvent.class){
             setNicknameChoiceScene();
+            setChanged();
+            notifyObservers(arg);
         }
         else if(arg.getClass() == NewObserverEvent.class){
             NewObserverEvent newObserverEvent = (NewObserverEvent) arg;
             guiControllerObservable.addObserver(newObserverEvent.getClient());
         }
+        //TODO cambiare l'if
         else if(o.getClass() == ClientImplementation.class){
             MVEvent mvEvent = (MVEvent) arg;
             if(mvEvent.getId() == 40){

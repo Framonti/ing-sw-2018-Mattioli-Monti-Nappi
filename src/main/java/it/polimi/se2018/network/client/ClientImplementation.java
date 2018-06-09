@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.client;
 
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.ConnectionChoiceEvent;
@@ -27,13 +28,13 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private static final int RMI_PORT = 1099;
     private ServerInterface server;
     private String name;
-    private int viewChoice;
     private final Object nameLock = new Object();
+    private int connectionChoice;
+    private boolean isGUI;
 
-    public ClientImplementation(int viewChoice){
-        this.viewChoice = viewChoice;
+    public ClientImplementation(boolean isGUI) {
+        this.isGUI = isGUI;
     }
-
 
     @Override
     public String getName() {
@@ -42,37 +43,29 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
 
     @Override
     public void notify(MVEvent mvEvent) {
-        if(mvEvent.getId() == 56){
-            if(viewChoice == 1){
-                this.deleteObservers();
-                GUIManager.setWindowPatternChoiceScene();
-                GUIManager.getWindowPatternChoiceController().addObserver(this);
-                this.addObserver(GUIManager.getWindowPatternChoiceController());
-            }
-        }
-        else if(mvEvent.getId() == 40){
-            if(viewChoice == 1){
-                this.deleteObservers();
-                GUIManager.setGameScene();
-                GUIManager.getGameController().addObserver(this);
-                this.addObserver(GUIManager.getGameController());
-            }
-        }
-        else if (mvEvent.getId() == 9) {
+        if (!isGUI && mvEvent.getId() != 56 && mvEvent.getId() != 40 && mvEvent.getId() != 60) {
             setChanged();
             notifyObservers(mvEvent);
+        }
+        else if (isGUI) {
+            setChanged();
+            notifyObservers(mvEvent);
+            if (mvEvent.getId() == 56 || mvEvent.getId() == 30 || mvEvent.getId() == 40 || mvEvent.getId() == 60) {
+                setChanged();
+                notifyObservers(new NewObserverEvent(this));
+            }
+        }
+
+        if (mvEvent.getId() == 30) {
+            synchronized (nameLock) {
+                nameLock.notifyAll();
+            }
+        } else if (mvEvent.getId() == 9) {
             ErrorEvent errorEvent = (ErrorEvent) mvEvent;
-            if (errorEvent.getMessageToDisplay().equals("Nickname già in uso!"))
-                askName(null);
-            else if (errorEvent.getMessageToDisplay().equals("Nickname valido.")) {
-                synchronized (nameLock) {
-                    nameLock.notifyAll();
-                }
+            if (errorEvent.getMessageToDisplay().equals("Nickname già in uso!")) {
+                setChanged();
+                notifyObservers(new ConnectionEstablishedEvent(false));
             }
-        }
-        else {
-            setChanged();
-            notifyObservers(mvEvent);
         }
     }
 
@@ -103,11 +96,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             if (vcEvent.getId() == 20) {
                 NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;
                 this.name = nicknameEvent.getNickname();
-                if(viewChoice == 1){
-                    GUIManager.setLobbyScene();
-                    GUIManager.getWaitingRoomController().addObserver(this);
-                    this.addObserver(GUIManager.getWaitingRoomController());
-                }
+                askName(nicknameEvent);
             }
             else try {
                 server.notify(vcEvent);
@@ -119,40 +108,52 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         }
     }
 
-    private void askName(ClientInterfaceRMI remoteReference) {
-        setChanged();
-        notifyObservers(new ConnectionEstablishedEvent());
-        if(remoteReference != null) {
+    private void askName(NicknameEvent nicknameEvent) {
+        if(connectionChoice == 1) {
+            ClientInterfaceRMI remoteReference = null;
+            try {
+                remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
             try {
                 server.addClient(remoteReference);
             } catch (RemoteException e) {
                 System.err.println("Errore di connessione: " + e.getMessage() + "!");
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-                askName(remoteReference);
+                setChanged();
+                notifyObservers(new ConnectionEstablishedEvent(false));
             }
         } else {
             try {
-                server.notify(new NicknameEvent(name));
-            } catch (RemoteException e) {
+                server.notify(nicknameEvent);
+            }
+            catch (RemoteException e) {
                 System.out.println("This should never happen!");
+            }
+            synchronized (nameLock) {
+                try{
+                    nameLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
             }
         }
     }
 
     public void connection(ConnectionChoiceEvent connectionChoiceEvent){
 
-        if(connectionChoiceEvent.getChoice() == 1) {
+        connectionChoice = connectionChoiceEvent.getChoice();
+        if(connectionChoice == 1) {
             try {
                 server = (ServerInterface) Naming.lookup("//" + connectionChoiceEvent.getIpAddress() + ":" + RMI_PORT + "/MyServer");
-                ClientInterfaceRMI remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
-                askName(remoteReference);
-
-                if(viewChoice == 1){
-                    GUIManager.setNicknameChoiceScene();
-                    GUIManager.getNicknameChoiceController().addObserver(this);
-                }
-
+                setChanged();
+                notifyObservers(new ConnectionEstablishedEvent(true));
+                setChanged();
+                notifyObservers(new NewObserverEvent(this));
             } catch (MalformedURLException e) {
                 System.err.println("URL non trovato!");
             } catch (RemoteException e) {
@@ -161,26 +162,17 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 System.err.println("Il riferimento passato non è associato a nulla!");
             }
         }
-        else if(connectionChoiceEvent.getChoice() == 2){
+        else if(connectionChoice/*Event.getChoice()*/ == 2){
 
             server = new NetworkHandler(connectionChoiceEvent.getIpAddress(), SOCKET_PORT, this);
             this.setServer(server);
-            askName(null);
-            synchronized (nameLock) {
-                try {
-                    nameLock.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-
-            if(viewChoice == 1) {
-                GUIManager.setNicknameChoiceScene();
-                GUIManager.getNicknameChoiceController().addObserver(this);
-            }
+            setChanged();
+            notifyObservers(new ConnectionEstablishedEvent(true));
+            setChanged();
+            notifyObservers(new NewObserverEvent(this));
         }
         else
-            System.out.println("This should never happens!");
+            System.out.println("This should never happen!");
     }
 
 }

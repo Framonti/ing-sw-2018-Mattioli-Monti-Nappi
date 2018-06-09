@@ -2,9 +2,13 @@ package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -22,7 +26,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private MVEvent mvEvent;
     private VCEvent vcEvent;
     private Scanner scanner;
-
+    private BufferedReader reader;
 
 
     /**
@@ -37,6 +41,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         createMVMap();
 
         scanner = new Scanner(System.in);
+        reader = new BufferedReader(new InputStreamReader(System.in));
+
     }
 
     public void askConnection(){
@@ -60,7 +66,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     /**
      * This method asks the player's name
      */
-    public void askName() {
+    private void askName() {
         System.out.println("INSERISCI USERNAME:");
         String name = scanner.nextLine().toLowerCase();
         if(name.length() < 2) {
@@ -68,7 +74,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             askName();
         }
         name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        System.out.println("USERNAME INSERITO. ATTENDI.\n");
         NicknameEvent nicknameEvent = new NicknameEvent(name);
         setChanged();
         notifyObservers(nicknameEvent);
@@ -203,7 +208,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void getInput() {
         try {
-            String input = scanner.nextLine();
+            while (!reader.ready())
+                Thread.sleep(200);
+            String input = reader.readLine();
             VCEvent event = createEvent(input);
             setChanged();
             notifyObservers(event);
@@ -212,9 +219,11 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println(e.getMessage());
             getInput();
         }
-        catch (NoSuchElementException e) {
-            System.out.println("noSuchElementException");
-            getInput();
+        catch (IOException e) {
+            System.out.println("IOException thrown!");
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -399,14 +408,15 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void update(Observable model, Object event) {
-        if(ConnectionEstablishedEvent.class == event.getClass()){
+        if(event.getClass() == ConnectionEstablishedEvent.class){
             askName();
         }
-        else{
+        else if(event.getClass() == NickNameAcceptedEvent.class)
+            System.out.println("Nickname valido.\nATTENDI.\n");
+        else if(event.getClass() != NewObserverEvent.class) {
             mvEvent = (MVEvent) event;
             mvEvents.get(mvEvent.getId()).run();
         }
-
     }
 
 }

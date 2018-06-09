@@ -1,16 +1,18 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.events.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * This class manages the nickname.fxml file
  */
-public class NicknameChoiceController extends Observable {
+public class NicknameChoiceController extends Observable implements Observer{
 
     @FXML private Button confirmButton;
     @FXML private Button exitButton;
@@ -23,9 +25,9 @@ public class NicknameChoiceController extends Observable {
     public void nicknameEntered(){
 
         if(!textField.getText().equals("")){
-                NicknameEvent nicknameEvent = new NicknameEvent(textField.getText());
-                setChanged();
-                notifyObservers(nicknameEvent);
+            NicknameEvent nicknameEvent = new NicknameEvent(textField.getText());
+            setChanged();
+            notifyObservers(nicknameEvent);
         }
     }
 
@@ -38,4 +40,15 @@ public class NicknameChoiceController extends Observable {
         GUIManager.closeProgram();
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg.getClass() == ConnectionEstablishedEvent.class){
+
+            ConnectionEstablishedEvent connectionEstablishedEvent = (ConnectionEstablishedEvent) arg;
+            //TODO mettere una label
+            if(!connectionEstablishedEvent.isFirstTimeNickname()){
+                confirmButton.setOpacity(0.2);
+            }
+        }
+    }
 }

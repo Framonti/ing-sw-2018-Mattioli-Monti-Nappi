@@ -42,7 +42,7 @@ public class DicePattern {
     public void setDice(Position position, Dice dice) {
 
         diceMatrix[position.getX()][position.getY()] = dice;
-        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
+        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playerToString(), dicePatternToStringPathOneList());
         GameSingleton.getInstance().myNotify(dicePatternEvent);
     }
 
@@ -197,8 +197,8 @@ public class DicePattern {
 
             setDice(position, dice);
             firstDice = false;
-            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
-            GameSingleton.getInstance().myNotify(dicePatternEvent);
+//            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
+//            GameSingleton.getInstance().myNotify(dicePatternEvent);
         }
         else throw new IllegalArgumentException("Illegal move");
     }

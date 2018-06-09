@@ -104,10 +104,12 @@ public class RoundTrack {
         return roundTrack;
     }
 
-    public List<String> roundToStringPath(int round){
+    private List<String> roundToStringPath(int round){
         ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < 9 ; i++)
-                list.add(roundList.get(round).get(i).toStringPath());
+        for (Dice dice: roundList.get(round))
+            list.add(dice.toStringPath());
+        while (list.size() < 9)
+            list.add(" ");
         return list;
     }
 
@@ -123,6 +125,7 @@ public class RoundTrack {
         }
         return list;
     }
+
     public void removeAll(){
         roundList.clear();
     }

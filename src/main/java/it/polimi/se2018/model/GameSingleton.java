@@ -349,6 +349,12 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    public List<String> playerToString() {
+        List<String> player = new ArrayList<>();
+        player.add(getCurrentPlayer().getName());
+        return player;
+    }
+
     /**
      * Gets a representation of all players
      * @return A representation of all players
@@ -367,7 +373,7 @@ public class GameSingleton extends Observable{
         return list;
     }
 
-    public List<String> windwoPatternsToStringPath(){
+    public List<String> windowPatternsToStringPath(){
         List<String> list = new ArrayList<>();
         for(Player player : players)
             list.add(player.getDicePattern().getWindowPattern().toStringPath());
@@ -414,6 +420,9 @@ public class GameSingleton extends Observable{
         myNotify(winnerEvent);
     }
 
+    public void lastPlayer() {
+        myNotify(new ErrorEvent("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!"));
+    }
 }
 
 
