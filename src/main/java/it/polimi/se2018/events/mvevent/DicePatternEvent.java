@@ -1,5 +1,7 @@
 package it.polimi.se2018.events.mvevent;
 
+import it.polimi.se2018.model.Player;
+
 import java.util.List;
 
 /**
@@ -11,17 +13,19 @@ public class DicePatternEvent extends MVEvent {
     private List<String> playerNames;
     private List<String> dicePatternsString;
     private List<List<String>> dicePatternsGUI;
+    private String currentPlayer;
 
     /**
      * Constructor
      * @param dicePatternsString The String-representation of all the DicePattern
      */
-    public DicePatternEvent(List<String> dicePatternsString, List<String> playerNames, List<List<String>> dicePatternsGUI) {
+    public DicePatternEvent(List<String> dicePatternsString, List<String> playerNames, List<List<String>> dicePatternsGUI, String currentPlayer) {
 
         super(1);
         this.dicePatternsString = dicePatternsString;
         this.playerNames = playerNames;
         this.dicePatternsGUI = dicePatternsGUI;
+        this.currentPlayer = currentPlayer;
     }
 
     /**
@@ -46,4 +50,7 @@ public class DicePatternEvent extends MVEvent {
         return dicePatternsGUI;
     }
 
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
 }

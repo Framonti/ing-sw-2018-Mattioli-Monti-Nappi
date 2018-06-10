@@ -366,6 +366,13 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    public List<String> publicObjectiveCardsToStringPath(){
+        List<String> list = new ArrayList<>();
+        for (PublicObjectiveCard card : publicObjectiveCards)
+            list.add(card.toStringPath());
+        return list;
+    }
+
     public List<List<String>> dicePatternsToStringPath(){
         List<List<String>> list = new ArrayList<>();
         for(Player player : players)

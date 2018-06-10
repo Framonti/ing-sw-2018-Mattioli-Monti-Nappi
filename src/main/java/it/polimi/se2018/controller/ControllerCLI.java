@@ -772,7 +772,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      */
     private void nextRound() {
         model.increaseRound();
-        model.getPlayers().add(model.getPlayersNumber() - 1, model.getPlayers().remove(0)); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
+        Player toRemove =  model.getPlayers().remove(0);
+        model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.fromDraftPoolToRoundTrack();
         model.extractAndRoll();
@@ -860,8 +861,8 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 playerTurn = new PlayerTurn();
                 view.setCurrentPlayer(model.getCurrentPlayer());
                 view.showAll(new ShowAllEvent(
-                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath()),
-                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToString(),
+                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
+                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
                         new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),

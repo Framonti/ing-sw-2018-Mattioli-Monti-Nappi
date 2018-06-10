@@ -42,7 +42,7 @@ public class DicePattern {
     public void setDice(Position position, Dice dice) {
 
         diceMatrix[position.getX()][position.getY()] = dice;
-        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playerToString(), dicePatternToStringPathOneList());
+        DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playerToString(), dicePatternToStringPathOneList(), GameSingleton.getInstance().getCurrentPlayer().getName());
         GameSingleton.getInstance().myNotify(dicePatternEvent);
     }
 
@@ -235,7 +235,7 @@ public class DicePattern {
             else {
                 Dice toMove = removeDice(initialPosition);
                 this.setDice(finalPosition, toMove);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
+                DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList(), GameSingleton.getInstance().getCurrentPlayer().getName());
                 GameSingleton.getInstance().myNotify(dicePatternEvent);
             }
         }
