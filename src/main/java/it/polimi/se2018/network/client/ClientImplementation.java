@@ -8,9 +8,9 @@ import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.network.server.ServerInterface;
-import it.polimi.se2018.view.gui.GUIManager;
 
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -28,7 +28,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private static final int RMI_PORT = 1099;
     private ServerInterface server;
     private String name;
-    private final Object nameLock = new Object();
     private int connectionChoice;
     private boolean isGUI;
 
@@ -37,8 +36,13 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     }
 
     @Override
-    public String getName() {
+    public String getClientName() {
         return name;
+    }
+
+    @Override
+    public String getName() {
+        return getClientName();
     }
 
     @Override
@@ -53,12 +57,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             if (mvEvent.getId() == 56 || mvEvent.getId() == 30 || mvEvent.getId() == 40 || mvEvent.getId() == 60) {
                 setChanged();
                 notifyObservers(new NewObserverEvent(this));
-            }
-        }
-
-        if (mvEvent.getId() == 30) {
-            synchronized (nameLock) {
-                nameLock.notifyAll();
             }
         } else if (mvEvent.getId() == 9) {
             ErrorEvent errorEvent = (ErrorEvent) mvEvent;
@@ -75,6 +73,11 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void setClientName(String name) {
+        setName(name);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             if (vcEvent.getId() == 20) {
                 NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;
                 this.name = nicknameEvent.getNickname();
-                askName(nicknameEvent);
+                tryNickname(nicknameEvent);
             }
             else try {
                 server.notify(vcEvent);
@@ -108,7 +111,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         }
     }
 
-    private void askName(NicknameEvent nicknameEvent) {
+    private void tryNickname(NicknameEvent nicknameEvent) {
         if(connectionChoice == 1) {
             ClientInterfaceRMI remoteReference = null;
             try {
@@ -133,14 +136,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             catch (RemoteException e) {
                 System.out.println("This should never happen!");
             }
-            synchronized (nameLock) {
-                try{
-                    nameLock.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-            }
         }
     }
 
@@ -152,8 +147,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 server = (ServerInterface) Naming.lookup("//" + connectionChoiceEvent.getIpAddress() + ":" + RMI_PORT + "/MyServer");
                 setChanged();
                 notifyObservers(new ConnectionEstablishedEvent(true));
-                setChanged();
-                notifyObservers(new NewObserverEvent(this));
             } catch (MalformedURLException e) {
                 System.err.println("URL non trovato!");
             } catch (RemoteException e) {
@@ -162,17 +155,18 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 System.err.println("Il riferimento passato non è associato a nulla!");
             }
         }
-        else if(connectionChoice/*Event.getChoice()*/ == 2){
-
+        else if(connectionChoice == 2){
             server = new NetworkHandler(connectionChoiceEvent.getIpAddress(), SOCKET_PORT, this);
             this.setServer(server);
             setChanged();
             notifyObservers(new ConnectionEstablishedEvent(true));
-            setChanged();
-            notifyObservers(new NewObserverEvent(this));
         }
         else
             System.out.println("This should never happen!");
+        if (isGUI) {
+            setChanged();
+            notifyObservers(new NewObserverEvent(this));
+        }
     }
 
 }

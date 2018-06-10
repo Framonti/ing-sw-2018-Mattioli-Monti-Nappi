@@ -68,12 +68,15 @@ public class NetworkHandler extends Thread implements ServerInterface {
                 return;
             }
             try {
-                MVEvent mvEvent = (MVEvent) inputStream.readObject();
-                if(mvEvent == null) {
-                    loop = false;
-                    stopConnection();
-                } else {
-                    client.notify(mvEvent);
+                Object obj = inputStream.readObject();
+                if (obj.getClass() != String.class) {
+                    MVEvent mvEvent = (MVEvent) obj;
+                    if (mvEvent == null) {
+                        loop = false;
+                        stopConnection();
+                    } else {
+                        client.notify(mvEvent);
+                    }
                 }
             }
             catch (IOException | ClassNotFoundException e) {

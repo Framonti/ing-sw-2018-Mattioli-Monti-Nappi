@@ -13,6 +13,7 @@ import it.polimi.se2018.network.client.ClientInterfaceRMI;
 import it.polimi.se2018.network.client.ClientInterfaceSocket;
 import it.polimi.se2018.view.VirtualViewCLI;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -24,12 +25,10 @@ import java.util.List;
  */
 public class ServerImplementation extends UnicastRemoteObject implements ServerInterface {
 
-    private transient List<ClientInterfaceRMI> rmiClients = new ArrayList<>();
-    private transient List<ClientInterfaceRMI> connectionRMILostClients = new ArrayList<>();
-    private transient List<ClientInterfaceRMI> RMIClientsToBeRemoved = new ArrayList<>();
+    private static final String CONNECTION_LOST = "Connection lost with ";
 
+    private transient List<ClientInterfaceRMI> rmiClients = new ArrayList<>();
     private transient List<ClientInterfaceSocket> socketClients = new ArrayList<>();
-    private transient List<ClientInterfaceSocket> connectionSocketLostClients = new ArrayList<>();
     private transient List<Player> players = new ArrayList<>();
 
     private transient ControllerCLI controllerCLI;
@@ -53,14 +52,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         setupDuration = configurationParametersLoader.getSetupTimer();
         setupDuration = 5000;
         new ClientCollector().start();
-    }
-
-    /**
-     * @return The list of the connected clients
-     * @deprecated
-     */
-    public List<ClientInterfaceRMI> getClients() {
-        return rmiClients;
     }
 
     /**
@@ -128,25 +119,23 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     }
                     Player player = new Player(name);
                     player.setClientInterface(client);
+                    player.getClientInterfaceSocket().setClientName(name);
                     players.add(player);
                     socketClients.add(client);
-//                    sendTo(new ErrorEvent("Nickname valido."), client);
+
                     System.out.println("socketClient added.");
                     sendTo(new NickNameAcceptedEvent(), client);
 
                     if(players.size() == 2) {
                         timer = new Timer();
                         timer.start();
-                    }
-
-                    if(players.size() == 4) {
+                    } else if(players.size() == 4) {
                         timer.interrupt();
                         gameStarted = true;
                         createGame();
                     }
-                } else {
+                } else
                     handleSocketLostClient(client);
-                }
                 return;
             }
         }
@@ -169,29 +158,23 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         rmiClients.add(client);
 
                         System.out.println("rmiClient added.");
-                        sendTo(new NickNameAcceptedEvent(), client);
+                        sendTo(new NickNameAcceptedEvent(), player);
 
                         if (players.size() == 2) {
                             timer = new Timer();
                             timer.start();
-                        }
-
-                        if (players.size() == 4) {
+                        }else if (players.size() == 4) {
                             timer.interrupt();
                             gameStarted = true;
                             createGame();
                         }
-
-                        return;
                     }
                     catch (RemoteException e) {
                         System.out.println("Errore di connessione in addClient: " + e.getMessage());
                     }
-
-                } else {
+                } else
                     handleRMILostClients(client);
-                    return;
-                }
+                return;
             }
         }
         sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
@@ -203,9 +186,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      */
     private void handleSocketLostClient(ClientInterfaceSocket client) {
         for(Player player: players) {
-            if(player.getName().equals(client.getName())) {
+            if(player.isConnectionLost() && player.getName().equals(client.getClientName())) {
                 socketClients.add(client);
                 player.setClientInterface(client);
+                player.getClientInterfaceSocket().setClientName(client.getClientName());
+                player.setConnectionLost(false);
                 return;
             }
         }
@@ -218,15 +203,15 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private void handleRMILostClients(ClientInterfaceRMI client) {
         for(Player player: players) {
             try {
-                if(player.getName().equals(client.getName())) {
+                if(player.isConnectionLost() && player.getName().equals(client.getName())) {
                     rmiClients.add(client);
                     player.setClientInterface(client);
-                    connectionRMILostClients.remove(client);
+                    player.setConnectionLost(false);
                     return;
                 }
             }
             catch (RemoteException e) {
-                System.out.println("Errore di connessione in handleLostClients: " + e.getMessage());
+                System.out.println("Connection error in handleLostClients: " + e.getMessage());
             }
         }
     }
@@ -259,10 +244,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             try {
                 currentPlayer.getClientInterfaceRMI().notify(mvEvent);
             } catch (RemoteException e) {
-                if (!connectionRMILostClients.contains(currentPlayer.getClientInterfaceRMI())) {
-                    connectionRMILostClients.add(currentPlayer.getClientInterfaceRMI());
+                if (!currentPlayer.isConnectionLost()) {
                     rmiClients.remove(currentPlayer.getClientInterfaceRMI());
-                    System.out.println("Connection lost with " + currentPlayer.getName());
+                    currentPlayer.setConnectionLost(true);
+                    System.out.println(CONNECTION_LOST + currentPlayer.getName());
                 }
                 if(socketClients.size() + rmiClients.size() < 2)
                     controllerCLI.endGame();
@@ -276,27 +261,72 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
     @Override
     public void send(MVEvent mvEvent) {
-        for(ClientInterfaceRMI clientInterface: rmiClients) {
-            try {
-                clientInterface.notify(mvEvent);
-            }
-            catch (RemoteException e){
-                if (!connectionRMILostClients.contains(clientInterface)) {
-                    connectionRMILostClients.add(clientInterface);
-                    rmiClients.remove(clientInterface);
-                    System.out.println("Client removed");
+        for (Player player: players) {
+            if (player.getClientInterfaceRMI() != null) {
+                try {
+                    player.getClientInterfaceRMI().notify(mvEvent);
+                } catch (RemoteException e) {
+                    if (!player.isConnectionLost()) {
+                        rmiClients.remove(player.getClientInterfaceRMI());
+                        player.setConnectionLost(true);
+                        System.out.println(CONNECTION_LOST + player.getName());
+                    }
+                    if(rmiClients.size() + socketClients.size() < 2)
+                        controllerCLI.endGame();
                 }
+            } else {
+                player.getClientInterfaceSocket().notify(mvEvent);
             }
         }
-
-        for(ClientInterfaceSocket clientInterface: socketClients)
-            clientInterface.notify(mvEvent);
     }
 
 
     @Override
     public void notify(VCEvent vcEvent) {
         virtualViewCLI.forwardVCEvent(vcEvent);
+    }
+
+    private void tryConnections(List<Player> playersToBeRemoved) {
+        for (Player player : players) {
+            if (player.getClientInterfaceRMI() != null) {
+                try {
+                    player.getClientInterfaceRMI().testIfConnected();
+                } catch (RemoteException e) {
+                    if (gameStarted) {
+                        player.setConnectionLost(true);
+                    } else {
+                        playersToBeRemoved.add(player);
+                    }
+                    rmiClients.remove(player.getClientInterfaceRMI());
+                    System.out.println(CONNECTION_LOST + player.getName());
+                }
+            } else {
+                try {
+                    player.getClientInterfaceSocket().testIfConnected();
+                } catch (IOException e) {
+                    if (gameStarted) {
+                        player.setConnectionLost(true);
+                    } else {
+                        playersToBeRemoved.add(player);
+                    }
+                    socketClients.remove(player.getClientInterfaceSocket());
+                    System.out.println(CONNECTION_LOST + player.getName());
+                }
+            }
+        }
+    }
+
+    private void testConnections() {
+        List<Player> playersToBeRemoved = new ArrayList<>();
+        synchronized (lock) {
+            tryConnections(playersToBeRemoved);
+
+            for (Player player : playersToBeRemoved)
+                players.remove(player);
+
+            if (players.size() < 2 && timer.isAlive())
+                timer.interrupt();
+        }
     }
 
     /**
@@ -312,6 +342,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     if (gameStarted)
                         return;
                     if (rmiClients.size() + socketClients.size() > 1) {
+                        testConnections();
                         gameStarted = true;
                         createGame();
                     }
@@ -329,52 +360,38 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
         @Override
         public void run() {
-            try {
-                sleep(5000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
-            synchronized (lock) {
-                for (ClientInterfaceRMI client: rmiClients) {
-                    try {
-                        client.testIfConnected();
-                    } catch (RemoteException e) {
-                        if(gameStarted) {
-                            connectionRMILostClients.add(client);
-                        } else {
-                            RMIClientsToBeRemoved.add(client);
-                        }
-                        System.out.println("Connection lost with a client.");
-                    }
+            while (!gameStarted) {
+                try {
+                    sleep(5000);
+                    testConnections();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
                 }
-                //TODO testare anche per SocketClients
-
-                for(ClientInterfaceRMI client: connectionRMILostClients)
-                    rmiClients.remove(client);
-                for(ClientInterfaceRMI client: RMIClientsToBeRemoved)
-                    rmiClients.remove(client);
-                RMIClientsToBeRemoved.clear();
-
-                for(ClientInterfaceSocket client: connectionSocketLostClients)
-                    socketClients.remove(client);
-
-                if(rmiClients.size() + socketClients.size() < 2 && timer.isAlive())
-                    timer.interrupt();
             }
-
-            new ClientCollector().start();
         }
     }
 
     public void removeClient(ClientInterfaceSocket client) {
-        connectionSocketLostClients.add(client);
+        Player toBeRemoved = null;
         socketClients.remove(client);
-
-        if(socketClients.size() + rmiClients.size() < 2)
-            controllerCLI.endGame();
-        else
-            notify(new SkipTurnEvent());
+        for (Player player: players) {
+            if (gameStarted && player.getName().equals(client.getClientName())) {
+                toBeRemoved = player;
+                player.setConnectionLost(true);
+                if (socketClients.size() + rmiClients.size() < 2)
+                    controllerCLI.endGame();
+                else
+                    notify(new SkipTurnEvent());
+                break;
+            } else if (player.getName().equals(client.getClientName())) {
+                toBeRemoved = player;
+            }
+        }
+        if (!gameStarted)
+            players.remove(toBeRemoved);
+        if (toBeRemoved != null)
+            System.out.println(CONNECTION_LOST + toBeRemoved.getName());
     }
 
 }

@@ -72,11 +72,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         if(name.length() < 2) {
             System.out.println("LO USERNAME DEVE ESSERE LUNGO ALMENO 2 CARATTERI\n");
             askName();
+        } else {
+            name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+            NicknameEvent nicknameEvent = new NicknameEvent(name);
+            setChanged();
+            notifyObservers(nicknameEvent);
         }
-        name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        NicknameEvent nicknameEvent = new NicknameEvent(name);
-        setChanged();
-        notifyObservers(nicknameEvent);
     }
 
     /**
@@ -413,7 +414,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
         else if(event.getClass() == NickNameAcceptedEvent.class)
             System.out.println("Nickname valido.\nATTENDI.\n");
-        else if(event.getClass() != NewObserverEvent.class) {
+        else {
             mvEvent = (MVEvent) event;
             mvEvents.get(mvEvent.getId()).run();
         }

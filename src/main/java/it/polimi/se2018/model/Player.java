@@ -31,6 +31,7 @@ public class Player {
     private Map<String, Integer> publicObjectiveCards = new HashMap<>();
     private ClientInterfaceRMI clientInterfaceRMI;
     private ClientInterfaceSocket clientInterfaceSocket;
+    private boolean connectionLost = false;
 
 
     //Constructor
@@ -70,6 +71,8 @@ public class Player {
 
     public boolean isToolCardUsed() { return toolCardUsed; }
 
+    public boolean isConnectionLost() { return connectionLost; }
+
     public void setScore(int score) { this.score = score; }
 
     private void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
@@ -105,7 +108,7 @@ public class Player {
 
     public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 
-
+    public void setConnectionLost(boolean connectionLost) { this.connectionLost = connectionLost; }
 
     /**
      * This method reduces the number of favor tokens by cost every time that a tool card is used

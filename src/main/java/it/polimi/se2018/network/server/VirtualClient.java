@@ -17,6 +17,8 @@ import static it.polimi.se2018.network.server.Server.getServerImplementation;
 public class VirtualClient extends Thread implements ClientInterfaceSocket {
 
     private Socket clientSocket;
+    private String clientName;
+    private ObjectOutputStream stream;
 
     /**
      * This constructor only sets the clientSocket attrribute
@@ -27,8 +29,16 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
     }
 
     @Override
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    @Override
     public void notify(MVEvent mvEvent) {
-        ObjectOutputStream stream;
 
         try {
             stream = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -36,7 +46,7 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
             stream.flush();
         }
         catch (IOException e) {
-            System.out.println("Connection lost with a socketClient!");
+            getServerImplementation().removeClient(this);
         }
     }
 
@@ -65,8 +75,9 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
         }
     }
 
-    //TODO vedere se serve davvero questo metodo --> sempre più convinto di no
-    public void testIfConnected() {
-        //This method is used only to test if the connection of a client is lost.
+    public void testIfConnected() throws IOException {
+        stream = new ObjectOutputStream(clientSocket.getOutputStream());
+        stream.writeObject("test");
+        stream.flush();
     }
 }
