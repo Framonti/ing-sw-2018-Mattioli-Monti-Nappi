@@ -104,6 +104,11 @@ public class RoundTrack {
         return roundTrack;
     }
 
+    /**
+     * Gets a List of path for the GUI representation of a round of the RoundTrack.
+     * @param round the round to be represented
+     * @return A List of path for the GUI representation of a round of the RoundTrack.
+     */
     private List<String> roundToStringPath(int round){
         ArrayList<String> list = new ArrayList<>();
         for (Dice dice: roundList.get(round))
@@ -113,6 +118,10 @@ public class RoundTrack {
         return list;
     }
 
+    /**
+     * Gets a List of path for the GUI representation the whole RoundTrack.
+     * @return A List of path for the GUI representation of the whole RoundTrack.
+     */
     public List<String> toStringPath(){
         ArrayList<String> list = new ArrayList<>();
         for(int i = 0 ; i < 10; i++){
@@ -126,6 +135,9 @@ public class RoundTrack {
         return list;
     }
 
+    /**
+     * Removes everything from the roundTrack
+     */
     public void removeAll(){
         roundList.clear();
     }

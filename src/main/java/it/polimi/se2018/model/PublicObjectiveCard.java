@@ -6,7 +6,6 @@ package it.polimi.se2018.model;
  */
 public class PublicObjectiveCard extends ObjectiveCard {
 
-
     private int victoryPoint; //This attribute will be 0 only for the card "Diagonali Colorate"
 
     /**
@@ -24,7 +23,6 @@ public class PublicObjectiveCard extends ObjectiveCard {
      * Gets public objective card victory point
      * @return public objective card victory point
      */
-
     public int getVictoryPoint (){
         return this.victoryPoint;
     }
@@ -42,6 +40,10 @@ public class PublicObjectiveCard extends ObjectiveCard {
         return  toReturn;
     }
 
+    /**
+     * Gets a String representing a path for the GUI representation of this card
+     * @return A String representing a path for the GUI representation
+     */
     public String toStringPath(){
         String toReturn = "src/main/Images/PublicObjectiveCard/";
         String toConcat = this.getName().replaceAll("\\s","");

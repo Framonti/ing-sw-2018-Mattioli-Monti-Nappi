@@ -6,11 +6,6 @@ import it.polimi.se2018.events.vcevent.SinglePlayerEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BackgroundImage;
-
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.*;
 
 public class WaitingRoomController extends Observable implements Observer {
@@ -22,12 +17,12 @@ public class WaitingRoomController extends Observable implements Observer {
     private MVEvent mvEvent;
 
     @FXML
-    private void singlePlayerGame(){
+ /*   private void singlePlayerGame(){
 
         SinglePlayerEvent singlePlayerEvent = new SinglePlayerEvent(true);
         setChanged();
         notifyObservers(singlePlayerEvent);
-    }
+    }*/
 
     @Override
     public void update(Observable o, Object arg) {

@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
-import it.polimi.se2018.events.mvevent.DraftPoolEvent;
 
+import it.polimi.se2018.events.mvevent.DraftPoolEvent;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -123,6 +123,10 @@ public class Dice
         return this.getValue();
     }
 
+    /**
+     * Gets a path for the GUI representation of the dice
+     * @return A String representing a path
+     */
     public String toStringPath(){
         return "src/main/Images/Dices/dice"+this.getValue()+this.getColour().getAbbreviation()+".png";
     }

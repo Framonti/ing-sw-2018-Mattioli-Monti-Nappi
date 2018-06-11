@@ -185,7 +185,6 @@ public class EndScreenController extends Observable implements Observer {
     private void scoreTrackEventHandler(MVEvent mvEvent){
 
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
-        //sortPlayers(scoreTrackEvent);
         setRankingLabels(scoreTrackEvent);
         placeScoreMarkersOnScene(scoreTrackEvent.getScores());
     }
@@ -200,31 +199,16 @@ public class EndScreenController extends Observable implements Observer {
      */
     public void initialize(){
 
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerB.png", blueScoreMarker);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerB.png", blueScoreMarker2);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerR.png", redScoreMarker);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerR.png", redScoreMarker2);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerY.png", yellowScoreMarker);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerY.png", yellowScoreMarker2);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerG.png", greenScoreMarker);
-        imageLoader("src/main/Images/ScoreMarker/ScoreMarkerG.png", greenScoreMarker2);
+        blueScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerB.png")));
+        blueScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerB.png")));
+        redScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerR.png")));
+        redScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerR.png")));
+        greenScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerG.png")));
+        greenScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerG.png")));
+        yellowScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
+        yellowScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
     }
 
-    /**
-     * Loads an image from a path
-     * @param path The path from which load the image
-     * @param imageView The ImageView that will contains the image
-     */
-    private void imageLoader(String path, ImageView imageView){
-        File imageFile = new File(path);
-        String url = null;
-        try {
-            url = imageFile.toURI().toURL().toString();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        imageView.setImage(new Image(url));
-    }
 
 
     @Override

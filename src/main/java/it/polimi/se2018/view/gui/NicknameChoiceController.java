@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.gui;
 
-import com.sun.xml.internal.ws.api.FeatureConstructor;
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import javafx.fxml.FXML;
@@ -8,13 +7,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import javax.swing.text.View;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * This class manages the nickname.fxml file
+ * @author Framonti
  */
 public class NicknameChoiceController extends Observable implements Observer{
 
@@ -25,7 +23,6 @@ public class NicknameChoiceController extends Observable implements Observer{
     @FXML private Label nickAlreadyTaken2;
     @FXML private Label nickAlreadyTaken3;
     private boolean firstTime;
-
 
     /**
      * Manages the behaviour of the textField

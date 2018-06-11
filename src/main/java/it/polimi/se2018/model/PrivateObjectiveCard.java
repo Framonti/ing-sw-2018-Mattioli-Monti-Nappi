@@ -33,6 +33,10 @@ public class PrivateObjectiveCard extends ObjectiveCard {
         return this.getName() + "\n" + this.getDescription()+"\n";
     }
 
+    /**
+     * Gets a String representing a path for the GUI representation of this card
+     * @return A String representing a path for the GUI representation
+     */
     public String toStringPath(){
         return "src/main/Images/PrivateObjectiveCard/Sfumature"+this.getColour().getAbbreviation()+".jpg";
     }

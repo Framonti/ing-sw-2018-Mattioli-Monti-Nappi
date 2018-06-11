@@ -58,18 +58,17 @@ public class GameSetupSingleton {
         return windowPatternCardDeck.mixAndDistribute(playersNumber*2);
     }
 
+    private List<ToolCard> getToolCardList(int numberToExtract){
+        return toolCardDeck.mixAndDistribute(numberToExtract);
+    }
+
     //serve?
     public  List<Player> getPlayers() {
         return players;
     }
 
-
-    private List<ToolCard> getToolCardList(int numberToExtract){
-        return toolCardDeck.mixAndDistribute(numberToExtract);
-    }
-
     //orders players randomly
-    public void choosePlayersOrder(){
+    private void choosePlayersOrder(){
         Collections.shuffle(players);
     }
 

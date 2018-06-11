@@ -1,7 +1,6 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.mvevent.DicePatternEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,14 @@ public class DicePattern {
     public Dice getDice(Position position) {
 
         return diceMatrix[position.getX()][position.getY()];
+    }
+
+    /**
+     * Gets the WindowPattern attribute
+     * @return The WindowPattern attribute
+     */
+    public WindowPattern getWindowPattern() {
+        return windowPattern;
     }
 
     /**
@@ -280,6 +287,10 @@ public class DicePattern {
         return list;
     }
 
+    /**
+     * Gets a List of Strings that represents path for files for all the Dice on the DicePattern
+     * @return A List of Strings that represents path for files all the Dice on the DicePattern
+     */
     public List<String> dicePatternToStringPath(){
         ArrayList<String> list = new ArrayList<>();
         int row = 4;
@@ -296,13 +307,14 @@ public class DicePattern {
         return list;
     }
 
+    /**
+     * Gets a List of List. Each List represents a DicePattern and contains Strings representing path for the GUI representation of Dice
+     * @return A List of List. Each List represents a DicePattern and contains Strings representing path for the GUI representation of Dice
+     */
     public List<List<String>> dicePatternToStringPathOneList() {
         List<List<String>> list = new ArrayList<>();
         list.add(this.dicePatternToStringPath());
         return list;
     }
 
-    public WindowPattern getWindowPattern() {
-        return windowPattern;
-    }
 }

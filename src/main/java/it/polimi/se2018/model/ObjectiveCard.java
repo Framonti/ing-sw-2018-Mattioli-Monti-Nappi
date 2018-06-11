@@ -10,7 +10,6 @@ public abstract class ObjectiveCard {
     private String name;
     private String description;
 
-
     /**
      * Constructor of the class
      * @param name objective card name
@@ -20,7 +19,6 @@ public abstract class ObjectiveCard {
         this.name = name;
         this.description = description;
     }
-
 
     /**
      * gets objective card name

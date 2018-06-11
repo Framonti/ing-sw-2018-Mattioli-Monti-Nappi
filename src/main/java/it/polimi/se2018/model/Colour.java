@@ -6,23 +6,20 @@ package it.polimi.se2018.model;
  */
 public enum Colour {
 
-    YELLOW("#e8cf14", "G"),
-    GREEN("#0ba363", "V"),
-    RED("#de3929", "R"),
-    PURPLE("#a1488e", "F"),
-    BLUE("#2da8bb", "B");
+    YELLOW("G"),
+    GREEN("V"),
+    RED("R"),
+    PURPLE("F"),
+    BLUE("B");
 
-    private final String colourHEX;
     private final String abbreviation;
 
     /**
      * Constructor
-     * @param colorHex A String that represents the hexadecimal code for the colour
      * @param abbreviation  A single letter for a quick representation of the colour itself
      */
-    Colour(String colorHex, String abbreviation) {
+    Colour( String abbreviation) {
 
-        this.colourHEX = colorHex;
         this.abbreviation = abbreviation;
     }
 
@@ -42,15 +39,6 @@ public enum Colour {
             case "GREEN" : return  Colour.GREEN;
             default : throw new IllegalArgumentException("Illegal Colour");
         }
-    }
-
-    /**
-     * Gets the ColourHex attribute
-     * @return This colourHex
-     */
-    public String getColourHEX() {
-
-        return this.colourHEX;
     }
 
     /**

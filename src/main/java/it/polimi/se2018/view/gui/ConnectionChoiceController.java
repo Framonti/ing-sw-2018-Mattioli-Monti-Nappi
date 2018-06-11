@@ -1,15 +1,10 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.ConnectionChoiceEvent;
-import it.polimi.se2018.events.ConnectionEstablishedEvent;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import java.net.MalformedURLException;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * This class manages the ConnectionChoice.fxml file
