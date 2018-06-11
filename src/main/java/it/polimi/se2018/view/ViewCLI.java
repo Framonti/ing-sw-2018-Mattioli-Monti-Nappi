@@ -27,6 +27,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private VCEvent vcEvent;
     private Scanner scanner;
     private BufferedReader reader;
+    private boolean firstTimeNick;
 
 
     /**
@@ -72,9 +73,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         if(name.length() < 2) {
             System.out.println("LO USERNAME DEVE ESSERE LUNGO ALMENO 2 CARATTERI\n");
             askName();
-        } else {
+        }
+        else{
             name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-            NicknameEvent nicknameEvent = new NicknameEvent(name);
+            NicknameEvent nicknameEvent = new NicknameEvent(name, firstTimeNick);
             setChanged();
             notifyObservers(nicknameEvent);
         }
@@ -410,11 +412,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void update(Observable model, Object event) {
         if(event.getClass() == ConnectionEstablishedEvent.class){
+            firstTimeNick = ((ConnectionEstablishedEvent) event).isFirstTimeNickname();
             askName();
         }
         else if(event.getClass() == NickNameAcceptedEvent.class)
             System.out.println("Nickname valido.\nATTENDI.\n");
-        else {
+        else if(event.getClass() != NewObserverEvent.class) {
             mvEvent = (MVEvent) event;
             mvEvents.get(mvEvent.getId()).run();
         }

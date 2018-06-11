@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #838383;" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.NicknameChoiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #838383;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.NicknameChoiceController">
    <children>
-      <TextField fx:id="textField" layoutX="565.0" layoutY="385.0" onAction="#nicknameEntered" prefHeight="130.0" prefWidth="751.0" promptText="Nickname">
+      <TextField fx:id="textField" layoutX="565.0" layoutY="416.0" onAction="#nicknameEntered" prefHeight="130.0" prefWidth="751.0" promptText="Nickname">
          <font>
             <Font name="Calibri" size="72.0" />
          </font></TextField>
@@ -17,12 +17,12 @@
          <font>
             <Font name="Calibri" size="84.0" />
          </font></Label>
-      <Label layoutX="157.0" layoutY="409.0" text="Nickname: " textFill="WHITE">
+      <Label layoutX="152.0" layoutY="440.0" text="Nickname: " textFill="WHITE">
          <font>
             <Font name="Calibri" size="72.0" />
          </font>
       </Label>
-      <Button fx:id="confirmButton" layoutX="768.0" layoutY="625.0" mnemonicParsing="false" onAction="#nicknameEntered" prefHeight="100.0" prefWidth="225.0" text="Conferma">
+      <Button fx:id="confirmButton" layoutX="768.0" layoutY="641.0" mnemonicParsing="false" onAction="#nicknameEntered" prefHeight="100.0" prefWidth="225.0" text="Conferma">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -33,12 +33,32 @@
          <font>
             <Font name="Calibri" size="84.0" />
          </font></Label>
-      <Button fx:id="exitButton" layoutX="1090.0" layoutY="625.0" mnemonicParsing="false" onAction="#exitFromButton" prefHeight="100.0" prefWidth="225.0" text="Esci">
+      <Button fx:id="exitButton" layoutX="1091.0" layoutY="641.0" mnemonicParsing="false" onAction="#exitFromButton" prefHeight="100.0" prefWidth="225.0" text="Esci">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="Calibri" size="36.0" />
          </font></Button>
+      <Label fx:id="nickAlreadyTaken1" layoutX="152.0" layoutY="582.0" opacity="0.0" text="Il nickname che hai inserito" textFill="RED">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="nickAlreadyTaken2" layoutX="152.0" layoutY="620.0" opacity="0.0" text="è già stato scelto da qualcun altro " textFill="RED">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="nickAlreadyTaken3" layoutX="152.0" layoutY="683.0" opacity="0.0" text="Inseriscine uno nuovo" textFill="RED">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="578.0" layoutY="318.0" text="(Lunghezza minima: due caratteri)" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="32.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

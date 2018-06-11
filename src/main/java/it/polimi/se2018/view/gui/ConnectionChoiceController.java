@@ -52,6 +52,7 @@ public class ConnectionChoiceController extends Observable{
      */
     @FXML
     private void getIpServer(){
+
         if(!ipServer.getText().equals("")){
             ipAddressString = ipServer.getText();
             socketButton.setOpacity(1);

@@ -6,6 +6,11 @@ import it.polimi.se2018.events.vcevent.SinglePlayerEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.*;
 
 public class WaitingRoomController extends Observable implements Observer {
@@ -44,5 +49,4 @@ public class WaitingRoomController extends Observable implements Observer {
             }
         }
     }
-
 }

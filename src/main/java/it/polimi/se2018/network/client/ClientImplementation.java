@@ -30,6 +30,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private String name;
     private int connectionChoice;
     private boolean isGUI;
+    private ClientInterfaceRMI remoteReference = null;
 
     public ClientImplementation(boolean isGUI) {
         this.isGUI = isGUI;
@@ -51,7 +52,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             setChanged();
             notifyObservers(mvEvent);
         }
-        else if (isGUI) {
+        else if (isGUI && mvEvent.getId() != 9) {
             setChanged();
             notifyObservers(mvEvent);
             if (mvEvent.getId() == 56 || mvEvent.getId() == 30 || mvEvent.getId() == 40 || mvEvent.getId() == 60) {
@@ -113,11 +114,12 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
 
     private void tryNickname(NicknameEvent nicknameEvent) {
         if(connectionChoice == 1) {
-            ClientInterfaceRMI remoteReference = null;
-            try {
-                remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            if(nicknameEvent.isFirstTime()){
+                try {
+                    remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             try {

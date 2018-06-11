@@ -46,7 +46,7 @@ public class EndScreenController extends Observable implements Observer {
     @FXML
     private void exitButtonAction(){
 
-        GUIManager.closeProgram();
+        ViewGUI.closeProgram();
     }
 
 

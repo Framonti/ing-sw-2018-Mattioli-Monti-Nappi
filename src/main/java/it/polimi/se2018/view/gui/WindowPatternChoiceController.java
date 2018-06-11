@@ -4,6 +4,7 @@ import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
 import it.polimi.se2018.events.vcevent.WindowPatternChoiceEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,10 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.paint.Color;
 
+/**
+ * This controller class manages the WindowPatternChoice.fxml file
+ * @author Framonti
+ */
 public class WindowPatternChoiceController extends Observable implements Observer {
 
     @FXML private ImageView windowPattern1;
@@ -27,8 +33,13 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private Button confirmButton;
     @FXML private Button cancelButton;
     @FXML private AnchorPane scene;
+    @FXML private Label waitYourTurn1;
+    @FXML private Label waitYourTurn2;
     private int chosen;
 
+    /**
+     * Sets visual effects when a windowPattern is selected and enable the Confirm and Cancel buttons
+     */
     private void windowPatternSelected(){
 
         deleteBorderGlow();
@@ -38,6 +49,10 @@ public class WindowPatternChoiceController extends Observable implements Observe
         cancelButton.setDisable(false);
     }
 
+    /**
+     * Create a DropShadow effect
+     * @return A DropShadow effect
+     */
     private DropShadow setBorderGlow(){
         DropShadow borderGlow = new DropShadow();
         borderGlow.setColor(Color.BLUE);
@@ -47,6 +62,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
         return borderGlow;
     }
 
+    /**
+     * Deletes an already existing DropShadow effect
+     */
     private void deleteBorderGlow(){
 
         switch (chosen){
@@ -62,6 +80,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
         }
     }
 
+    /**
+     * Sets the first windowPattern as selected
+     */
     @FXML
     private void windowPattern1Chosen(){
 
@@ -70,6 +91,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
         chosen = 1;
     }
 
+    /**
+     * Sets the second windowPattern as selected
+     */
     @FXML
     private void windowPattern2Chosen(){
 
@@ -78,6 +102,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
         chosen = 2;
     }
 
+    /**
+     * Sets the third windowPattern as selected
+     */
     @FXML
     private void windowPattern3Chosen(){
 
@@ -86,6 +113,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
         chosen = 3;
     }
 
+    /**
+     * Sets the forth windowPattern as selected
+     */
     @FXML
     private void windowPattern4Chosen(){
 
@@ -94,6 +124,10 @@ public class WindowPatternChoiceController extends Observable implements Observe
         chosen = 4;
     }
 
+    /**
+     * Manages the behaviour of the confirmButton
+     * It creates an WindowPatternChoiceEvent when pressed
+     */
     @FXML
     private void confirmButtonPressed(){
 
@@ -104,6 +138,10 @@ public class WindowPatternChoiceController extends Observable implements Observe
         scene.setDisable(true);
     }
 
+    /**
+     * Manages the behaviour of the cancelButton
+     * It deselected everything and disable the buttons
+     */
     @FXML
     private void cancelButtonPressed(){
 
@@ -116,23 +154,17 @@ public class WindowPatternChoiceController extends Observable implements Observe
 
     }
 
+    /**
+     * Sets on screen the images of the possible WindowPatterns, from which an user have to choose
+     * @param windowPatternsEvent The windowPatternEvent sent by the server
+     */
     public void setWindowPatterns(WindowPatternsEvent windowPatternsEvent){
 
         List<String> urlStringList = new ArrayList<>();
 
-        for(int i = 0; i<windowPatternsEvent.getWindowPatternsGUI().size(); i++) {
+        for(int i = 0; i<windowPatternsEvent.getWindowPatternsGUI().size(); i++)
+            urlStringList.add(ViewGUI.getUrlFromPath(windowPatternsEvent.getWindowPatternsGUI().get(i)));
 
-            File fileWindowPattern1 = new File(windowPatternsEvent.getWindowPatternsGUI().get(i));
-            String url = null;
-            try {
-                url = fileWindowPattern1.toURI().toURL().toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            urlStringList.add(url);
-        }
-
-        //TODO fare in modo che sia sicuro, nel senso di assicurarsi che la lista sia di 4 elementi
         windowPattern1.setImage(new Image(urlStringList.get(0)));
         windowPattern2.setImage(new Image(urlStringList.get(1)));
         windowPattern3.setImage(new Image(urlStringList.get(2)));
@@ -140,19 +172,26 @@ public class WindowPatternChoiceController extends Observable implements Observe
 
     }
 
-    @FXML
-    public void initialize(){
-
-        windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
-        windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
-        windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
-        windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
-    }
-
     @Override
     public void update(Observable o, Object arg) {
 
        WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
        this.setWindowPatterns(windowPatternsEvent);
+       waitYourTurn1.setVisible(false);
+       waitYourTurn2.setVisible(false);
+       windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
+       windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
+       windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
+       windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
+    }
+
+    /**
+     * Initializes the scene, by setting its background
+     */
+    public void initialize(){
+
+        Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.jpg"));
+        BackgroundImage myBGI = new BackgroundImage(background, null, null,null, null);
+        scene.setBackground(new Background(myBGI));
     }
 }
