@@ -3,14 +3,9 @@ package it.polimi.se2018.controller;
 //TODO: favor tokens e mostrare i dice pattern degli altri
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
-import it.polimi.se2018.model.Dice;
 import it.polimi.se2018.model.Position;
-import it.polimi.se2018.model.RoundTrack;
-import it.polimi.se2018.model.ToolCard;
 import it.polimi.se2018.view.gui.OurGridPane;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,145 +22,66 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 public class GameController extends Observable implements Observer {
 
-    @FXML
-    private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+    @FXML private AnchorPane pane;
 
-    @FXML
-    private Button skipTurnButton;
+    @FXML private Button skipTurnButton;
 
-    @FXML
-    private ImageView toolCard1;
+    @FXML private ImageView toolCard1;
+    @FXML private ImageView toolCard2;
+    @FXML private ImageView toolCard3;
 
-    @FXML
-    private GridPane roundTrackGridPane;
+    @FXML private ImageView publicObjectiveCard1;
+    @FXML private ImageView publicObjectiveCard2;
+    @FXML private ImageView publicObjectiveCard3;
+    @FXML private ImageView privateObjectiveCard;
 
-    @FXML
-    private ImageView dicePatternImage10;
+    @FXML private ImageView windowPattern4;
+    @FXML private ImageView windowPattern3;
+    @FXML private ImageView windowPattern2;
+    @FXML private ImageView windowPattern1;
 
-    @FXML
-    private ImageView dicePatternImage32;
+    @FXML private GridPane dicePatternGridPane4;
+    @FXML private GridPane dicePatternGridPane3;
+    @FXML private GridPane dicePatternGridPane2;
+    @FXML private GridPane dicePatternGridPane1;
 
-    @FXML
-    private GridPane draftPool;
+    @FXML private ImageView dicePatternImage00;
+    @FXML private ImageView dicePatternImage01;
+    @FXML private ImageView dicePatternImage02;
+    @FXML private ImageView dicePatternImage03;
+    @FXML private ImageView dicePatternImage04;
+    @FXML private ImageView dicePatternImage10;
+    @FXML private ImageView dicePatternImage11;
+    @FXML private ImageView dicePatternImage12;
+    @FXML private ImageView dicePatternImage13;
+    @FXML private ImageView dicePatternImage14;
+    @FXML private ImageView dicePatternImage20;
+    @FXML private ImageView dicePatternImage21;
+    @FXML private ImageView dicePatternImage22;
+    @FXML private ImageView dicePatternImage23;
+    @FXML private ImageView dicePatternImage24;
+    @FXML private ImageView dicePatternImage30;
+    @FXML private ImageView dicePatternImage31;
+    @FXML private ImageView dicePatternImage32;
+    @FXML private ImageView dicePatternImage33;
+    @FXML private ImageView dicePatternImage34;
 
-    @FXML
-    private ImageView dicePatternImage31;
+    @FXML private GridPane roundTrackGridPane;
 
-    @FXML
-    private ImageView toolCard3;
+    @FXML private GridPane draftPool;
 
-    @FXML
-    private ImageView dicePatternImage12;
+    @FXML private ImageView roundTrack;
 
-    @FXML
-    private ImageView dicePatternImage34;
+    @FXML private GridPane favorTokensGridPane;
 
-    @FXML
-    private ImageView toolCard2;
-
-    @FXML
-    private ImageView dicePatternImage11;
-
-    @FXML
-    private ImageView dicePatternImage33;
-
-    @FXML
-    private ImageView dicePatternImage14;
-
-    @FXML
-    private ImageView dicePatternImage13;
-
-    @FXML
-    private ImageView dicePatternImage30;
-
-    @FXML
-    private AnchorPane pane;
-
-    @FXML
-    private ImageView publicObjectiveCard2;
-
-    @FXML
-    private ImageView dicePatternImage21;
-
-    @FXML
-    private ImageView publicObjectiveCard3;
-
-    @FXML
-    private ImageView dicePatternImage20;
-
-    @FXML
-    private ImageView dicePatternImage01;
-
-    @FXML
-    private ImageView dicePatternImage23;
-
-    @FXML
-    private ImageView publicObjectiveCard1;
-
-    @FXML
-    private ImageView dicePatternImage00;
-
-    @FXML
-    private ImageView dicePatternImage22;
-
-    @FXML
-    private ImageView roundTrack;
-
-    @FXML
-    private ImageView dicePatternImage03;
-
-    @FXML
-    private ImageView dicePatternImage02;
-
-    @FXML
-    private ImageView dicePatternImage24;
-
-    @FXML
-    private ImageView dicePatternImage04;
-
-    @FXML
-    private ImageView privateObjectiveCard;
-
-    @FXML
-    private GridPane favorTokensGridPane;
-
-    @FXML
-    private ImageView windowPattern4;
-
-    @FXML
-    private ImageView windowPattern3;
-
-    @FXML
-    private ImageView windowPattern2;
-
-    @FXML
-    private ImageView windowPattern1;
-
-    @FXML
-    private GridPane dicePatternGridPane4;
-
-    @FXML
-    private GridPane dicePatternGridPane3;
-
-    @FXML
-    private GridPane dicePatternGridPane2;
-
-    @FXML
-    private GridPane dicePatternGridPane1;
-
-
+    @FXML private Label turnLabel;
 
     private ImageView diceChosenFromDraftPool;
     private Position dicePatternPosition;
@@ -175,7 +91,7 @@ public class GameController extends Observable implements Observer {
     private MVEvent mvEvent;
     private String eventParameters;
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
-    private Map<Integer, Runnable> vcEvents = new HashMap<>();
+    //private Map<Integer, Runnable> vcEvents = new HashMap<>();
 
 
     private boolean isDraftPoolUsed = false;
@@ -212,7 +128,6 @@ public class GameController extends Observable implements Observer {
     private List<OurGridPane> ourGridPaneList = new ArrayList<>();
 
 
-
     //TODO: quando un untente usa una toolcard io setto istoolcard used a true. Il turno successivo deve essere false
 
     @FXML
@@ -225,7 +140,7 @@ public class GameController extends Observable implements Observer {
         initializeGridPaneImagesView(draftPool, 1, 9, 59, 69);
 
         createMVMap();
-        createVCMap();
+        // createVCMap();
 
         addImageToImageView("src/main/Images/Others/RoundTrack.png",roundTrack,150,776);
         //TODO: questa cosa non mi piace molto, ma con i metodi initialize se poi clicco su un'immagine vuola, non so perchè ma non prende il click
@@ -309,15 +224,12 @@ public class GameController extends Observable implements Observer {
 
 
     public void initializeDicePatternEventHandler(GridPane gridPane) {
-        //int i = 1;
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 ImageView tmp = (ImageView) node;
                 tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDicePositionFromDicePattern(tmp));
-                //i++;
             }
         }
-        //System.out.println(i);
     }
 
     public void initializeRoundTrackEventHandler(GridPane gridPane) {
@@ -484,19 +396,23 @@ public class GameController extends Observable implements Observer {
         mvEvents.put(5, ()-> {});
         mvEvents.put(6, ()->handleActionMenu(mvEvent));
         mvEvents.put(7, ()-> showAll(mvEvent));
-       // mvEvents.put(8, ()-> updateFavorTokens(mvEvent)); //TODO: da fare
+        // mvEvents.put(8, ()-> updateFavorTokens(mvEvent)); //TODO: da fare
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> {});
         mvEvents.put(11, ()->handleGetInput());
-        mvEvents.put(12, ()-> showEndTurn(mvEvent)); //questo arriva se è finito il tempo, giusto?
+        mvEvents.put(12, ()-> {
+                                showEndTurn(mvEvent);
+                                turnLabel.setStyle("-fx-background-color: #ff0000;");
+                                });//questo arriva se è finito il tempo, giusto?
         mvEvents.put(13, ()-> {});
         mvEvents.put(14, ()-> {});
         mvEvents.put(15, ()->{});
+        mvEvents.put(99, ()->updateDicePatterns(mvEvent));
     }
 
 
 
-    private void createVCMap() {
+   /* private void createVCMap() {
         vcEvents.put(-1, () -> vcEvent = new WindowPatternChoiceEvent(eventParameters));
         vcEvents.put(1, () -> vcEvent = new GrozingPliersEvent(eventParameters));
         vcEvents.put(2, () -> vcEvent = new EglomiseBrushEvent(eventParameters));
@@ -511,33 +427,8 @@ public class GameController extends Observable implements Observer {
         vcEvents.put(11, () -> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
         vcEvents.put(12, () -> vcEvent = new TapWheelEvent(eventParameters));
         vcEvents.put(13, () -> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
-    }
-
-    /*public void setWindowPatterns(MVEvent event){
-        SetWindowPatternsGUIEvent setWindowPatternsGUIEvent = (SetWindowPatternsGUIEvent) event;
-        switch(setWindowPatternsGUIEvent.getWindowPatternsGUI().size()){
-            case 1:
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(0), windowPattern1,460, 520);
-                break;
-            case 2:
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(0), windowPattern1,460, 520);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(1), windowPattern2,180, 199);
-                break;
-            case 3:
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(0), windowPattern1,460, 520);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(1), windowPattern2,180, 199);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(2), windowPattern3,180, 199);
-                break;
-            case 4:
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(0), windowPattern1,460, 520);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(1), windowPattern2,180, 199);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(2), windowPattern3,180, 199);
-                addImageToImageView(setWindowPatternsGUIEvent.getWindowPatternsGUI().get(3), windowPattern4,180, 199);
-                break;
-            default:
-                break;
-        }
     }*/
+
 
     public void handleGetInput(){
         diceMoved = false;
@@ -560,8 +451,11 @@ public class GameController extends Observable implements Observer {
             updateRoundTrack(showAllEvent.getRoundTrack());
             updatePublicObjectiveCards(showAllEvent.getPublicObjectiveCardsGUI());
             updatePrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardStringGUI());
-            //setWindowPatterns(showAllEvent.getSetWindowPatternsGUIEvent());
             imageViewsSetup = true;
+        }
+        else{
+            System.out.println("sono nel secondo showAll");
+            turnLabel.setStyle("-fx-background-color: #00ff19;");
         }
     }
 
@@ -638,6 +532,7 @@ public class GameController extends Observable implements Observer {
     public void skipTurn(){
         setChanged();
         notifyObservers(new SkipTurnEvent());
+        turnLabel.setStyle("-fx-background-color: #ff0000;");
     }
     private void showEndTurn(MVEvent event){
         Platform.runLater(this::showEndTurnAlert);
@@ -896,15 +791,17 @@ public class GameController extends Observable implements Observer {
     //tool card che intragiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
     //tool card che interagiscono con il round track : 5, 12
 
+
+    //TODO: forse posso sostituire isToolcard1selected ecc con isToolCardSelected
     public void getDiceIndexFromDraftPool(ImageView imageView) {
-        System.out.println("sono nella draftppol");
+        System.out.println("sono nella draftpool");
         imageView.setEffect(setBorderGlow());
         diceChosenFromDraftPool = imageView;
         diceIndexDraftPool = GridPane.getColumnIndex(imageView);
-        System.out.println(diceIndexDraftPool);
-        if ((!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected) || (idToolCardSelected >= 8 && idToolCardSelected <= 9)) {
+        System.out.println(diceIndexDraftPool+1);
+        if ((!isToolCard1Selected && !isToolCard2Selected && !isToolCard3Selected) || (idToolCardSelected == 8 || idToolCardSelected == 9)) {
             //hai selezionato un dado nella draftpool, quindi disattivo tutto a parte il dice pattern e aspetto che ci sia un click sul dicepattern
-            diceMoved = true;
+            //diceMoved = true;
             //disableAllExceptDicePattern();
         } else if (idToolCardSelected == 1) {
             grozingPliersWindow();
@@ -1034,6 +931,7 @@ public class GameController extends Observable implements Observer {
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
+            diceMoved = true;
             //ableMajorObjects();
         } else if ((idToolCardSelected == 2 && step == 1) || (idToolCardSelected == 3 && step == 1) || (idToolCardSelected == 4 && step == 1) || (idToolCardSelected == 12 && step == 1)) {
             initialPosition = new Position(row, column);

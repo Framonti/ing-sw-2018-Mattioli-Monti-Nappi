@@ -856,6 +856,21 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         public void run() {
             model.extractAndRoll();
 
+            for(Player player : model.getPlayers()){
+                view.setCurrentPlayer(player);
+                model.setCurrentPlayer(player);
+                view.showAll(new ShowAllEvent(
+                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
+                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
+                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
+                        new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
+                        new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
+                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
+                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath()))
+                );
+            }
+            model.setCurrentPlayer(model.getPlayers().get(0));
+            view.setCurrentPlayer(model.getPlayers().get(0));
             while (model.getRound() < 11) {
                 turnTimer = new TurnTimer();
                 playerTurn = new PlayerTurn();
