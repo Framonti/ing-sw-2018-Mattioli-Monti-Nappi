@@ -65,6 +65,10 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 setChanged();
                 notifyObservers(new ConnectionEstablishedEvent(false));
             }
+            else{
+                setChanged();
+                notifyObservers(errorEvent);
+            }
         }
     }
 

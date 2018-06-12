@@ -855,7 +855,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         @Override
         public void run() {
             model.extractAndRoll();
-
             for(Player player : model.getPlayers()){
                 view.setCurrentPlayer(player);
                 model.setCurrentPlayer(player);
