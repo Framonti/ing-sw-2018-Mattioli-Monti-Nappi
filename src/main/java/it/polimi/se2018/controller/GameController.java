@@ -474,6 +474,7 @@ public class GameController extends Observable implements Observer {
             updateRoundTrack(showAllEvent.getRoundTrack());
             ableDraftPool();
             ableToolCards();
+            skipTurnButton.setDisable(false);
 
         }
     }
@@ -550,17 +551,16 @@ public class GameController extends Observable implements Observer {
         turnLabel.setStyle("-fx-background-color: #ff0000;");
         disableToolCards();
         disableDraftPool();
+        skipTurnButton.setDisable(true);
     }
     private void showEndTurn(MVEvent event){
-        Platform.runLater(this::showEndTurnAlert);
-    }
+        Platform.runLater(() ->{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Avviso");
+            alert.setContentText("Turno terminato. Attendi.");
 
-    private void showEndTurnAlert(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Avviso");
-        alert.setContentText("Turno terminato. Attendi.");
-
-        alert.showAndWait();
+            alert.showAndWait();
+        });
     }
 
     private void showError(MVEvent event){

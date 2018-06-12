@@ -26,7 +26,7 @@
         <ImageView fx:id="toolCard2" fitHeight="144.0" fitWidth="95.0" layoutX="165.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="privateObjectiveCard" fitHeight="144.0" fitWidth="95.0" layoutX="54.0" layoutY="378.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="publicObjectiveCard3" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="skipTurnButton" layoutX="62.0" layoutY="800.0" mnemonicParsing="false" text="Termina Turno">
+        <Button fx:id="skipTurnButton" disable="true" layoutX="62.0" layoutY="800.0" mnemonicParsing="false" text="Termina Turno">
             <font>
                 <Font name="Calibri" size="24.0" />
             </font>
