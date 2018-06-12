@@ -884,7 +884,6 @@ public class ControllerCLI implements Observer {
                 if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
                     model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
                 } else {
-                    //  model.setCurrentPlayer(player); //currentPlayer is still player *andrebbe cambiato in set..(currentPlayer) quindi è inutile
                     model.setLap(1); //begins second turn of the round
                 }
 
@@ -910,9 +909,8 @@ public class ControllerCLI implements Observer {
             model.setCurrentPlayer(model.getPlayers().get(0));
             model.fromDraftPoolToRoundTrack();
             model.extractAndRoll();
-            // ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
-            // model.mySetChanged();
-            // model.notifyObservers(showAllEvent);
+            model.myNotify(new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()));
+
         }
     }
 

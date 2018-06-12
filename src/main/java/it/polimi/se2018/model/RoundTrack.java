@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.events.mvevent.RoundTrackEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,7 @@ public class RoundTrack {
         for(Dice dice: dices)
             tmp.add(dice);
         roundList.add(tmp);
+        GameSingleton.getInstance().myNotify(new RoundTrackEvent(toString(), toStringPath()));
     }
 
     /**
