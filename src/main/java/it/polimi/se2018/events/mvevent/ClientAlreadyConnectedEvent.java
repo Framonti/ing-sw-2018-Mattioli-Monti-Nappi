@@ -7,7 +7,7 @@ public class ClientAlreadyConnectedEvent extends MVEvent {
     private List<String> clientConnected;
 
     public ClientAlreadyConnectedEvent(List<String> clientConnected){
-        super(14);
+        super(70);
         this.clientConnected = clientConnected;
     }
 

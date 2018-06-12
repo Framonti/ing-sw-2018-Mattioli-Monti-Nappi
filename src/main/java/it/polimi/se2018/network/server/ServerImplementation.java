@@ -125,6 +125,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
                     System.out.println("socketClient added.");
                     sendTo(new NickNameAcceptedEvent(), client);
+                    List<String> names = new ArrayList<>();
+
+                    for(Player playerToAdd : players)
+                        names.add(playerToAdd.getName());
+                    send(new ClientAlreadyConnectedEvent(names));
 
                     if(players.size() == 2) {
                         timer = new Timer();
@@ -159,6 +164,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
                         System.out.println("rmiClient added.");
                         sendTo(new NickNameAcceptedEvent(), player);
+                        List<String> names = new ArrayList<>();
+                        for(Player playerToAdd : players)
+                            names.add(playerToAdd.getName());
+                        send(new ClientAlreadyConnectedEvent(names));
 
                         if (players.size() == 2) {
                             timer = new Timer();

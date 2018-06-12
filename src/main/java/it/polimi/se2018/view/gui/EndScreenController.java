@@ -3,14 +3,13 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.mvevent.ScoreTrackEvent;
 import it.polimi.se2018.events.mvevent.WinnerEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.*;
 
 /**
@@ -185,8 +184,8 @@ public class EndScreenController extends Observable implements Observer {
     private void scoreTrackEventHandler(MVEvent mvEvent){
 
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
-        setRankingLabels(scoreTrackEvent);
-        placeScoreMarkersOnScene(scoreTrackEvent.getScores());
+        Platform.runLater(() -> setRankingLabels(scoreTrackEvent));
+        Platform.runLater(() -> placeScoreMarkersOnScene(scoreTrackEvent.getScores()));
     }
 
     private void winnerEventHandler(MVEvent mvEvent){
@@ -209,15 +208,14 @@ public class EndScreenController extends Observable implements Observer {
         yellowScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
     }
 
-
-
     @Override
     public void update(Observable o, Object arg) {
-        if(arg.getClass() == MVEvent.class){
-            MVEvent mvEvent = (MVEvent) arg;
-            if(arg.getClass() == ScoreTrackEvent.class)
-                scoreTrackEventHandler(mvEvent);
-            else winnerEventHandler(mvEvent);
+        MVEvent mvEvent = (MVEvent) arg;
+        if(mvEvent.getId() == 5) {
+            scoreTrackEventHandler(mvEvent);
+        }
+        else if(mvEvent.getId() == 10){
+            Platform.runLater(() -> winnerEventHandler(mvEvent));
         }
     }
 

@@ -8,9 +8,7 @@ import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.network.server.ServerInterface;
-
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -52,14 +50,15 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             setChanged();
             notifyObservers(mvEvent);
         }
-        else if (isGUI && mvEvent.getId() != 9) {
+        else if (isGUI) {
             setChanged();
             notifyObservers(mvEvent);
             if (mvEvent.getId() == 56 || mvEvent.getId() == 30 || mvEvent.getId() == 40 || mvEvent.getId() == 60) {
                 setChanged();
                 notifyObservers(new NewObserverEvent(this));
             }
-        } else if (mvEvent.getId() == 9) {
+        }
+        if (mvEvent.getId() == 9) {
             ErrorEvent errorEvent = (ErrorEvent) mvEvent;
             if (errorEvent.getMessageToDisplay().equals("Nickname già in uso!")) {
                 setChanged();
@@ -119,6 +118,12 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private void tryNickname(NicknameEvent nicknameEvent) {
         if(connectionChoice == 1) {
             if(nicknameEvent.isFirstTime()){
+                /* try (BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream()))) {
+                    System.setProperty("java.rmi.server.hostname", br.readLine());
+                } catch (IOException e) {
+                    tryNickname(nicknameEvent);
+                    return;
+                }*/
                 try {
                     remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
                 } catch (RemoteException e) {
@@ -130,6 +135,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 server.addClient(remoteReference);
             } catch (RemoteException e) {
                 System.err.println("Errore di connessione: " + e.getMessage() + "!");
+                e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 setChanged();

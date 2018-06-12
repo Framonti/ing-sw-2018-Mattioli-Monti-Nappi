@@ -46,13 +46,22 @@
             <Font name="Calibri" size="32.0" />
          </font>
       </Label>
-      <Label fx:id="secondPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="677.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" />
-      <Label fx:id="firstPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="617.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="#bbbbbb">
+      <Label fx:id="secondPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="677.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE">
          <font>
             <Font name="Calibri" size="24.0" />
          </font></Label>
-      <Label fx:id="thirdPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="737.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE" />
-      <Label fx:id="forthPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="797.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE" />
+      <Label fx:id="firstPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="617.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="24.0" />
+         </font></Label>
+      <Label fx:id="thirdPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="737.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="24.0" />
+         </font></Label>
+      <Label fx:id="forthPlaceLabel" alignment="CENTER" layoutX="40.0" layoutY="797.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #bbbbbb;" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="24.0" />
+         </font></Label>
       <Label fx:id="firstPlacePoints" alignment="CENTER" layoutX="640.0" layoutY="617.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #2da8bb;" textFill="WHITE">
          <font>
             <Font name="Calibri" size="24.0" />

@@ -81,6 +81,13 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    private void showClientsConnected(MVEvent mvEvent){
+        ClientAlreadyConnectedEvent clientAlreadyConnectedEvent = (ClientAlreadyConnectedEvent) mvEvent;
+        System.out.println("Client attualmente connessi: ");
+        for(String clients : clientAlreadyConnectedEvent.getClientConnected())
+            System.out.println(clients);
+    }
+
     /**
      * It's a support method of getInput. Receives a string and creates the correct event
      * @param input It's the string with all the event's information
@@ -150,6 +157,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
         mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
         mvEvents.put(15, ()->{});
+        mvEvents.put(70, () ->showClientsConnected(mvEvent));
     }
 
     /**

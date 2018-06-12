@@ -900,14 +900,15 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 view.showEndTurn(new EndTurnEvent());
                 nextPlayer();
             }
-
+            model.myNotify(new GameEnded());
             showScores();
         }
 
         private void showScores() {
-            computeAllScores();
 
+            computeAllScores();
             model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+            Collections.reverse(model.getPlayers());
             List<Integer> scores = new ArrayList<>();
             for(Player player: model.getPlayers())
                 scores.add(player.getScore());
