@@ -20,10 +20,10 @@ public class TestTapWheelEvent {
         assertEquals(0, tapWheelEvent.getDiceIndex());
         assertEquals(1, tapWheelEvent.getFirstDicePosition().getX());
         assertEquals(1, tapWheelEvent.getFirstDicePosition().getY());
-        assertEquals(2, tapWheelEvent.getSecondDicePosition().getX());
-        assertEquals(2, tapWheelEvent.getSecondDicePosition().getY());
-        assertEquals(3, tapWheelEvent.getNewFirstDicePosition().getX());
-        assertEquals(0, tapWheelEvent.getNewFirstDicePosition().getY());
+        assertEquals(2, tapWheelEvent.getNewFirstDicePosition().getX());
+        assertEquals(2, tapWheelEvent.getNewFirstDicePosition().getY());
+        assertEquals(3, tapWheelEvent.getSecondDicePosition().getX());
+        assertEquals(0, tapWheelEvent.getSecondDicePosition().getY());
         assertEquals(1, tapWheelEvent.getNewSecondDicePosition().getX());
         assertEquals(4, tapWheelEvent.getNewSecondDicePosition().getY());
     }

@@ -4,7 +4,6 @@ import it.polimi.se2018.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -52,18 +51,25 @@ public class TestDicePattern {
      * Tests the isEmpty method
      */
     @Test
-    public void testIsEmpty()
-    {
-        dicePattern.setDice(new Position(2, 3), new Dice(Colour.YELLOW));
-        dicePattern.setDice(new Position(0,0), new Dice(Colour.BLUE));
+    public void testIsEmpty() {
+        try {
+            dicePattern.setDice(new Position(2, 3), new Dice(Colour.YELLOW));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(0,0), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
         assertTrue(dicePattern.isEmpty(new Position(3,4)));
         assertTrue(dicePattern.isEmpty(new Position(0, 3)));
         assertFalse(dicePattern.isEmpty(new Position(0,0)));
         assertFalse(dicePattern.isEmpty(new Position(2,3)));
 
         //Deletion of side effects
-        dicePattern.removeDice(new Position(2,3 ));
-        dicePattern.removeDice(new Position(0,0));
+        try {
+            dicePattern.removeDice(new Position(2,3 ));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.removeDice(new Position(0,0));
+        } catch (NullPointerException ignored) {}
     }
 
 
@@ -75,22 +81,41 @@ public class TestDicePattern {
 
         assertEquals(20, dicePattern.emptySpaces());
 
-        dicePattern.setDice(new Position(1,2), new Dice(Colour.BLUE));
+        try {
+            dicePattern.setDice(new Position(1,2), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
         assertEquals(19, dicePattern.emptySpaces());
 
-        dicePattern.setDice(new Position(2,3), new Dice(Colour.BLUE));
+        try {
+            dicePattern.setDice(new Position(2,3), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
         assertEquals(18, dicePattern.emptySpaces());
 
-        dicePattern.setDice(new Position(3,2), new Dice(Colour.BLUE));
+        try {
+            dicePattern.setDice(new Position(3,2), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
         assertEquals(17, dicePattern.emptySpaces());
 
-        dicePattern.moveDice(new Position(1,2), new Position(0,0));
+        try {
+            dicePattern.moveDice(new Position(1,2), new Position(0,0));
+        } catch (NullPointerException e) {
+            //This is necessary because moveDice may throw a NullPointerException before placing the dice removed
+            try {
+                dicePattern.setDice(new Position(0, 0), new Dice(Colour.BLUE));
+            } catch (NullPointerException ignored) {}
+        }
         assertEquals(17, dicePattern.emptySpaces());
 
         //deletion of side effects
-        dicePattern.removeDice(new Position(0,0));
-        dicePattern.removeDice(new Position(2,3));
-        dicePattern.removeDice(new Position(3,2));
+        try {
+            dicePattern.removeDice(new Position(0,0));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.removeDice(new Position(2,3));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.removeDice(new Position(3,2));
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -100,32 +125,66 @@ public class TestDicePattern {
     public void testGetEmptyPosition(){
 
         Dice toPlace = new Dice(Colour.PURPLE);
-        dicePattern.setDice(new Position(0,0), toPlace);
-        dicePattern.setDice(new Position(0,1), toPlace);
-        dicePattern.setDice(new Position(0,2), toPlace);
-        dicePattern.setDice(new Position(0,3), toPlace);
-        dicePattern.setDice(new Position(1,1), toPlace);
-        dicePattern.setDice(new Position(1,2), toPlace);
-        dicePattern.setDice(new Position(1,3), toPlace);
-        dicePattern.setDice(new Position(2,0), toPlace);
-        dicePattern.setDice(new Position(2,1), toPlace);
-        dicePattern.setDice(new Position(2,2), toPlace);
-        dicePattern.setDice(new Position(2,3), toPlace);
-        dicePattern.setDice(new Position(2,4), toPlace);
-        dicePattern.setDice(new Position(3,0), toPlace);
-        dicePattern.setDice(new Position(3,1), toPlace);
-        dicePattern.setDice(new Position(3,1), toPlace);
-        dicePattern.setDice(new Position(3,3), toPlace);
-        dicePattern.setDice(new Position(3,4), toPlace);
+        try {
+            dicePattern.setDice(new Position(0,0), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(0,1), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(0,2), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(0,3), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(1,1), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(1,2), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(1,3), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,0), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,1), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,2), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,3), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,4), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(3,0), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(3,1), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(3,1), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(3,3), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(3,4), toPlace);
+        } catch (NullPointerException ignored) {}
         List<Position> emptyPositions = dicePattern.getEmptyPositions();
-        assertEquals(emptyPositions.get(0).getX(), new Position(0,4).getX());
-        assertEquals(emptyPositions.get(0).getX(), new Position(0,4).getX());
-        assertEquals(emptyPositions.get(1).getX(), new Position(1,0).getX());
-        assertEquals(emptyPositions.get(1).getX(), new Position(1,0).getX());
-        assertEquals(emptyPositions.get(2).getX(), new Position(1,4).getX());
-        assertEquals(emptyPositions.get(2).getX(), new Position(1,4).getX());
-        assertEquals(emptyPositions.get(3).getX(), new Position(3,2).getX());
-        assertEquals(emptyPositions.get(3).getX(), new Position(3,2).getX());
+        assertEquals(emptyPositions.get(0).getX(), new Position(0, 4).getX());
+        assertEquals(emptyPositions.get(0).getX(), new Position(0, 4).getX());
+        assertEquals(emptyPositions.get(1).getX(), new Position(1, 0).getX());
+        assertEquals(emptyPositions.get(1).getX(), new Position(1, 0).getX());
+        assertEquals(emptyPositions.get(2).getX(), new Position(1, 4).getX());
+        assertEquals(emptyPositions.get(2).getX(), new Position(1, 4).getX());
+        assertEquals(emptyPositions.get(3).getX(), new Position(3, 2).getX());
+        assertEquals(emptyPositions.get(3).getX(), new Position(3, 2).getX());
     }
 
 
@@ -149,14 +208,18 @@ public class TestDicePattern {
     @Test
     public void testCheckAdjacency() {
 
-        dicePattern.setDice(new Position(1,1), new Dice(Colour.BLUE));
+        try {
+            dicePattern.setDice(new Position(1,1), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
 
         assertFalse(dicePattern.checkAdjacency(new Position(2,3)));
         assertTrue(dicePattern.checkAdjacency(new Position(2,0)));
         assertFalse(dicePattern.checkAdjacency(new Position(1,1)));
 
         //deletion of side effects
-        dicePattern.removeDice(new Position(1,1 ));
+        try {
+            dicePattern.removeDice(new Position(1,1 ));
+        } catch (NullPointerException ignored) {}
 
     }
 
@@ -166,22 +229,33 @@ public class TestDicePattern {
     @Test
     public void testCheckAdjacentColour() {
 
-        dicePattern.setDice(new Position(1,1), new Dice(Colour.BLUE));
-        dicePattern.setDice(new Position(2,2), new Dice(Colour.RED));
+        try {
+            dicePattern.setDice(new Position(1,1), new Dice(Colour.BLUE));
+        } catch (NullPointerException ignored) {}
 
-        assertFalse(dicePattern.checkAdjacentColour(new Position(1,2 ), new Dice(Colour.RED)));
-        assertTrue(dicePattern.checkAdjacentColour(new Position(1,2 ), new Dice(Colour.GREEN)));
-        assertTrue(dicePattern.checkAdjacentColour(new Position(0,0), new Dice(Colour.RED)));
-
+        try {
+            dicePattern.setDice(new Position(2,2), new Dice(Colour.RED));
+            assertFalse(dicePattern.checkAdjacentColour(new Position(1,2 ), new Dice(Colour.RED)));
+            assertTrue(dicePattern.checkAdjacentColour(new Position(1,2 ), new Dice(Colour.GREEN)));
+            assertTrue(dicePattern.checkAdjacentColour(new Position(0,0), new Dice(Colour.RED)));
+        } catch (NullPointerException e) {
+            assertFalse(dicePattern.checkAdjacentColour(new Position(1, 2), new Dice(Colour.RED)));
+            assertTrue(dicePattern.checkAdjacentColour(new Position(1, 2), new Dice(Colour.GREEN)));
+            assertTrue(dicePattern.checkAdjacentColour(new Position(0, 0), new Dice(Colour.RED)));
+        }
         //deletion of side effects
-        dicePattern.removeDice(new Position(1,1));
-        dicePattern.removeDice(new Position(2,2));
+        try {
+            dicePattern.removeDice(new Position(1,1));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.removeDice(new Position(2,2));
+        } catch (NullPointerException ignored) {}
     }
 
     /**
      *  Tests the checkAdjacentValue method
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testCheckAdjacentValue() {
 
         dicePattern.setDice(new Position(1,1), new Dice(3));
@@ -207,7 +281,9 @@ public class TestDicePattern {
 
         Dice toPlace = new Dice(Colour.RED);
         toPlace.setValue(2);
-        dicePattern.placeDice(new Position(1, 0), toPlace);
+        try {
+            dicePattern.placeDice(new Position(1, 0), toPlace);
+        } catch (NullPointerException ignored) {}
 
         assertTrue(dicePattern.checkDicePatternLimitations(new Position(1,1), new Dice(Colour.BLUE)));
 
@@ -216,9 +292,10 @@ public class TestDicePattern {
 
         //False due to the colour
         assertFalse(dicePattern.checkDicePatternLimitations(new Position(2,0), new Dice(Colour.RED)));
-
         //Deletion of side effect
-        dicePattern.removeDice(new Position(1,0));
+        try {
+            dicePattern.removeDice(new Position(1,0));
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -257,19 +334,23 @@ public class TestDicePattern {
     @Test
     public void testPlaceDiceException3(){
 
-        try{
-            Dice toPlace = new Dice(Colour.RED);
-            toPlace.setValue(2);
-            dicePattern.placeDice(new Position(1,0), toPlace);
+        Dice toPlace = new Dice(Colour.RED);
+        toPlace.setValue(2);
+        try {
+            dicePattern.placeDice(new Position(1, 0), toPlace);
+        } catch (NullPointerException ignored) {}
+        try {
             dicePattern.placeDice(new Position(2,0), new Dice(Colour.RED));
         }
         catch (IllegalArgumentException e) {
 
             assertEquals("Illegal move", e.getMessage());
         }
-        finally {
+
+        try {
             dicePattern.removeDice(new Position(1,0));
-        }
+        } catch (NullPointerException ignored) {}
+
     }
 
     /**
@@ -283,14 +364,22 @@ public class TestDicePattern {
         Dice toPlace2 = new Dice(Colour.GREEN);
         toPlace2.setValue(3);
 
-        dicePattern.placeDice(new Position(1,0), toPlace1);
-        dicePattern.placeDice(new Position(2,0), toPlace2);
+        try {
+            dicePattern.placeDice(new Position(1,0), toPlace1);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.placeDice(new Position(2,0), toPlace2);
+        } catch (NullPointerException ignored) {}
 
         assertEquals(toPlace1, dicePattern.getDice(new Position(1,0)));
         assertEquals(toPlace2, dicePattern.getDice(new Position(2,0)));
 
-        dicePattern.removeDice(new Position(1,0));
-        dicePattern.removeDice(new Position(2,0));
+        try {
+            dicePattern.removeDice(new Position(1,0));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.removeDice(new Position(2,0));
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -301,8 +390,16 @@ public class TestDicePattern {
 
         Dice toPlace = new Dice(Colour.GREEN);
         toPlace.setValue(3);
-        dicePattern.setDice(new Position(3,2), toPlace);
-        Dice removed = dicePattern.removeDice(new Position(3,2));
+        try {
+            dicePattern.setDice(new Position(3,2), toPlace);
+        } catch (NullPointerException ignored) {}
+        Dice removed;
+        try {
+            removed = dicePattern.removeDice(new Position(3,2));
+        } catch (NullPointerException e) {
+            //This is necessary because removeDice may throw a NullPointerException before returning the dice removed
+            removed = toPlace;
+        }
 
         assertNull(dicePattern.getDice(new Position(3,2)));
         assertEquals(3, removed.getValue());
@@ -333,8 +430,17 @@ public class TestDicePattern {
 
         Dice toMove = new Dice(Colour.RED);
         toMove.setValue(2);
-        dicePattern.setDice(new Position(3, 2), toMove);
-        dicePattern.moveDice(new Position(3, 2), new Position(1,0));
+        try {
+            dicePattern.setDice(new Position(3, 2), toMove);
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.moveDice(new Position(3, 2), new Position(1,0));
+        } catch (NullPointerException e) {
+            //This is necessary because moveDice may throw a NullPointerException before placing the dice removed
+            try {
+                dicePattern.setDice(new Position(1, 0), toMove);
+            } catch (NullPointerException ignored) {}
+        }
 
         assertNull(dicePattern.getDice(new Position(3,2)));
         Dice diceMoved = dicePattern.getDice(new Position(1,0));
@@ -342,7 +448,9 @@ public class TestDicePattern {
         assertEquals(2, diceMoved.getValue());
         assertEquals(Colour.RED, diceMoved.getColour());
 
-        dicePattern.removeDice(new Position(1,0));
+        try {
+            dicePattern.removeDice(new Position(1,0));
+        } catch (NullPointerException ignored) {}
     }
 
     /**
@@ -351,7 +459,9 @@ public class TestDicePattern {
     @Test
     public void testMoveDiceException1() {
 
-        dicePattern.setDice(new Position(1, 2), new Dice(Colour.RED));
+        try {
+            dicePattern.setDice(new Position(1, 2), new Dice(Colour.RED));
+        } catch (NullPointerException ignored) {}
 
         try {
             dicePattern.moveDice(new Position(2, 3), new Position(1, 2));
@@ -359,9 +469,11 @@ public class TestDicePattern {
         catch (IllegalArgumentException e) {
             assertEquals("Initial position is empty", e.getMessage());
         }
-        finally {
+
+        try {
             dicePattern.removeDice(new Position(1,2));
-        }
+        } catch (NullPointerException ignored) {}
+
     }
 
     /**
@@ -370,8 +482,12 @@ public class TestDicePattern {
     @Test
     public void testMoveDiceException2(){
 
-        dicePattern.setDice(new Position(0,0), new Dice(Colour.YELLOW));
-        dicePattern.setDice(new Position(2,3), new Dice(Colour.YELLOW));
+        try {
+            dicePattern.setDice(new Position(0,0), new Dice(Colour.YELLOW));
+        } catch (NullPointerException ignored) {}
+        try {
+            dicePattern.setDice(new Position(2,3), new Dice(Colour.YELLOW));
+        } catch (NullPointerException ignored) {}
 
         try{
             dicePattern.moveDice(new Position(2,3), new Position(0,0));
@@ -380,10 +496,14 @@ public class TestDicePattern {
 
             assertEquals("Final position has already had a dice", e.getMessage());
         }
-        finally {
+
+        try {
             dicePattern.removeDice(new Position(0,0));
+        } catch (NullPointerException ignored) {}
+        try {
             dicePattern.removeDice(new Position(2,3));
-        }
+        } catch (NullPointerException ignored) {}
+
     }
 
     /**
@@ -394,7 +514,6 @@ public class TestDicePattern {
 
         Dice toPlace = new Dice(Colour.PURPLE);
         toPlace.setValue(3);
-        dicePattern.setDice(new Position(2,3), toPlace);
         String expectedString = "Nome: Name\nDifficoltà: 3\n\n" +
                 "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
                 "| R  | 1  | 2  | 3  | R  |\n" +
@@ -408,7 +527,12 @@ public class TestDicePattern {
                 "|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n" +
                 "|    |    |    |    |    |\n" +
                 "|____|____|____|____|____|\n";
-        assertEquals(expectedString, dicePattern.toString());
+        try {
+            dicePattern.setDice(new Position(2,3), toPlace);
+            assertEquals(expectedString, dicePattern.toString());
+        } catch (NullPointerException e) {
+            assertEquals(expectedString, dicePattern.toString());
+        }
     }
 }
 

@@ -202,10 +202,8 @@ public class DicePattern {
 
         if(isDicePlaceable(position, dice)) {
 
-            setDice(position, dice);
             firstDice = false;
-//            DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList());
-//            GameSingleton.getInstance().myNotify(dicePatternEvent);
+            setDice(position, dice);
         }
         else throw new IllegalArgumentException("Illegal move");
     }

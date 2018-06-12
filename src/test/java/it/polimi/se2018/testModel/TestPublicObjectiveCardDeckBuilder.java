@@ -26,7 +26,7 @@ public class TestPublicObjectiveCardDeckBuilder {
                 (publicObjectiveCard.getName().equals("Sfumature Medie") && publicObjectiveCard.getDescription().equals("Set di 3 & 4 ovunque"))||
                 (publicObjectiveCard.getName().equals("Sfumature Scure") && publicObjectiveCard.getDescription().equals("Set di 5 & 6 ovunque"))||
                 (publicObjectiveCard.getName().equals("Sfumature Diverse") && publicObjectiveCard.getDescription().equals("Set di dadi di ogni valore ovunque"))||
-                (publicObjectiveCard.getName().equals("Varietà di colore") && publicObjectiveCard.getDescription().equals("Set di dadi di ogni colore ovunque"))||
+                (publicObjectiveCard.getName().equals("Varietà di Colore") && publicObjectiveCard.getDescription().equals("Set di dadi di ogni colore ovunque"))||
                 (publicObjectiveCard.getName().equals("Diagonali Colorate")&& publicObjectiveCard.getDescription().equals("Numero di dadi dello stesso colore diagonalmente adiacenti")));
     }
 
@@ -41,7 +41,7 @@ public class TestPublicObjectiveCardDeckBuilder {
      * Tests that every PrivateObjectiveCard is correctly created
      */
     @Test
-    public void testGetWindowPatternCardDeck(){
+    public void testGetPublicObjectiveCardDeck(){
 
         Deck<PublicObjectiveCard> publicObjectiveCardDeck = publicObjectiveCardDeckBuilder.getPublicObjectiveCardDeck();
         List<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDeck.mixAndDistribute(10);

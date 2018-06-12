@@ -184,7 +184,7 @@ public class ControllerCLI implements Observer {
      * Tool card 1 method
      */
     private void grozingPliers() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(1).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(1).getFavorPoint() < 1 ? 1 : 2)) {
             GrozingPliersEvent grozingPliersEvent = (GrozingPliersEvent) event;
             try{
                 Dice diceChosen = getDiceFromDraftPool(grozingPliersEvent.getDiceIndexDraftPool());
@@ -224,7 +224,7 @@ public class ControllerCLI implements Observer {
      * Tool card 2 method
      */
     private void eglomiseBrush() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(2).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(2).getFavorPoint() < 1 ? 1 : 2)) {
             EglomiseBrushEvent eglomiseBrushEvent = (EglomiseBrushEvent) event;
             Dice diceChosen = getDiceFromDicePattern(eglomiseBrushEvent.getInitialPosition());
             Position finalPosition = eglomiseBrushEvent.getFinalPosition();
@@ -262,7 +262,7 @@ public class ControllerCLI implements Observer {
      * Tool card 3 method
      */
     private void copperFoilBurnisher() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(3).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(3).getFavorPoint() < 1 ? 1 : 2)) {
             CopperFoilBurnisherEvent copperFoilBurnisherEvent = (CopperFoilBurnisherEvent) event;
             Dice diceChosen = getDiceFromDicePattern(copperFoilBurnisherEvent.getInitialPosition());
             Position finalPosition = copperFoilBurnisherEvent.getFinalPosition();
@@ -284,7 +284,7 @@ public class ControllerCLI implements Observer {
         }
     }
 
-private void lathekinValidRestriction(Position initialPosition1, Position finalPosition1, Position initialPosition2, Position finalPosition2){
+    private void lathekinValidRestriction(Position initialPosition1, Position finalPosition1, Position initialPosition2, Position finalPosition2){
     try {
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
@@ -300,7 +300,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 4 method
      */
     private void lathekin() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(4).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(4).getFavorPoint() < 1 ? 1 : 2)) {
             LathekinEvent lathekinEvent = (LathekinEvent) event;
             Dice diceChosen1 = getDiceFromDicePattern(lathekinEvent.getInitialPosition1());
             Position initialPosition1 = lathekinEvent.getInitialPosition1();
@@ -366,7 +366,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 5 method
      */
     private void lensCutter() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(5).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(5).getFavorPoint() < 1 ? 1 : 2)) {
             LensCutterEvent lensCutterEvent = (LensCutterEvent) event;
             int roundIndex = lensCutterEvent.getRoundIndex();
             int diceIndexInRoundTrack = lensCutterEvent.getDiceIndexInRoundTrack();
@@ -419,7 +419,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      */
     //mi tengo io la posizione
     private void fluxBrushChooseDice() {
-        if (model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(6).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(6).getFavorPoint() < 1 ? 1 : 2)) {
             model.getCurrentPlayer().setToolCardUsed(true);
             handleFavorTokensNumber(searchToolCard(6));
             FluxBrushChooseDiceEvent fluxBrushEvent = (FluxBrushChooseDiceEvent) event;
@@ -455,7 +455,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 7 method
      */
     private void glazingHammer() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(7).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(7).getFavorPoint() < 1 ? 1 : 2)) {
             if (model.getLap() == 1) {
                 model.rollEveryDice();
                 model.getCurrentPlayer().setToolCardUsed(true);
@@ -490,7 +490,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 8 method
      */
     private void runnerPliers() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(8).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(8).getFavorPoint() < 1 ? 1 : 2)) {
             RunnerPliersEvent runnerPliersEvent = (RunnerPliersEvent) event;
             try{
                 Dice diceChosen= getDiceFromDraftPool(runnerPliersEvent.getDiceIndex());
@@ -515,7 +515,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 9 method
      */
     private void corkBakedStraightedge() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(9).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(9).getFavorPoint() < 1 ? 1 : 2)) {
             CorkBakedStraightedgeEvent corkBakedStraightedgeEvent = (CorkBakedStraightedgeEvent) event;
             try {
                 Dice diceChosen = getDiceFromDraftPool(corkBakedStraightedgeEvent.getIndexInDraftPool());
@@ -547,7 +547,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 10 method
      */
     private void grindingStone() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(10).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(10).getFavorPoint() < 1 ? 1 : 2)) {
             GrindingStoneEvent grindingStoneEvent = (GrindingStoneEvent) event;
             if (grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
                 try {
@@ -594,7 +594,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 11 method
      */
     private void fluxRemoverChooseDice() {
-        if (model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(11).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(11).getFavorPoint() < 1 ? 1 : 2)) {
             handleFavorTokensNumber(searchToolCard(11));
             model.getCurrentPlayer().setToolCardUsed(true);
             FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
@@ -661,7 +661,7 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
      * Tool card 12 method
      */
     private void tapWheel() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() > searchToolCard(12).getFavorPoint()) {
+        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(12).getFavorPoint() < 1 ? 1 : 2)) {
             TapWheelEvent tapWheelEvent = (TapWheelEvent) event;
             int round = tapWheelEvent.getRoundIndex();
             int indexOfRoundTrack = tapWheelEvent.getDiceIndex();
@@ -740,58 +740,6 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
         }
     }
 
-    /**
-     * Changes the current player and if lap is the second, calls nextRound()
-     */
-    private void nextPlayer() {
-        model.getCurrentPlayer().setDiceMoved(false);
-        model.getCurrentPlayer().setToolCardUsed(false);
-        if (model.getLap() == 0) {
-            if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
-                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
-            } else {
-                //  model.setCurrentPlayer(player); //currentPlayer is still player *andrebbe cambiato in set..(currentPlayer) quindi è inutile
-                model.setLap(1); //begins second turn of the round
-            }
-
-
-        } else if (model.getLap() == 1) {
-            if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
-                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
-            } else {
-                model.setLap(0); //end of second turn
-                nextRound();
-            }
-        }
-    }
-
-
-    /**
-     * Increase round, changes players position, puts remaining dices from the draft pool to the round track,
-     * extracts new dices from diceBag and show
-     */
-    private void nextRound() {
-        model.increaseRound();
-        Player toRemove =  model.getPlayers().remove(0);
-        model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.fromDraftPoolToRoundTrack();
-        model.extractAndRoll();
-        // ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
-        // model.mySetChanged();
-        // model.notifyObservers(showAllEvent);
-    }
-
-
-    /**
-     * Compute all scores of the players
-     */
-    private void computeAllScores() {
-        for (Player player : model.getPlayers()) {
-            player.computeMyScore(model.getPublicObjectiveCards());
-        }
-
-    }
 
     /**
      * Skips current player's turn
@@ -914,6 +862,57 @@ private void lathekinValidRestriction(Position initialPosition1, Position finalP
                 scores.add(player.getScore());
 
             model.createScoreTrack(scores);
+        }
+
+        /**
+         * Compute all scores of the players
+         */
+        private void computeAllScores() {
+            for (Player player : model.getPlayers()) {
+                player.computeMyScore(model.getPublicObjectiveCards());
+            }
+
+        }
+
+        /**
+         * Changes the current player and if lap is the second, calls nextRound()
+         */
+        private void nextPlayer() {
+            model.getCurrentPlayer().setDiceMoved(false);
+            model.getCurrentPlayer().setToolCardUsed(false);
+            if (model.getLap() == 0) {
+                if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
+                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
+                } else {
+                    //  model.setCurrentPlayer(player); //currentPlayer is still player *andrebbe cambiato in set..(currentPlayer) quindi è inutile
+                    model.setLap(1); //begins second turn of the round
+                }
+
+
+            } else if (model.getLap() == 1) {
+                if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
+                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
+                } else {
+                    model.setLap(0); //end of second turn
+                    nextRound();
+                }
+            }
+        }
+
+        /**
+         * Increase round, changes players position, puts remaining dices from the draft pool to the round track,
+         * extracts new dices from diceBag and show
+         */
+        private void nextRound() {
+            model.increaseRound();
+            Player toRemove =  model.getPlayers().remove(0);
+            model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
+            model.setCurrentPlayer(model.getPlayers().get(0));
+            model.fromDraftPoolToRoundTrack();
+            model.extractAndRoll();
+            // ShowAllEvent showAllEvent = new ShowAllEvent(model.dicePatternsToString(), model.playersToString(), model.publicObjectiveCardsToString(), model.toolCardsToString(), model.draftPoolToString(), model.getRoundTrack().toString(), model.getCurrentPlayer().getPrivateObjectiveCard().toString());
+            // model.mySetChanged();
+            // model.notifyObservers(showAllEvent);
         }
     }
 

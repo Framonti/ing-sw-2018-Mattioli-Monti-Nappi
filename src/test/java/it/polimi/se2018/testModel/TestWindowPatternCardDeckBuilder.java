@@ -22,22 +22,22 @@ public class TestWindowPatternCardDeckBuilder {
         return  windowPattern.getName().equals("Kaleidoscopic Dream") ||
                 windowPattern.getName().equals("Firmitas") ||
                 windowPattern.getName().equals("Fractal Drops") ||
-                windowPattern.getName().equals("Ripples of Light") ||
+                windowPattern.getName().equals("Ripples Of Light") ||
                 windowPattern.getName().equals("Lux Mundi") ||
                 windowPattern.getName().equals("Lux Astram") ||
                 windowPattern.getName().equals("Gravitas") ||
-                windowPattern.getName().equals("Water of Life") ||
+                windowPattern.getName().equals("Water Of Life") ||
                 windowPattern.getName().equals("Sun Catcher") ||
                 windowPattern.getName().equals("Shadow Thief") ||
                 windowPattern.getName().equals("Aurorae Magnificus") ||
                 windowPattern.getName().equals("Aurora Sagradis") ||
-                windowPattern.getName().equals("Symphony of Light") ||
+                windowPattern.getName().equals("Symphony Of Light") ||
                 windowPattern.getName().equals("Virtus") ||
                 windowPattern.getName().equals("Firelight") ||
                 windowPattern.getName().equals("Sun Glory") ||
                 windowPattern.getName().equals("Battllo") ||
                 windowPattern.getName().equals("Bellesguard") ||
-                windowPattern.getName().equals("Fulgor del Cielo") ||
+                windowPattern.getName().equals("Fulgor Del Cielo") ||
                 windowPattern.getName().equals("Luz Celestial") ||
                 windowPattern.getName().equals("Chromatic Splendor") ||
                 windowPattern.getName().equals("Comitas") ||

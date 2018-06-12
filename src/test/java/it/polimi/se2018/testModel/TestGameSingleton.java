@@ -51,41 +51,38 @@ public class TestGameSingleton {
         assertEquals(90,instance.getDiceBag().size());
 
         //controllo che ci siano 18 dadi per ogni colore
-        int n = 0;
+        int y = 0;
+        int p = 0;
+        int r = 0;
+        int g = 0;
+        int b = 0;
         for(Dice dice : instance.getDiceBag()){
-            if (dice.getColour().equals(Colour.GREEN))
-                n++;
+            switch (dice.getColour()) {
+                case PURPLE:
+                    p++;
+                    break;
+                case BLUE:
+                    b++;
+                    break;
+                case RED:
+                    r++;
+                    break;
+                case YELLOW:
+                    y++;
+                    break;
+                case GREEN:
+                    g++;
+                    break;
+                default:
+                    break;
+            }
         }
-        assertEquals(18, n);
-
-        n=0;
-        for(Dice dice : instance.getDiceBag()){
-            if (dice.getColour().equals(Colour.RED))
-                n++;
-        }
-        assertEquals(18, n);
-
-        n=0;
-        for(Dice dice : instance.getDiceBag()){
-            if (dice.getColour().equals(Colour.PURPLE))
-                n++;
-        }
-        assertEquals(18, n);
-
-        n=0;
-        for(Dice dice : instance.getDiceBag()){
-            if (dice.getColour().equals(Colour.BLUE))
-                n++;
-        }
-        assertEquals(18, n);
-
-        n=0;
-        for(Dice dice : instance.getDiceBag()){
-            if (dice.getColour().equals(Colour.YELLOW))
-                n++;
-        }
-        assertEquals(18, n);
-        //instance.getDiceBag().removeAll(instance.getDiceBag());
+        assertEquals(18, p);
+        assertEquals(18, b);
+        assertEquals(18, r);
+        assertEquals(18, y);
+        assertEquals(18, g);
+                //instance.getDiceBag().removeAll(instance.getDiceBag());
     }
 
     @Test
@@ -256,8 +253,6 @@ public class TestGameSingleton {
         instance.getDraftPool().add(dice2);
         instance.getDraftPool().add(dice3);
 
-        System.out.println(instance.draftPoolToString());
-        System.out.println(instance.getRoundTrack().toString());
 
         instance.fromDraftPoolToRoundTrack();
 

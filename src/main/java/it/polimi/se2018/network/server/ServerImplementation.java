@@ -249,28 +249,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
     @Override
     public void sendTo(MVEvent mvEvent, Player currentPlayer) {
-        if(currentPlayer.getClientInterfaceRMI() != null) {
-            try {
-                currentPlayer.getClientInterfaceRMI().notify(mvEvent);
-            } catch (RemoteException e) {
-                if (!currentPlayer.isConnectionLost()) {
-                    rmiClients.remove(currentPlayer.getClientInterfaceRMI());
-                    currentPlayer.setConnectionLost(true);
-                    System.out.println(CONNECTION_LOST + currentPlayer.getName());
-                }
-                if(socketClients.size() + rmiClients.size() < 2)
-                    controllerCLI.endGame();
-                else
-                    notify(new SkipTurnEvent());
-            }
-        } else {
-            currentPlayer.getClientInterfaceSocket().notify(mvEvent);
-        }
+        clientInterfaceNotify(currentPlayer, mvEvent, true);
     }
 
-    @Override
-    public void send(MVEvent mvEvent) {
-        for (Player player: players) {
+    private void clientInterfaceNotify(Player player, MVEvent mvEvent, boolean isAction) {
+        if (!player.isConnectionLost()) {
             if (player.getClientInterfaceRMI() != null) {
                 try {
                     player.getClientInterfaceRMI().notify(mvEvent);
@@ -280,12 +263,21 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         player.setConnectionLost(true);
                         System.out.println(CONNECTION_LOST + player.getName());
                     }
-                    if(rmiClients.size() + socketClients.size() < 2)
+                    if (rmiClients.size() + socketClients.size() < 2)
                         controllerCLI.endGame();
+                    else if (isAction)
+                        notify(new SkipTurnEvent());
                 }
             } else {
                 player.getClientInterfaceSocket().notify(mvEvent);
             }
+        }
+    }
+
+    @Override
+    public void send(MVEvent mvEvent) {
+        for (Player player: players) {
+            clientInterfaceNotify(player, mvEvent, false);
         }
     }
 
