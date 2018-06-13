@@ -30,6 +30,7 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private ImageView windowPattern4;
     @FXML private Button confirmButton;
     @FXML private Button cancelButton;
+    @FXML private ImageView privateObjectiveCard;
     @FXML private AnchorPane scene;
     @FXML private Label waitYourTurn1;
     @FXML private Label waitYourTurn2;
@@ -170,11 +171,19 @@ public class WindowPatternChoiceController extends Observable implements Observe
 
     }
 
+    public void setBackground(){
+
+        Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.jpg"));
+        BackgroundImage myBGI = new BackgroundImage(background, null, null,null, null);
+        scene.setBackground(new Background(myBGI));
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
        WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
-       this.setWindowPatterns(windowPatternsEvent);
+       privateObjectiveCard.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardPath())));
+       setWindowPatterns(windowPatternsEvent);
        waitYourTurn1.setVisible(false);
        waitYourTurn2.setVisible(false);
        windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
@@ -188,8 +197,8 @@ public class WindowPatternChoiceController extends Observable implements Observe
      */
     public void initialize(){
 
-        Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.jpg"));
+        /*Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.jpg"));
         BackgroundImage myBGI = new BackgroundImage(background, null, null,null, null);
-        scene.setBackground(new Background(myBGI));
+        scene.setBackground(new Background(myBGI));*/
     }
 }

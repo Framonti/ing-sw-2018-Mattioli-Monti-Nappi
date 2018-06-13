@@ -2,57 +2,36 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WaitingRoomController">
    <children>
-      <TextArea fx:id="notificationTextArea" editable="false" layoutX="140.0" layoutY="650.0" prefHeight="200.0" prefWidth="1300.0" text="Benvenuto su Sagada. La tua partita inizierà a breve">
+      <TextArea fx:id="notificationTextArea" editable="false" layoutX="140.0" layoutY="659.0" prefHeight="191.0" prefWidth="1300.0" text="Benvenuto su Sagada. La tua partita inizierà a breve">
          <font>
             <Font name="Calibri" size="24.0" />
          </font></TextArea>
-      <Label layoutX="714.0" layoutY="302.0" prefHeight="104.0" prefWidth="307.0" text="Client attualmente connessi: ">
+      <Label alignment="CENTER" layoutX="474.0" layoutY="280.0" prefHeight="106.0" prefWidth="633.0" text="Client attualmente connessi: ">
          <font>
-            <Font name="Calibri" size="24.0" />
+            <Font name="Calibri" size="48.0" />
          </font></Label>
-      <ImageView fitHeight="296.0" fitWidth="1600.0" pickOnBounds="true">
-         <image>
-            <Image url="@/Others/sagradaHeader.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="328.0" fitWidth="60.0" layoutX="1540.0" layoutY="296.0" pickOnBounds="true">
-         <image>
-            <Image url="@/Others/rightColumn.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="296.0" fitWidth="66.0" layoutY="296.0" pickOnBounds="true">
-         <image>
-            <Image url="@/Others/leftColumn.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="label1" layoutX="140.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0">
+      <ImageView fx:id="header" fitHeight="296.0" fitWidth="1600.0" pickOnBounds="true" />
+      <ImageView fx:id="rightColumn1" fitHeight="328.0" fitWidth="60.0" layoutX="1540.0" layoutY="296.0" pickOnBounds="true" />
+      <ImageView fx:id="leftColumn1" fitHeight="296.0" fitWidth="66.0" layoutY="296.0" pickOnBounds="true" />
+      <Label fx:id="label1" alignment="CENTER" layoutX="140.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #838383;" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font></Label>
-      <Label fx:id="label3" layoutX="140.0" layoutY="560.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0">
+      <Label fx:id="label3" alignment="CENTER" layoutX="140.0" layoutY="560.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #838383;" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font></Label>
-      <Label fx:id="label2" layoutX="140.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0">
+      <Label fx:id="label2" alignment="CENTER" layoutX="140.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #838383;" textFill="WHITE">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="48.0" />
          </font></Label>
-      <ImageView fitHeight="277.0" fitWidth="60.0" layoutX="1540.0" layoutY="624.0" pickOnBounds="true">
-         <image>
-            <Image url="@/Others/rightColumn.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="308.0" fitWidth="66.0" layoutY="591.0" pickOnBounds="true">
-         <image>
-            <Image url="@/Others/leftColumn.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="rightColumn2" fitHeight="277.0" fitWidth="60.0" layoutX="1540.0" layoutY="624.0" pickOnBounds="true" />
+      <ImageView fx:id="leftColumn2" fitHeight="308.0" fitWidth="66.0" layoutY="591.0" pickOnBounds="true" />
    </children>
 </AnchorPane>

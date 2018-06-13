@@ -4,6 +4,7 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.Position;
+import it.polimi.se2018.view.VirtualViewCLI;
 import it.polimi.se2018.view.gui.OurGridPane;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -145,7 +146,9 @@ public class GameController extends Observable implements Observer {
     private OurGridPane ourGridPane3;
     private OurGridPane ourGridPane4;
     private List<OurGridPane> ourGridPaneList = new ArrayList<>();
-    private String favorTokensPath = "src/main/Images/Others/FavorToken.png";
+    private final String favorTokensPath = "src/main/Images/Others/FavorToken.png";
+    private final String waitText = "Attendi";
+    private final String yourTurnText = "È il tuo turno";
 
 
 
@@ -163,6 +166,13 @@ public class GameController extends Observable implements Observer {
         // createVCMap();
 
         addImageToImageView("src/main/Images/Others/RoundTrack.png",roundTrack,150,776);
+        favorTokensPlayer1ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        favorTokensToolCard1ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        favorTokensToolCard2ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        favorTokensToolCard3ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/gameBackground.png"));
+        BackgroundImage myBGI = new BackgroundImage(background, null, null,null, null);
+        pane.setBackground(new Background(myBGI));
 
         listDicePattern.add(dicePatternImage00);
         listDicePattern.add(dicePatternImage01);
@@ -458,12 +468,8 @@ public class GameController extends Observable implements Observer {
         mvEvents.put(8, ()-> updateFavorTokens(mvEvent));
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> {});
-        mvEvents.put(11, ()->handleGetInput());
-        mvEvents.put(12, ()-> {
-                                showEndTurn(mvEvent);
-                                turnLabel.setStyle("-fx-background-color: #ff0000;");
-                                skipTurnButton.setDisable(true);
-                                });
+        mvEvents.put(11, this::handleGetInput);
+        mvEvents.put(12, this::handleEndTurnEvent);
         mvEvents.put(13, ()-> {});
         mvEvents.put(14, ()-> {});
         mvEvents.put(15, ()->{});
@@ -491,6 +497,13 @@ public class GameController extends Observable implements Observer {
 
 
 
+   private void handleEndTurnEvent(){
+
+       showEndTurn(mvEvent);
+       turnLabel.setStyle("-fx-background-color: #ff0000;");
+       Platform.runLater(()->turnLabel.setText(waitText));
+       skipTurnButton.setDisable(true);
+   }
 
     private void handleGetInput(){
         diceMoved = false;
@@ -516,6 +529,7 @@ public class GameController extends Observable implements Observer {
         }
         else{
             turnLabel.setStyle("-fx-background-color: #00ff19;");
+            Platform.runLater(()-> turnLabel.setText(yourTurnText));
             updateDraftPool(showAllEvent.getDraftPool());
             updateRoundTrack(showAllEvent.getRoundTrack());
             updateToolCards(showAllEvent.getToolCards());
@@ -548,26 +562,50 @@ public class GameController extends Observable implements Observer {
 
 
     private void createAssociationWithOurGridPane(MVEvent event1, MVEvent event2){
+
         SetWindowPatternsGUIEvent setWindowPatternsGUIEvent = (SetWindowPatternsGUIEvent) event1;
+
         List<String> windowPatterns = setWindowPatternsGUIEvent.getWindowPatternsGUI();
         List<String> favorTokensPlayers = setWindowPatternsGUIEvent.getFavorTokensNumber();
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event2;
         List <String> players = dicePatternEvent.getPlayerNames();
         String currentPlayer = dicePatternEvent.getCurrentPlayer();
         List<List<String>> dicePatternGUI = dicePatternEvent.getDicePatternsGUI();
+
         int currentPlayerIndex = getCurrentPlayerIndex(players,currentPlayer);
         ourGridPane1 = new OurGridPane(dicePatternGridPane1,currentPlayer,windowPatterns.get(currentPlayerIndex),player1NameLabel,Integer.parseInt(favorTokensPlayers.get(currentPlayerIndex)),favorTokensPlayer1Label);
         addImageToImageView(windowPatterns.get(currentPlayerIndex), windowPattern1,460, 520);
         updateDicePattern(dicePatternGUI.get(currentPlayerIndex),dicePatternGridPane1,59,69);
         ourGridPaneList.add(ourGridPane1);
         List<Integer> list = getRemainingPositions(players,currentPlayerIndex);
-        switch (list.size()){
+
+        ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
+        addImageToImageView(windowPatterns.get(list.get(0)), windowPattern2,180, 200);
+        updateDicePattern(dicePatternGUI.get(0),dicePatternGridPane2,29,39);
+        ourGridPaneList.add(ourGridPane2);
+        favorTokensPlayer2ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+
+        if(list.size() > 1 ){
+            ourGridPane3 = new OurGridPane(dicePatternGridPane3,players.get(list.get(1)), windowPatterns.get(list.get(1)),player3NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(1))),favorTokensPlayer3Label);
+            addImageToImageView(windowPatterns.get(list.get(1)), windowPattern3,180, 200);
+            updateDicePattern(dicePatternGUI.get(1),dicePatternGridPane3,29,39);
+            ourGridPaneList.add(ourGridPane3);
+            favorTokensPlayer3ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        }
+        if(list.size() > 2){
+            ourGridPane4 = new OurGridPane(dicePatternGridPane4,players.get(list.get(2)), windowPatterns.get(list.get(2)),player4NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(2))),favorTokensPlayer4Label);
+            addImageToImageView(windowPatterns.get(list.get(2)), windowPattern4,180, 200);
+            updateDicePattern(dicePatternGUI.get(2),dicePatternGridPane4,29,39);
+            ourGridPaneList.add(ourGridPane4);
+            favorTokensPlayer4ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
+        }
+        /*switch (list.size()){
             case 1:
                 ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
                 addImageToImageView(windowPatterns.get(list.get(0)), windowPattern2,180, 200);
                 updateDicePattern(dicePatternGUI.get(0),dicePatternGridPane2,29,39);
                 ourGridPaneList.add(ourGridPane2);
-                addImageToImageView(favorTokensPath,favorTokensPlayer2ImageView,30,30);
+                favorTokensPlayer2ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
                 break;
             case 2:
                 ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
@@ -579,7 +617,7 @@ public class GameController extends Observable implements Observer {
                 addImageToImageView(windowPatterns.get(list.get(1)), windowPattern3,180, 200);
                 updateDicePattern(dicePatternGUI.get(1),dicePatternGridPane3,29,39);
                 ourGridPaneList.add(ourGridPane3);
-                addImageToImageView(favorTokensPath,favorTokensPlayer3ImageView,30,30);
+                favorTokensPlayer3ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
                 break;
             case 3:
                 ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
@@ -596,11 +634,11 @@ public class GameController extends Observable implements Observer {
                 addImageToImageView(windowPatterns.get(list.get(2)), windowPattern4,180, 200);
                 updateDicePattern(dicePatternGUI.get(2),dicePatternGridPane4,29,39);
                 ourGridPaneList.add(ourGridPane4);
-                addImageToImageView(favorTokensPath,favorTokensPlayer4ImageView,30,30);
+                favorTokensPlayer4ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
                 break;
             default:
                 break;
-        }
+        }*/
     }
 
 
@@ -608,6 +646,7 @@ public class GameController extends Observable implements Observer {
         setChanged();
         notifyObservers(new SkipTurnEvent());
         turnLabel.setStyle("-fx-background-color: #ff0000;");
+        turnLabel.setText(waitText);
         disableToolCards();
         disableDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);

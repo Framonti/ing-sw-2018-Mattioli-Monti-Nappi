@@ -81,7 +81,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 windowPatternsPath.add(windowPattern.toStringPath());
                 num++;
             }
-            sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath), player);
+            sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath, player.getPrivateObjectiveCard().toString(), player.getPrivateObjectiveCardToString()), player);
 
             synchronized (Server.windowPatternLock) {
                 while (player.getWindowPattern() == null) {

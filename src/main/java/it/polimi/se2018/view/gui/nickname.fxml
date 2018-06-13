@@ -55,7 +55,7 @@
             <Font name="Calibri" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="578.0" layoutY="318.0" text="(Lunghezza minima: due caratteri)" textFill="WHITE">
+      <Label layoutX="546.0" layoutY="321.0" text="(Lunghezza minima: due caratteri)" textFill="WHITE">
          <font>
             <Font name="Calibri" size="32.0" />
          </font>

@@ -411,6 +411,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void showWindowPatterns(MVEvent event) {
         WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) event;
+        System.out.println("\nCARTA OBIETTIVO PRIVATO: ");
+        System.out.println(windowPatternsEvent.getPrivateObjectiveCard());
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
             System.out.println(windowPattern);
         selectWindowPattern();
