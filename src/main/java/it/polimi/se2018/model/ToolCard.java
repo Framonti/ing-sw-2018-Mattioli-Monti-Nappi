@@ -68,7 +68,7 @@ public class ToolCard{
      */
     public void increaseFavorPoint (int n){
         this.favorPoint += n;
-        ToolCardEvent toolCardEvent = new ToolCardEvent(GameSingleton.getInstance().toolCardsToString(), GameSingleton.getInstance().toolCardsToStringPath());
+        ToolCardEvent toolCardEvent = new ToolCardEvent(GameSingleton.getInstance().toolCardsToString(), GameSingleton.getInstance().toolCardsToStringPath(),GameSingleton.getInstance().getFavorTokensOnToolCards());
         GameSingleton.getInstance().myNotify(toolCardEvent);
     }
 

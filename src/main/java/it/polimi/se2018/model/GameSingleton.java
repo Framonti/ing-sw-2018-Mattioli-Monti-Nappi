@@ -293,7 +293,7 @@ public class GameSingleton extends Observable{
     public List<String> draftPoolToStringPath(){
         List<String> tmp = new ArrayList<>();
         if (draftPool.isEmpty()) {
-            tmp.add("");            //TODO: controllare se va  bene così oppure se devo passare 9 path "falsi"
+            tmp.add("");
             return tmp;
         }
         for( Dice dice : draftPool)
@@ -381,6 +381,19 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    public List<String> getFavorTokensOnToolCards(){
+        List<String> list = new ArrayList<>();
+        for(ToolCard toolCard : toolCards)
+            list.add(Integer.toString(toolCard.getFavorPoint()));
+        return list;
+    }
+
+    public List<String> getFavorTokensNumberPlayers(){
+        List<String> list = new ArrayList<>();
+        for(Player player : players)
+            list.add(Integer.toString(player.getFavorTokensNumber()));
+        return list;
+    }
 
 
     /**

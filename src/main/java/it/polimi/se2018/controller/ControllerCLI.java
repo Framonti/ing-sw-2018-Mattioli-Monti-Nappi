@@ -809,11 +809,11 @@ public class ControllerCLI implements Observer {
                 view.showAll(new ShowAllEvent(
                         new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
                         model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
+                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards() ),
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
                         model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
-                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath()))
+                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()))
                 );
             }
             model.setCurrentPlayer(model.getPlayers().get(0));
@@ -825,11 +825,11 @@ public class ControllerCLI implements Observer {
                 view.showAll(new ShowAllEvent(
                         new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
                         model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath()),
+                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards()),
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
                         model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
-                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath()))
+                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()))
                 );
                 turnEnded = false;
                 turnTimer.start(); //thread for time

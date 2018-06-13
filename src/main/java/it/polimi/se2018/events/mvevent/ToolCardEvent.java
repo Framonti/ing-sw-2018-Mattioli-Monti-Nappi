@@ -10,16 +10,18 @@ public class ToolCardEvent extends MVEvent{
 
     private List<String> toolCards;
     private List<String> toolCardsGUI;
+    private List<String> favorTokensOnToolCards;
 
     /**
      * Constructor
      * @param toolCards A List representing all the ToolCard in the game
      */
-    public ToolCardEvent(List<String> toolCards, List<String> toolCardsGUI){
+    public ToolCardEvent(List<String> toolCards, List<String> toolCardsGUI,List<String> favorTokensOnToolCards ){
 
         super(3);
         this.toolCards = toolCards;
         this.toolCardsGUI = toolCardsGUI;
+        this.favorTokensOnToolCards = favorTokensOnToolCards;
     }
 
     /**
@@ -35,4 +37,7 @@ public class ToolCardEvent extends MVEvent{
         return toolCardsGUI;
     }
 
+    public List<String> getFavorTokensOnToolCards() {
+        return favorTokensOnToolCards;
+    }
 }
