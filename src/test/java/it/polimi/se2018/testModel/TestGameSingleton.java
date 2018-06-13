@@ -1,7 +1,6 @@
 package it.polimi.se2018.testModel;
 
 import it.polimi.se2018.model.*;
-import org.junit.After;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -16,8 +15,8 @@ public class TestGameSingleton {
     private ArrayList <Player> players;
     private ArrayList <PublicObjectiveCard> publicObjectiveCards;
     private ArrayList <ToolCard> toolCards;
-    private ScoreTrack scoreTrack;
     private RoundTrack roundTrack;
+
     @Before
     public void setUp(){
         players = new ArrayList<>();
@@ -38,7 +37,6 @@ public class TestGameSingleton {
         toolCards.add(new ToolCard("","", Colour.PURPLE, 2));
         toolCards.add(new ToolCard("","", Colour.RED, 3));
         toolCards.add(new ToolCard("","", Colour.GREEN,4));
-        scoreTrack = new ScoreTrack(players);
         roundTrack = new RoundTrack();
 
 
@@ -47,7 +45,7 @@ public class TestGameSingleton {
 
     @Test
     public void testCreateDiceBag(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         assertEquals(90,instance.getDiceBag().size());
 
         //controllo che ci siano 18 dadi per ogni colore
@@ -88,7 +86,7 @@ public class TestGameSingleton {
     @Test
     public void testIncreaseRoundTrue(){
         try{
-            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
             instance.setRound(0);
             instance.increaseRound();
             assertEquals(1,instance.getRound());
@@ -97,7 +95,7 @@ public class TestGameSingleton {
         }
 
         try{
-            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
             instance.setRound(8);
             instance.increaseRound();
             assertEquals(9,instance.getRound());
@@ -106,7 +104,7 @@ public class TestGameSingleton {
         }
 
         try{
-            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+            GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
             instance.setRound(3);
             instance.increaseRound();
             assertEquals(4,instance.getRound());
@@ -120,7 +118,7 @@ public class TestGameSingleton {
 
     @Test
     public void testExtractAndRoll(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         int numberToExtract;
         numberToExtract = (2* instance.getPlayers().size() )+1;
         assertEquals(7,numberToExtract);
@@ -143,7 +141,7 @@ public class TestGameSingleton {
 
     @Test
     public void testExtractAndRollOneDice(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         instance.extractAndRollOneDice();
         assertEquals(89,instance.getDiceBag().size());
         assertEquals(1,instance.getDraftPool().size());
@@ -171,7 +169,7 @@ public class TestGameSingleton {
     //TODO analizzare il caso di vittoria e i vari casi di pareggio
     @Test
     public void testSelectWinner(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         instance.getPlayers().get(0).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
         instance.getPlayers().get(1).setWindowPattern(new WindowPattern("", 3, new Dice[4][5]));
         instance.getPlayers().get(2).setWindowPattern(new WindowPattern("", 5, new Dice[4][5]));
@@ -200,7 +198,20 @@ public class TestGameSingleton {
         instance.getPlayers().get(2).getDicePattern().setDice(new Position(3, 0), d3);
         //points obtained from private objective cards: player 1: 6    player 2: 1        player 3: 3
 
-        assertEquals(instance.getPlayers().get(0), instance.selectWinner());
+        Player winner = instance.getPlayers().get(0);
+        for (Player player: instance.getPlayers()) {
+            if (player.getPrivateObjectiveCard().getColour().equals(Colour.GREEN))
+                winner = player;
+        }
+        for (Player player: instance.getPlayers()) {
+            if (player.getPrivateObjectiveCard().getColour().equals(Colour.PURPLE))
+                winner = player;
+        }
+        for (Player player: instance.getPlayers()) {
+            if (player.getPrivateObjectiveCard().getColour().equals(Colour.BLUE))
+                winner = player;
+        }
+        assertEquals(winner, instance.selectWinner());
 
         //winner is player 2
         instance.getPlayers().get(0).setScore(8);
@@ -236,7 +247,7 @@ public class TestGameSingleton {
 
     @Test
     public void testFromDraftPoolToRoundTrack(){
-        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         List<Dice> pool = new ArrayList<>();
         Dice dice1 = new Dice (Colour.PURPLE);
         dice1.setValue(1);
@@ -261,5 +272,72 @@ public class TestGameSingleton {
 
     }
 
+    @Test
+    public void testDicePatternsToString() {
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
+        List<String> methodOutput1 = instance.dicePatternsToString();
+        List<List<String>> methodOutput2 = instance.dicePatternsToStringPath();
+        for (int i = 0; i < players.size(); i++) {
+            assertEquals(instance.getPlayers().get(i).getDicePattern().toString(), methodOutput1.get(i));
+            assertEquals(instance.getPlayers().get(i).getDicePattern().dicePatternToStringPath(), methodOutput2.get(i));
+        }
+    }
+
+    @Test
+    public void testPublicObjectiveCardsToString() {
+        GameSingleton instance = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
+        List<String> methodOutput1 = instance.publicObjectiveCardsToString();
+        List<String> methodOutput2 = instance.publicObjectiveCardsToStringPath();
+        for (int i = 0; i < instance.getPublicObjectiveCards().size(); i++) {
+            assertEquals(instance.getPublicObjectiveCards().get(i).toString(), methodOutput1.get(i));
+            assertEquals("src/main/Images/PublicObjectiveCard/" +
+                    instance.getPublicObjectiveCards().get(i).getName().replaceAll("\\s", "") +
+                    ".jpg", methodOutput2.get(i));
+        }
+    }
+
+    @Test
+    public void testToolCardsToStringAbbreviated() {
+        GameSingleton instance = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
+        List<String> methodOutput = instance.toolCardsToStringAbbreviated();
+        for (int i = 0; i < instance.getToolCards().size(); i++) {
+            assertEquals( instance.getToolCards().get(i).getId() + ")\t" +
+                    instance.getToolCards().get(i).getName() + "\n\tPrezzo: " +
+                    (instance.getToolCards().get(i).getFavorPoint() == 0 ? 1 : 2) + "\n", methodOutput.get(i));
+        }
+    }
+
+    @Test
+    public void testWindowPatternsToStringPath() {
+        GameSingleton instance = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
+        List<String> methodOutput = instance.windowPatternsToStringPath();
+        for (int i = 0; i < players.size(); i++) {
+            assertEquals(instance.getPlayers().get(i).getDicePattern().getWindowPattern().toStringPath(), methodOutput.get(i));
+        }
+    }
+
+    @Test
+    public void testGetFavorTokensNumberPlayers() {
+        GameSingleton instance = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
+        List<String> methodOutput = instance.getFavorTokensNumberPlayers();
+        for (int i = 0; i < instance.getPlayersNumber(); i++) {
+            assertEquals(Integer.toString(instance.getPlayers().get(i).getFavorTokensNumber()), methodOutput.get(i));
+        }
+    }
+
+    @Test
+    public void testCreateScoreTrackAndLastPlayer() {
+        GameSingleton instance = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
+        Dice[][] dices = new Dice[4][5];
+        WindowPattern wp = new WindowPattern("wp", 4, dices);
+        List<Integer> scores = new ArrayList<>();
+        for (Player player: instance.getPlayers()) {
+            player.setWindowPattern(wp);
+            player.computeMyScore(publicObjectiveCards);
+            scores.add(player.getScore());
+        }
+        instance.createScoreTrack(scores);
+        instance.lastPlayer();
+    }
 
 }

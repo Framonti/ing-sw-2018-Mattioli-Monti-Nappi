@@ -27,13 +27,13 @@ public class TestRunnerPliersEvent {
     @Test
     public void testIllegalArgumentException() {
         try {
-            RunnerPliersEvent runnerPliersEvent = new RunnerPliersEvent("2 1");
+            new RunnerPliersEvent("2 1");
         }
         catch (IllegalArgumentException e) {
             assertEquals("Parametri insufficienti", e.getMessage());
         }
         try {
-            RunnerPliersEvent runnerPliersEvent = new RunnerPliersEvent("ciao");
+            new RunnerPliersEvent("ciao");
         }
         catch (IllegalArgumentException e) {
             assertEquals("Parametri non numerici o sbagliati", e.getMessage());

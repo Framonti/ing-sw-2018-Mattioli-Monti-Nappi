@@ -2,7 +2,7 @@ package it.polimi.se2018.testController;
 
 import it.polimi.se2018.controller.ControllerCLI;
 
-import it.polimi.se2018.events.mvevent.FluxRemoverChoiceEvent;
+
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualViewCLI;
@@ -20,7 +20,6 @@ public class TestControllerCLI {
     private ArrayList<Player> players;
     private ArrayList <PublicObjectiveCard> publicObjectiveCards;
     private ArrayList <ToolCard> toolCards;
-    private ScoreTrack scoreTrack;
     private RoundTrack roundTrack;
     private VirtualViewCLI view;
     private ControllerCLI controllerCLI;
@@ -54,7 +53,6 @@ public class TestControllerCLI {
         toolCards.add(new ToolCard("","", Colour.GREEN,10));
         toolCards.add(new ToolCard("","", Colour.GREEN,11));
         toolCards.add(new ToolCard("","", Colour.GREEN,12));
-        scoreTrack = new ScoreTrack(players);
     }
 
 
@@ -63,7 +61,7 @@ public class TestControllerCLI {
     @Test(expected = IllegalArgumentException.class)
     public void testSetWindowPatternPlayerTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -104,7 +102,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse1(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -123,7 +121,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse2(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -142,7 +140,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse3(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -161,7 +159,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -224,7 +222,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse1(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -271,7 +269,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse2() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -317,7 +315,7 @@ public class TestControllerCLI {
     @Test
     public void testEglomiseBrushTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -365,7 +363,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testCopperFoilBurnisherFalse() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack, scoreTrack);
+        model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view, toolCards, model, 1000);
         setup = GameSetupSingleton.instance();
@@ -411,7 +409,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testCopperFoilBurnisherTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -472,7 +470,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testLathekinTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -519,17 +517,17 @@ public class TestControllerCLI {
         LathekinEvent event = new LathekinEvent("3 2 3 1 3 3 4 3 ");
         controllerCLI.update(view, event);
 
-        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,1)), null);
+        assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 1)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,0)),diceY );
-        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,2)), null);
+        assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 2)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)),diceR );
 
         event = new LathekinEvent("3 1 2 1 4 3 2 4");
         controllerCLI.update(view, event);
 
-        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,0)), null);
+        assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 0)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,0)),diceY );
-        assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)), null);
+        assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(3, 2)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,3)),diceR );
 
         event = new LathekinEvent("3 1 2 1 4 3 2 4");
@@ -541,7 +539,7 @@ public class TestControllerCLI {
     @Test( expected = NullPointerException.class)
     public void testLathekinFalse(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -593,7 +591,7 @@ public class TestControllerCLI {
     @Test
     public void testLensCutterTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -633,7 +631,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse1() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -656,7 +654,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse2() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -682,7 +680,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse3() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -709,7 +707,7 @@ public class TestControllerCLI {
     @Test
     public void testFluxBrushChooseDice(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -749,7 +747,7 @@ public class TestControllerCLI {
     @Test (expected = NullPointerException.class)
     public void testFluxBrushChooseDiceFalse(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -780,7 +778,7 @@ public class TestControllerCLI {
     @Test
     public void testFluxBrushPlaceDice(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -829,7 +827,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGlazingHammerTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -869,7 +867,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testGlazingHammerFalse() {
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -899,7 +897,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testRunnerPliers(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -947,7 +945,7 @@ public class TestControllerCLI {
         controllerCLI.update(view,event);
 
         assertEquals(diceP2,model.getCurrentPlayer().getDicePattern().getDice(new Position (1,1)));
-        assertEquals(model.getDraftPool().size(), 0);
+        assertEquals(0, model.getDraftPool().size());
         assertEquals(1,model.getCurrentPlayer().getLap());
 
         event = new RunnerPliersEvent("1 1 4 ");
@@ -958,7 +956,7 @@ public class TestControllerCLI {
     @Test (expected = NullPointerException.class)
     public void testCorkBakedStrightedge(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1018,7 +1016,7 @@ public class TestControllerCLI {
     @Test (expected = NullPointerException.class)
     public void testGrindingStone(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1088,7 +1086,7 @@ public class TestControllerCLI {
     @Test
     public void testFluxRemoverChooseDice(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1176,7 +1174,7 @@ public class TestControllerCLI {
     @Test
     public void testFluxRemoverPlaceDiceTrue(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1234,7 +1232,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testFluxRemoverPlaceDiceFalse(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1287,7 +1285,7 @@ public class TestControllerCLI {
     @Test(expected = NullPointerException.class)
     public void testTapWheel(){
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
@@ -1365,7 +1363,7 @@ public class TestControllerCLI {
     public void testPlaceDiceFromDraftPoolToDicePattern(){
 
         roundTrack = new RoundTrack();
-        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack,scoreTrack);
+        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
         controllerCLI = new ControllerCLI(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();

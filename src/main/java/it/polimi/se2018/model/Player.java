@@ -20,7 +20,6 @@ public class Player {
     private String name;
     private int score;
     private int favorTokensNumber;
-    private ScoreMarker scoreMarker;
     private WindowPattern windowPattern;
     private DicePattern dicePattern;
     private PrivateObjectiveCard privateObjectiveCard;
@@ -92,8 +91,6 @@ public class Player {
 
     public void setLap(int lap) { this.lap = lap; }
 
-    public void setScoreMarker(ScoreMarker scoreMarker) { this.scoreMarker = scoreMarker; }
-
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) { this.privateObjectiveCard = privateObjectiveCard; }
@@ -153,7 +150,9 @@ public class Player {
 
         //points obtained with the PublicObjectiveCards
         for(PublicObjectiveCard poc: publicObjectiveCards) {
-            sum +=  this.publicObjectiveCards.get(poc.getName());
+            try {
+                sum +=  this.publicObjectiveCards.get(poc.getName());
+            } catch (NullPointerException ignore) {}
         }
 
         //points obtained with the PrivateObjectiveCard

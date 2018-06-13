@@ -57,9 +57,9 @@ public class NetworkHandler extends Thread implements ServerInterface {
     @Override
     public void run() {
         ObjectInputStream inputStream;
-        boolean loop = true;
 
-        while(loop && !socket.isClosed()) {
+
+        while(!socket.isClosed()) {
             try {
                 inputStream = new ObjectInputStream(this.socket.getInputStream());
             }
@@ -71,12 +71,7 @@ public class NetworkHandler extends Thread implements ServerInterface {
                 Object obj = inputStream.readObject();
                 if (obj.getClass() != String.class) {
                     MVEvent mvEvent = (MVEvent) obj;
-                    if (mvEvent == null) {
-                        loop = false;
-                        stopConnection();
-                    } else {
-                        client.notify(mvEvent);
-                    }
+                    client.notify(mvEvent);
                 }
             }
             catch (IOException | ClassNotFoundException e) {
@@ -100,7 +95,12 @@ public class NetworkHandler extends Thread implements ServerInterface {
         }
     }
 
-
+/*  Questo pezzo di codice potrebbe servire
+    if (mvEvent == null) {
+        loop = false;
+        stopConnection();
+    }
+*/
 
     @Override
     public void addClient(ClientInterfaceRMI clientInterfaceRMI) {

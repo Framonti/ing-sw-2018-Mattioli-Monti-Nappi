@@ -86,7 +86,7 @@ public class GameSetupSingleton {
         assignWindowPatterns();
         assignPrivateObjective();
         choosePlayersOrder();
-        return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack(), new ScoreTrack(players));
+        return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack());
     }
 
 

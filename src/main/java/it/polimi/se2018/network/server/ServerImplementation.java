@@ -101,6 +101,23 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         controllerCLI.game();
     }
 
+    private void addClientHelper(Player player) {
+        sendTo(new NickNameAcceptedEvent(), player);
+        List<String> names = new ArrayList<>();
+
+        for(Player playerToAdd : players)
+            names.add(playerToAdd.getName());
+        send(new ClientAlreadyConnectedEvent(names));
+
+        if(players.size() == 2) {
+            timer = new Timer();
+            timer.start();
+        } else if(players.size() == 4) {
+            timer.interrupt();
+            gameStarted = true;
+            createGame();
+        }
+    }
 
     /**
      * This method adds the clientInterface to the list of the clients connected via socket.
@@ -124,21 +141,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     socketClients.add(client);
 
                     System.out.println("socketClient added.");
-                    sendTo(new NickNameAcceptedEvent(), client);
-                    List<String> names = new ArrayList<>();
-
-                    for(Player playerToAdd : players)
-                        names.add(playerToAdd.getName());
-                    send(new ClientAlreadyConnectedEvent(names));
-
-                    if(players.size() == 2) {
-                        timer = new Timer();
-                        timer.start();
-                    } else if(players.size() == 4) {
-                        timer.interrupt();
-                        gameStarted = true;
-                        createGame();
-                    }
+                    addClientHelper(player);
                 } else
                     handleSocketLostClient(client);
                 return;
@@ -163,20 +166,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         rmiClients.add(client);
 
                         System.out.println("rmiClient added.");
-                        sendTo(new NickNameAcceptedEvent(), player);
-                        List<String> names = new ArrayList<>();
-                        for(Player playerToAdd : players)
-                            names.add(playerToAdd.getName());
-                        send(new ClientAlreadyConnectedEvent(names));
-
-                        if (players.size() == 2) {
-                            timer = new Timer();
-                            timer.start();
-                        }else if (players.size() == 4) {
-                            timer.interrupt();
-                            gameStarted = true;
-                            createGame();
-                        }
+                        addClientHelper(player);
                     }
                     catch (RemoteException e) {
                         System.out.println("Errore di connessione in addClient: " + e.getMessage());

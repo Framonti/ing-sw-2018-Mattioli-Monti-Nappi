@@ -26,7 +26,6 @@ public class GameSingleton extends Observable{
     private List<Dice> diceBag;
     private List<Dice> draftPool;
     private RoundTrack roundTrack;
-    private ScoreTrack scoreTrack;
     private int lap; //indicates current semi round
     private static GameSingleton instance = null;
 
@@ -36,9 +35,8 @@ public class GameSingleton extends Observable{
      * @param publicObjectiveCards list of the public objective cards chosen during game setup
      * @param toolCards list of the toll cards chosen during game setup
      * @param roundTrack round track of the game
-     * @param scoreTrack score track of the game
      */
-    private GameSingleton( List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
+    private GameSingleton( List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack) {
         this.players = players;
         playersNumber = players.size();
         diceNumberToExtract = (2 * playersNumber) + 1;
@@ -48,7 +46,6 @@ public class GameSingleton extends Observable{
         this.toolCards = toolCards;
         this.diceBag = createDiceBag();
         this.roundTrack = roundTrack; //round track created during setup
-        this.scoreTrack = scoreTrack; //score track created during setup
         lap = 0;
         draftPool = new ArrayList<>();
 
@@ -60,12 +57,11 @@ public class GameSingleton extends Observable{
      * @param publicObjectiveCards list of the public objective cards chosen during game setup
      * @param toolCards list of the toll cards chosen during game setup
      * @param roundTrack round track of the game
-     * @param scoreTrack score track of the game
      * @return the instance of the class
      */
-    public static GameSingleton instance(List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack, ScoreTrack scoreTrack) {
+    public static GameSingleton instance(List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack) {
         if (instance == null)
-            instance = new GameSingleton(players, publicObjectiveCards, toolCards, roundTrack, scoreTrack); //creates instance only if it doesn't already exist
+            instance = new GameSingleton(players, publicObjectiveCards, toolCards, roundTrack); //creates instance only if it doesn't already exist
         return instance;
     }
 
@@ -115,14 +111,6 @@ public class GameSingleton extends Observable{
      */
     public RoundTrack getRoundTrack() {
         return roundTrack;
-    }
-
-    /**
-     * Gets score track
-     * @return score track
-     */
-    public ScoreTrack getScoreTrack() {
-        return scoreTrack;
     }
 
     /**

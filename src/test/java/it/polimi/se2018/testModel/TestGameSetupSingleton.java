@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -16,21 +19,25 @@ public class TestGameSetupSingleton {
     @Before
     public void setUp(){
         instance = GameSetupSingleton.instance();
-        instance.getPlayers().add(new Player("daniele"));
-        instance.getPlayers().add(new Player("fabio"));
-        instance.getPlayers().add(new Player("francesco"));
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(new Player("daniele"));
+        playerList.add(new Player("fabio"));
+        playerList.add(new Player("francesco"));
+        instance.addPlayers(playerList);
         instance.getPlayers().get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele",Colour.BLUE));
         instance.getPlayers().get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio",Colour.GREEN));
         instance.getPlayers().get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco",Colour.PURPLE));
 
     }
 
+
     @Test
-    public void testAssignWindowPattern(){
-        instance.assignWindowPatterns();
-        int i;
-        for(i = 0 ; i < GameSetupSingleton.instance().getPlayers().size(); i++)
-            assertEquals(4,GameSetupSingleton.instance().getPlayers().get(i).getWindowPatterns().size());
+    public void testCreateNewGame() {
+        instance.createNewGame();
+        for (Player player: instance.getPlayers()) {
+            assertNotNull(player.getWindowPatterns());
+            assertNotNull(player.getPrivateObjectiveCard());
+        }
     }
 
 

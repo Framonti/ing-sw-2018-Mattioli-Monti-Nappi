@@ -29,6 +29,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private int connectionChoice;
     private boolean isGUI;
     private ClientInterfaceRMI remoteReference = null;
+    private static final String CONNECTION_ERROR = "Errore di connessione: ";
 
     public ClientImplementation(boolean isGUI) {
         this.isGUI = isGUI;
@@ -105,7 +106,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 server.notify(vcEvent);
             } catch (RemoteException e) {
                 setChanged();
-                notifyObservers(new ErrorEvent("Errore di connessione: " + e.getMessage() + "!"));
+                notifyObservers(new ErrorEvent(CONNECTION_ERROR + e.getMessage() + "!"));
             }
 
         }
@@ -130,7 +131,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             try {
                 server.addClient(remoteReference);
             } catch (RemoteException e) {
-                System.err.println("Errore di connessione: " + e.getMessage() + "!");
+                System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -158,7 +159,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             } catch (MalformedURLException e) {
                 System.err.println("URL non trovato!");
             } catch (RemoteException e) {
-                System.err.println("Errore di connessione: " + e.getMessage() + "!");
+                System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
             } catch (NotBoundException e) {
                 System.err.println("Il riferimento passato non è associato a nulla!");
             }

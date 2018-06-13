@@ -27,6 +27,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private Scanner scanner;
     private BufferedReader reader;
     private boolean firstTimeNick;
+    private static final String INVALID_MOVE= "MOSSA NON VALIDA";
 
 
     /**
@@ -106,7 +107,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 if(!toolCardUsed)
                     return new GlazingHammerEvent();
                 else
-                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
+                    throw new UnsupportedOperationException(INVALID_MOVE);
             }
 
             int index;
@@ -118,7 +119,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 if(!diceMoved)
                     return new PlaceDiceEvent(eventParameters);
                 else
-                    throw new UnsupportedOperationException("MOSSA NON VALIDA");
+                    throw new UnsupportedOperationException(INVALID_MOVE);
             }
             if(!toolCardUsed) {
                 event = Integer.parseInt(param[0]);
@@ -126,7 +127,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 return vcEvent;
             }
             else {
-                throw new UnsupportedOperationException("MOSSA NON VALIDA");
+                throw new UnsupportedOperationException(INVALID_MOVE);
             }
         }
         catch (IndexOutOfBoundsException e) {
