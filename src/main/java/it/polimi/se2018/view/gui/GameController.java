@@ -1,20 +1,20 @@
 package it.polimi.se2018.view.gui;
 
-//TODO: favor tokens, mappa VC, pulsante per annullare mossa fatta
+//TODO: mappa VC, pulsante per annullare mossa fatta
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.Position;
 import it.polimi.se2018.view.VirtualViewCLI;
 import it.polimi.se2018.view.gui.OurGridPane;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -526,6 +526,8 @@ public class GameController extends Observable implements Observer {
             updatePublicObjectiveCards(showAllEvent.getPublicObjectiveCardsGUI());
             updatePrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardStringGUI());
             imageViewsSetup = true;
+            disableDraftPool();
+            disableToolCards();
         }
         else{
             turnLabel.setStyle("-fx-background-color: #00ff19;");
@@ -651,6 +653,10 @@ public class GameController extends Observable implements Observer {
         disableDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
         skipTurnButton.setDisable(true);
+        idToolCardSelected = 0;
+        toolCard1.setEffect(null);
+        toolCard2.setEffect(null);
+        toolCard3.setEffect(null);
     }
     private void showEndTurn(MVEvent event){
         Platform.runLater(() ->{
@@ -864,6 +870,7 @@ public class GameController extends Observable implements Observer {
             handleDraftPool();
             disableToolCards();
             idToolCardSelected = 0;
+            toolCardSelected.setEffect(null);
         } else if (idToolCardSelected == 5) {
             disableDraftPool();
             enableGridPane(roundTrackGridPane,roundTrack);
@@ -911,30 +918,18 @@ public class GameController extends Observable implements Observer {
         window.setMinHeight(225);
         window.setResizable(false);
 
-        VBox vBox = new VBox(5);
-        HBox hBox = new HBox(5);
-        TextField textField = new TextField();
-        textField.setPrefHeight(31);
-        textField.setPrefWidth(187);
+        Button confirmButton = new Button("Conferma Scelta");
 
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(30);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
-
-        //Sets the message and the button
-        Label label = new Label("Inserire il valore del dado");
-        Button confirmButton = new Button("Conferma");
-
-        vBox.getChildren().addAll(label, textField, hBox);
-        hBox.getChildren().addAll(confirmButton);
-
+        ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
+        choiceBox.getItems().addAll(1,2,3,4,5,6);
+        choiceBox.setValue(1); //set a default value
         confirmButton.setOnAction(event -> {
-            if (!textField.getText().equals("")) {
-                choiceFluxRemover = Integer.parseInt(textField.getText());
-                window.close();
-            }
+            choiceFluxRemover = choiceBox.getValue();
         });
+
+        VBox vBox = new VBox(20);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(choiceBox, confirmButton);
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
