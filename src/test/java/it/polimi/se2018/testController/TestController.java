@@ -1,6 +1,6 @@
 package it.polimi.se2018.testController;
 
-import it.polimi.se2018.controller.ControllerCLI;
+import it.polimi.se2018.controller.Controller;
 
 
 import it.polimi.se2018.events.vcevent.*;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestControllerCLI {
+public class TestController {
 
     private GameSingleton model;
     private ArrayList<Player> players;
@@ -22,7 +22,7 @@ public class TestControllerCLI {
     private ArrayList <ToolCard> toolCards;
     private RoundTrack roundTrack;
     private VirtualViewCLI view;
-    private ControllerCLI controllerCLI;
+    private Controller controller;
     private GameSetupSingleton setup;
 
     @Before
@@ -63,7 +63,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         ArrayList<WindowPattern> windowPatterns = new ArrayList<>();
@@ -76,22 +76,22 @@ public class TestControllerCLI {
 
 
         WindowPatternChoiceEvent event = new WindowPatternChoiceEvent("1");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
         assertEquals(windowPatterns.get(0), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         event = new WindowPatternChoiceEvent("2");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
         assertEquals(windowPatterns.get(1), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         event = new WindowPatternChoiceEvent("3");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
         assertEquals(windowPatterns.get(2), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         event = new WindowPatternChoiceEvent("4");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
         assertEquals(windowPatterns.get(3),model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -104,7 +104,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -114,7 +114,7 @@ public class TestControllerCLI {
 
 
         GrozingPliersEvent event = new GrozingPliersEvent("1      1 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -123,7 +123,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -133,7 +133,7 @@ public class TestControllerCLI {
 
 
         GrozingPliersEvent event = new GrozingPliersEvent("2    2 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -142,7 +142,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -152,7 +152,7 @@ public class TestControllerCLI {
 
 
         GrozingPliersEvent event = new GrozingPliersEvent("4    2 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -161,7 +161,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
@@ -173,7 +173,7 @@ public class TestControllerCLI {
 
         GrozingPliersEvent event = new GrozingPliersEvent("2      1 ");
         try {
-            controllerCLI.update(view, event);
+            controller.update(view, event);
         } catch (NullPointerException e) {
             model.getCurrentPlayer().reduceFavorTokens(1);
         }
@@ -182,7 +182,7 @@ public class TestControllerCLI {
 
         event = new GrozingPliersEvent("3      1 ");
         try {
-            controllerCLI.update(view, event);
+            controller.update(view, event);
         } catch (NullPointerException e) {
             model.getCurrentPlayer().reduceFavorTokens(2);
         }
@@ -196,7 +196,7 @@ public class TestControllerCLI {
 
         event = new GrozingPliersEvent("1      2 ");
         try {
-            controllerCLI.update(view, event);
+            controller.update(view, event);
         } catch (NullPointerException e) {
             model.getCurrentPlayer().reduceFavorTokens(2);
         }
@@ -205,7 +205,7 @@ public class TestControllerCLI {
 
         event = new GrozingPliersEvent("3      2 ");
         try {
-            controllerCLI.update(view, event);
+            controller.update(view, event);
         } catch (NullPointerException e) {
             model.getCurrentPlayer().reduceFavorTokens(2);
         }
@@ -213,7 +213,7 @@ public class TestControllerCLI {
 
         //an exception is thrown beacuse player has not enough favor tokens
         event = new GrozingPliersEvent("3      2 ");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
 
     }
@@ -224,7 +224,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
         //Via Lux
@@ -261,7 +261,7 @@ public class TestControllerCLI {
 
         EglomiseBrushEvent event = new EglomiseBrushEvent("4 4 3 3 ");
 
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -271,7 +271,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
         //Via Lux
@@ -307,7 +307,7 @@ public class TestControllerCLI {
 
         EglomiseBrushEvent event = new EglomiseBrushEvent("4 4 2 3 ");
 
-        controllerCLI.update(view, event);
+        controller.update(view, event);
     }
 
 
@@ -317,7 +317,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
         //Via Lux
@@ -351,7 +351,7 @@ public class TestControllerCLI {
 
         EglomiseBrushEvent event = new EglomiseBrushEvent("4 4 3 3 ");
 
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
 
         assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(3, 3)));
@@ -365,7 +365,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view, toolCards, model, 1000);
+        controller = new Controller(view, toolCards, model, 1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -400,7 +400,7 @@ public class TestControllerCLI {
         model.getCurrentPlayer().getDicePattern().setDice(new Position(2, 2), dice2);
 
         CopperFoilBurnisherEvent event = new CopperFoilBurnisherEvent("3 2 1 2");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
 
     }
@@ -411,7 +411,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -446,7 +446,7 @@ public class TestControllerCLI {
         model.getCurrentPlayer().getDicePattern().setDice(new Position(2,2), dice2 );
 
         CopperFoilBurnisherEvent event = new CopperFoilBurnisherEvent("3 2 2 3");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
         assertNull(model.getCurrentPlayer().getDicePattern().getDice(positionDiceToMove));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,2)), diceToMove);
@@ -457,14 +457,14 @@ public class TestControllerCLI {
         model.getCurrentPlayer().getDicePattern().setDice(new Position(2,3), dice3);
 
         event = new CopperFoilBurnisherEvent("3 4 4 3");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
         assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 3)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)), dice3);
 
 
         event = new CopperFoilBurnisherEvent("4 3 3 3 ");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
     }
 
     @Test(expected = NullPointerException.class)
@@ -472,7 +472,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -515,7 +515,7 @@ public class TestControllerCLI {
 
 
         LathekinEvent event = new LathekinEvent("3 2 3 1 3 3 4 3 ");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
         assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 1)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(2,0)),diceY );
@@ -523,7 +523,7 @@ public class TestControllerCLI {
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,2)),diceR );
 
         event = new LathekinEvent("3 1 2 1 4 3 2 4");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
         assertNull(model.getCurrentPlayer().getDicePattern().getDice(new Position(2, 0)));
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,0)),diceY );
@@ -531,7 +531,7 @@ public class TestControllerCLI {
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(1,3)),diceR );
 
         event = new LathekinEvent("3 1 2 1 4 3 2 4");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -541,7 +541,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -584,7 +584,7 @@ public class TestControllerCLI {
 
         LathekinEvent event = new LathekinEvent("3 3 2 5 3 2 3 1");
 
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -593,7 +593,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
@@ -616,7 +616,7 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice4);
 
         LensCutterEvent event = new LensCutterEvent("1 1 2");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         List<Dice> list = new ArrayList<>();
         list.add(dice1);
@@ -633,7 +633,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
@@ -646,7 +646,7 @@ public class TestControllerCLI {
         model.fromDraftPoolToRoundTrack();
 
         LensCutterEvent event = new LensCutterEvent("1 6 2");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
 
     }
@@ -656,7 +656,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
@@ -673,7 +673,7 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice2);
 
         LensCutterEvent event = new LensCutterEvent("5 1 2");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -682,7 +682,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
@@ -699,7 +699,7 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice2);
 
         LensCutterEvent event = new LensCutterEvent("1 1 8");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -709,7 +709,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -732,7 +732,7 @@ public class TestControllerCLI {
 
         FluxBrushChooseDiceEvent event = new FluxBrushChooseDiceEvent("1");
         try{
-            controllerCLI.update(view,event);
+            controller.update(view,event);
         } catch (NullPointerException e){
             assertEquals(size, model.getDraftPool().size());
             assertEquals(dice2, model.getDraftPool().get(1));
@@ -749,7 +749,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -770,7 +770,7 @@ public class TestControllerCLI {
 
         FluxBrushChooseDiceEvent event = new FluxBrushChooseDiceEvent("5");
 
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -780,7 +780,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -819,7 +819,7 @@ public class TestControllerCLI {
 
 
         FluxBrushPlaceDiceEvent event = new FluxBrushPlaceDiceEvent("3 5");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -829,7 +829,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
@@ -851,7 +851,7 @@ public class TestControllerCLI {
         int size = model.getDraftPool().size();
 
         GlazingHammerEvent event = new GlazingHammerEvent();
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         assertEquals(size, model.getDraftPool().size());
         assertEquals(dice1.getColour(), model.getDraftPool().get(0).getColour());
@@ -860,7 +860,7 @@ public class TestControllerCLI {
 
 
         event = new GlazingHammerEvent();
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -869,7 +869,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice[4][5]);
@@ -890,7 +890,7 @@ public class TestControllerCLI {
 
         GlazingHammerEvent event = new GlazingHammerEvent();
 
-        controllerCLI.update(view, event);
+        controller.update(view, event);
     }
 
 
@@ -899,7 +899,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setLap(0);
@@ -942,14 +942,14 @@ public class TestControllerCLI {
         model.getDraftPool().add(diceP2);
 
         RunnerPliersEvent event = new RunnerPliersEvent("1 2 2 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         assertEquals(diceP2,model.getCurrentPlayer().getDicePattern().getDice(new Position (1,1)));
         assertEquals(0, model.getDraftPool().size());
         assertEquals(1,model.getCurrentPlayer().getLap());
 
         event = new RunnerPliersEvent("1 1 4 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
     }
 
@@ -958,7 +958,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         //Via Lux
@@ -998,7 +998,7 @@ public class TestControllerCLI {
         model.getDraftPool().add(diceP2);
 
         CorkBakedStraightedgeEvent event = new CorkBakedStraightedgeEvent("1 1 4");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
         assertEquals(0, model.getDraftPool().size());
         assertEquals(diceP2, model.getCurrentPlayer().getDicePattern().getDice(new Position(0,3)));
@@ -1008,7 +1008,7 @@ public class TestControllerCLI {
         model.getDraftPool().add(diceG);
 
         event = new CorkBakedStraightedgeEvent("1 1 1");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -1018,7 +1018,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 18, new Dice[4][5]);
@@ -1046,38 +1046,38 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice6);
 
         GrindingStoneEvent event = new GrindingStoneEvent("1");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         assertEquals(6,model.getDraftPool().size());
         assertEquals("6F",model.getDraftPool().get(0).toString());
 
         event = new GrindingStoneEvent("2");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(6,model.getDraftPool().size());
         assertEquals("5B",model.getDraftPool().get(1).toString());
 
         event = new GrindingStoneEvent("3");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(6,model.getDraftPool().size());
         assertEquals("4R",model.getDraftPool().get(2).toString());
 
         event = new GrindingStoneEvent("4");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(6,model.getDraftPool().size());
         assertEquals("3G",model.getDraftPool().get(3).toString());
 
         event = new GrindingStoneEvent("5");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(6,model.getDraftPool().size());
         assertEquals("2V",model.getDraftPool().get(4).toString());
 
         event = new GrindingStoneEvent("6");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(6,model.getDraftPool().size());
         assertEquals("1R",model.getDraftPool().get(5).toString());
 
         event = new GrindingStoneEvent("7");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
 
     }
@@ -1088,7 +1088,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -1161,7 +1161,7 @@ public class TestControllerCLI {
 
         FluxRemoverChooseDiceEvent event = new FluxRemoverChooseDiceEvent("3");
         try {
-            controllerCLI.update(view, event);
+            controller.update(view, event);
         } catch (NullPointerException ignored) {}
         assertEquals(5, model.getDraftPool().size());
         assertFalse(model.getDraftPool().contains(dice3));
@@ -1176,7 +1176,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -1217,14 +1217,14 @@ public class TestControllerCLI {
 
 
         Dice tmp =new Dice(Colour.BLUE);
-        controllerCLI.setDiceForFlux(tmp);
+        controller.setDiceForFlux(tmp);
 
         FluxRemoverPlaceDiceEvent event = new FluxRemoverPlaceDiceEvent("4 3 5");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         tmp.setValue(4);
-        assertEquals(controllerCLI.getDiceForFlux(),model.getCurrentPlayer().getDicePattern().getDice(new Position(2,4)));
-        assertEquals(controllerCLI.getDiceForFlux(),tmp);
+        assertEquals(controller.getDiceForFlux(),model.getCurrentPlayer().getDicePattern().getDice(new Position(2,4)));
+        assertEquals(controller.getDiceForFlux(),tmp);
 
 
     }
@@ -1234,7 +1234,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -1275,10 +1275,10 @@ public class TestControllerCLI {
 
 
         Dice tmp =new Dice(Colour.BLUE);
-        controllerCLI.setDiceForFlux(tmp);
+        controller.setDiceForFlux(tmp);
 
         FluxRemoverPlaceDiceEvent event = new FluxRemoverPlaceDiceEvent("4 3 4");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
     }
 
 
@@ -1287,7 +1287,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         //Via Lux
@@ -1345,17 +1345,17 @@ public class TestControllerCLI {
         model.fromDraftPoolToRoundTrack();
 
         TapWheelEvent event = new TapWheelEvent("1 1 4 1 4 2 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
 
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,1)), diceP2);
 
 
         event = new TapWheelEvent("1 1 3 4 2 4 4 2 4 1");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
 
         event = new TapWheelEvent("1 1 4 1 4 3");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
 
     }
 
@@ -1365,7 +1365,7 @@ public class TestControllerCLI {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualViewCLI();
-        controllerCLI = new ControllerCLI(view,toolCards,model,1000);
+        controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
@@ -1421,17 +1421,17 @@ public class TestControllerCLI {
         model.getDraftPool().add(dice3);
 
         PlaceDiceEvent event = new PlaceDiceEvent("1 2 3 ");
-        controllerCLI.update(view, event);
+        controller.update(view, event);
         assertEquals(2,model.getDraftPool().size());
         assertEquals(dice1, model.getCurrentPlayer().getDicePattern().getDice(new Position(1,2)));
 
         event = new PlaceDiceEvent("1 2 5 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
         assertEquals(1,model.getDraftPool().size());
         assertEquals(dice2, model.getCurrentPlayer().getDicePattern().getDice(new Position(1,4)));
 
         event = new PlaceDiceEvent("1  2 4 ");
-        controllerCLI.update(view,event);
+        controller.update(view,event);
     }
 
 
@@ -1445,7 +1445,7 @@ public class TestControllerCLI {
         model.getRoundTrack().removeAll();
         model = null;
         view = null;
-        controllerCLI = null;
+        controller = null;
         setup = null;
 
     }

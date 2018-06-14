@@ -1,7 +1,7 @@
 package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.ConfigurationParametersLoader;
-import it.polimi.se2018.controller.ControllerCLI;
+import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
@@ -31,7 +31,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private transient List<ClientInterfaceSocket> socketClients = new ArrayList<>();
     private transient List<Player> players = new ArrayList<>();
 
-    private transient ControllerCLI controllerCLI;
+    private transient Controller controller;
     private final transient Object lock = new Object();
     private transient VirtualViewCLI virtualViewCLI;
     private transient Timer timer = new Timer();
@@ -65,9 +65,9 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(players);
         GameSingleton model = GameSetupSingleton.instance().createNewGame();
-        controllerCLI = new ControllerCLI(virtualViewCLI, model.getToolCards(), model, turnDuration);
+        controller = new Controller(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
-        virtualViewCLI.addObserver(controllerCLI);
+        virtualViewCLI.addObserver(controller);
         model.addObserver(virtualViewCLI);
 
         send(new GameStartEvent());
@@ -98,16 +98,20 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
         send(new AllWindowPatternChosen());
 
-        controllerCLI.game();
+        controller.game();
     }
 
-    private void addClientHelper(Player player) {
-        sendTo(new NickNameAcceptedEvent(), player);
+    private void waitingRoomRefresh() {
         List<String> names = new ArrayList<>();
 
         for(Player playerToAdd : players)
             names.add(playerToAdd.getName());
         send(new ClientAlreadyConnectedEvent(names));
+    }
+
+    private void addClientHelper(Player player) {
+        sendTo(new NickNameAcceptedEvent(), player);
+        waitingRoomRefresh();
 
         if(players.size() == 2) {
             timer = new Timer();
@@ -254,7 +258,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         System.out.println(CONNECTION_LOST + player.getName());
                     }
                     if (rmiClients.size() + socketClients.size() < 2)
-                        controllerCLI.endGame();
+                        controller.endGame();
                     else if (isAction)
                         notify(new SkipTurnEvent());
                 }
@@ -315,6 +319,9 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             for (Player player : playersToBeRemoved)
                 players.remove(player);
 
+            if (!playersToBeRemoved.isEmpty())
+                waitingRoomRefresh();
+
             if (players.size() < 2 && timer.isAlive())
                 timer.interrupt();
         }
@@ -371,7 +378,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 toBeRemoved = player;
                 player.setConnectionLost(true);
                 if (socketClients.size() + rmiClients.size() < 2)
-                    controllerCLI.endGame();
+                    controller.endGame();
                 else
                     notify(new SkipTurnEvent());
                 break;
@@ -379,8 +386,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 toBeRemoved = player;
             }
         }
-        if (!gameStarted)
+        if (!gameStarted) {
             players.remove(toBeRemoved);
+            waitingRoomRefresh();
+        }
         if (toBeRemoved != null)
             System.out.println(CONNECTION_LOST + toBeRemoved.getName());
     }

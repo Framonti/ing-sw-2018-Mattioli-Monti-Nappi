@@ -14,7 +14,7 @@ import it.polimi.se2018.view.VirtualViewCLI;
 import java.util.*;
 
 
-public class ControllerCLI implements Observer {
+public class Controller implements Observer {
     private GameSingleton model;
     private VirtualViewCLI view;
     private List<ToolCard> toolCards;
@@ -38,7 +38,7 @@ public class ControllerCLI implements Observer {
      * @param toolCards List of tool cards chosen during the setup.
      */
 
-    public ControllerCLI(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
+    public Controller(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
         this.view = view;
         this.toolCards = toolCards;
         this.model = model;
@@ -784,14 +784,12 @@ public class ControllerCLI implements Observer {
                 view.showActionMenu(new ActionMenuEvent(model.getCurrentPlayer().isDiceMoved(), model.getCurrentPlayer().isToolCardUsed(),
                         model.toolCardsToStringAbbreviated()));
                 view.getInput();
-                if(model.getCurrentPlayer().getClientInterfaceRMI() == null) {
-                    synchronized (lock) {
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            return;
-                        }
+                synchronized (lock) {
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
                     }
                 }
             }

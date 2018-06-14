@@ -30,7 +30,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     private boolean isGUI;
     private ClientInterfaceRMI remoteReference = null;
     private static final String CONNECTION_ERROR = "Errore di connessione: ";
-    private final Object guiAndRMILock = new Object();
 
     public ClientImplementation(boolean isGUI) {
         this.isGUI = isGUI;
@@ -55,17 +54,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         else if (isGUI) {
             setChanged();
             notifyObservers(mvEvent);
-
-            if (connectionChoice == 1 && mvEvent.getId() == 11) {
-                synchronized (guiAndRMILock) {
-                    try {
-                        guiAndRMILock.wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
-
             if (mvEvent.getId() == 56 || mvEvent.getId() == 30 || mvEvent.getId() == 40 || mvEvent.getId() == 60) {
                 setChanged();
                 notifyObservers(new NewObserverEvent(this));
@@ -116,11 +104,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             }
             else try {
                 server.notify(vcEvent);
-                if (isGUI && connectionChoice == 1) {
-                    synchronized (guiAndRMILock) {
-                        guiAndRMILock.notifyAll();
-                    }
-                }
             } catch (RemoteException e) {
                 setChanged();
                 notifyObservers(new ErrorEvent(CONNECTION_ERROR + e.getMessage() + "!"));
