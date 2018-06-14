@@ -47,6 +47,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     }
 
+    /**
+     * Asks the IP address of the server and the type of connection preferred
+     */
     public void askConnection(){
 
         System.out.println("Inserisci l'indirizzo IP del server");
@@ -84,6 +87,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * Shows all the players connected to the server
+     * @param mvEvent It's the event containing the names of all the connected players
+     */
     private void showClientsConnected(MVEvent mvEvent){
         ClientAlreadyConnectedEvent clientAlreadyConnectedEvent = (ClientAlreadyConnectedEvent) mvEvent;
         System.out.println("Client attualmente connessi: ");
@@ -161,6 +168,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
         mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
         mvEvents.put(15, ()->{});
+        mvEvents.put(16, this::playerSuspended);
         mvEvents.put(70, () ->showClientsConnected(mvEvent));
     }
 
@@ -219,22 +227,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
-    public class GetInputClass extends Thread {
-
-        @Override
-        public void run() {
-            try {
-                while (!reader.ready())
-                    Thread.sleep(200);
-                getInput();
-            } catch (IOException e) {
-                System.out.println("IOException thrown!");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
     @Override
     public void getInput() {
         try {
@@ -252,9 +244,18 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * Creates a new Thread in which will be asked the input
+     */
     private void getInputStarter() {
         getInputClass = new GetInputClass();
         getInputClass.start();
+    }
+
+    @Override
+    public void playerSuspended() {
+        getInputClass.interrupt();
+        new SuspendedPlayer().start();
     }
 
     /**
@@ -317,19 +318,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         showPublicObjectiveCards(showAllEvent.getPublicObjectiveCardsString());
         showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
         showToolCards(showAllEvent.getToolCards());
-    }
-
-    /**
-     * Shows all the window pattern and the dices on them of all players
-     * @param event It's the MVEvent received
-     */
-    private void showAllDicePatterns(MVEvent event) {
-        DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
-        int playerIndex;
-        for(playerIndex = 0; playerIndex < dicePatternEvent.getPlayerNames().size(); playerIndex++) {
-            System.out.println("Carta schema di " + dicePatternEvent.getPlayerNames().get(playerIndex));
-            System.out.println(dicePatternEvent.getDicePatternsString().get(playerIndex));
-        }
     }
 
     /**
@@ -453,4 +441,39 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * This class waits the player to write its input.
+     * It is interrupted when every other player leaves the game or the timer ends
+     */
+    public class GetInputClass extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                while (!reader.ready())
+                    Thread.sleep(200);
+                getInput();
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    /**
+     * This class tells the player that it has been suspended.
+     * The player rejoins the game if writes anything
+     */
+    public class SuspendedPlayer extends Thread {
+
+        @Override
+        public void run() {
+            System.out.println("\nSEI STATO SOSPESO!\nScrivi qualunque cosa per rientrare in partita.");
+            scanner.nextLine();
+            System.out.println("Sei di nuovo in partita!");
+            setChanged();
+            notifyObservers(new UnsuspendEvent(null));
+        }
+    }
 }

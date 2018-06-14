@@ -45,6 +45,7 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         }
     }
 
+    @Override
     public void fluxRemoverChoice(MVEvent fluxRemoverPlaceDice) {
         try {
             server.sendTo(fluxRemoverPlaceDice, currentPlayer);
@@ -64,11 +65,20 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
     }
 
     @Override
+    public void playerSuspended() {
+        try {
+            server.sendTo(new SuspendedEvent(), currentPlayer);
+        } catch (RemoteException e) {
+            System.out.println(CONNECTION_EXCEPTION + e.getMessage());
+        }
+    }
+
+    @Override
     public void getInput() {
         try {
             server.sendTo(new GetInputEvent(), currentPlayer);
         }
-        catch (RemoteException | IndexOutOfBoundsException e) {
+        catch (RemoteException e) {
             System.out.println(CONNECTION_EXCEPTION + e.getMessage());
         }
     }

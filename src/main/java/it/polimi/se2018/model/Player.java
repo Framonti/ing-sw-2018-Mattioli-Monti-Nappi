@@ -31,6 +31,7 @@ public class Player {
     private ClientInterfaceRMI clientInterfaceRMI;
     private ClientInterfaceSocket clientInterfaceSocket;
     private boolean connectionLost = false;
+    private boolean isSuspended = false;
 
 
     //Constructor
@@ -72,6 +73,8 @@ public class Player {
 
     public boolean isConnectionLost() { return connectionLost; }
 
+    public boolean isSuspended() { return isSuspended; }
+
     public void setScore(int score) { this.score = score; }
 
     private void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
@@ -106,6 +109,8 @@ public class Player {
     public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 
     public void setConnectionLost(boolean connectionLost) { this.connectionLost = connectionLost; }
+
+    public void setSuspended(boolean suspended) { isSuspended = suspended; }
 
     /**
      * This method reduces the number of favor tokens by cost every time that a tool card is used

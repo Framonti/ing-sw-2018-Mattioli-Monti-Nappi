@@ -6,6 +6,7 @@ import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
+import it.polimi.se2018.events.vcevent.UnsuspendEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.network.server.ServerInterface;
 import java.net.MalformedURLException;
@@ -102,25 +103,27 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 this.name = nicknameEvent.getNickname();
                 tryNickname(nicknameEvent);
             }
-            else try {
-                server.notify(vcEvent);
-            } catch (RemoteException e) {
-                setChanged();
-                notifyObservers(new ErrorEvent(CONNECTION_ERROR + e.getMessage() + "!"));
+            else {
+                if (vcEvent.getId() == 15)
+                    vcEvent = new UnsuspendEvent(name);
+                try {
+                    server.notify(vcEvent);
+                } catch (RemoteException e) {
+                    setChanged();
+                    notifyObservers(new ErrorEvent(CONNECTION_ERROR + e.getMessage() + "!"));
+                }
             }
-
         }
     }
 
+    /**
+     * Tries to add the client with its name
+     * @param nicknameEvent It's the event that contains the name of the client
+     */
     private void tryNickname(NicknameEvent nicknameEvent) {
         if(connectionChoice == 1) {
             if(nicknameEvent.isFirstTime()){
-                /* try (BufferedReader br = new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream()))) {
-                    System.setProperty("java.rmi.server.hostname", br.readLine());
-                } catch (IOException e) {
-                    tryNickname(nicknameEvent);
-                    return;
-                }*/
+                //Usare amazon checkip per rmi, settare la proprietà del sistema
                 try {
                     remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
                 } catch (RemoteException e) {
@@ -148,6 +151,11 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         }
     }
 
+    /**
+     * Tries to connect the client to the server
+     * @param connectionChoiceEvent It's the event containing the IP address of the
+     *                              server and the connection type selected by the client
+     */
     public void connection(ConnectionChoiceEvent connectionChoiceEvent){
 
         connectionChoice = connectionChoiceEvent.getChoice();

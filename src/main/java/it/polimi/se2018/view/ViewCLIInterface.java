@@ -8,6 +8,11 @@ import it.polimi.se2018.events.mvevent.*;
  */
 public interface ViewCLIInterface {
 
+    /**
+     * To be used only during fluxRemover ToolCard
+     * Asks which value must be set to the dice and where must be placed
+     * @param mvEvent
+     */
     void fluxRemoverChoice(MVEvent mvEvent);
 
     /**
@@ -20,6 +25,11 @@ public interface ViewCLIInterface {
      * Opens the standard input, creates an event and notify it to its observer
      */
     void getInput();
+
+    /**
+     * Suspends the input request, notifies the client that it has been suspended and encourage to rejoin the game
+     */
+    void playerSuspended();
 
     /**
      * Shows all the actions that the player can do

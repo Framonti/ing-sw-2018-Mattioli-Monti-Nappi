@@ -66,6 +66,7 @@ public class Controller implements Observer {
         eventsHandler.put(12, this::tapWheel);
         eventsHandler.put(13, this::fluxBrushPlaceDice);
         eventsHandler.put(14, this::fluxRemoverPlaceDice);
+        eventsHandler.put(15, this::unsuspendPlayer);
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
@@ -708,6 +709,19 @@ public class Controller implements Observer {
     }
 
     /**
+     * Makes a suspended player to rejoin the game
+     */
+    private void unsuspendPlayer() {
+        UnsuspendEvent unsuspendEvent = (UnsuspendEvent) event;
+        for (Player player: model.getPlayers()) {
+            if (unsuspendEvent.getName().equals(player.getName())) {
+                player.setSuspended(false);
+                break;
+            }
+        }
+    }
+
+    /**
      * Calls the method associated to a specific event
      *
      * @param event Event
@@ -748,6 +762,7 @@ public class Controller implements Observer {
         turnEnded = true;
         turnTimer.interrupt(); //è finito il turno del giocatore
         playerTurn.interrupt(); //non voglio più input
+        view.showEndTurn(new EndTurnEvent());
         synchronized (turnLock) {
             turnLock.notifyAll(); //risveglia il thread principale
         }
@@ -763,19 +778,33 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This class represents the timer of the turn.
+     * If the timer ends the player is suspended.
+     */
     class TurnTimer extends Thread {
 
         @Override
         public void run() {
             try {
                 sleep(turnDuration);
-                skipTurn();
+                model.getCurrentPlayer().setSuspended(true);
+                view.playerSuspended();
+                turnEnded = true;
+                playerTurn.interrupt();
+                synchronized (turnLock) {
+                    turnLock.notifyAll();
+                }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
 
+    /**
+     * This class represents the turn of the player.
+     * It shows the action menù and asks for an input.
+     */
     class PlayerTurn extends Thread {
 
         @Override
@@ -796,6 +825,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This class represents the game.
+     * It handles the whole game during the 10 rounds and then shows the scores obtained by each player.
+     */
     class Game extends Thread {
 
         @Override
@@ -843,7 +876,6 @@ public class Controller implements Observer {
                     }
                 }
 
-                view.showEndTurn(new EndTurnEvent());
                 nextPlayer();
             }
             model.myNotify(new GameEnded());
@@ -894,6 +926,8 @@ public class Controller implements Observer {
                     nextRound();
                 }
             }
+            if (model.getCurrentPlayer().isSuspended())
+                nextPlayer();
         }
 
         /**
@@ -912,6 +946,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * This method is called only if there is only one player left in the game.
+     * It interrupts every other Thread in the Controller and tells the last player it has won
+     */
     public void endGame() {
         turnEnded = true;
         if (game.isAlive())
@@ -923,6 +961,11 @@ public class Controller implements Observer {
         model.lastPlayer();
     }
 
+    //TODO vedere come spostare ciò che fa questo metodo dentro il costruttore del Controller --> bisognerebbe creare
+    //TODO il Controller nell'ultima riga di ServerImplementation.createGame()
+    /**
+     * This method starts a new Game
+     */
     public void game() {
         game = new Game();
         game.start();
