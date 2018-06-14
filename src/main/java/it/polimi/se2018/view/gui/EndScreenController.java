@@ -30,6 +30,7 @@ public class EndScreenController extends Observable implements Observer {
     @FXML private Label thirdPlacePoints;
     @FXML private Label forthPlacePoints;
     @FXML private AnchorPane scene;
+    @FXML private ImageView scoreTrack;
     private ImageView yellowScoreMarker = new ImageView();
     private ImageView yellowScoreMarker2 = new ImageView();
     private ImageView redScoreMarker = new ImageView();
@@ -49,7 +50,7 @@ public class EndScreenController extends Observable implements Observer {
     }
 
 
-    //TODO implement this method
+    //TODO implements this method
     @FXML
     private void playAgainButtonAction(){
 
@@ -181,6 +182,10 @@ public class EndScreenController extends Observable implements Observer {
         }
     }
 
+    /**
+     * Updates the GUI, placing the ScoreMarker on the ScoreTrack and ranking the players
+     * @param mvEvent A scoreTrackEvent with all the information needed
+     */
     private void scoreTrackEventHandler(MVEvent mvEvent){
 
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
@@ -206,6 +211,7 @@ public class EndScreenController extends Observable implements Observer {
         greenScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerG.png")));
         yellowScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
         yellowScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
+        scoreTrack.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/ScoreTrack,jpg")));
     }
 
     @Override

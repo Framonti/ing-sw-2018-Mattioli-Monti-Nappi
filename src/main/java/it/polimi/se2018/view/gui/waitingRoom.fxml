@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WaitingRoomController">
    <children>
-      <TextArea fx:id="notificationTextArea" editable="false" layoutX="140.0" layoutY="659.0" prefHeight="191.0" prefWidth="1300.0" text="Benvenuto su Sagada. La tua partita inizierà a breve">
+      <TextArea fx:id="notificationTextArea" editable="false" layoutX="140.0" layoutY="659.0" prefHeight="191.0" prefWidth="1300.0" text="Benvenuto su Sagrada. La tua partita inizierà a breve">
          <font>
             <Font name="Calibri" size="24.0" />
          </font></TextArea>
