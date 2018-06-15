@@ -30,12 +30,17 @@ public class WaitingRoomController extends Observable implements Observer {
         notifyObservers(singlePlayerEvent);
     }*/
 
-    private void setClientLabel(List<String> clientConnectedStringList){
-        label1.setText(clientConnectedStringList.get(0));
-        if(clientConnectedStringList.size() > 1) {
-            label2.setText(clientConnectedStringList.get(1));
-            if (clientConnectedStringList.size() > 2)
-                label3.setText(clientConnectedStringList.get(2));
+
+    private void setClientLabel(List<String> clientConnectedStringList) {
+        List<Label> labels = new ArrayList<>();
+        labels.add(label1);
+        labels.add(label2);
+        labels.add(label3);
+        for (int i = 0; i < labels.size(); i++) {
+            if (i < clientConnectedStringList.size())
+                labels.get(i).setText(clientConnectedStringList.get(i));
+            else
+                labels.get(i).setText("");
         }
     }
 
@@ -48,17 +53,15 @@ public class WaitingRoomController extends Observable implements Observer {
 
         ClientAlreadyConnectedEvent clientAlreadyConnectedEvent = (ClientAlreadyConnectedEvent) arg;
         List<String> clientAlreadyConnectedList = clientAlreadyConnectedEvent.getClientConnected();
-        Platform.runLater(() -> {
-            setClientLabel(clientAlreadyConnectedList);
-        });
+        Platform.runLater(() -> setClientLabel(clientAlreadyConnectedList));
     }
 
     public void initialize(){
+
         header.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/sagradaHeader.jpg")));
         rightColumn1.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/rightColumn.png")));
         rightColumn2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/rightColumn.png")));
         leftColumn1.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/leftColumn.png")));
         leftColumn2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/leftColumn.png")));
-
     }
 }

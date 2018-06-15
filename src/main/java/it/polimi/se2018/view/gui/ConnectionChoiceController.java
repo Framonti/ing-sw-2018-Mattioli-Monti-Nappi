@@ -1,20 +1,25 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.ConnectionChoiceEvent;
+import it.polimi.se2018.events.ConnectionRefusedEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * This class manages the ConnectionChoice.fxml file
  * @author Framonti
  */
-public class ConnectionChoiceController extends Observable{
+public class ConnectionChoiceController extends Observable implements Observer{
 
     @FXML private Button rmiButton;
     @FXML private Button socketButton;
     @FXML private TextField ipServer;
+    @FXML private Label serverNotFound1;
+    @FXML private Label serverNotFound2;
     private String ipAddressString;
 
     /**
@@ -57,4 +62,14 @@ public class ConnectionChoiceController extends Observable{
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+
+        if(arg.getClass() == ConnectionRefusedEvent.class){
+            serverNotFound1.setOpacity(1);
+            serverNotFound2.setOpacity(1);
+            socketButton.setDisable(true);
+            rmiButton.setDisable(true);
+        }
+    }
 }

@@ -57,6 +57,7 @@ public class NicknameChoiceController extends Observable implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
+
         if(arg.getClass() == ConnectionEstablishedEvent.class){
 
             ConnectionEstablishedEvent connectionEstablishedEvent = (ConnectionEstablishedEvent) arg;

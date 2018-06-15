@@ -1584,7 +1584,7 @@
         </patternCard>
         <patternCard side = "back" id="18">
             <name>Bellesguard</name>
-            <difficulty>4</difficulty>
+            <difficulty>3</difficulty>
             <row x = "1">
                 <column y = "1">
                     <colour>BLUE</colour>

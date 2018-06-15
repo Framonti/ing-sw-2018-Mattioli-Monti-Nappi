@@ -2,6 +2,7 @@ package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.ConnectionRefusedEvent;
 import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
@@ -429,6 +430,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void update(Observable model, Object event) {
+        if(event.getClass() == ConnectionRefusedEvent.class){
+            System.out.println("L'indirizzo IP è sbagliato");
+            askConnection();
+        }
         if(event.getClass() == ConnectionEstablishedEvent.class){
             firstTimeNick = ((ConnectionEstablishedEvent) event).isFirstTimeNickname();
             askName();

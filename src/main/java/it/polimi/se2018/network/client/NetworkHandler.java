@@ -27,16 +27,13 @@ public class NetworkHandler extends Thread implements ServerInterface {
      * @param port It's the number of the port that must be used for the connection
      * @param client It's the interface of the client
      */
-    NetworkHandler(String host, int port, ClientInterfaceSocket client) {
-        try {
-            this.socket = new Socket(host, port);
-            this.client = client;
+    NetworkHandler(String host, int port, ClientInterfaceSocket client) throws IOException {
 
-            this.start();
-        }
-        catch (IOException e) {
-            System.out.println("Failed creation of new Socket or inputStream!");
-        }
+        this.socket = new Socket(host, port);
+        this.client = client;
+
+        this.start();
+
     }
 
     /**
@@ -57,7 +54,6 @@ public class NetworkHandler extends Thread implements ServerInterface {
     @Override
     public void run() {
         ObjectInputStream inputStream;
-
 
         while(!socket.isClosed()) {
             try {

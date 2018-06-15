@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -33,5 +34,9 @@
          </font>
       </Label>
       <ImageView fx:id="privateObjectiveCard" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="background" fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" scaleZ="0.0">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></ImageView>
    </children>
 </AnchorPane>

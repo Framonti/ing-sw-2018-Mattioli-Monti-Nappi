@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.ConnectionRefusedEvent;
 import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import javafx.fxml.FXMLLoader;
@@ -133,7 +134,9 @@ public class ViewGUI  extends Observable implements Observer{
             e.printStackTrace();
         }
 
+        guiControllerObserver = loader.getController();
         guiControllerObservable = loader.getController();
+        this.addObserver(guiControllerObserver);
 
         scene = new Scene(root);
 
@@ -158,6 +161,7 @@ public class ViewGUI  extends Observable implements Observer{
             e.printStackTrace();
         }
 
+        this.deleteObservers();
         guiControllerObservable = loader.getController();
         guiControllerObserver = loader.getController();
         this.addObserver(guiControllerObserver);
@@ -280,6 +284,10 @@ public class ViewGUI  extends Observable implements Observer{
         else if(arg.getClass() == NewObserverEvent.class){
             NewObserverEvent newObserverEvent = (NewObserverEvent) arg;
             guiControllerObservable.addObserver(newObserverEvent.getClient());
+        }
+        else if(arg.getClass() == ConnectionRefusedEvent.class){
+            setChanged();
+            notifyObservers(arg);
         }
         else {
             MVEvent mvEvent = (MVEvent) arg;

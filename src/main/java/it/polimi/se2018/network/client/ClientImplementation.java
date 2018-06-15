@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.client;
 
 import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.ConnectionRefusedEvent;
 import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
@@ -9,6 +10,8 @@ import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.UnsuspendEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.network.server.ServerInterface;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -166,17 +169,29 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 notifyObservers(new ConnectionEstablishedEvent(true));
             } catch (MalformedURLException e) {
                 System.err.println("URL non trovato!");
+                setChanged();
+                notifyObservers(new ConnectionRefusedEvent());
             } catch (RemoteException e) {
                 System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
+                setChanged();
+                notifyObservers(new ConnectionRefusedEvent());
             } catch (NotBoundException e) {
                 System.err.println("Il riferimento passato non è associato a nulla!");
+                setChanged();
+                notifyObservers(new ConnectionRefusedEvent());
             }
         }
         else if(connectionChoice == 2){
-            server = new NetworkHandler(connectionChoiceEvent.getIpAddress(), SOCKET_PORT, this);
-            this.setServer(server);
-            setChanged();
-            notifyObservers(new ConnectionEstablishedEvent(true));
+            try{
+                server = new NetworkHandler(connectionChoiceEvent.getIpAddress(), SOCKET_PORT, this);
+                this.setServer(server);
+                setChanged();
+                notifyObservers(new ConnectionEstablishedEvent(true));
+            }
+            catch (IOException e){
+                setChanged();
+                notifyObservers(new ConnectionRefusedEvent());
+            }
         }
         else
             System.out.println("This should never happen!");

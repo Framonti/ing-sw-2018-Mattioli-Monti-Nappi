@@ -186,10 +186,10 @@ public class DicePattern {
      * Checks if a dice can be placed on the DicePattern
      * @param position The Position a Player wants to place a dice on
      * @param dice The dice a player wants to place
-     * @return True if the D
+     * @return True if the Dice is placeable
      */
     public boolean isDicePlaceable(Position position, Dice dice){
-        return checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice);
+        return checkDicePatternLimitations(position, dice) && windowPattern.checkCell(position, dice) && isEmpty(position);
     }
 
     /**
