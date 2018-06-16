@@ -288,7 +288,7 @@ public class GameController extends Observable implements Observer {
     private void useToolCard1() {
         toolCard1.setEffect(setBorderGlow());
         toolCardSelected = toolCard1;
-        isToolCardSelected = true;
+        //isToolCardSelected = true;
         idToolCardSelected = idToolCard1;
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
@@ -298,7 +298,7 @@ public class GameController extends Observable implements Observer {
     private void useToolCard2() {
         toolCard2.setEffect(setBorderGlow());
         toolCardSelected = toolCard2;
-        isToolCardSelected = true;
+        //isToolCardSelected = true;
         idToolCardSelected = idToolCard2;
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
@@ -307,7 +307,7 @@ public class GameController extends Observable implements Observer {
     private void useToolCard3() {
         toolCard3.setEffect(setBorderGlow());
         toolCardSelected = toolCard3;
-        isToolCardSelected = true;
+        //isToolCardSelected = true;
         idToolCardSelected = idToolCard3;
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
@@ -387,30 +387,28 @@ public class GameController extends Observable implements Observer {
     }
 
     private void handleToolCards(int idToolCard){
-        if(idToolCard >= 2 && idToolCard <= 4){
+        if (idToolCard >= 2 && idToolCard <= 4) {
             disableDraftPool();
             disableToolCards();
-            enableGridPane(dicePatternGridPane1,windowPattern1);
-        }
-        else if (idToolCard == 12){
+            enableGridPane(dicePatternGridPane1, windowPattern1);
+        } else if (idToolCard == 12) {
             disableDraftPool();
             disableToolCards();
-            disableGridPane(dicePatternGridPane1,windowPattern1);
-            enableGridPane(roundTrackGridPane,roundTrack);
-        }
-        else if (idToolCard == 7){
+            disableGridPane(dicePatternGridPane1, windowPattern1);
+            enableGridPane(roundTrackGridPane, roundTrack);
+        } else if (idToolCard == 7) {
             VCEvent event = new GlazingHammerEvent();
             setChanged();
             notifyObservers(event);
             idToolCardSelected = 0;
             disableToolCards();
 
-        }
-        else{
+        } else {
             disableToolCards();
             enableDraftPool();
-            disableGridPane(dicePatternGridPane1,windowPattern1);
+            disableGridPane(dicePatternGridPane1, windowPattern1);
         }
+
 
     }
 
@@ -471,7 +469,7 @@ public class GameController extends Observable implements Observer {
         mvEvents.put(8, ()-> updateFavorTokens(mvEvent));
         mvEvents.put(9, ()-> showError(mvEvent));
         mvEvents.put(10, ()-> {});
-        mvEvents.put(11, this::handleGetInput);
+        mvEvents.put(11, () -> {});
         mvEvents.put(12, this::handleEndTurnEvent);
         mvEvents.put(13, ()-> {});
         mvEvents.put(14, ()-> {});
@@ -547,10 +545,7 @@ public class GameController extends Observable implements Observer {
        skipTurnButton.setDisable(true);
    }
 
-    private void handleGetInput(){
-        diceMoved = false;
 
-    }
 
     private void handleActionMenu(MVEvent event){
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
@@ -912,7 +907,7 @@ public class GameController extends Observable implements Observer {
             System.out.println("tool card 11:" + Integer.toString(diceIndexDraftPool + 1));
             setChanged();
             notifyObservers(event);
-            diceChosenFromDraftPool.setEffect(null);
+            diceChosenFromDraftPool.setEffect(setBorderGlow());
             fluxRemoverWindow();
             disableDraftPool();
             enableGridPane(dicePatternGridPane1,windowPattern1);
@@ -937,6 +932,7 @@ public class GameController extends Observable implements Observer {
         choiceBox.setValue(1); //set a default value
         confirmButton.setOnAction(event -> {
             choiceFluxRemover = choiceBox.getValue();
+            window.close();
         });
 
         VBox vBox = new VBox(20);
@@ -1002,7 +998,6 @@ public class GameController extends Observable implements Observer {
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
-            enableToolCards();
             disableGridPane(dicePatternGridPane1, windowPattern1);
         } else if ((idToolCardSelected == 2 && step == 1) || (idToolCardSelected == 3 && step == 1) || (idToolCardSelected == 4 && step == 1) || (idToolCardSelected == 12 && step == 1)) {
             initialPosition = new Position(row, column);
@@ -1103,6 +1098,7 @@ public class GameController extends Observable implements Observer {
             idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
+            diceChosenFromDraftPool.setEffect(null); //TODO: aggiunto ora
         } else if (idToolCardSelected == 12 && step == 2) {
             finalPosition = new Position(row, column);
             if (choiceTapWheel == 1) {

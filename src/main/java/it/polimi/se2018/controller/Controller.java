@@ -239,9 +239,9 @@ public class Controller implements Observer {
             Position finalPosition = eglomiseBrushEvent.getFinalPosition();
             Position initialPosition = eglomiseBrushEvent.getInitialPosition();
             if (model.getCurrentPlayer().getWindowPattern().checkCellValueRestriction(finalPosition, diceChosen) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacencyWithoutInitialPosition(finalPosition,initialPosition) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColourWithoutInitialPosition(finalPosition,initialPosition, diceChosen) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
+                model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition,initialPosition, diceChosen)) {
                     eglomiseBrushValidRestriction(initialPosition, finalPosition);
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
@@ -277,8 +277,8 @@ public class Controller implements Observer {
             Position finalPosition = copperFoilBurnisherEvent.getFinalPosition();
             Position initialPosition = copperFoilBurnisherEvent.getInitialPosition();
             if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(finalPosition, diceChosen) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacencyWithoutInitialPosition(finalPosition,initialPosition) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentColourWithoutInitialPosition(finalPosition,initialPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition,initialPosition, diceChosen)) {
                     copperFoilBurnisherValidRestriction(initialPosition, finalPosition);
             } else {
@@ -588,10 +588,12 @@ public class Controller implements Observer {
         try{
             FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
             diceForFlux.setValue(fluxRemoverPlaceDiceEvent.getDiceValue());
+            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+            model.myNotify(draftPoolEvent);
             Position finalPosition = fluxRemoverPlaceDiceEvent.getDicePosition();
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceForFlux);
             model.getDraftPool().remove(diceForFlux);
-            DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+            draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
             handleFavorTokensNumber(searchToolCard(11));
@@ -612,19 +614,19 @@ public class Controller implements Observer {
                 Dice diceChosenFromDraftPool = getDiceFromDraftPool(fluxRemoverEvent.getDiceIndex());
                 model.getDiceBag().add(diceChosenFromDraftPool);
                 model.getDraftPool().remove(diceChosenFromDraftPool);
-                model.extractAndRollOneDice();
+                model.getDraftPool().add(fluxRemoverEvent.getDiceIndex(),model.extractAndRollOneDice());
                 Dice diceChosen = model.getDraftPool().get(model.getDraftPool().size() - 1);
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                 model.myNotify(draftPoolEvent);
-                boolean succesfulMove = false;
+                boolean successfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(position, diceChosen)&&
                             model.getCurrentPlayer().getDicePattern().checkDicePatternLimitations(position,diceChosen) &&
                             model.getCurrentPlayer().getDicePattern().checkAdjacentColour(position, diceChosen)) {
-                        succesfulMove = true;
+                        successfulMove = true;
                     }
                 }
-                if(!succesfulMove){
+                if(!successfulMove){
                     ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
                     view.showError(errorEvent);
                 }

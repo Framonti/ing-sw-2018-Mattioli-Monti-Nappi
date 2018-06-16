@@ -343,4 +343,22 @@ public class DicePattern {
         return list;
     }
 
+    public boolean checkLimitationForCorkBackedStraightedge(Position position, Dice dice){
+        return (checkEdge(position) || checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice)) && windowPattern.checkCell(position, dice) && isEmpty(position);
+    }
+
+
+    public boolean checkAdjacencyWithoutInitialPosition(Position finalPosition, Position initialPosition){
+
+        List<Position> positionsToCheck = finalPosition.getAdjacentPositions();
+
+        for(Position positions : positionsToCheck) {
+
+            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
+            else if(!isEmpty(positions)) return true;
+        }
+        return false;
+    }
+
+
 }
