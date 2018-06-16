@@ -1,6 +1,6 @@
 package it.polimi.se2018.testModel;
 
-import it.polimi.se2018.ConfigurationParametersLoader;
+import it.polimi.se2018.utilities.ConfigurationParametersLoader;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
