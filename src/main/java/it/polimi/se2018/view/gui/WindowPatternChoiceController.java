@@ -131,7 +131,7 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML
     private void confirmButtonPressed(){
 
-        WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent(String.valueOf(chosen));
+        WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent(String.valueOf(chosen), null);
         setChanged();
         notifyObservers(windowPatternChoiceEvent);
         scene.setOpacity(0.5);

@@ -50,7 +50,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         virtualViewCLI.setServer(this);
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
-        setupDuration = 5000;
+        setupDuration = 10000;
         new ClientCollector().start();
     }
 
@@ -82,23 +82,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 num++;
             }
             sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath, player.getPrivateObjectiveCard().toString(), player.getPrivateObjectiveCardToString()), player);
-
-            synchronized (Server.windowPatternLock) {
-                while (player.getWindowPattern() == null) {
-                    try {
-                        Server.windowPatternLock.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println("This thread should not be interrupted!");
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
-
         }
-
-        send(new AllWindowPatternChosen());
-
-        controller.game();
     }
 
     private void waitingRoomRefresh() {
@@ -117,8 +101,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             timer = new Timer();
             timer.start();
         } else if(players.size() == 4) {
-            timer.interrupt();
             gameStarted = true;
+            timer.interrupt();
             createGame();
         }
     }

@@ -15,7 +15,7 @@ public class TestWindowPatternChoiceEvent {
      */
     @Test
     public void testGetters() {
-        WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent("1");
+        WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent("1", null);
         assertEquals(0, windowPatternChoiceEvent.getChoice());
     }
 
@@ -25,7 +25,7 @@ public class TestWindowPatternChoiceEvent {
     @Test
     public void testIllegalArgumentException() {
         try {
-            WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent("");
+            new WindowPatternChoiceEvent("", null);
         }
         catch (IllegalArgumentException e) {
             assertEquals("Parametri non numerici o sbagliati", e.getMessage());

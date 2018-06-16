@@ -14,7 +14,6 @@ import java.rmi.registry.LocateRegistry;
  */
 public class Server {
 
-    public static final Object windowPatternLock = new Object();
     private static ServerImplementation serverImplementation;
 
     /**
@@ -71,10 +70,10 @@ public class Server {
             System.out.println("[RMI]\t\tServer is up.");
         }
         catch (MalformedURLException e) {
-            System.err.println("Impossibile registrare l'oggetto indicato!");
+            System.err.println("The name is not an appropriately formatted URL!");
         }
         catch (RemoteException e) {
-            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            System.err.println("Connection error: " + e.getMessage() + "!");
         }
 
         new Server();

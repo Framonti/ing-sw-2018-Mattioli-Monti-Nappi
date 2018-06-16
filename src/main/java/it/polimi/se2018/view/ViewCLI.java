@@ -29,7 +29,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private BufferedReader reader;
     private boolean firstTimeNick;
     private static final String INVALID_MOVE= "MOSSA NON VALIDA";
-    private GetInputClass getInputClass;
+    private GetInputClass getInputClass = new GetInputClass();
+    private SuspendedPlayer suspendedPlayer = new SuspendedPlayer();
 
 
     /**
@@ -82,6 +83,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println("Il nickname può essere lungo al più 20 caratteri!\n");
             askName();
         } else {
+            name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
             NicknameEvent nicknameEvent = new NicknameEvent(name, firstTimeNick);
             setChanged();
             notifyObservers(nicknameEvent);
@@ -177,7 +179,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * Initializes the map between the event's id and the event itself
      */
     private void createVCMap() {
-        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));      //può non stare nella mappa
+//        vcEvents.put(-1,()-> vcEvent = new WindowPatternChoiceEvent(eventParameters));      //può non stare nella mappa
         vcEvents.put(1, ()-> vcEvent = new GrozingPliersEvent(eventParameters));
         vcEvents.put(2, ()-> vcEvent = new EglomiseBrushEvent(eventParameters));
         vcEvents.put(3, ()-> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
@@ -256,7 +258,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void playerSuspended() {
         getInputClass.interrupt();
-        new SuspendedPlayer().start();
+        suspendedPlayer = new SuspendedPlayer();
+        suspendedPlayer.start();
     }
 
     /**
@@ -275,23 +278,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private void printWinner(MVEvent event) {
         WinnerEvent winnerEvent = (WinnerEvent) event;
         System.out.println("Il vincitore è " + winnerEvent.getWinner());
-    }
-
-    /**
-     * This method asks the player which windowPattern he wants
-     */
-    private void selectWindowPattern() {
-        try {
-            System.out.println("Seleziona una carta schema.");
-            VCEvent vcEvent = new WindowPatternChoiceEvent(scanner.nextLine());
-            setChanged();
-            notifyObservers(vcEvent);
-            System.out.println("Scelta eseguita. Attendi...\n");
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            selectWindowPattern();
-        }
     }
 
     @Override
@@ -353,8 +339,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     public void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
         System.out.println(errorEvent.getMessageToDisplay());
-        if (errorEvent.getMessageToDisplay().equals("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!"))
-            getInputClass.interrupt();
+        if (errorEvent.getMessageToDisplay().equals("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!")) {
+            if (getInputClass.isAlive())
+                getInputClass.interrupt();
+            if (suspendedPlayer.isAlive())
+                suspendedPlayer.interrupt();
+        }
     }
 
     /**
@@ -425,7 +415,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
             System.out.println(windowPattern);
         showPrivateObjectiveCard(windowPatternsEvent.getPrivateObjectiveCard());
-        selectWindowPattern();
+        new SelectWindowPattern().start();
     }
 
     @Override
@@ -434,7 +424,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println("L'indirizzo IP è sbagliato");
             askConnection();
         }
-        if(event.getClass() == ConnectionEstablishedEvent.class){
+        else if(event.getClass() == ConnectionEstablishedEvent.class){
             firstTimeNick = ((ConnectionEstablishedEvent) event).isFirstTimeNickname();
             askName();
         }
@@ -479,6 +469,27 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println("Sei di nuovo in partita!");
             setChanged();
             notifyObservers(new UnsuspendEvent(null));
+        }
+    }
+
+    /**
+     * This class asks the player which windowPattern he wants
+     */
+    public class SelectWindowPattern extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("Seleziona una carta schema.");
+                VCEvent event = new WindowPatternChoiceEvent(scanner.nextLine(), null);
+                setChanged();
+                notifyObservers(event);
+                System.out.println("Scelta eseguita. Attendi...\n");
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                run();
+            }
         }
     }
 }

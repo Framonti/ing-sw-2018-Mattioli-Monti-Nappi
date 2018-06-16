@@ -87,9 +87,6 @@ public class Player {
         this.windowPattern = windowPattern;
         setDicePattern(windowPattern);
         setFavorTokens();
-        synchronized (Server.windowPatternLock) {
-            Server.windowPatternLock.notifyAll();
-        }
     }
 
     public void setLap(int lap) { this.lap = lap; }

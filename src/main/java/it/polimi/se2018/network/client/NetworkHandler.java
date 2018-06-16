@@ -60,7 +60,7 @@ public class NetworkHandler extends Thread implements ServerInterface {
                 inputStream = new ObjectInputStream(this.socket.getInputStream());
             }
             catch (IOException e) {
-                System.out.println("Failed getting socket's input stream!");
+                System.out.println("Il server non è più online. Riprova più tardi.");
                 return;
             }
             try {

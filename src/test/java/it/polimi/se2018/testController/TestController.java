@@ -75,27 +75,27 @@ public class TestController {
             model.getPlayers().get(0).addWindowPattern(card);
 
 
-        WindowPatternChoiceEvent event = new WindowPatternChoiceEvent("1");
+        WindowPatternChoiceEvent event = new WindowPatternChoiceEvent("1", null);
         controller.update(view, event);
         assertEquals(windowPatterns.get(0), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
-        event = new WindowPatternChoiceEvent("2");
+        event = new WindowPatternChoiceEvent("2", null);
         controller.update(view, event);
         assertEquals(windowPatterns.get(1), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
-        event = new WindowPatternChoiceEvent("3");
+        event = new WindowPatternChoiceEvent("3", null);
         controller.update(view, event);
         assertEquals(windowPatterns.get(2), model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
-        event = new WindowPatternChoiceEvent("4");
+        event = new WindowPatternChoiceEvent("4", null);
         controller.update(view, event);
         assertEquals(windowPatterns.get(3),model.getPlayers().get(0).getWindowPattern() );
 
         model.setCurrentPlayer(model.getPlayers().get(0));
-        new WindowPatternChoiceEvent("10");
+        new WindowPatternChoiceEvent("10", null);
 
     }
 

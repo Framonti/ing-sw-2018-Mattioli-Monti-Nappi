@@ -9,6 +9,7 @@ import it.polimi.se2018.events.ConnectionChoiceEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.UnsuspendEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
+import it.polimi.se2018.events.vcevent.WindowPatternChoiceEvent;
 import it.polimi.se2018.network.server.ServerInterface;
 
 import java.io.IOException;
@@ -109,6 +110,10 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
             else {
                 if (vcEvent.getId() == 15)
                     vcEvent = new UnsuspendEvent(name);
+                else if (vcEvent.getId() == -1) {
+                    WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) vcEvent;
+                    vcEvent = new WindowPatternChoiceEvent(String.valueOf(windowPatternChoiceEvent.getChoice() + 1), name);
+                }
                 try {
                     server.notify(vcEvent);
                 } catch (RemoteException e) {

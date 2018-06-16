@@ -7,15 +7,17 @@ package it.polimi.se2018.events.vcevent;
 public class WindowPatternChoiceEvent extends VCEvent {
 
     private int choice;
+    private String name;
 
     /**
      * Constructor of the class
      * @param userInput It's the string that contains the parameter
      * @throws IllegalArgumentException If the string does not contain a valid number
      */
-    public WindowPatternChoiceEvent(String userInput) {
+    public WindowPatternChoiceEvent(String userInput, String playerName) {
         super(-1);
         try {
+            name = playerName;
             choice = Integer.parseInt(userInput) - 1;
             if(choice < 0 || choice > 3)
                 throw new IllegalArgumentException("Parametro inesistente");
@@ -32,4 +34,7 @@ public class WindowPatternChoiceEvent extends VCEvent {
         return choice;
     }
 
+    public String getName() {
+        return name;
+    }
 }
