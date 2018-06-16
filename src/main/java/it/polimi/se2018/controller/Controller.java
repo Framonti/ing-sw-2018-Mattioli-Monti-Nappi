@@ -133,6 +133,12 @@ public class Controller implements Observer {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
             view.showError(errorEvent);
         }
+        for (Player player: model.getPlayers()) {
+            if (player.getWindowPattern() == null)
+                return;
+        }
+        model.myNotify(new AllWindowPatternChosen());
+        game();
     }
 
 
@@ -164,6 +170,7 @@ public class Controller implements Observer {
         try {
             diceChosen.subOne();
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(1));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi decrementare un dado con valore 1\n");
             view.showError(errorEvent);
@@ -175,6 +182,7 @@ public class Controller implements Observer {
         try {
             diceChosen.addOne();
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(1));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi incrementare un dado con valore 6\n");
             view.showError(errorEvent);
@@ -197,7 +205,6 @@ public class Controller implements Observer {
                 if (choice == 1) {
                     grozingPliersAddOne(diceChosen);
                 }
-                handleFavorTokensNumber(searchToolCard(1));
             }catch (IndexOutOfBoundsException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
@@ -215,6 +222,7 @@ public class Controller implements Observer {
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(2));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
@@ -232,10 +240,9 @@ public class Controller implements Observer {
             Position initialPosition = eglomiseBrushEvent.getInitialPosition();
             if (model.getCurrentPlayer().getWindowPattern().checkCellValueRestriction(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentColourWithoutInitialPosition(finalPosition,initialPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
                     eglomiseBrushValidRestriction(initialPosition, finalPosition);
-                    handleFavorTokensNumber(searchToolCard(2));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
@@ -252,6 +259,7 @@ public class Controller implements Observer {
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(3));
 
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
@@ -271,9 +279,8 @@ public class Controller implements Observer {
             if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(finalPosition, diceChosen) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacency(finalPosition) &&
                 model.getCurrentPlayer().getDicePattern().checkAdjacentColour(finalPosition, diceChosen) &&
-                model.getCurrentPlayer().getDicePattern().checkAdjacentValue(finalPosition, diceChosen)) {
+                model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition,initialPosition, diceChosen)) {
                     copperFoilBurnisherValidRestriction(initialPosition, finalPosition);
-                    handleFavorTokensNumber(searchToolCard(3));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
@@ -290,6 +297,7 @@ public class Controller implements Observer {
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
         model.getCurrentPlayer().setToolCardUsed(true);
+        handleFavorTokensNumber(searchToolCard(4));
     } catch (IllegalArgumentException exception) {
         ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
         view.showError(errorEvent);
@@ -313,7 +321,6 @@ public class Controller implements Observer {
             if (model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, diceChosen1) &&
                 model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, diceChosen2)) {
                     lathekinValidRestriction(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
-                    handleFavorTokensNumber(searchToolCard(4));
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
                 view.showError(errorEvent);
@@ -347,6 +354,7 @@ public class Controller implements Observer {
             model.myNotify(draftPoolEvent);
             RoundTrackEvent roundTrackEvent = new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath());
             model.myNotify(roundTrackEvent);
+            handleFavorTokensNumber(searchToolCard(5));
         } catch (IndexOutOfBoundsException exception) {
             throw new IndexOutOfBoundsException(nonValidInput);
         }
@@ -373,7 +381,6 @@ public class Controller implements Observer {
             int diceIndexInRoundTrack = lensCutterEvent.getDiceIndexInRoundTrack();
             int diceIndexInDraftPool = lensCutterEvent.getDiceIndexInDraftPool();
             lensCutterHelper(roundIndex, diceIndexInRoundTrack, diceIndexInDraftPool);
-            handleFavorTokensNumber(searchToolCard(5));
         }
         else{
             ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
@@ -389,6 +396,7 @@ public class Controller implements Observer {
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
+            handleFavorTokensNumber(searchToolCard(6));
             return true;
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
@@ -422,11 +430,12 @@ public class Controller implements Observer {
     private void fluxBrushChooseDice() {
         if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(6).getFavorPoint() < 1 ? 1 : 2)) {
             model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(6));
             FluxBrushChooseDiceEvent fluxBrushEvent = (FluxBrushChooseDiceEvent) event;
             try{
                 Dice diceChosen = getDiceFromDraftPool(fluxBrushEvent.getDiceIndexInDraftPool());
                 diceChosen.roll();
+                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+                model.myNotify(draftPoolEvent);
                 FluxBrushChoiceEvent fluxBrushChoiceEvent = new FluxBrushChoiceEvent(diceChosen.toString());
                 boolean succesfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
@@ -457,12 +466,12 @@ public class Controller implements Observer {
      */
     private void glazingHammer() {
         if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(7).getFavorPoint() < 1 ? 1 : 2)) {
-            if (model.getLap() == 1) {
+            if (model.getLap() == 1 && !model.getCurrentPlayer().isDiceMoved()) {
                 model.rollEveryDice();
                 model.getCurrentPlayer().setToolCardUsed(true);
                 handleFavorTokensNumber(searchToolCard(7));
             } else {
-                ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno\n");
+                ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno o se hai già usato la riserva\n");
                 view.showError(errorEvent);
             }
         }
@@ -481,6 +490,7 @@ public class Controller implements Observer {
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
+            handleFavorTokensNumber(searchToolCard(8));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -497,7 +507,6 @@ public class Controller implements Observer {
                 Dice diceChosen= getDiceFromDraftPool(runnerPliersEvent.getDiceIndex());
                 Position finalPosition = runnerPliersEvent.getPosition();
                 runnerPliersHelper(finalPosition, diceChosen);
-                handleFavorTokensNumber(searchToolCard(8));
             }catch (IndexOutOfBoundsException exception) {
                 ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                 view.showError(errorEvent);
@@ -521,7 +530,7 @@ public class Controller implements Observer {
             try {
                 Dice diceChosen = getDiceFromDraftPool(corkBakedStraightedgeEvent.getIndexInDraftPool());
                 Position finalPosition = corkBakedStraightedgeEvent.getFinalPosition();
-                if (model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition, diceChosen)) {
+                if (model.getCurrentPlayer().getDicePattern().checkLimitationForCorkBackedStraightedge(finalPosition, diceChosen)) {
                     model.getCurrentPlayer().getDicePattern().setDice(finalPosition, diceChosen);
                     model.getDraftPool().remove(diceChosen);
                     DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
@@ -585,6 +594,7 @@ public class Controller implements Observer {
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
+            handleFavorTokensNumber(searchToolCard(11));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -596,7 +606,6 @@ public class Controller implements Observer {
      */
     private void fluxRemoverChooseDice() {
         if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(11).getFavorPoint() < 1 ? 1 : 2)) {
-            handleFavorTokensNumber(searchToolCard(11));
             model.getCurrentPlayer().setToolCardUsed(true);
             FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
             try {
@@ -641,6 +650,7 @@ public class Controller implements Observer {
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(12));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -652,6 +662,7 @@ public class Controller implements Observer {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
             model.getCurrentPlayer().setToolCardUsed(true);
+            handleFavorTokensNumber(searchToolCard(12));
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -671,7 +682,6 @@ public class Controller implements Observer {
             Position finalPosition1 = tapWheelEvent.getNewFirstDicePosition();
             Position initialPosition2 = tapWheelEvent.getSecondDicePosition();
             Position finalPosition2 = tapWheelEvent.getNewSecondDicePosition();
-            handleFavorTokensNumber(searchToolCard(12));
             Dice tmp1 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition1);
             //if the player wants to move only one dice
             if (tmp1.getColour().equals(diceChosenFromRoundTrack.getColour()) &&

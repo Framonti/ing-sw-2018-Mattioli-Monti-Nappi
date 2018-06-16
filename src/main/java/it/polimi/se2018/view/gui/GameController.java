@@ -117,6 +117,7 @@ public class GameController extends Observable implements Observer {
     private String eventParameters;
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
     //private Map<Integer, Runnable> vcEvents = new HashMap<>();
+    private ImageView tmpImageView;
 
 
     private boolean diceMoved = false;
@@ -149,6 +150,7 @@ public class GameController extends Observable implements Observer {
     private final String favorTokensPath = "src/main/Images/Others/FavorToken.png";
     private final String waitText = "Attendi";
     private final String yourTurnText = "È il tuo turno";
+    private ImageView diceChosenFromDicePattern;
 
 
 
@@ -401,6 +403,7 @@ public class GameController extends Observable implements Observer {
             setChanged();
             notifyObservers(event);
             idToolCardSelected = 0;
+            disableToolCards();
 
         }
         else{
@@ -473,10 +476,49 @@ public class GameController extends Observable implements Observer {
         mvEvents.put(13, ()-> {});
         mvEvents.put(14, ()-> {});
         mvEvents.put(15, ()->{});
+        mvEvents.put(16, this::playerSuspended);
         mvEvents.put(99, ()->updateDicePatterns(mvEvent));
     }
 
 
+    private void playerSuspended(){
+        Platform.runLater(() -> {
+            Stage window = new Stage();
+            //Blocks interaction with the caller Scene
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Tempo scaduto");
+            window.setMinWidth(400);
+            window.setMinHeight(225);
+            window.setResizable(false);
+
+            VBox vBox = new VBox(5);
+            HBox hBox = new HBox(5);
+
+            hBox.setAlignment(Pos.CENTER);
+            hBox.setSpacing(30);
+            vBox.setAlignment(Pos.CENTER);
+            vBox.setSpacing(20);
+            //Sets the message and the button
+            Label label = new Label("Sei stato sospeso. Premi il pulsante per riconnetterti");
+            Button button = new Button("Riconnetti");
+            //Adds everything to the layouts
+            vBox.getChildren().addAll(label, hBox);
+            hBox.getChildren().add(button);
+
+            turnLabel.setStyle("-fx-background-color: #ff0000;");
+
+            button.setOnAction(event -> {
+                UnsuspendEvent unsuspendEvent = new UnsuspendEvent(null);
+                setChanged();
+                notifyObservers(unsuspendEvent);
+                window.close();
+            });
+
+            Scene scene = new Scene(vBox);
+            window.setScene(scene);
+            window.showAndWait();
+        });
+    }
 
    /* private void createVCMap() {
         vcEvents.put(-1, () -> vcEvent = new WindowPatternChoiceEvent(eventParameters));
@@ -601,46 +643,6 @@ public class GameController extends Observable implements Observer {
             ourGridPaneList.add(ourGridPane4);
             favorTokensPlayer4ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
         }
-        /*switch (list.size()){
-            case 1:
-                ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
-                addImageToImageView(windowPatterns.get(list.get(0)), windowPattern2,180, 200);
-                updateDicePattern(dicePatternGUI.get(0),dicePatternGridPane2,29,39);
-                ourGridPaneList.add(ourGridPane2);
-                favorTokensPlayer2ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
-                break;
-            case 2:
-                ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
-                addImageToImageView(windowPatterns.get(list.get(0)), windowPattern2,180, 200);
-                updateDicePattern(dicePatternGUI.get(0),dicePatternGridPane2,29,39);
-                ourGridPaneList.add(ourGridPane2);
-                addImageToImageView(favorTokensPath,favorTokensPlayer2ImageView,30,30);
-                ourGridPane3 = new OurGridPane(dicePatternGridPane3,players.get(list.get(1)), windowPatterns.get(list.get(1)),player3NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(1))),favorTokensPlayer3Label);
-                addImageToImageView(windowPatterns.get(list.get(1)), windowPattern3,180, 200);
-                updateDicePattern(dicePatternGUI.get(1),dicePatternGridPane3,29,39);
-                ourGridPaneList.add(ourGridPane3);
-                favorTokensPlayer3ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
-                break;
-            case 3:
-                ourGridPane2 = new OurGridPane(dicePatternGridPane2,players.get(list.get(0)), windowPatterns.get(list.get(0)),player2NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(0))),favorTokensPlayer2Label);
-                addImageToImageView(windowPatterns.get(list.get(0)), windowPattern2,180, 200);
-                updateDicePattern(dicePatternGUI.get(0),dicePatternGridPane2,29,39);
-                ourGridPaneList.add(ourGridPane2);
-                addImageToImageView(favorTokensPath,favorTokensPlayer2ImageView,30,30);
-                ourGridPane3 = new OurGridPane(dicePatternGridPane3,players.get(list.get(1)), windowPatterns.get(list.get(1)),player3NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(1))),favorTokensPlayer3Label);
-                addImageToImageView(windowPatterns.get(list.get(1)), windowPattern3,180, 200);
-                updateDicePattern(dicePatternGUI.get(1),dicePatternGridPane3,29,39);
-                ourGridPaneList.add(ourGridPane3);
-                addImageToImageView(favorTokensPath,favorTokensPlayer3ImageView,30,30);
-                ourGridPane4 = new OurGridPane(dicePatternGridPane4,players.get(list.get(2)), windowPatterns.get(list.get(2)),player4NameLabel,Integer.parseInt(favorTokensPlayers.get(list.get(2))),favorTokensPlayer4Label);
-                addImageToImageView(windowPatterns.get(list.get(2)), windowPattern4,180, 200);
-                updateDicePattern(dicePatternGUI.get(2),dicePatternGridPane4,29,39);
-                ourGridPaneList.add(ourGridPane4);
-                favorTokensPlayer4ImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/FavorToken.png")));
-                break;
-            default:
-                break;
-        }*/
     }
 
 
@@ -678,7 +680,17 @@ public class GameController extends Observable implements Observer {
             alert.setContentText(errorEvent.getMessageToDisplay());
 
             alert.showAndWait();
-            enableDraftPool();
+            if (!diceMoved && !isToolCardSelected) {
+                enableDraftPool();
+                enableToolCards();
+            }
+            else if (!diceMoved && isToolCardSelected)
+                enableDraftPool();
+            else if (diceMoved && !isToolCardSelected)
+                enableToolCards();
+
+
+
         });
     }
 
@@ -731,7 +743,7 @@ public class GameController extends Observable implements Observer {
         int currentPlayerIndex = getCurrentPlayerIndex(dicePatternEvent.getPlayerNames(), dicePatternEvent.getCurrentPlayer());
         GridPane tmp = getCurrentPlayerOurGridPane(dicePatternEvent.getCurrentPlayer()).getGridPane();
         if(tmp == dicePatternGridPane1)
-            updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 59,69);
+            updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 59,69); //TODO riga incriminata
         else
             updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 29,39);
 
@@ -994,6 +1006,9 @@ public class GameController extends Observable implements Observer {
             disableGridPane(dicePatternGridPane1, windowPattern1);
         } else if ((idToolCardSelected == 2 && step == 1) || (idToolCardSelected == 3 && step == 1) || (idToolCardSelected == 4 && step == 1) || (idToolCardSelected == 12 && step == 1)) {
             initialPosition = new Position(row, column);
+            Object node = getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
+            diceChosenFromDicePattern = (ImageView) node;
+            diceChosenFromDicePattern.setEffect(setBorderGlow());
             step++;
         } else if (idToolCardSelected == 2 && step == 2) {
             finalPosition = new Position(row, column);
@@ -1007,6 +1022,7 @@ public class GameController extends Observable implements Observer {
             idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
+            diceChosenFromDicePattern.setEffect(null);
         } else if (idToolCardSelected == 3 && step == 2) {
             finalPosition = new Position(row, column);
             step = 1;
@@ -1019,8 +1035,11 @@ public class GameController extends Observable implements Observer {
             idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
+            diceChosenFromDicePattern.setEffect(null);
         } else if (idToolCardSelected == 4 && step == 2) {
             finalPosition = new Position(row, column);
+            tmpImageView = (ImageView) getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
+            tmpImageView.setStyle("-fx-background-color: BLACK");
             step++;
         } else if ((idToolCardSelected == 4 && step == 3) || (idToolCardSelected == 12 && step == 3)) {
             initialPosition2 = new Position(row, column);
@@ -1037,6 +1056,8 @@ public class GameController extends Observable implements Observer {
             idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
+            diceChosenFromDicePattern.setEffect(null);
+            tmpImageView.setStyle(null);
         } else if (idToolCardSelected == 6) {
             diceChosenFromDraftPool.setEffect(null);
             dicePatternPosition = new Position(row, column);
@@ -1095,9 +1116,10 @@ public class GameController extends Observable implements Observer {
                 idToolCardSelected = 0;
                 disableToolCards();
                 toolCardSelected.setEffect(null);
+                diceChosenFromDicePattern.setEffect(null);
             } else
                 step++;
-        } else if (idToolCardSelected == 12 && step == 4) {
+        } else if (idToolCardSelected == 12 && step == 3) {
             finalPosition2 = new Position(row, column);
             step = 1;
             VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
@@ -1110,6 +1132,7 @@ public class GameController extends Observable implements Observer {
             roundTrack.setOpacity(1);
             disableToolCards();
             toolCardSelected.setEffect(null);
+            diceChosenFromDicePattern.setEffect(null);
         }
 
     }
