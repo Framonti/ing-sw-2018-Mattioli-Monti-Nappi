@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.utilities;
 
 import it.polimi.se2018.model.*;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ToolCardDeckBuilder extends LoaderXML {
 
-    //Constructor
+
     public ToolCardDeckBuilder(String filePath){
 
         super(filePath);

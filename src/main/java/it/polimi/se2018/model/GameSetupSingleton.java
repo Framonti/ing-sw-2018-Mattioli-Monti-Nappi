@@ -1,9 +1,9 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.PrivateObjectiveCardDeckBuilder;
-import it.polimi.se2018.PublicObjectiveCardDeckBuilder;
-import it.polimi.se2018.ToolCardDeckBuilder;
-import it.polimi.se2018.WindowPatternCardDeckBuilder;
+import it.polimi.se2018.utilities.PrivateObjectiveCardDeckBuilder;
+import it.polimi.se2018.utilities.PublicObjectiveCardDeckBuilder;
+import it.polimi.se2018.utilities.ToolCardDeckBuilder;
+import it.polimi.se2018.utilities.WindowPatternCardDeckBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,16 +80,13 @@ public class GameSetupSingleton {
         }
     }
 
-
     public GameSingleton createNewGame(){
-
+        
         assignWindowPatterns();
         assignPrivateObjective();
         choosePlayersOrder();
         return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack());
     }
-
-
 
     /**
      * Assigns 4 window patterns to each player

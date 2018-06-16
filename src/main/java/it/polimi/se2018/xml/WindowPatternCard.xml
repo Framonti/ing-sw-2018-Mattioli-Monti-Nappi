@@ -308,7 +308,7 @@
             <row x = "2">
                 <column y = "1">
                     <colour/>
-                    <value>5</value>
+                    <value/>
                 </column>
                 <column y = "2">
                     <colour/>
@@ -363,7 +363,7 @@
                     <value/>
                 </column>
                 <column y = "4">
-                    <colour>PURPLE</colour>
+                    <colour/>
                     <value>1</value>
                 </column>
                 <column y = "5">

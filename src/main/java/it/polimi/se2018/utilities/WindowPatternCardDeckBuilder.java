@@ -1,7 +1,6 @@
-package it.polimi.se2018;
+package it.polimi.se2018.utilities;
 
 import it.polimi.se2018.model.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 public class WindowPatternCardDeckBuilder extends LoaderXML {
 
-    //Constructor
     public WindowPatternCardDeckBuilder (String filePath){
 
         super(filePath);

@@ -38,7 +38,6 @@ public class NicknameChoiceController extends Observable implements Observer{
         }
         else{
             String nickname = textField.getText();
-            nickname = nickname.toLowerCase();
             nickname = Character.toUpperCase(nickname.charAt(0)) + nickname.substring(1);
             NicknameEvent nicknameEvent = new NicknameEvent(nickname, firstTime);
             setChanged();

@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.server;
 
-import it.polimi.se2018.ConfigurationParametersLoader;
+import it.polimi.se2018.utilities.ConfigurationParametersLoader;
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.SkipTurnEvent;

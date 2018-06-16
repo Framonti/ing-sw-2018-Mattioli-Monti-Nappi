@@ -136,6 +136,34 @@ public class DicePattern {
         return false;
     }
 
+    public boolean checkAdjacentColourWithoutInitialPosition(Position finalPosition, Position initialPosition,  Dice dice){
+
+        List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
+
+        for(Position positions : positionsToCheck) {
+
+            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
+            else if(!isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkAdjacentValueWithoutInitialPosition(Position finalPosition, Position initialPosition,  Dice dice){
+
+        List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
+
+        for(Position positions : positionsToCheck) {
+
+            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
+            else if(!isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue())){
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Checks if an orthogonal adjacent position has a dice of the same colour of the dice required
      * @param position The position to be checked
