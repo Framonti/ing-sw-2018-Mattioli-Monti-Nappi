@@ -1,11 +1,8 @@
 package it.polimi.se2018.network.client;
 
-import it.polimi.se2018.events.ConnectionEstablishedEvent;
-import it.polimi.se2018.events.ConnectionRefusedEvent;
-import it.polimi.se2018.events.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
-import it.polimi.se2018.events.ConnectionChoiceEvent;
+import it.polimi.se2018.events.networkevent.*;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import it.polimi.se2018.events.vcevent.UnsuspendEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
@@ -95,7 +92,13 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     public void update(Observable o, Object event) {
         if (event.getClass() == ConnectionChoiceEvent.class)
             this.connection((ConnectionChoiceEvent) event);
-        else {
+        else if (event.getClass() == NewGameEvent.class){
+            setChanged();
+            notifyObservers(new ConnectionEstablishedEvent(true));
+            setChanged();
+            notifyObservers(new NewObserverEvent(this));
+        }
+        else{
             VCEvent vcEvent = (VCEvent) event;
             if (vcEvent.getId() == 20) {
                 NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;

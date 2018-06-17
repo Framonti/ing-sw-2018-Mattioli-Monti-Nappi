@@ -1972,11 +1972,11 @@
                 </column>
                 <column y = "4">
                     <colour/>
-                    <value>6</value>
+                    <value/>
                 </column>
                 <column y = "5">
                     <colour/>
-                    <value/>
+                    <value>6</value>
                 </column>
             </row>
             <row x = "2">

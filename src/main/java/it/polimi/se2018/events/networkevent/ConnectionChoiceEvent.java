@@ -1,19 +1,17 @@
-package it.polimi.se2018.events;
-
-import java.io.Serializable;
+package it.polimi.se2018.events.networkevent;
 
 /**
  * @author Framonti
  */
-public class ConnectionChoiceEvent implements Serializable{
+public class ConnectionChoiceEvent extends NetworkEvent{
 
-    private int id = 21;
     private int choice;
     private String ipAddress;
     static final long serialVersionUID = 44L;
 
     public ConnectionChoiceEvent(int choice, String ipAddress){
 
+        super(21);
         this.choice = choice;
         this.ipAddress = ipAddress;
     }
@@ -27,7 +25,4 @@ public class ConnectionChoiceEvent implements Serializable{
         return ipAddress;
     }
 
-    public int getId() {
-        return id;
-    }
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.events.mvevent.ClientAlreadyConnectedEvent;
+import it.polimi.se2018.events.networkevent.ClientAlreadyConnectedEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -43,10 +43,6 @@ public class WaitingRoomController extends Observable implements Observer {
                 labels.get(i).setText("");
         }
     }
-
-  /*  private void updateNotificationTextArea(){
-        notificationTextArea.setText("Benvenuto su Sagrada. La tua ");
-    }*/
 
     @Override
     public void update(Observable o, Object arg) {

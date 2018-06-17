@@ -247,7 +247,7 @@ public class DicePattern {
         if(isEmpty(position))
             throw new IllegalArgumentException("The position required has no dice");
         Dice toReturn = this.getDice(position);
-        this.setDice(position, null);
+        diceMatrix[position.getX()][position.getY()] = null;
         return toReturn;
     }
 
@@ -260,16 +260,14 @@ public class DicePattern {
      */
     public void moveDice(Position initialPosition, Position finalPosition) {
 
-        if(this.isEmpty(initialPosition))
+        if(isEmpty(initialPosition))
             throw new IllegalArgumentException("Initial position is empty");
         else {
-            if(!this.isEmpty(finalPosition))
+            if(!isEmpty(finalPosition))
                 throw new IllegalArgumentException("Final position has already had a dice");
             else {
                 Dice toMove = removeDice(initialPosition);
-                this.setDice(finalPosition, toMove);
-                DicePatternEvent dicePatternEvent = new DicePatternEvent(dicePatternToString(), GameSingleton.getInstance().playersToString(), dicePatternToStringPathOneList(), GameSingleton.getInstance().getCurrentPlayer().getName());
-                GameSingleton.getInstance().myNotify(dicePatternEvent);
+                setDice(finalPosition, toMove);
             }
         }
     }

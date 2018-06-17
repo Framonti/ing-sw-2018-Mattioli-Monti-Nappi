@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.events.ConnectionChoiceEvent;
-import it.polimi.se2018.events.ConnectionRefusedEvent;
+import it.polimi.se2018.events.networkevent.ConnectionChoiceEvent;
+import it.polimi.se2018.events.networkevent.ConnectionRefusedEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

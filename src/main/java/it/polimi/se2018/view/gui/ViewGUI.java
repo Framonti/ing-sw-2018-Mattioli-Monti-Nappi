@@ -1,8 +1,8 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.events.ConnectionEstablishedEvent;
-import it.polimi.se2018.events.ConnectionRefusedEvent;
-import it.polimi.se2018.events.NewObserverEvent;
+import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.networkevent.ConnectionRefusedEvent;
+import it.polimi.se2018.events.networkevent.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

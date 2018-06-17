@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.events.ConnectionEstablishedEvent;
+import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

@@ -1,18 +1,14 @@
-package it.polimi.se2018.events;
-
-import java.io.Serializable;
+package it.polimi.se2018.events.networkevent;
 
 /**
  * @author Framonti
  */
-public class ConnectionEstablishedEvent implements Serializable{
+public class ConnectionEstablishedEvent extends NetworkEvent{
 
-    private int id;
     private boolean firstTimeNickname;
-    static final long serialVersionUID = 44L;
 
     public ConnectionEstablishedEvent(boolean firstTimeNickname){
-        id = 25;
+        super(25);
         this.firstTimeNickname = firstTimeNickname;
     }
 

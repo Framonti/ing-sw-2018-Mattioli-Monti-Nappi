@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.events.networkevent.NewGameEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.mvevent.ScoreTrackEvent;
 import it.polimi.se2018.events.mvevent.WinnerEvent;
@@ -49,18 +50,11 @@ public class EndScreenController extends Observable implements Observer {
         ViewGUI.closeProgram();
     }
 
-
-    //TODO implements this method
     @FXML
     private void playAgainButtonAction(){
 
-       /* List<Integer> list = new ArrayList<>();
-        list.add(56);
-        list.add(46);
-        list.add(24);
-        list.add(18);
-        placeScoreMarkersOnScene(list);*/
-
+       setChanged();
+       notifyObservers(new NewGameEvent());
     }
 
     /**
@@ -211,7 +205,7 @@ public class EndScreenController extends Observable implements Observer {
         greenScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerG.png")));
         yellowScoreMarker2.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
         yellowScoreMarker.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/ScoreMarker/ScoreMarkerY.png")));
-        scoreTrack.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/ScoreTrack,jpg")));
+        scoreTrack.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/ScoreTrack.jpg")));
     }
 
     @Override

@@ -134,7 +134,12 @@ public class WindowPatternChoiceController extends Observable implements Observe
         WindowPatternChoiceEvent windowPatternChoiceEvent = new WindowPatternChoiceEvent(String.valueOf(chosen), null);
         setChanged();
         notifyObservers(windowPatternChoiceEvent);
-        scene.setOpacity(0.5);
+        waitYourTurn1.setVisible(true);
+        waitYourTurn2.setVisible(true);
+        windowPattern1.setOpacity(0.66);
+        windowPattern2.setOpacity(0.66);
+        windowPattern3.setOpacity(0.66);
+        windowPattern4.setOpacity(0.66);
         scene.setDisable(true);
     }
 
@@ -178,8 +183,6 @@ public class WindowPatternChoiceController extends Observable implements Observe
        WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
        privateObjectiveCard.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardPath())));
        setWindowPatterns(windowPatternsEvent);
-       waitYourTurn1.setVisible(false);
-       waitYourTurn2.setVisible(false);
        windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
        windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
        windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
