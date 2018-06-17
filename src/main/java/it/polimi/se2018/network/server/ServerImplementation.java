@@ -26,12 +26,14 @@ import java.util.List;
 public class ServerImplementation extends UnicastRemoteObject implements ServerInterface {
 
     private static final String CONNECTION_LOST = "Connection lost with ";
+    private static final String ABANDONED_GAME = " ha abbandonato la partita.";
 
     private transient List<ClientInterfaceRMI> rmiClients = new ArrayList<>();
     private transient List<ClientInterfaceSocket> socketClients = new ArrayList<>();
     private transient List<Player> players = new ArrayList<>();
 
     private transient Controller controller;
+    private transient GameSingleton model;
     private final transient Object lock = new Object();
     private transient VirtualViewCLI virtualViewCLI;
     private transient Timer timer = new Timer();
@@ -51,7 +53,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
         setupDuration = 10000;
-        new ClientCollector().start();
+        new HeartBeat().start();
     }
 
     /**
@@ -64,7 +66,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(players);
-        GameSingleton model = GameSetupSingleton.instance().createNewGame();
+        model = GameSetupSingleton.instance().createNewGame();
         controller = new Controller(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
         virtualViewCLI.addObserver(controller);
@@ -83,8 +85,12 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             }
             sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath, player.getPrivateObjectiveCard().toString(), player.getPrivateObjectiveCardToString()), player);
         }
+        System.out.println("A new game has started...");
     }
 
+    /**
+     * This method refreshes the list of players in the waiting room.
+     */
     private void waitingRoomRefresh() {
         List<String> names = new ArrayList<>();
 
@@ -93,6 +99,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         send(new ClientAlreadyConnectedEvent(names));
     }
 
+    /**
+     * This method refreshes the waiting room and checks the conditions to start a new game
+     * @param player It's the player that has just been added.
+     */
     private void addClientHelper(Player player) {
         sendTo(new NickNameAcceptedEvent(), player);
         waitingRoomRefresh();
@@ -124,7 +134,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     }
                     Player player = new Player(name);
                     player.setClientInterface(client);
-                    player.getClientInterfaceSocket().setClientName(name);
                     players.add(player);
                     socketClients.add(client);
 
@@ -168,6 +177,24 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     }
 
     /**
+     * This method reset the view the client that has just reconnected
+     * @param player It's the player that has reconnected
+     */
+    private void resetView(Player player) {
+        player.setConnectionLost(false);
+        System.out.println(player.getName() + " è tornato in partita.");
+        sendTo(new AllWindowPatternChosen(), player);
+        sendTo(new ShowAllEvent(new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), player.getName()),
+                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
+                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards()),
+                        new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
+                        new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
+                        player.getPrivateObjectiveCard().toString(),player.getPrivateObjectiveCardToString(),
+                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(), model.getFavorTokensNumberPlayers())),
+                player);
+    }
+
+    /**
      * This method checks if the new socketClient is one of them that have lost connection add rejoin it to the game
      * @param client It's the new socketClient
      */
@@ -176,8 +203,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             if(player.isConnectionLost() && player.getName().equals(client.getClientName())) {
                 socketClients.add(client);
                 player.setClientInterface(client);
-                player.getClientInterfaceSocket().setClientName(client.getClientName());
-                player.setConnectionLost(false);
+                resetView(player);
                 return;
             }
         }
@@ -193,7 +219,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 if(player.isConnectionLost() && player.getName().equals(client.getName())) {
                     rmiClients.add(client);
                     player.setClientInterface(client);
-                    player.setConnectionLost(false);
+                    resetView(player);
                     return;
                 }
             }
@@ -228,8 +254,20 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     @Override
     public void sendTo(MVEvent mvEvent, Player currentPlayer) {
         clientInterfaceNotify(currentPlayer, mvEvent, true);
+        if (mvEvent.getId() == 16) {
+            for (Player player: players) {
+                if (!player.getName().equals(currentPlayer.getName()))
+                    sendTo(new ErrorEvent(currentPlayer.getName() + " è stato sospeso."), player);
+            }
+        }
     }
 
+    /**
+     * This method sends a mvEvent to a player.
+     * @param player It's the player that must receive the event
+     * @param mvEvent It's the mvEvent that must be sent
+     * @param isAction Used if a RemoteException occurs. It is true if is required an action by the player
+     */
     private void clientInterfaceNotify(Player player, MVEvent mvEvent, boolean isAction) {
         if (!player.isConnectionLost()) {
             if (player.getClientInterfaceRMI() != null) {
@@ -242,7 +280,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         System.out.println(CONNECTION_LOST + player.getName());
                     }
                     if (rmiClients.size() + socketClients.size() < 2)
-                        controller.endGame();
+                        virtualViewCLI.endGame();
                     else if (isAction)
                         notify(new SkipTurnEvent());
                 }
@@ -254,8 +292,14 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
     @Override
     public void send(MVEvent mvEvent) {
-        for (Player player: players) {
+        for (Player player: players)
             clientInterfaceNotify(player, mvEvent, false);
+        if (mvEvent.getId() == 5) {
+            serverCleaner();
+        } else if (mvEvent.getId() == 9) {
+            ErrorEvent errorEvent = (ErrorEvent) mvEvent;
+            if (errorEvent.getMessageToDisplay().equals("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!"))
+                serverCleaner();
         }
     }
 
@@ -265,36 +309,48 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         virtualViewCLI.forwardVCEvent(vcEvent);
     }
 
+    /**
+     * This method adds the players that lost their connection to playersToBeRemoved.
+     * @param playersToBeRemoved Its' the list of players that must be removed.
+     */
     private void tryConnections(List<Player> playersToBeRemoved) {
         for (Player player : players) {
-            if (player.getClientInterfaceRMI() != null) {
-                try {
-                    player.getClientInterfaceRMI().testIfConnected();
-                } catch (RemoteException e) {
-                    if (gameStarted) {
-                        player.setConnectionLost(true);
-                    } else {
-                        playersToBeRemoved.add(player);
+            if (!player.isConnectionLost()) {
+                if (player.getClientInterfaceRMI() != null) {
+                    try {
+                        player.getClientInterfaceRMI().testIfConnected();
+                    } catch (RemoteException e) {
+                        if (gameStarted) {
+                            player.setConnectionLost(true);
+                            send(new ErrorEvent(player.getName() + ABANDONED_GAME));
+                        } else {
+                            playersToBeRemoved.add(player);
+                        }
+                        rmiClients.remove(player.getClientInterfaceRMI());
+                        System.out.println(CONNECTION_LOST + player.getName());
                     }
-                    rmiClients.remove(player.getClientInterfaceRMI());
-                    System.out.println(CONNECTION_LOST + player.getName());
-                }
-            } else {
-                try {
-                    player.getClientInterfaceSocket().testIfConnected();
-                } catch (IOException e) {
-                    if (gameStarted) {
-                        player.setConnectionLost(true);
-                    } else {
-                        playersToBeRemoved.add(player);
+                } else {
+                    try {
+                        player.getClientInterfaceSocket().testIfConnected();
+                    } catch (IOException e) {
+                        if (gameStarted) {
+                            player.setConnectionLost(true);
+                            send(new ErrorEvent(player.getName() + ABANDONED_GAME));
+                        } else {
+                            playersToBeRemoved.add(player);
+                        }
+                        socketClients.remove(player.getClientInterfaceSocket());
+                        System.out.println(CONNECTION_LOST + player.getName());
                     }
-                    socketClients.remove(player.getClientInterfaceSocket());
-                    System.out.println(CONNECTION_LOST + player.getName());
                 }
             }
         }
     }
 
+    /**
+     * Tests if the connections are ok.
+     * If they aren't, they are handled.
+     */
     private void testConnections() {
         List<Player> playersToBeRemoved = new ArrayList<>();
         synchronized (lock) {
@@ -312,14 +368,33 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     }
 
     /**
+     * This method cleans the server's attributes making it ready for another game.
+     */
+    private void serverCleaner() {
+        rmiClients.clear();
+        socketClients.clear();
+        synchronized (lock) {
+            players.clear();
+        }
+        controller = null;
+        gameStarted = false;
+        if (timer.isAlive())
+            timer.interrupt();
+        GameSetupSingleton.instanceToNull();
+        GameSingleton.instanceToNull();
+        virtualViewCLI.deleteObservers();
+        System.out.println("The game is ended.\n");
+    }
+
+    /**
      * This class represents the timer for the start of a new game
      */
     class Timer extends Thread {
 
         @Override
         public void run() {
-            while (!gameStarted) {
-                try {
+            try {
+                while (!gameStarted) {
                     sleep(setupDuration);
                     if (gameStarted)
                         return;
@@ -328,9 +403,9 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         gameStarted = true;
                         createGame();
                     }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -338,11 +413,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     /**
      * This class collect all the clients that have lost the connection
      */
-    class ClientCollector extends Thread {
+    class HeartBeat extends Thread {
 
         @Override
         public void run() {
-            while (!gameStarted) {
+            while (true) {
                 try {
                     sleep(5000);
                     testConnections();
@@ -354,24 +429,35 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
 
+    /**
+     * This method removes a socket client that has lost the connection.
+     * @param client The client that has lost the connection.
+     */
     public void removeClient(ClientInterfaceSocket client) {
         Player toBeRemoved = null;
         socketClients.remove(client);
         for (Player player: players) {
-            if (gameStarted && player.getName().equals(client.getClientName())) {
+            if (player.getName().equals(client.getClientName())) {
                 toBeRemoved = player;
-                player.setConnectionLost(true);
-                if (socketClients.size() + rmiClients.size() < 2)
-                    controller.endGame();
-                else
-                    notify(new SkipTurnEvent());
-                break;
-            } else if (player.getName().equals(client.getClientName())) {
-                toBeRemoved = player;
+                if (gameStarted) {
+                    player.setConnectionLost(true);
+                    if (socketClients.size() + rmiClients.size() < 2) {
+                        virtualViewCLI.endGame();
+                    }
+                    else if (player.getName().equals(model.getCurrentPlayer().getName())) {
+                        notify(new SkipTurnEvent());
+                        send(new ErrorEvent(player.getName() + ABANDONED_GAME));
+                    }
+                    else
+                        send(new ErrorEvent(player.getName() + ABANDONED_GAME));
+                    break;
+                }
             }
         }
         if (!gameStarted) {
-            players.remove(toBeRemoved);
+            synchronized (lock) {
+                players.remove(toBeRemoved);
+            }
             waitingRoomRefresh();
         }
         if (toBeRemoved != null)

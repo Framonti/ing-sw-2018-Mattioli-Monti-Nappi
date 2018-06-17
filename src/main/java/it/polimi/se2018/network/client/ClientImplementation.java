@@ -82,11 +82,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
     }
 
     @Override
-    public void setClientName(String name) {
-        setName(name);
-    }
-
-    @Override
     public void setServer(ServerInterface server) {
         this.server = server;
     }

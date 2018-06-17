@@ -64,6 +64,11 @@ public class VirtualViewCLI extends Observable implements Observer, ViewCLIInter
         notifyObservers(vcEvent);
     }
 
+    public void endGame() {
+        setChanged();
+        notifyObservers();
+    }
+
     @Override
     public void playerSuspended() {
         try {

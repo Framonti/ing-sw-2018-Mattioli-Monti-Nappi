@@ -133,14 +133,22 @@ public class Controller implements Observer {
             ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
             view.showError(errorEvent);
         }
+        canGameStart();
+    }
+
+    /**
+     * This method checks if every player has chosen a windowPattern.
+     * If it is, it starts the game.
+     */
+    private void canGameStart() {
         for (Player player: model.getPlayers()) {
             if (player.getWindowPattern() == null)
                 return;
         }
         model.myNotify(new AllWindowPatternChosen());
-        game();
+        game = new Game();
+        game.start();
     }
-
 
     /**
      * Handles player's favorTokensNumber (when he decides to use a tool card) and favor tokens on the tool card
@@ -783,10 +791,14 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        event = (VCEvent) arg;
-        performAction(event);
-        synchronized (lock){
-            lock.notifyAll();
+        if (arg == null)
+            endGame();
+        else {
+            event = (VCEvent) arg;
+            performAction(event);
+            synchronized (lock) {
+                lock.notifyAll();
+            }
         }
     }
 
@@ -899,6 +911,11 @@ public class Controller implements Observer {
             computeAllScores();
             model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
             Collections.reverse(model.getPlayers());
+
+            Player winner = model.selectWinner();
+            model.getPlayers().remove(winner);
+            model.getPlayers().add(0, winner);
+
             List<Integer> scores = new ArrayList<>();
             for(Player player: model.getPlayers())
                 scores.add(player.getScore());
@@ -938,7 +955,7 @@ public class Controller implements Observer {
                     nextRound();
                 }
             }
-            if (model.getCurrentPlayer().isSuspended())
+            if (model.getCurrentPlayer().isSuspended() || model.getCurrentPlayer().isConnectionLost())
                 nextPlayer();
         }
 
@@ -962,7 +979,7 @@ public class Controller implements Observer {
      * This method is called only if there is only one player left in the game.
      * It interrupts every other Thread in the Controller and tells the last player it has won
      */
-    public void endGame() {
+    private void endGame() {
         turnEnded = true;
         if (game.isAlive())
             game.interrupt();
@@ -971,16 +988,6 @@ public class Controller implements Observer {
         if (turnTimer.isAlive())
             turnTimer.interrupt();
         model.lastPlayer();
-    }
-
-    //TODO vedere come spostare ciò che fa questo metodo dentro il costruttore del Controller --> bisognerebbe creare
-    //TODO il Controller nell'ultima riga di ServerImplementation.createGame()
-    /**
-     * This method starts a new Game
-     */
-    public void game() {
-        game = new Game();
-        game.start();
     }
 
 }

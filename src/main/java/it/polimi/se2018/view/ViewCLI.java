@@ -396,6 +396,31 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         int i;
         for(i = 0; i < scoreTrackEvent.getPlayersNames().size(); i++)
             System.out.println(scoreTrackEvent.getPlayersNames().get(i) + ": " + scoreTrackEvent.getScores().get(i));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        askNewGame();
+    }
+
+    private void askNewGame() {
+        String choice = "";
+        boolean firstTime = true;
+        while (!choice.equals("1") && !choice.equals("2")) {
+            if (!firstTime)
+                System.out.println("Risposta non valida!");
+            else
+                firstTime = false;
+            System.out.println("Vuoi giocare una nuova partita?\n1)\tSì\n2)\tNo");
+            choice = scanner.nextLine();
+        }
+        if (choice.equals("1")) {
+            firstTimeNick = true;
+            askName();
+        } else if (choice.equals("2"))
+            System.exit(0);
+
     }
 
     /**

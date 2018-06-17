@@ -42,6 +42,12 @@ public class GameSetupSingleton {
         return instance;
     }
 
+    /**
+     * Used only after a game is ended. It sets the instance to null.
+     */
+    public static void instanceToNull() {
+        GameSetupSingleton.instance = null;
+    }
 
     private List<PrivateObjectiveCard> getPrivateObjectiveCardList(int numberToExtract) {
 

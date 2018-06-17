@@ -14,8 +14,6 @@ public interface ClientInterfaceSocket {
      */
     String getClientName();
 
-    void setClientName(String name);
-
     /**
      * This method sets the ClientImplementation as changed, this causes the call of the update method of viewCLI
      * @param mvEvent It's the event that must be forwarded to the view

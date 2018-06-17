@@ -66,6 +66,13 @@ public class GameSingleton extends Observable{
     }
 
     /**
+     * Used only after a game is ended. It sets the instance to null.
+     */
+    public static void instanceToNull() {
+        GameSingleton.instance = null;
+    }
+
+    /**
      * Gets all the tool cards
      * @return tool cards
      */
@@ -425,13 +432,18 @@ public class GameSingleton extends Observable{
         myNotify(draftPoolEvent);
     }
 
+    /**
+     * Creates the ScoreTrackEvent and send it to every player
+     * @param scores It's the list containing the scores of the players.
+     */
     public void createScoreTrack(List<Integer> scores) {
         ScoreTrackEvent showScoreTrackEvent = new ScoreTrackEvent(playersToString(), scores);
         myNotify(showScoreTrackEvent);
-        WinnerEvent winnerEvent = new WinnerEvent(selectWinner().getName());
-        myNotify(winnerEvent);
     }
 
+    /**
+     * This method sends to the last player a message saying that he has won because every other player left.
+     */
     public void lastPlayer() {
         myNotify(new ErrorEvent("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!"));
     }

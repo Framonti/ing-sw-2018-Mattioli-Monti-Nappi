@@ -33,10 +33,6 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
         return clientName;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
     @Override
     public void notify(MVEvent mvEvent) {
 
@@ -62,6 +58,7 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
                     loop = false;
                 else if (vcEvent.getId() == 20) {
                     NicknameEvent nicknameEvent = (NicknameEvent) vcEvent;
+                    this.clientName = nicknameEvent.getNickname();
                     getServerImplementation().addSocketClient(this, nicknameEvent.getNickname());
                 } else
                     getServerImplementation().notify(vcEvent);
