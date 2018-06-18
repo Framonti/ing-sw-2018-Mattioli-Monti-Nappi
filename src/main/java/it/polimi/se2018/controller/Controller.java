@@ -788,6 +788,15 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Compute all scores of the players
+     */
+    private void computeAllScores() {
+        for (Player player : model.getPlayers()) {
+            player.computeMyScore(model.getPublicObjectiveCards());
+        }
+
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -896,7 +905,7 @@ public class Controller implements Observer {
                     } catch (InterruptedException e) {
                         System.out.println("Just one client left!");
                         Thread.currentThread().interrupt();
-                        return;      //Ho dovuto perché interrupt() per qualche motivo non vuole
+                        return;
                     }
                 }
 
@@ -921,16 +930,6 @@ public class Controller implements Observer {
                 scores.add(player.getScore());
 
             model.createScoreTrack(scores);
-        }
-
-        /**
-         * Compute all scores of the players
-         */
-        private void computeAllScores() {
-            for (Player player : model.getPlayers()) {
-                player.computeMyScore(model.getPublicObjectiveCards());
-            }
-
         }
 
         /**
@@ -965,13 +964,14 @@ public class Controller implements Observer {
          */
         private void nextRound() {
             model.increaseRound();
-            Player toRemove =  model.getPlayers().remove(0);
-            model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
-            model.setCurrentPlayer(model.getPlayers().get(0));
-            model.fromDraftPoolToRoundTrack();
-            model.extractAndRoll();
-            model.myNotify(new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()));
-
+            if (model.getRound() < 11) {
+                Player toRemove = model.getPlayers().remove(0);
+                model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
+                model.setCurrentPlayer(model.getPlayers().get(0));
+                model.fromDraftPoolToRoundTrack();
+                model.extractAndRoll();
+                model.myNotify(new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()));
+            }
         }
     }
 
@@ -987,6 +987,12 @@ public class Controller implements Observer {
             playerTurn.interrupt();
         if (turnTimer.isAlive())
             turnTimer.interrupt();
+        model.myNotify(new GameEnded());
+
+        computeAllScores();
+        model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+        Collections.reverse(model.getPlayers());
+
         model.lastPlayer();
     }
 

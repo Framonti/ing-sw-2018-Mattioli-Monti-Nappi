@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Observable;
 import java.util.Observer;
@@ -132,6 +133,8 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 //Usare amazon checkip per rmi, settare la proprietà del sistema
                 try {
                     remoteReference = (ClientInterfaceRMI) UnicastRemoteObject.exportObject(this, 0);
+                } catch (ExportException ignore) {
+                    //if the object is already exported then do nothing
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

@@ -445,7 +445,25 @@ public class GameSingleton extends Observable{
      * This method sends to the last player a message saying that he has won because every other player left.
      */
     public void lastPlayer() {
-        myNotify(new ErrorEvent("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!"));
+        Player winner = null;
+        for (Player player: players) {
+            if (!player.isConnectionLost()) {
+                winner = player;
+                if (winner.getScore() < 1)
+                    winner.setScore(1);
+            } else {
+                player.setScore(0);
+            }
+        }
+        players.remove(winner);
+        players.add(0, winner);
+
+
+        List<Integer> scores = new ArrayList<>();
+        for (Player player: players) {
+            scores.add(player.getScore());
+        }
+        createScoreTrack(scores);
     }
 }
 

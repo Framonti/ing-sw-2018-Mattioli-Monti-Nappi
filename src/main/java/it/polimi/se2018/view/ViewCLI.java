@@ -1,9 +1,8 @@
 package it.polimi.se2018.view;
 
-
+import it.polimi.se2018.events.networkevent.*;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
-import it.polimi.se2018.events.networkevent.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -342,6 +341,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 getInputClass.interrupt();
             if (suspendedPlayer.isAlive())
                 suspendedPlayer.interrupt();
+            new AskNewGame().start();
         }
     }
 
@@ -394,31 +394,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         int i;
         for(i = 0; i < scoreTrackEvent.getPlayersNames().size(); i++)
             System.out.println(scoreTrackEvent.getPlayersNames().get(i) + ": " + scoreTrackEvent.getScores().get(i));
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        askNewGame();
-    }
+        System.out.println("Il vincitore è: " + scoreTrackEvent.getPlayersNames().get(0) + "\n");
 
-    private void askNewGame() {
-        String choice = "";
-        boolean firstTime = true;
-        while (!choice.equals("1") && !choice.equals("2")) {
-            if (!firstTime)
-                System.out.println("Risposta non valida!");
-            else
-                firstTime = false;
-            System.out.println("Vuoi giocare una nuova partita?\n1)\tSì\n2)\tNo");
-            choice = scanner.nextLine();
-        }
-        if (choice.equals("1")) {
-            firstTimeNick = true;
-            askName();
-        } else if (choice.equals("2"))
-            System.exit(0);
-
+        new AskNewGame().start();
     }
 
     /**
@@ -444,7 +422,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void update(Observable model, Object event) {
         if(event.getClass() == ConnectionRefusedEvent.class){
-            System.out.println("L'indirizzo IP è sbagliato");
+            System.out.println("L'indirizzo IP è sbagliato!");
             askConnection();
         }
         else if(event.getClass() == ConnectionEstablishedEvent.class){
@@ -463,7 +441,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * This class waits the player to write its input.
      * It is interrupted when every other player leaves the game or the timer ends
      */
-    public class GetInputClass extends Thread {
+    private class GetInputClass extends Thread {
 
         @Override
         public void run() {
@@ -483,7 +461,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * This class tells the player that it has been suspended.
      * The player rejoins the game if writes anything
      */
-    public class SuspendedPlayer extends Thread {
+    private class SuspendedPlayer extends Thread {
 
         @Override
         public void run() {
@@ -498,7 +476,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     /**
      * This class asks the player which windowPattern he wants
      */
-    public class SelectWindowPattern extends Thread {
+    private class SelectWindowPattern extends Thread {
 
         @Override
         public void run() {
@@ -513,6 +491,36 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 System.out.println(e.getMessage());
                 run();
             }
+        }
+    }
+
+    /**
+     * This class asks the player if he wats to play another game
+     */
+    private class AskNewGame extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            String choice = "";
+            boolean firstTime = true;
+            while (!choice.equals("1") && !choice.equals("2")) {
+                if (!firstTime)
+                    System.out.println("Risposta non valida!");
+                else
+                    firstTime = false;
+                System.out.println("Vuoi giocare una nuova partita?\n1)\tSì\n2)\tNo");
+                choice = scanner.nextLine();
+            }
+            if (choice.equals("1")) {
+                firstTimeNick = true;
+                askName();
+            } else if (choice.equals("2"))
+                System.exit(0);
         }
     }
 }
