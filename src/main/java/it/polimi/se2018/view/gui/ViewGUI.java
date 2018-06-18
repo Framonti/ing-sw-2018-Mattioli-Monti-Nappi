@@ -193,6 +193,7 @@ public class ViewGUI  extends Observable implements Observer{
 
         scene.setRoot(root);
 
+        scene.setFill(Paint.valueOf("#f4f4f4"));
         scene.getRoot().getTransforms().setAll(setScreenProportion());
     }
 

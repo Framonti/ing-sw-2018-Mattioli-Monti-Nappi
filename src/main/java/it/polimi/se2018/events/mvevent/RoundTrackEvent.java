@@ -14,6 +14,7 @@ public class RoundTrackEvent extends MVEvent {
     /**
      * Constructor
      * @param roundTrackString A String representing the RoundTrack
+     * @param roundTrackGUI A List of String representing path for pictures of the dices on the RoundTrack
      */
     public RoundTrackEvent(String roundTrackString, List<String> roundTrackGUI){
 
@@ -31,7 +32,10 @@ public class RoundTrackEvent extends MVEvent {
         return roundTrackString;
     }
 
-
+    /**
+     * Gets the roundTrackGUI
+     * @return the roundTrackGUI
+     */
     public List<String> getRoundTrackGUI() {
         return roundTrackGUI;
     }

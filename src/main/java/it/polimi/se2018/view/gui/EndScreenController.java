@@ -3,7 +3,6 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.events.networkevent.NewGameEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.mvevent.ScoreTrackEvent;
-import it.polimi.se2018.events.mvevent.WinnerEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -185,11 +184,12 @@ public class EndScreenController extends Observable implements Observer {
         ScoreTrackEvent scoreTrackEvent = (ScoreTrackEvent) mvEvent;
         Platform.runLater(() -> setRankingLabels(scoreTrackEvent));
         Platform.runLater(() -> placeScoreMarkersOnScene(scoreTrackEvent.getScores()));
+        Platform.runLater(() -> winnerEventHandler(scoreTrackEvent));
     }
 
-    private void winnerEventHandler(MVEvent mvEvent){
-        WinnerEvent winnerEvent = (WinnerEvent) mvEvent;
-        winnerLabel.setText(winnerEvent.getWinner());
+    private void winnerEventHandler(ScoreTrackEvent scoreTrackEvent){
+
+        winnerLabel.setText(scoreTrackEvent.getPlayersNames().get(0));
     }
 
     /**
@@ -213,9 +213,6 @@ public class EndScreenController extends Observable implements Observer {
         MVEvent mvEvent = (MVEvent) arg;
         if(mvEvent.getId() == 5) {
             scoreTrackEventHandler(mvEvent);
-        }
-        else if(mvEvent.getId() == 10){
-            Platform.runLater(() -> winnerEventHandler(mvEvent));
         }
     }
 

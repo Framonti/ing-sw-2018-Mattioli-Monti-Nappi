@@ -1,7 +1,6 @@
-it.polimi.se2018
 it.polimi.se2018.controller
-it.polimi.se2018.events
 it.polimi.se2018.events.mvevent
+it.polimi.se2018.events.networkevent
 it.polimi.se2018.events.vcevent
 it.polimi.se2018.model
 it.polimi.se2018.network.client
@@ -9,5 +8,6 @@ it.polimi.se2018.network.server
 it.polimi.se2018.testController
 it.polimi.se2018.testEvents
 it.polimi.se2018.testModel
+it.polimi.se2018.utilities
 it.polimi.se2018.view
 it.polimi.se2018.view.gui

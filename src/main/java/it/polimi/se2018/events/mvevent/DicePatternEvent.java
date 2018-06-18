@@ -1,7 +1,5 @@
 package it.polimi.se2018.events.mvevent;
 
-import it.polimi.se2018.model.Player;
-
 import java.util.List;
 
 /**

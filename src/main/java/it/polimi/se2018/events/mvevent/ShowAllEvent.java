@@ -3,7 +3,7 @@ package it.polimi.se2018.events.mvevent;
 import java.util.List;
 
 /**
- * This Event holds informations about the DicePattern
+ * This Event holds informations about everything visible during a game
  * @author Framonti
  */
 public class ShowAllEvent extends MVEvent{
@@ -27,9 +27,13 @@ public class ShowAllEvent extends MVEvent{
      * @param draftPoolEvent A DraftPoolEvent representing the draftPool
      * @param roundTrackEvent A RoundTrackEvent representing the RoundTrack
      * @param privateObjectiveCardString A String representing a PrivateObjectiveCard
+     * @param privateObjectiveCardStringGUI A String representing a path for loading a PrivateObjectiveCard on the GUI
+     * @param publicObjectiveCardsGUI A List of String representing paths for loading PublicObjectiveCards on the GUI
+     * @param setWindowPatternsGUIEvent A setWindowPatternGUIEvent for the GUI
      */
     public ShowAllEvent(DicePatternEvent dicePatternEvent, List<String> publicObjectiveCardsString, List<String> publicObjectiveCardsGUI,
-                        ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent, String privateObjectiveCardString, String privateObjectiveCardStringGUI, SetWindowPatternsGUIEvent setWindowPatternsGUIEvent){
+                        ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent,
+                        String privateObjectiveCardString, String privateObjectiveCardStringGUI, SetWindowPatternsGUIEvent setWindowPatternsGUIEvent){
 
         super(7);
         this.dicePatternEvent = dicePatternEvent;
@@ -97,14 +101,28 @@ public class ShowAllEvent extends MVEvent{
         return privateObjectiveCardString;
     }
 
+    /**
+     * Gets the PublicObjectiveCardsGUI
+     * @return A List of path for loading the PublicObjectiveCards for the GUI
+     */
     public List<String> getPublicObjectiveCardsGUI() {
+
         return publicObjectiveCardsGUI;
     }
 
+    /**
+     * Gets the windowPatternsGUIEvent
+     * @return A WindowPatternGUIEvent
+     */
     public SetWindowPatternsGUIEvent getSetWindowPatternsGUIEvent() {
+
         return setWindowPatternsGUIEvent;
     }
 
+    /**
+     * Gets the PrivateObjectiveCardStringGUI
+     * @return The privateObjectiveCardStringGUI
+     */
     public String getPrivateObjectiveCardStringGUI() {
         return privateObjectiveCardStringGUI;
     }

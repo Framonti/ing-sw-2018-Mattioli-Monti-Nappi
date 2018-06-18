@@ -32,14 +32,23 @@ public class WindowPatternsEvent extends MVEvent {
         return windowPatternsCLI;
     }
 
+    /**
+     * @return A List of String representing 4 path that the GUI will load
+     */
     public List<String> getWindowPatternsGUI() {
         return windowPatternsGUI;
     }
 
+    /**
+     * @return A String representing a PrivateObjectiveCard
+     */
     public String getPrivateObjectiveCard() {
         return privateObjectiveCard;
     }
 
+    /**
+     * @return A String representing a path that the GUI will load
+     */
     public String getPrivateObjectiveCardPath() {
         return privateObjectiveCardPath;
     }

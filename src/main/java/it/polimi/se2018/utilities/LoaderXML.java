@@ -77,7 +77,7 @@ public abstract class LoaderXML {
     /**
      * Gets a List of String representing the contents of all the same tag in an xml file
      * @param tagName A tag of the xml file
-     * @returna A List of String representing the contents of all the same tag in an xml file
+     * @return A List of String representing the contents of all the same tag in an xml file
      */
     //@return a List of items from an xml file with the tag "tagName"
     public List<String> getStringList(String tagName) {

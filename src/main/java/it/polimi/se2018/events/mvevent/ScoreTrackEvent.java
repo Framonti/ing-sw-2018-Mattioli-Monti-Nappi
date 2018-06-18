@@ -13,7 +13,8 @@ public class ScoreTrackEvent extends MVEvent {
 
     /**
      * Constructor
-     * @param playersNames A String representing the ScoreTrack
+     * @param playersNames A List containing all the players' names
+     * @param scores A List containing all the final scores of the players
      */
     public ScoreTrackEvent(List<String> playersNames, List<Integer> scores){
 
@@ -22,11 +23,19 @@ public class ScoreTrackEvent extends MVEvent {
         this.scores = scores;
     }
 
+    /**
+     * Gets the playersNames
+     * @return A List with all the players' names
+     */
     public List<String> getPlayersNames() {
 
         return playersNames;
     }
 
+    /**
+     * Gets the scores
+     * @return A List with all the scores
+     */
     public List<Integer> getScores() {
 
         return scores;

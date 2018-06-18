@@ -15,6 +15,8 @@ public class ToolCardEvent extends MVEvent{
     /**
      * Constructor
      * @param toolCards A List representing all the ToolCard in the game
+     * @param toolCardsGUI A List of String representing path that the GUI will load
+     * @param favorTokensOnToolCards The FavorTokens on a ToolCard
      */
     public ToolCardEvent(List<String> toolCards, List<String> toolCardsGUI,List<String> favorTokensOnToolCards ){
 
@@ -33,10 +35,18 @@ public class ToolCardEvent extends MVEvent{
         return toolCards;
     }
 
+    /**
+     * Gets the toolCardsGUI
+     * @return A List of String representing path that the GUI will load
+     */
     public List<String> getToolCardsGUI(){
         return toolCardsGUI;
     }
 
+    /**
+     * Gets the favorTokensOnToolCards
+     * @return A List of String representing the amount of FavorToken on each ToolCard
+     */
     public List<String> getFavorTokensOnToolCards() {
         return favorTokensOnToolCards;
     }

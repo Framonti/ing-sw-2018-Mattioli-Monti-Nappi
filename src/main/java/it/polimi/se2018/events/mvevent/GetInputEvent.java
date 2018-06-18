@@ -7,7 +7,7 @@ package it.polimi.se2018.events.mvevent;
 public class GetInputEvent extends MVEvent {
 
     /**
-     * The constructor of this class sets only the event id to 10
+     * The constructor of this class sets only the event id to 11
      */
     public GetInputEvent() {
         super(11);
