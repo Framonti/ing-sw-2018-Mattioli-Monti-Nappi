@@ -1,19 +1,28 @@
 package it.polimi.se2018.events.vcevent;
 
+/**
+ * This event is generated when a player uses the Lens Cutter ToolCard
+ * @author Daniele Mattioli
+ */
 public class LensCutterEvent extends VCEvent {
-    private int roundIndex;  //è quello che nel controller avevo chiamato round
-    private int diceIndexInRoundTrack; //è quello che nel controller avevo chiamato indexOfRoundTrack
-    private int diceIndexInDraftPool; //è quello che nel controller avevo chiamato indexOfDraftPool
 
+    private int roundIndex;
+    private int diceIndexRoundTrack;
+    private int diceIndexDraftPool;
 
+    /**
+     * The Constructor analyzes the userInput and saves it into the class's attributes
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     // ASSUMO LA STRINGA SIA DEL TIPO: INDICE NELLA DRAFT POOL , ROUND, INDICE DELL'ARRAY PRESENTE NELLA POSIZIONE ROUND DEL ROUNDTRACK
     public LensCutterEvent(String userInput){
         super(5);
         try{
             String[] parameters = userInput.split("\\s+");
-            diceIndexInDraftPool = Integer.parseInt(parameters[0]) -1;
+            diceIndexDraftPool = Integer.parseInt(parameters[0]) -1;
             roundIndex = Integer.parseInt(parameters[1]) -1;
-            diceIndexInRoundTrack = Integer.parseInt(parameters[2]) -1;
+            diceIndexRoundTrack = Integer.parseInt(parameters[2]) -1;
 
         }
         catch(IllegalArgumentException e){
@@ -23,16 +32,28 @@ public class LensCutterEvent extends VCEvent {
         }
     }
 
+    /**
+     * Gets the roundIndex
+     * @return The roundIndex
+     */
     public int getRoundIndex() {
         return roundIndex;
     }
 
+    /**
+     * Gets the diceIndexInRoundTrack
+     * @return the diceIndexInRoundTrack
+     */
     public int getDiceIndexInRoundTrack() {
-        return diceIndexInRoundTrack;
+        return diceIndexRoundTrack;
     }
 
+    /**
+     * Gets the diceIndexInDraftPool
+     * @return the diceIndexInDraftPool
+     */
     public int getDiceIndexInDraftPool() {
-        return diceIndexInDraftPool;
+        return diceIndexDraftPool;
     }
 
 }

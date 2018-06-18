@@ -136,6 +136,13 @@ public class DicePattern {
         return false;
     }
 
+    /**
+     * Checks if a dice respects the adjacentColour restriction without checking the startingPosition
+     * @param finalPosition The position to be checked
+     * @param initialPosition The starting position of the dice
+     * @param dice The dice to be placed
+     * @return True if the dice is placeable, false otherwise
+     */
     public boolean checkAdjacentColourWithoutInitialPosition(Position finalPosition, Position initialPosition,  Dice dice){
 
         List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
@@ -150,6 +157,13 @@ public class DicePattern {
         return true;
     }
 
+    /**
+     * Checks if a dice respects the adjacentValue restriction without checking the startingPosition
+     * @param finalPosition The position to be checked
+     * @param initialPosition The starting position of the dice
+     * @param dice The dice to be placed
+     * @return True if the dice is placeable, false otherwise
+     */
     public boolean checkAdjacentValueWithoutInitialPosition(Position finalPosition, Position initialPosition,  Dice dice){
 
         List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
@@ -345,7 +359,12 @@ public class DicePattern {
         return (checkEdge(position) || checkAdjacentColour(position, dice) && checkAdjacentValue(position, dice)) && windowPattern.checkCell(position, dice) && isEmpty(position);
     }
 
-
+    /**
+     * Checks if a dice respects the adjacency restriction without checking the startingPosition
+     * @param finalPosition The position to be checked
+     * @param initialPosition The starting position of the dice
+     * @return True if the dice is placeable, false otherwise
+     */
     public boolean checkAdjacencyWithoutInitialPosition(Position finalPosition, Position initialPosition){
 
         List<Position> positionsToCheck = finalPosition.getAdjacentPositions();
@@ -357,6 +376,5 @@ public class DicePattern {
         }
         return false;
     }
-
-
+    
 }

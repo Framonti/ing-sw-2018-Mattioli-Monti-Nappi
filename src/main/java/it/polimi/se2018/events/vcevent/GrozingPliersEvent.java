@@ -1,15 +1,23 @@
 package it.polimi.se2018.events.vcevent;
 
+/**
+ * This event is generated when a player uses the Grozing Pliers ToolCard
+ */
 public class GrozingPliersEvent extends VCEvent {
 
-    private int diceIndexInDraftPool;
+    private int diceIndexDraftPool;
     private int choice;
 
+    /**
+     * The Constructor analyzes the userInput and saves it into the class's attributes
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public GrozingPliersEvent(String userInput){
         super(1);
         try{
             String[] parameters = userInput.split("\\s+");
-            diceIndexInDraftPool = Integer.parseInt(parameters[0]) -1;
+            diceIndexDraftPool = Integer.parseInt(parameters[0]) -1;
             choice = Integer.parseInt(parameters[1]) -1;
         }
         catch(IllegalArgumentException e){
@@ -26,9 +34,13 @@ public class GrozingPliersEvent extends VCEvent {
      */
     public int getDiceIndexDraftPool(){
 
-        return diceIndexInDraftPool;
+        return diceIndexDraftPool;
     }
 
+    /**
+     * Gets the choice
+     * @return The choice
+     */
     public int getChoice(){
         return choice;
     }

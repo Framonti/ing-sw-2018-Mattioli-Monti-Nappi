@@ -1,11 +1,20 @@
 package it.polimi.se2018.events.vcevent;
 
-
 import it.polimi.se2018.model.Position;
 
+/**
+ *  This event is generated when a player uses the Flux Remover ToolCard, after picking a dice from the DraftPool
+ */
 public class FluxRemoverPlaceDiceEvent extends VCEvent{
+
     private int diceValue;
     private Position dicePosition;
+
+    /**
+     * The Constructor analyzes the userInput and saves it into the class's attributes
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public FluxRemoverPlaceDiceEvent(String userInput){
         super(14);
         try {
@@ -21,10 +30,18 @@ public class FluxRemoverPlaceDiceEvent extends VCEvent{
         }
     }
 
+    /**
+     * Gets the diceValue
+     * @return The diceValue
+     */
     public int getDiceValue() {
         return diceValue;
     }
 
+    /**
+     * Gets the dicePosition
+     * @return The dicePosition
+     */
     public Position getDicePosition() {
         return dicePosition;
     }

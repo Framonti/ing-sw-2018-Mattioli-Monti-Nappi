@@ -34,6 +34,10 @@ public class WindowPatternChoiceEvent extends VCEvent {
         return choice;
     }
 
+    /**
+     * Gets the name
+     * @return The name attribute
+     */
     public String getName() {
         return name;
     }

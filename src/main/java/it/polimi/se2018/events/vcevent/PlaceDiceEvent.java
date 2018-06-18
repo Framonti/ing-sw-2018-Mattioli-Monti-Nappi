@@ -13,16 +13,15 @@ public class PlaceDiceEvent extends VCEvent {
     private Position positionToPlace;
 
     /**
-     * Construct a PlaceDiceEvent object
-     * @param userInput The values given by an user
-     * @throws IllegalArgumentException if the value given by the user aren't number or if they represent invalid values
+     * The Constructor analyzes the userInput and saves it into the class's attributes
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
      * @throws IndexOutOfBoundsException if the user don't give enough parameters
      */
     public PlaceDiceEvent(String userInput){
         super(99);
 
         try{
-
             String[] parameters = userInput.split("\\s+");
 
             diceIndexDraftPool = Integer.valueOf(parameters[0]) -1;

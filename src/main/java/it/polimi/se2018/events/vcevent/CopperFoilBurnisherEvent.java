@@ -2,11 +2,19 @@ package it.polimi.se2018.events.vcevent;
 
 import it.polimi.se2018.model.Position;
 
+/**
+ * This event is generated when a player uses the Copper Foil Burnisher ToolCard
+ */
 public class CopperFoilBurnisherEvent extends VCEvent {
 
     private Position initialPosition;
     private Position finalPosition;
 
+    /**
+     * The Constructor analyzes the userInput and saves it into the class's attributes
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public CopperFoilBurnisherEvent(String userInput) {
 
         super(3);
@@ -22,11 +30,19 @@ public class CopperFoilBurnisherEvent extends VCEvent {
         }
     }
 
+    /**
+     * Gets the initialPosition
+     * @return The InitialPosition
+     */
     public Position getInitialPosition() {
 
         return initialPosition;
     }
 
+    /**
+     * Gets the finalPosition
+     * @return The finalPosition
+     */
     public Position getFinalPosition() {
 
         return finalPosition;

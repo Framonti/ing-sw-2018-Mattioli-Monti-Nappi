@@ -3,11 +3,18 @@ package it.polimi.se2018.events.vcevent;
 import it.polimi.se2018.model.Position;
 
 /**
+ * This event is generated when a player uses the FluxBrush ToolCard, after picking a Dice from the DraftPool
  * @author Daniele Mattioli
  */
 public class FluxBrushPlaceDiceEvent extends VCEvent{
+
     private Position finalPosition;
 
+    /**
+     * The Constructor analyzes the userInput and saves it into the class's attribute
+     * @param userInput A String representing an user input
+     * @throws IllegalArgumentException If the string does not contain valid parameters
+     */
     public FluxBrushPlaceDiceEvent(String userInput){
         super(13);
         try {
@@ -25,6 +32,10 @@ public class FluxBrushPlaceDiceEvent extends VCEvent{
         }
     }
 
+    /**
+     * Gets the finalPosition
+     * @return The finalPosition
+     */
     public Position getFinalPosition() {
         return finalPosition;
     }
