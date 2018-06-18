@@ -1,11 +1,9 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.events.ConnectionChoiceEvent;
-import it.polimi.se2018.events.ConnectionEstablishedEvent;
-import it.polimi.se2018.events.ConnectionRefusedEvent;
-import it.polimi.se2018.events.NewObserverEvent;
+
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
+import it.polimi.se2018.events.networkevent.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
