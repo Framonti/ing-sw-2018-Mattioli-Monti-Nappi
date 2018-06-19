@@ -4,13 +4,13 @@ import it.polimi.se2018.utilities.PrivateObjectiveCardDeckBuilder;
 import it.polimi.se2018.utilities.PublicObjectiveCardDeckBuilder;
 import it.polimi.se2018.utilities.ToolCardDeckBuilder;
 import it.polimi.se2018.utilities.WindowPatternCardDeckBuilder;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * This class represents the game setup: it contains
+ * This class manages the first stages of a game, like extracting the PublicObjectiveCard or assigning the WindowPattern to each player
+ * @author Daniele Mattioli
  */
 
 public class GameSetupSingleton {
@@ -22,7 +22,9 @@ public class GameSetupSingleton {
     private static GameSetupSingleton instance = null;
 
 
-    //constructor. Comments has to be added
+    /**
+     * The constructor loads all the decks from xml files
+     */
     private GameSetupSingleton(){
         PrivateObjectiveCardDeckBuilder privateObjectiveCardDeckLoader = new PrivateObjectiveCardDeckBuilder("src/main/java/it/polimi/se2018/xml/PrivateObjectiveCard.xml");
         PublicObjectiveCardDeckBuilder publicObjectiveCardDeckLoader = new PublicObjectiveCardDeckBuilder("src/main/java/it/polimi/se2018/xml/PublicObjectiveCard.xml");
@@ -35,7 +37,10 @@ public class GameSetupSingleton {
         this.players = new ArrayList<>();
     }
 
-    //return the unique instance of class GameSetupSingleton
+    /**
+     * Instances a new GameSetupSingleton or return the already existing instance
+     * @return The unique instance of class GameSetupSingleton
+     */
     public static GameSetupSingleton instance(){
         if (instance == null)
             instance = new GameSetupSingleton();
@@ -49,35 +54,63 @@ public class GameSetupSingleton {
         GameSetupSingleton.instance = null;
     }
 
+    /**
+     * Gets a list of PrivateObjectiveCard from the deck
+     * @param numberToExtract The number of cards to extract
+     * @return A List of PrivateObjectiveCard
+     */
     private List<PrivateObjectiveCard> getPrivateObjectiveCardList(int numberToExtract) {
 
         return privateObjectiveCardDeck.mixAndDistribute(numberToExtract);
     }
 
+    /**
+     * Gets a list of PublicObjectiveCard from the deck
+     * @param numberToExtract The number of cards to extract
+     * @return A List of PublicObjectiveCard
+     */
     private List<PublicObjectiveCard> getPublicObjectiveCardList(int numberToExtract) {
 
         return publicObjectiveCardDeck.mixAndDistribute(numberToExtract);
     }
 
+    /**
+     * Gets a list of WindowPatternCard from the deck
+     * @param playersNumber The number of player in game
+     * @return A List of WindowPatternCard
+     */
     private List<WindowPatternCard> getWindowPatternCardList(int playersNumber) {
 
         return windowPatternCardDeck.mixAndDistribute(playersNumber*2);
     }
 
+    /**
+     * Gets a list of ToolCard from the deck
+     * @param numberToExtract The number of cards to extract
+     * @return A List of ToolCard
+     */
     private List<ToolCard> getToolCardList(int numberToExtract){
         return toolCardDeck.mixAndDistribute(numberToExtract);
     }
 
-    //serve?
+    /**
+     * Gets the players
+     * @return A List of Players
+     */
     public  List<Player> getPlayers() {
         return players;
     }
 
-    //orders players randomly
+    /**
+     * Randomly shuffle the players
+     */
     private void choosePlayersOrder(){
         Collections.shuffle(players);
     }
 
+    /**
+     * Assigns a PrivateObjectiveCard to each player
+     */
     private void assignPrivateObjective(){
 
         List<PrivateObjectiveCard> toDistribute = getPrivateObjectiveCardList(players.size());
@@ -86,6 +119,11 @@ public class GameSetupSingleton {
         }
     }
 
+    /**
+     * Create a new GameSingleton instance
+     * @param singlePlayerDifficulty Is 0 for multiplayer, from 1 to 5 for singlePlayer
+     * @return A GameSingleton instance
+     */
     public GameSingleton createNewGame(int singlePlayerDifficulty) {    //il parametro è 0 in multiplayer, tra 1 e 5 in singleplayer
 
         assignWindowPatterns();
@@ -97,7 +135,7 @@ public class GameSetupSingleton {
 
     /**
      * Assigns 4 window patterns to each player
-     * */
+     */
 
     public void assignWindowPatterns(){
         List <WindowPatternCard> deckToDistribute = getWindowPatternCardList(players.size());
@@ -114,7 +152,7 @@ public class GameSetupSingleton {
     }
 
     /**
-     * Add players to the game
+     * Add a players to the game
      * @param players Player to be added to the game
      */
     public void addPlayers(List<Player> players){

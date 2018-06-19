@@ -15,6 +15,10 @@ public abstract class NetworkEvent implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Gets the event id
+     * @return The event id
+     */
     public int getId() {
         return id;
     }

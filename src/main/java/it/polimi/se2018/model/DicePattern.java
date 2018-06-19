@@ -376,5 +376,5 @@ public class DicePattern {
         }
         return false;
     }
-    
+
 }

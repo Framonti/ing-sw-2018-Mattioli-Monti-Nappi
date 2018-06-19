@@ -6,12 +6,13 @@ import it.polimi.se2018.network.client.ClientImplementation;
  * This class represents a request for a new Observer
  * @author Framonti
  */
-public class NewObserverEvent {
+public class NewObserverEvent extends NetworkEvent{
 
-    final int id = 90;
     private ClientImplementation client;
 
     public NewObserverEvent(ClientImplementation client){
+
+        super(90);
         this.client = client;
     }
 

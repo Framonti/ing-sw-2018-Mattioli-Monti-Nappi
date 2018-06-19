@@ -17,11 +17,13 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     private Map<Integer, Runnable> vcEvents = new HashMap<>();
     private Map<Integer, Runnable> mvEvents = new HashMap<>();
+    private Map<Integer, Runnable> networkEvents = new HashMap<>();
     private String eventParameters;
     private boolean toolCardUsed;
     private boolean diceMoved;
     private MVEvent mvEvent;
     private VCEvent vcEvent;
+    private NetworkEvent networkEvent;
     private Scanner scanner;
     private BufferedReader reader;
     private boolean firstTimeNick;
@@ -41,6 +43,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
         //mvEvents initialization (alphabetic order)
         createMVMap();
+
+        createNetworkEventMap();
 
         scanner = new Scanner(System.in);
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -157,6 +161,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    private void createNetworkEventMap(){
+     //   networkEvents.put(70, () -> showClientsConnected(networkEvent));
+        networkEvents.put(80, () -> {
+                                        System.out.println("L'indirizzo IP è sbagliato!");
+                                        askConnection();});
+        networkEvents.put(25, () -> connectionEstablishedHandler(networkEvent));
+    }
+
     /**
      * Initializes the map between the event's id and the relative method
      */
@@ -179,6 +191,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(15, ()->{});
         mvEvents.put(16, this::playerSuspended);
         mvEvents.put(70, () ->showClientsConnected(mvEvent));
+        mvEvents.put(30, () -> System.out.println("Nickname valido.\nATTENDI.\n"));
     }
 
     /**
@@ -292,8 +305,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         diceMoved = actionMenuEvent.isDiceMoved();
         toolCardUsed = actionMenuEvent.isToolCardUsed();
 
-        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n") +
-                "B)\tPassa il turno\n";
+        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n" +
+                "\tFormato mossa: A \"indiceDado\" \"indiceRiga\" \"indiceColonna\"; Es: a 1 2 1\n")
+                +"B)\tPassa il turno\n";
         if(!toolCardUsed) {
             for (String toolCard : actionMenuEvent.getToolCards())
                 menu = menu.concat(toolCard);
@@ -428,18 +442,17 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         new SelectWindowPattern().start();
     }
 
+    private void connectionEstablishedHandler(NetworkEvent networkEvent){
+        firstTimeNick = ((ConnectionEstablishedEvent) networkEvent).isFirstTimeNickname();
+        askName();
+    }
+
     @Override
     public void update(Observable model, Object event) {
-        if(event.getClass() == ConnectionRefusedEvent.class){
-            System.out.println("L'indirizzo IP è sbagliato!");
-            askConnection();
+        if(event instanceof NetworkEvent){
+            networkEvent = (NetworkEvent) event;
+            networkEvents.get(networkEvent.getId()).run();
         }
-        else if(event.getClass() == ConnectionEstablishedEvent.class){
-            firstTimeNick = ((ConnectionEstablishedEvent) event).isFirstTimeNickname();
-            askName();
-        }
-        else if(event.getClass() == NickNameAcceptedEvent.class)
-            System.out.println("Nickname valido.\nATTENDI.\n");
         else if(event.getClass() != NewObserverEvent.class) {
             mvEvent = (MVEvent) event;
             mvEvents.get(mvEvent.getId()).run();

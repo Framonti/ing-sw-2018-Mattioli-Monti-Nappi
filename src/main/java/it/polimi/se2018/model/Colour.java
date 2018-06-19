@@ -18,7 +18,7 @@ public enum Colour {
      * Constructor
      * @param abbreviation  A single letter for a quick representation of the colour itself
      */
-    Colour( String abbreviation) {
+    Colour(String abbreviation) {
 
         this.abbreviation = abbreviation;
     }

@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
-import it.polimi.se2018.events.networkevent.ConnectionRefusedEvent;
+import it.polimi.se2018.events.networkevent.NetworkEvent;
 import it.polimi.se2018.events.networkevent.NewObserverEvent;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -31,6 +33,29 @@ public class ViewGUI  extends Observable implements Observer{
     private Scene scene;
     private Observable guiControllerObservable;
     private Observer guiControllerObserver;
+    private Map<Integer, Runnable> mvEventMap = new HashMap<>();
+    private Map<Integer, Runnable> networkEventMap = new HashMap<>();
+    private NetworkEvent networkEventForMap;
+
+
+    public ViewGUI(){
+        initializeMVEventMap();
+        initializeNetworkEventMap();
+    }
+
+    private void initializeMVEventMap(){
+        mvEventMap.put(40, this::setGameScene);
+        mvEventMap.put(60, this::setEndScreen);
+        mvEventMap.put(56, this::setWindowPatternChoiceScene);
+        mvEventMap.put(30, this::setLobbyScene);
+    }
+
+    private void initializeNetworkEventMap(){
+        networkEventMap.put(25, () -> connectionEstablishedHandler(networkEventForMap));
+        networkEventMap.put(90, () -> newObserverEventHandler(networkEventForMap));
+        networkEventMap.put(80, () -> passTheEventToObservers(networkEventForMap));
+        networkEventMap.put(70, () -> passTheEventToObservers(networkEventForMap));
+    }
 
     /**
      * Static method usable in all the GUI classes;
@@ -114,7 +139,6 @@ public class ViewGUI  extends Observable implements Observer{
             event.consume();
             closeProgram();
         });
-
         setConnectionChoiceScene();
     }
 
@@ -230,7 +254,7 @@ public class ViewGUI  extends Observable implements Observer{
 
         FXMLLoader loader = new FXMLLoader();
         FileInputStream fileInputStream = getFXMLFileFromPath("src/main/java/it/polimi/se2018/view/gui/Prova.fxml");
-         Parent root = null;
+        Parent root = null;
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
@@ -271,37 +295,39 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(setScreenProportion());
     }
 
+    private void connectionEstablishedHandler(NetworkEvent networkEvent){
+        ConnectionEstablishedEvent connectionEstablishedEvent = (ConnectionEstablishedEvent) networkEvent;
+        if (connectionEstablishedEvent.isFirstTimeNickname()) {
+            setNicknameChoiceScene();
+        }
+        setChanged();
+        notifyObservers(networkEvent);
+    }
+
+    private void newObserverEventHandler(NetworkEvent networkEvent){
+
+        NewObserverEvent newObserverEvent = (NewObserverEvent) networkEvent;
+        guiControllerObservable.addObserver(newObserverEvent.getClient());
+    }
+
+    private void passTheEventToObservers(NetworkEvent networkEvent){
+        setChanged();
+        notifyObservers(networkEvent);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
-        if(arg.getClass() == ConnectionEstablishedEvent.class){
-            ConnectionEstablishedEvent connectionEstablishedEvent = (ConnectionEstablishedEvent) arg;
-            if(connectionEstablishedEvent.isFirstTimeNickname()){
-                setNicknameChoiceScene();
-            }
-            setChanged();
-            notifyObservers(arg);
-        }
-        else if(arg.getClass() == NewObserverEvent.class){
-            NewObserverEvent newObserverEvent = (NewObserverEvent) arg;
-            guiControllerObservable.addObserver(newObserverEvent.getClient());
-        }
-        else if(arg.getClass() == ConnectionRefusedEvent.class){
-            setChanged();
-            notifyObservers(arg);
+        if(arg instanceof NetworkEvent) {
+            networkEventForMap = (NetworkEvent) arg;
+            int id = networkEventForMap.getId();
+            networkEventMap.get(id).run();
         }
         else {
             MVEvent mvEvent = (MVEvent) arg;
-            if(mvEvent.getId() == 40){
-                setGameScene();
-            }
-            else if(mvEvent.getId() == 60)
-                setEndScreen();
-            else if(mvEvent.getId() == 56){
-                setWindowPatternChoiceScene();
-            }
-            else if(mvEvent.getId() == 30){
-                setLobbyScene();
+            int id = mvEvent.getId();
+            if(id == 40|| id == 60 || id == 56 || id == 30){
+                mvEventMap.get(id).run();
             }
             else{
                 setChanged();

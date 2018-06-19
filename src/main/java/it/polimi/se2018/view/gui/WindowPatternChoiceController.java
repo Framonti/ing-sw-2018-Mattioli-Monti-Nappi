@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.paint.Color;
 
 /**
@@ -36,6 +34,16 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private Label waitYourTurn2;
     @FXML private ImageView background;
     private int chosen;
+
+    /**
+     * Initializes the scene, by setting its background
+     */
+    public void initialize(){
+
+        background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.png")));
+        background.toBack();
+        background.setOpacity(0.8);
+    }
 
     /**
      * Sets visual effects when a windowPattern is selected and enable the Confirm and Cancel buttons
@@ -189,16 +197,4 @@ public class WindowPatternChoiceController extends Observable implements Observe
        windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
     }
 
-    /**
-     * Initializes the scene, by setting its background
-     */
-    public void initialize(){
-
-        /*Image background = new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.jpg"));
-        BackgroundImage myBGI = new BackgroundImage(background, null, null,null, null);
-        scene.setBackground(new Background(myBGI));*/
-        background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.png")));
-        background.toBack();
-        background.setOpacity(0.8);
-    }
 }

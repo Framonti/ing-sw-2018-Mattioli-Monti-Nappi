@@ -1,6 +1,5 @@
-package it.polimi.se2018.events.networkevent;
+package it.polimi.se2018.events.mvevent;
 
-import it.polimi.se2018.events.mvevent.MVEvent;
 import java.util.List;
 
 public class ClientAlreadyConnectedEvent extends MVEvent {

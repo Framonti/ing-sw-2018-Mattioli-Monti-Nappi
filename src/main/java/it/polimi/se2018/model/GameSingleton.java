@@ -155,6 +155,26 @@ public class GameSingleton extends Observable{
         return players;
     }
 
+    public List<String> getPlayersNames(){
+        List<String> playersNames = new ArrayList<>();
+        for(Player player : players){
+            playersNames.add(player.getName());
+        }
+        return playersNames;
+    }
+
+    /**
+     * Gets a List containing all the scores of the players
+     * @return A List containing all the scores of the players
+     */
+    public List<Integer> getPlayerScores(){
+        List<Integer> playerScores = new ArrayList<>();
+        for(Player player : players){
+            playerScores.add(player.getScore());
+        }
+        return playerScores;
+    }
+
     /**
      * Gets dice bag
      * @return  dice bag
@@ -210,8 +230,7 @@ public class GameSingleton extends Observable{
     }
 
     /**
-     *Increases current round by one.
-
+     * Increases current round by one.
      */
     public void increaseRound() {
         round++;
@@ -257,8 +276,6 @@ public class GameSingleton extends Observable{
 
     }
 
-
-    //TODO: aggiungere evento WinnerEvent
     /**
      * Computes the winner
      * @return Winner of the game
@@ -389,6 +406,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of the favor token on each toolCard
+     * @return A List representing the favor token on each toolCard
+     */
     public List<String> getFavorTokensOnToolCards(){
         List<String> list = new ArrayList<>();
         for(ToolCard toolCard : toolCards)
@@ -396,6 +417,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of all the favor tokens of each player
+     * @return A List representing the favor tokens of each player
+     */
     public List<String> getFavorTokensNumberPlayers(){
         List<String> list = new ArrayList<>();
         for(Player player : players)
@@ -423,10 +448,17 @@ public class GameSingleton extends Observable{
         notifyObservers(event);
     }
 
+    /**
+     * Gets the unique instance of GameSingleton
+     * @return The unique instance of GameSingleton
+     */
     public static GameSingleton getInstance(){
         return instance;
     }
 
+    /**
+     * Rolls every dice on the DraftPool
+     */
     public void rollEveryDice() {
         int i;
         for (i = 0; i < draftPool.size(); i++)
