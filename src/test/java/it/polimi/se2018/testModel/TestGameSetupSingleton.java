@@ -33,7 +33,7 @@ public class TestGameSetupSingleton {
 
     @Test
     public void testCreateNewGame() {
-        instance.createNewGame();
+        instance.createNewGame(0);
         for (Player player: instance.getPlayers()) {
             assertNotNull(player.getWindowPatterns());
             assertNotNull(player.getPrivateObjectiveCard());

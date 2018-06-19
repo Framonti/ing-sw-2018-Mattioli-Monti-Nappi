@@ -24,7 +24,7 @@ public class TestPlayer {
     public void setUp() {
         player = new Player("");
         player.setPrivateObjectiveCard(new PrivateObjectiveCard("", "", Colour.PURPLE));
-        player.setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
+        player.setWindowPattern(new WindowPattern("", 4, new Dice[4][5]), false);
     }
 
     /**

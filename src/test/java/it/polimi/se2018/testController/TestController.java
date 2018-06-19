@@ -107,7 +107,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
         model.getDraftPool().add(new Dice(6));
         model.getDraftPool().add(new Dice(3));
@@ -126,7 +126,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
         model.getDraftPool().add(new Dice(6));
         model.getDraftPool().add(new Dice(3));
@@ -145,7 +145,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
         model.getDraftPool().add(new Dice(6));
         model.getDraftPool().add(new Dice(3));
@@ -164,7 +164,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
         model.getDraftPool().add(new Dice(6));
         model.getDraftPool().add(new Dice(3));
@@ -244,7 +244,7 @@ public class TestController {
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice diceGreen = new Dice(Colour.YELLOW);
         diceGreen.setValue(6);
@@ -291,7 +291,7 @@ public class TestController {
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice diceGreen = new Dice(Colour.YELLOW);
         diceGreen.setValue(6);
@@ -337,7 +337,7 @@ public class TestController {
 
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
         Dice diceGreen = new Dice(Colour.GREEN);
@@ -386,7 +386,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
         //test1
@@ -432,7 +432,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
         //test1
@@ -493,7 +493,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -561,7 +561,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -596,7 +596,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         dice1.setValue(2);
@@ -636,7 +636,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
         model.getDraftPool().add(new Dice(1));
         Dice dice1 = new Dice(1);
@@ -659,7 +659,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
         model.getDraftPool().add(new Dice(2));
         Dice dice1 = new Dice(2);
@@ -685,7 +685,7 @@ public class TestController {
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
-        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]));
+        model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
         model.getDraftPool().add(new Dice(3));
         Dice dice1 = new Dice(3);
@@ -714,7 +714,7 @@ public class TestController {
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice [4][5]);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         Dice dice2 = new Dice(Colour.BLUE);
@@ -754,7 +754,7 @@ public class TestController {
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         Dice dice2 = new Dice(Colour.BLUE);
@@ -800,7 +800,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice diceY = new Dice(Colour.YELLOW);
         diceY.setValue(3);
@@ -833,7 +833,7 @@ public class TestController {
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
         model.setLap(1);
 
         Dice dice1 = new Dice(Colour.PURPLE);
@@ -873,7 +873,7 @@ public class TestController {
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice[4][5]);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
         model.setLap(0);
 
         Dice dice1 = new Dice(Colour.PURPLE);
@@ -921,7 +921,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -977,7 +977,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -1022,7 +1022,7 @@ public class TestController {
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 18, new Dice[4][5]);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         Dice dice2 = new Dice(Colour.BLUE);
@@ -1107,7 +1107,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 3, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
         Dice dice1 = new Dice(Colour.PURPLE);
         Dice dice2 = new Dice(Colour.BLUE);
@@ -1196,7 +1196,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -1254,7 +1254,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 1, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 
@@ -1306,7 +1306,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 7, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
         Dice diceP2 = new Dice(Colour.PURPLE);
@@ -1386,7 +1386,7 @@ public class TestController {
         diceMatrix[3][4] = new Dice(Colour.RED);
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-        model.getCurrentPlayer().setWindowPattern(windowPatternTest);
+        model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
 
 
 

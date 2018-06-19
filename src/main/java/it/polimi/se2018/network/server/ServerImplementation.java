@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.events.networkevent.ClientAlreadyConnectedEvent;
+import it.polimi.se2018.events.vcevent.SinglePlayerEvent;
 import it.polimi.se2018.utilities.ConfigurationParametersLoader;
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.events.mvevent.*;
@@ -60,14 +61,14 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     /**
      * This method creates a new game and ask the players to choose their windowPattern
      */
-    private void createGame() {
+    private void createGame(int difficulty) {
 
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         int turnDuration = configurationParametersLoader.getTurnTimer();
 
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(players);
-        model = GameSetupSingleton.instance().createNewGame();
+        model = GameSetupSingleton.instance().createNewGame(difficulty);
         controller = new Controller(virtualViewCLI, model.getToolCards(), model, turnDuration);
 
         virtualViewCLI.addObserver(controller);
@@ -114,7 +115,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         } else if(players.size() == 4) {
             gameStarted = true;
             timer.interrupt();
-            createGame();
+            createGame(0);
         }
     }
 
@@ -303,7 +304,13 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
 
     @Override
     public void notify(VCEvent vcEvent) {
-        virtualViewCLI.forwardVCEvent(vcEvent);
+        if (vcEvent.getId() == 22) {
+            SinglePlayerEvent singlePlayerEvent = (SinglePlayerEvent) vcEvent;
+            gameStarted = true;
+            createGame(singlePlayerEvent.getDifficulty());
+        }
+        else
+            virtualViewCLI.forwardVCEvent(vcEvent);
     }
 
     /**
@@ -406,7 +413,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                     if (rmiClients.size() + socketClients.size() > 1) {
                         testConnections();
                         gameStarted = true;
-                        createGame();
+                        createGame(0);
                     }
                 }
             } catch (InterruptedException e) {

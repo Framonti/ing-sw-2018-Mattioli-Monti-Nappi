@@ -2,15 +2,15 @@ package it.polimi.se2018.events.vcevent;
 
 public class SinglePlayerEvent extends VCEvent{
 
-    private boolean singlePlayerGame;
+    private int difficulty;
 
-    public SinglePlayerEvent(boolean singlePlayerMode){
+    public SinglePlayerEvent(int difficulty){
 
         super(22);
-        singlePlayerGame = singlePlayerMode;
+        this.difficulty = difficulty;
     }
 
-    public boolean isSinglePlayerGame() {
-        return singlePlayerGame;
+    public int getDifficulty() {
+        return difficulty;
     }
 }

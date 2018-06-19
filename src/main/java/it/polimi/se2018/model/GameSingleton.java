@@ -39,7 +39,10 @@ public class GameSingleton extends Observable{
     private GameSingleton( List<Player> players, List<PublicObjectiveCard> publicObjectiveCards, List<ToolCard> toolCards, RoundTrack roundTrack) {
         this.players = players;
         playersNumber = players.size();
-        diceNumberToExtract = (2 * playersNumber) + 1;
+        if (playersNumber != 1)
+            diceNumberToExtract = (2 * playersNumber) + 1;
+        else
+            diceNumberToExtract = 4;
         round = 1;
         this.currentPlayer = players.get(0);
         this.publicObjectiveCards = publicObjectiveCards;

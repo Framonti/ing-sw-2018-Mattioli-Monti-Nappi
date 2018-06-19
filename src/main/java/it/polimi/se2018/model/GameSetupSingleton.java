@@ -86,12 +86,13 @@ public class GameSetupSingleton {
         }
     }
 
-    public GameSingleton createNewGame(){
-        
+    public GameSingleton createNewGame(int singlePlayerDifficulty) {    //il parametro è 0 in multiplayer, tra 1 e 5 in singleplayer
+
         assignWindowPatterns();
-        assignPrivateObjective();
+        assignPrivateObjective();   //bisogna pescarne 2 se il parametro è diverso da 0 (ancora da fare)
         choosePlayersOrder();
-        return GameSingleton.instance(players, getPublicObjectiveCardList(3), getToolCardList(3), new RoundTrack());
+        return GameSingleton.instance(players, getPublicObjectiveCardList((singlePlayerDifficulty == 0 ? 3 : 2)),
+                getToolCardList((singlePlayerDifficulty == 0 ? 3 : 6 - singlePlayerDifficulty)), new RoundTrack());
     }
 
     /**

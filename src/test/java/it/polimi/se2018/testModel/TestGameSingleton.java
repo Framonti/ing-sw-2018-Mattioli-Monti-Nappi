@@ -142,15 +142,15 @@ public class TestGameSingleton {
     @Test
     public void testExtractAndRollOneDice(){
         GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        instance.extractAndRollOneDice();
+        instance.extractAndRollOneDiceWithoutReturning();
         assertEquals(89,instance.getDiceBag().size());
         assertEquals(1,instance.getDraftPool().size());
 
-        instance.extractAndRollOneDice();
+        instance.extractAndRollOneDiceWithoutReturning();
         assertEquals(88,instance.getDiceBag().size());
         assertEquals(2,instance.getDraftPool().size());
 
-        instance.extractAndRollOneDice();
+        instance.extractAndRollOneDiceWithoutReturning();
         assertEquals(87,instance.getDiceBag().size());
         assertEquals(3,instance.getDraftPool().size());
 
@@ -170,9 +170,9 @@ public class TestGameSingleton {
     @Test
     public void testSelectWinner(){
         GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        instance.getPlayers().get(0).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
-        instance.getPlayers().get(1).setWindowPattern(new WindowPattern("", 3, new Dice[4][5]));
-        instance.getPlayers().get(2).setWindowPattern(new WindowPattern("", 5, new Dice[4][5]));
+        instance.getPlayers().get(0).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]), false);
+        instance.getPlayers().get(1).setWindowPattern(new WindowPattern("", 3, new Dice[4][5]), false);
+        instance.getPlayers().get(2).setWindowPattern(new WindowPattern("", 5, new Dice[4][5]), false);
 
         //winner is player 1
         instance.getPlayers().get(0).setScore(8);
@@ -228,9 +228,9 @@ public class TestGameSingleton {
 
         //winner is player 0
 
-        instance.getPlayers().get(0).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
-        instance.getPlayers().get(1).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]));
-        instance.getPlayers().get(2).setWindowPattern(new WindowPattern("", 3, new Dice[4][5]));
+        instance.getPlayers().get(0).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]), false);
+        instance.getPlayers().get(1).setWindowPattern(new WindowPattern("", 4, new Dice[4][5]), false);
+        instance.getPlayers().get(2).setWindowPattern(new WindowPattern("", 3, new Dice[4][5]), false);
         instance.getPlayers().get(0).setScore(8);
         instance.getPlayers().get(1).setScore(8);
         instance.getPlayers().get(2).setScore(8);
@@ -332,7 +332,7 @@ public class TestGameSingleton {
         WindowPattern wp = new WindowPattern("wp", 4, dices);
         List<Integer> scores = new ArrayList<>();
         for (Player player: instance.getPlayers()) {
-            player.setWindowPattern(wp);
+            player.setWindowPattern(wp, false);
             player.computeMyScore(publicObjectiveCards);
             scores.add(player.getScore());
         }

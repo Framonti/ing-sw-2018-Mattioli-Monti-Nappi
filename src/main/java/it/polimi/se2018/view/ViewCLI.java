@@ -28,6 +28,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private static final String INVALID_MOVE= "MOSSA NON VALIDA";
     private GetInputClass getInputClass = new GetInputClass();
     private SuspendedPlayer suspendedPlayer = new SuspendedPlayer();
+    private AskSinglePlayer askSinglePlayer;
 
 
     /**
@@ -97,6 +98,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         for(String clients : clientAlreadyConnectedEvent.getClientConnected())
             System.out.println(clients);
         System.out.println();
+        if (clientAlreadyConnectedEvent.getClientConnected().size() == 1) {
+            System.out.println("Sei l'unico client.\nSe vuoi giocare in solitaria scrivi la difficoltà (da 1 a 5).");
+            askSinglePlayer = new AskSinglePlayer();
+            askSinglePlayer.start();
+        } else if (askSinglePlayer != null && askSinglePlayer.isAlive()) {
+            askSinglePlayer.interrupt();
+        }
+
     }
 
     /**
@@ -523,4 +532,41 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 System.exit(0);
         }
     }
+
+    /**
+     * This class asks if the player wants to play alone.
+     * This is possible only if there aren't other players in the waiting room.
+     */
+    private class AskSinglePlayer extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                int choice = 0;
+                boolean firstTime = true;
+                while (choice < 1 || choice > 5) {
+                    if (!firstTime)
+                        System.out.println("Risposta non valida!");
+                    else
+                        firstTime = false;
+                    while (!reader.ready())
+                        Thread.sleep(200);
+                    choice = Integer.parseInt(reader.readLine());
+                }
+
+                System.out.println("Stiamo giocando in solitaria a difficoltà " + choice);
+                setChanged();
+                notifyObservers(new SinglePlayerEvent(choice));
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+            } catch (InterruptedException e) {
+                System.out.println("Niente solitaria!");
+                Thread.currentThread().interrupt();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Parametri non numerici o sbagliati!");
+                run();
+            }
+        }
+    }
+
 }

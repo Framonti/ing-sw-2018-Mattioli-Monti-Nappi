@@ -22,7 +22,10 @@ public class Player {
     private int favorTokensNumber;
     private WindowPattern windowPattern;
     private DicePattern dicePattern;
+
+    private List<PrivateObjectiveCard> privateObjectiveCards;
     private PrivateObjectiveCard privateObjectiveCard;
+
     private boolean diceMoved;
     private boolean toolCardUsed;
     private List<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
@@ -83,10 +86,11 @@ public class Player {
      * This setter sets also the dicePattern and the favor tokens number
      * @param windowPattern It's the window pattern to be set to the player
      */
-    public void setWindowPattern(WindowPattern windowPattern) {
+    public void setWindowPattern(WindowPattern windowPattern, boolean isSinglePlayer) {
         this.windowPattern = windowPattern;
         setDicePattern(windowPattern);
-        setFavorTokens();
+        if (!isSinglePlayer)
+            setFavorTokens();
     }
 
     public void setLap(int lap) { this.lap = lap; }

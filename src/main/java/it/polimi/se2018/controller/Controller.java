@@ -124,7 +124,7 @@ public class Controller implements Observer {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
         try{
             int choice = windowPatternChoiceEvent.getChoice();
-            model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice));
+            model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice), model.getPlayers().size() == 1);
             if (model.getPlayers().indexOf(model.getCurrentPlayer()) != model.getPlayers().size() - 1)
                 model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1));
             else
@@ -987,13 +987,18 @@ public class Controller implements Observer {
             playerTurn.interrupt();
         if (turnTimer.isAlive())
             turnTimer.interrupt();
-        model.myNotify(new GameEnded());
 
-        computeAllScores();
-        model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
-        Collections.reverse(model.getPlayers());
+        if (model.getPlayers().size() == 1)     //avviene solo se in singleplayer il giocatore abbandona la partita
+            model.myNotify(new ScoreTrackEvent(null, null));
+        else {
+            model.myNotify(new GameEnded());
 
-        model.lastPlayer();
+            computeAllScores();
+            model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+            Collections.reverse(model.getPlayers());
+
+            model.lastPlayer();
+        }
     }
 
 }
