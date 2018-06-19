@@ -1,7 +1,6 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.mvevent.RoundTrackEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +40,6 @@ public class RoundTrack {
             throw new IndexOutOfBoundsException("There is no dice in the selected position");
         return getList(roundIndex).get(listIndex);
     }
-
-
 
     /**
      * To be used only while using a tool card.

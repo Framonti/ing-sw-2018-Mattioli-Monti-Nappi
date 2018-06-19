@@ -4,21 +4,18 @@ import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualViewCLI;
-
+import java.util.*;
 
 /**
  * This class represents the controller. It implements the Observer interface because the controller is an
  * observer of the view.
  * @author Daniele Mattioli
  */
-import java.util.*;
-
-
 public class Controller implements Observer {
     private GameSingleton model;
     private VirtualViewCLI view;
     private List<ToolCard> toolCards;
-    private boolean isGameSetupEnded = false; //used for update method
+    private boolean isGameSetupEnded = false; //used for update method //TODO capire se tenere questo parametro
     private Map<Integer, Runnable> eventsHandler = new HashMap<>();
     private VCEvent event;
     private String nonValidInput = "Non valid input";
@@ -33,7 +30,6 @@ public class Controller implements Observer {
 
     /**
      * Constructor of the class.
-     *
      * @param view      Virtual view
      * @param toolCards List of tool cards chosen during the setup.
      */
@@ -45,8 +41,6 @@ public class Controller implements Observer {
         this.turnDuration = (long) turnDuration;
         createMap();
     }
-
-
 
     /**
      * Associates a key to a method
@@ -97,7 +91,6 @@ public class Controller implements Observer {
 
     /**
      * Gets a dice from round track
-     *
      * @param round Represents the number of the chosen round
      * @param index Represents the number of the dice in the chosen round
      * @return (index) dice in round (round) of the round track
@@ -108,7 +101,6 @@ public class Controller implements Observer {
 
     /**
      * Gets a dice from the player's dice pattern
-     *
      * @param position Position of the dice
      * @return The dice chosen by the player in its dice pattern in position position
      */
@@ -152,7 +144,6 @@ public class Controller implements Observer {
 
     /**
      * Handles player's favorTokensNumber (when he decides to use a tool card) and favor tokens on the tool card
-     *
      * @param toolCard Tool card chosen by the player
      */
     private void handleFavorTokensNumber(ToolCard toolCard) {
@@ -165,6 +156,11 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Gets a ToolCard, given its id
+     * @param id The Id of the toolCard
+     * @return The ToolCard associated with the Id
+     */
     private ToolCard searchToolCard(int id) {
         for (ToolCard toolcard : toolCards) {
             if (toolcard.getId() == id)
@@ -174,6 +170,11 @@ public class Controller implements Observer {
     }
 
 
+    /**
+     * Reduces a Dice value
+     * @param diceChosen The Dice of which it is going to reduce the value
+     * @throws IllegalArgumentException If the Dice has 1 as value
+     */
     private void grozingPliersSubOne(Dice diceChosen){
         try {
             diceChosen.subOne();
@@ -186,6 +187,11 @@ public class Controller implements Observer {
     }
 
 
+    /**
+     * Increases a Dice value
+     * @param diceChosen The Dice of which it is going to increase the value
+     * @throws IllegalArgumentException If the Dice has 6 as value
+     */
     private void grozingPliersAddOne(Dice diceChosen){
         try {
             diceChosen.addOne();
@@ -224,9 +230,13 @@ public class Controller implements Observer {
         }
     }
 
-
-
-    private void eglomiseBrushValidRestriction( Position initialPosition, Position finalPosition ){
+    /**
+     * Tool card 2 method, called when some checkConditions has already been met
+     * @param initialPosition The initialPosition of the Dice to move
+     * @param finalPosition The final position of the Dice to move
+     * @throws IllegalArgumentException If other checks are not met
+     */
+    private void eglomiseBrushValidRestriction(Position initialPosition, Position finalPosition){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
             model.getCurrentPlayer().setToolCardUsed(true);
@@ -262,7 +272,12 @@ public class Controller implements Observer {
         }
     }
 
-
+    /**
+     * Tool card 3 method, called when some checkConditions has already been met
+     * @param initialPosition The initialPosition of the Dice to move
+     * @param finalPosition The final position of the Dice to move
+     * @throws IllegalArgumentException If other checks are not met
+     */
     private void copperFoilBurnisherValidRestriction(Position initialPosition, Position finalPosition){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
@@ -300,6 +315,14 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Tool card 4 method, called when some checkConditions have already been met
+     * @param initialPosition1 The initialPosition of the first Dice to move
+     * @param initialPosition2 The initialPosition of the second Dice to move
+     * @param finalPosition1 The final position of the first Dice to move
+     * @param finalPosition2 The final position of the second Dice to move
+     * @throws IllegalArgumentException If other checks are not met
+     */
     private void lathekinValidRestriction(Position initialPosition1, Position finalPosition1, Position initialPosition2, Position finalPosition2){
     try {
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
@@ -345,7 +368,6 @@ public class Controller implements Observer {
 
     /**
      * Swaps a dice in the draft pool with a dice in the round track.
-     *
      * @param round             Number of the chosen round
      * @param indexOfRoundTrack Index of the dice in the chosen round
      * @param indexOfDraftPool  Index of the dice in the draft pool
@@ -370,6 +392,13 @@ public class Controller implements Observer {
 
 
     //TODO: rivedere il nome di questo metodo
+
+    /**
+     * Helper method for the tool card 5
+     * @param roundIndex The round index
+     * @param diceIndexInRoundTrack The index of the dice chosen
+     * @param diceIndexInDraftPool The Index of the dice on the draftPool
+     */
     private void lensCutterHelper(int roundIndex, int diceIndexInRoundTrack, int diceIndexInDraftPool){
         try {
             swapDice(roundIndex, diceIndexInRoundTrack,diceIndexInDraftPool);
@@ -398,6 +427,13 @@ public class Controller implements Observer {
 
     //TODO: rivedere il nome del metodo
     //il metodo inizialmente era void e c'era l'attributo successfulMove che però era del metodo chiamante
+
+    /**
+     * Helper method for the fluxBrushPlaceDice method
+     * @param finalPosition The finalPosition on which the dice will be placed
+     * @param diceChosen The Dice chosen
+     * @return True if is possible to use the ToolCard, false otherwise
+     */
     private boolean fluxBrushPlaceDiceHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
@@ -413,6 +449,9 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Helper method for the ToolCard 6
+     */
     private void fluxBrushPlaceDice(){
         FluxBrushPlaceDiceEvent fluxBrushEvent = (FluxBrushPlaceDiceEvent) event;
         Position finalPosition = fluxBrushEvent.getFinalPosition();
@@ -428,8 +467,6 @@ public class Controller implements Observer {
         }
 
     }
-
-
 
     /**
      * Tool card 6 method
@@ -489,7 +526,11 @@ public class Controller implements Observer {
         }
     }
 
-
+    /**
+     * Helper method for the ToolCard 8
+     * @param finalPosition The position in which place the dice chosen
+     * @param diceChosen The Dice chosen
+     */
     private void runnerPliersHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
@@ -590,8 +631,9 @@ public class Controller implements Observer {
         }
     }
 
-
-
+    /**
+     * Helper method of the toolCard 11
+     */
     private void fluxRemoverPlaceDice(){
         try{
             FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
@@ -654,8 +696,11 @@ public class Controller implements Observer {
         }
     }
 
-
-
+    /**
+     * Method used when the user wants to move only one dice using the ToolCard12
+     * @param initialPosition1 The initial position of the dice
+     * @param finalPosition1 The final position of the dice
+     */
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
@@ -667,6 +712,13 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Method used when the user wants to move two dices using the ToolCard12
+     * @param initialPosition1 The initial position of the first dice
+     * @param finalPosition1 The final position of the first dice
+     * @param initialPosition2 The initial position of the second dice
+     * @param finalPosition2 The final position of the second dice
+     */
     private void tapWheelTwoDiceMoved(Position initialPosition1, Position finalPosition1, Position initialPosition2, Position finalPosition2){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
@@ -743,7 +795,6 @@ public class Controller implements Observer {
 
     /**
      * Calls the method associated to a specific event
-     *
      * @param event Event
      */
     private void performAction(VCEvent event) {
@@ -813,7 +864,7 @@ public class Controller implements Observer {
 
     /**
      * This class represents the timer of the turn.
-     * If the timer ends the player is suspended.
+     * If the timer ends, the player is suspended.
      */
     class TurnTimer extends Thread {
 
@@ -836,7 +887,7 @@ public class Controller implements Observer {
 
     /**
      * This class represents the turn of the player.
-     * It shows the action menù and asks for an input.
+     * It shows the action menu and asks for an input.
      */
     class PlayerTurn extends Thread {
 
@@ -858,11 +909,28 @@ public class Controller implements Observer {
         }
     }
 
+
+
     /**
      * This class represents the game.
      * It handles the whole game during the 10 rounds and then shows the scores obtained by each player.
      */
     class Game extends Thread {
+
+        /**
+         * Creates an new ShowAllEvent
+         * @return A new ShowAllEvent
+         */
+        private ShowAllEvent createShowAllEvent(){
+            return new ShowAllEvent(
+                    new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
+                    model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
+                    new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards() ),
+                    new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
+                    new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
+                    model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
+                    new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()));
+        }
 
         @Override
         public void run() {
@@ -870,15 +938,7 @@ public class Controller implements Observer {
             for(Player player : model.getPlayers()){
                 view.setCurrentPlayer(player);
                 model.setCurrentPlayer(player);
-                view.showAll(new ShowAllEvent(
-                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
-                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards() ),
-                        new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
-                        new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
-                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()))
-                );
+                view.showAll(createShowAllEvent());
             }
             model.setCurrentPlayer(model.getPlayers().get(0));
             view.setCurrentPlayer(model.getPlayers().get(0));
@@ -886,15 +946,7 @@ public class Controller implements Observer {
                 turnTimer = new TurnTimer();
                 playerTurn = new PlayerTurn();
                 view.setCurrentPlayer(model.getCurrentPlayer());
-                view.showAll(new ShowAllEvent(
-                        new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
-                        model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                        new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards()),
-                        new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
-                        new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                        model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
-                        new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()))
-                );
+                view.showAll(createShowAllEvent());
                 turnEnded = false;
                 turnTimer.start(); //thread for time
                 playerTurn.start(); //thread to ask input
@@ -908,13 +960,15 @@ public class Controller implements Observer {
                         return;
                     }
                 }
-
                 nextPlayer();
             }
             model.myNotify(new GameEnded());
             showScores();
         }
 
+        /**
+         * Creates an event containing info about the final scores of the players
+         */
         private void showScores() {
 
             computeAllScores();
@@ -933,7 +987,7 @@ public class Controller implements Observer {
         }
 
         /**
-         * Changes the current player and if lap is the second, calls nextRound()
+         * Changes the current player and, if lap is the second, calls nextRound()
          */
         private void nextPlayer() {
             model.getCurrentPlayer().setDiceMoved(false);
@@ -942,15 +996,14 @@ public class Controller implements Observer {
                 if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
                     model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
                 } else {
-                    model.setLap(1); //begins second turn of the round
+                    model.setLap(1); //begins of second turn of the round
                 }
-
 
             } else if (model.getLap() == 1) {
                 if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
                     model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
                 } else {
-                    model.setLap(0); //end of second turn
+                    model.setLap(0); //ends of second turn
                     nextRound();
                 }
             }

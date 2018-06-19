@@ -86,6 +86,10 @@ public class ToolCard{
         return getId() + ")\t" + getName() + "\n\t"  + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") + "\n";
     }
 
+    /**
+     * Gets a String representing a path of an image for the GUI
+     * @return A String that represent a path of an image that will be loaded by the GUI
+     */
     public String toStringPath(){
         return "src/main/Images/ToolCard/ToolCard"+this.getId()+".jpg";
     }

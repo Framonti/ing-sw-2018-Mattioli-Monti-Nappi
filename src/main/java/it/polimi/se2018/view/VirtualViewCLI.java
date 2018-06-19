@@ -1,11 +1,9 @@
 package it.polimi.se2018.view;
 
 import it.polimi.se2018.events.mvevent.*;
-import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.server.ServerInterface;
-
 import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Observer;

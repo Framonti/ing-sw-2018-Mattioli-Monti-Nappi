@@ -3,12 +3,8 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.ThreadLocalRandom;
-
 import it.polimi.se2018.events.mvevent.*;
-import it.polimi.se2018.events.vcevent.*;
-
 
 /**
  * This class represents the game and contains all the objects on the game table.
@@ -244,6 +240,10 @@ public class GameSingleton extends Observable{
             diceBag.remove(randomNumber);
     }
 
+    /**
+     * Gets, removes and rolls a dice from the diceBag
+     * @return A rolled dice from the diceBag
+     */
     public Dice extractAndRollOneDice(){
         int randomNumber;
 
@@ -315,6 +315,10 @@ public class GameSingleton extends Observable{
         return tmp;
     }
 
+    /**
+     * Gets a representation of the draftPool for the GUI
+     * @return A List of String representing path that the GUI will load
+     */
     public List<String> draftPoolToStringPath(){
         List<String> tmp = new ArrayList<>();
         if (draftPool.isEmpty()) {
@@ -351,6 +355,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of all the toolCard for the CLI
+     * @return A List of String representing the toolCards in game
+     */
     public List<String> toolCardsToStringAbbreviated(){
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
@@ -359,6 +367,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of the toolCard for the GUI
+     * @return A List of String representing the path of the ToolCard that the GUI will load
+     */
     public List<String> toolCardsToStringPath(){
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
@@ -368,6 +380,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of a player
+     * @return A List of String containing the name of a player
+     */
     public List<String> playerToString() {
         List<String> player = new ArrayList<>();
         player.add(getCurrentPlayer().getName());
@@ -385,6 +401,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of the PublicObjectiveCard for the GUI
+     * @return A List of String representing the path of PublicObjectiveCard that the GUI will load
+     */
     public List<String> publicObjectiveCardsToStringPath(){
         List<String> list = new ArrayList<>();
         for (PublicObjectiveCard card : publicObjectiveCards)
@@ -392,6 +412,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of all the DicePatterns for the GUI
+     * @return A List that contains a List of String, each representing a DicePattern for the GUI
+     */
     public List<List<String>> dicePatternsToStringPath(){
         List<List<String>> list = new ArrayList<>();
         for(Player player : players)
@@ -399,6 +423,10 @@ public class GameSingleton extends Observable{
         return list;
     }
 
+    /**
+     * Gets a representation of all the WindowPatterns for the GUI
+     * @return A List of String, each representing a path of a picture that will be load by the GUI
+     */
     public List<String> windowPatternsToStringPath(){
         List<String> list = new ArrayList<>();
         for(Player player : players)
