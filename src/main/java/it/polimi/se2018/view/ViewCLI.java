@@ -24,7 +24,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private MVEvent mvEvent;
     private VCEvent vcEvent;
     private NetworkEvent networkEvent;
-    private Scanner scanner;
     private BufferedReader reader;
     private boolean firstTimeNick;
     private static final String INVALID_MOVE= "MOSSA NON VALIDA";
@@ -46,7 +45,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
         createNetworkEventMap();
 
-        scanner = new Scanner(System.in);
         reader = new BufferedReader(new InputStreamReader(System.in));
 
     }
@@ -55,20 +53,24 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * Asks the IP address of the server and the type of connection preferred
      */
     public void askConnection(){
+        try {
+            System.out.println("Inserisci l'indirizzo IP del server");
+            String ipAddress = reader.readLine();
 
-        System.out.println("Inserisci l'indirizzo IP del server");
-        String ipAddress = scanner.nextLine();
-
-        String choice = "";
-        int choiceInt;
-        while(!choice.equals("1") && !choice.equals("2")) {
-            System.out.println("Scegli il tipo di connessione che preferisci\n1)\tRMI\n2)\tSocket");
-            choice = scanner.nextLine();
+            String choice = "";
+            int choiceInt;
+            while (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Scegli il tipo di connessione che preferisci\n1)\tRMI\n2)\tSocket");
+                choice = reader.readLine();
+            }
+            choiceInt = Integer.parseInt(choice);
+            ConnectionChoiceEvent connectionChoiceEvent = new ConnectionChoiceEvent(choiceInt, ipAddress);
+            setChanged();
+            notifyObservers(connectionChoiceEvent);
+        } catch (IOException e) {
+            System.out.println("IOException thrown!");
+            askConnection();
         }
-        choiceInt = Integer.parseInt(choice);
-        ConnectionChoiceEvent connectionChoiceEvent = new ConnectionChoiceEvent(choiceInt, ipAddress);
-        setChanged();
-        notifyObservers(connectionChoiceEvent);
     }
 
 
@@ -76,19 +78,24 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      * This method asks the player's name
      */
     private void askName() {
-        System.out.println("Inserisci il tuo nickname:");
-        String name = scanner.nextLine();
-        if(name.length() < 2) {
-            System.out.println("Il nickname deve essere lungo almeno 2 caratteri!\n");
+        try {
+            System.out.println("Inserisci il tuo nickname:");
+            String name = reader.readLine();
+            if (name.length() < 2) {
+                System.out.println("Il nickname deve essere lungo almeno 2 caratteri!\n");
+                askName();
+            } else if (name.length() > 20) {
+                System.out.println("Il nickname può essere lungo al più 20 caratteri!\n");
+                askName();
+            } else {
+                name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+                NicknameEvent nicknameEvent = new NicknameEvent(name, firstTimeNick);
+                setChanged();
+                notifyObservers(nicknameEvent);
+            }
+        } catch (IOException e) {
+            System.out.println("IOException thrown!");
             askName();
-        } else if (name.length() > 20) {
-            System.out.println("Il nickname può essere lungo al più 20 caratteri!\n");
-            askName();
-        } else {
-            name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-            NicknameEvent nicknameEvent = new NicknameEvent(name, firstTimeNick);
-            setChanged();
-            notifyObservers(nicknameEvent);
         }
     }
 
@@ -188,9 +195,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(12, ()-> showEndTurn(mvEvent));
         mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
         mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
-        mvEvents.put(15, ()->{});
+        mvEvents.put(15, ()-> {});
         mvEvents.put(16, this::playerSuspended);
-        mvEvents.put(70, () ->showClientsConnected(mvEvent));
+        mvEvents.put(70, () -> showClientsConnected(mvEvent));
         mvEvents.put(30, () -> System.out.println("Nickname valido.\nATTENDI.\n"));
     }
 
@@ -220,7 +227,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         FluxBrushChoiceEvent fluxBrushChoiceEvent = (FluxBrushChoiceEvent) event;
         System.out.println(fluxBrushChoiceEvent.getDice() + "\nDove vuoi piazzare il dado?");
         try {
-            String choice = scanner.nextLine();
+            String choice = reader.readLine();
             setChanged();
             notifyObservers(new FluxBrushPlaceDiceEvent(choice));
         }
@@ -232,6 +239,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println("noSuchElementException");
             fluxBrushChoice(event);
         }
+        catch (IOException e) {
+            System.out.println("IOException thrown!");
+            fluxBrushChoice(event);
+        }
     }
 
     @Override
@@ -239,12 +250,16 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         FluxRemoverChoiceEvent fluxRemoverChoiceEvent = (FluxRemoverChoiceEvent) event;
         System.out.println(fluxRemoverChoiceEvent.getDice() + "\nScegli il valore del dado e piazzalo.");
         try {
-            String choice = scanner.nextLine();
+            String choice = reader.readLine();
             setChanged();
             notifyObservers(new FluxRemoverPlaceDiceEvent(choice));
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            fluxRemoverChoice(event);
+        }
+        catch (IOException e) {
+            System.out.println("IOException thrown!");
             fluxRemoverChoice(event);
         }
     }
@@ -305,8 +320,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         diceMoved = actionMenuEvent.isDiceMoved();
         toolCardUsed = actionMenuEvent.isToolCardUsed();
 
-        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema\n" +
-                "\tFormato mossa: A \"indiceDado\" \"indiceRiga\" \"indiceColonna\"; Es: a 1 2 1\n")
+        String menu = "\n" + (diceMoved ? "" : "A)\tPosiziona un dado della riserva nello schema" +
+                "\t(Formato mossa: A \"indiceDado\" \"indiceRiga\" \"indiceColonna\"; Es: a 1 2 1)\n")
                 +"B)\tPassa il turno\n";
         if(!toolCardUsed) {
             for (String toolCard : actionMenuEvent.getToolCards())
@@ -323,7 +338,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         showDicePattern(showAllEvent.getDicePatterns());
         showDraftPool(showAllEvent.getDraftPool());
         showPublicObjectiveCards(showAllEvent.getPublicObjectiveCardsString());
-        showPrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardString());
+        showPrivateObjectiveCards(showAllEvent.getPrivateObjectiveCardsString());
         showToolCards(showAllEvent.getToolCards());
     }
 
@@ -348,6 +363,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         System.out.println("RISERVA");
         System.out.println(draftPoolEvent.getDraftPoolString());
+        System.out.println();
     }
 
     @Override
@@ -379,11 +395,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     /**
      * Shows the private objective card of the player itself
-     * @param privateObjectiveCard It's the player's private objective card
+     * @param privateObjectiveCards It's the List of player's private objective cards
      */
-    private void showPrivateObjectiveCard(String privateObjectiveCard) {
-        System.out.println("CARTA OBIETTIVO PRIVATO");
-        System.out.println(privateObjectiveCard);
+    private void showPrivateObjectiveCards(List<String> privateObjectiveCards) {
+        System.out.println("CART" + (privateObjectiveCards.size() == 1 ? "A" : "E") + " OBIETTIVO PRIVATO");
+        for (String description: privateObjectiveCards)
+            System.out.println(description);
     }
 
     /**
@@ -419,6 +436,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println(scoreTrackEvent.getPlayersNames().get(i) + ": " + scoreTrackEvent.getScores().get(i));
         System.out.println("Il vincitore è: " + scoreTrackEvent.getPlayersNames().get(0) + "\n");
 
+        if (suspendedPlayer.isAlive())
+            suspendedPlayer.interrupt();
         new AskNewGame().start();
     }
 
@@ -438,7 +457,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) event;
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
             System.out.println(windowPattern);
-        showPrivateObjectiveCard(windowPatternsEvent.getPrivateObjectiveCard());
+        showPrivateObjectiveCards(windowPatternsEvent.getPrivateObjectiveCards());
         new SelectWindowPattern().start();
     }
 
@@ -488,10 +507,18 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         @Override
         public void run() {
             System.out.println("\nSEI STATO SOSPESO!\nScrivi qualunque cosa per rientrare in partita.");
-            scanner.nextLine();
-            System.out.println("Sei di nuovo in partita!");
-            setChanged();
-            notifyObservers(new UnsuspendEvent(null));
+            try {
+                while (!reader.ready())
+                    Thread.sleep(200);
+                System.out.println("Sei di nuovo in partita!");
+                setChanged();
+                notifyObservers(new UnsuspendEvent(null));
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+                run();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -504,13 +531,17 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         public void run() {
             try {
                 System.out.println("Seleziona una carta schema.");
-                VCEvent event = new WindowPatternChoiceEvent(scanner.nextLine(), null);
+                VCEvent event = new WindowPatternChoiceEvent(reader.readLine(), null);
                 setChanged();
                 notifyObservers(event);
                 System.out.println("Scelta eseguita. Attendi...\n");
             }
             catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
+                run();
+            }
+            catch (IOException e) {
+                System.out.println("IOException thrown!");
                 run();
             }
         }
@@ -525,24 +556,27 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         public void run() {
             try {
                 Thread.sleep(5000);
+                String choice = "";
+                boolean firstTime = true;
+                while (!choice.equals("1") && !choice.equals("2")) {
+                    if (!firstTime)
+                        System.out.println("Risposta non valida!");
+                    else
+                        firstTime = false;
+                    System.out.println("Vuoi giocare una nuova partita?\n1)\tSì\n2)\tNo");
+                    choice = reader.readLine();
+                }
+                if (choice.equals("1")) {
+                    firstTimeNick = true;
+                    askName();
+                } else if (choice.equals("2"))
+                    System.exit(0);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+                run();
             }
-            String choice = "";
-            boolean firstTime = true;
-            while (!choice.equals("1") && !choice.equals("2")) {
-                if (!firstTime)
-                    System.out.println("Risposta non valida!");
-                else
-                    firstTime = false;
-                System.out.println("Vuoi giocare una nuova partita?\n1)\tSì\n2)\tNo");
-                choice = scanner.nextLine();
-            }
-            if (choice.equals("1")) {
-                firstTimeNick = true;
-                askName();
-            } else if (choice.equals("2"))
-                System.exit(0);
         }
     }
 
@@ -573,7 +607,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             } catch (IOException e) {
                 System.out.println("IOException thrown!");
             } catch (InterruptedException e) {
-                System.out.println("Niente solitaria!");
+                System.out.println("Non è più possibile giocare in solitaria!");
                 Thread.currentThread().interrupt();
             } catch (IllegalArgumentException e) {
                 System.out.println("Parametri non numerici o sbagliati!");

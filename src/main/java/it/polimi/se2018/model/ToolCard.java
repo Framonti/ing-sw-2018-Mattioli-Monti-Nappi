@@ -72,18 +72,29 @@ public class ToolCard{
         GameSingleton.getInstance().myNotify(toolCardEvent);
     }
 
-    @Override
-    public String toString() {
-        return getId() + ")\t" + getName() + "\n\t" + getDescription() + "\n\t" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") +
-                "\n\tColore: " + getColour().toString() + "\n";
+    /**
+     * @param isSinglePlayer If it's false it's added the price
+     * @return A string representation of the ToolCard
+     */
+    public String toString(boolean isSinglePlayer) {
+        String toReturn = getId() + ")\t" + getName() + "\n\t" + getDescription() + "\n\tColore: " + getColour().toString() + "\n";
+        if (!isSinglePlayer)
+            toReturn = toReturn.concat("\t" + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") + "\n");
+        return toReturn;
     }
 
     /**
      * Gets a tool card representation without its description and colour
      * @return Tool card representation without its description and colour
      */
-    public String toStringAbbreviated(){
-        return getId() + ")\t" + getName() + "\n\t"  + "Prezzo: " + (getFavorPoint() == 0 ? "1" : "2") + "\n";
+    public String toStringAbbreviated(boolean isSinglePlayer) {
+        String toReturn = getId() + ")\t" + getName() + "\n\t"  + "Prezzo: ";
+        if (isSinglePlayer)
+            toReturn = toReturn.concat("Dado " + getColour().toString());
+        else
+            toReturn = toReturn.concat((getFavorPoint() == 0 ? "1" : "2"));
+        toReturn = toReturn.concat("\n");
+        return  toReturn;
     }
 
     /**

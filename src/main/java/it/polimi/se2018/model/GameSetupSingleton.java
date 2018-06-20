@@ -109,13 +109,16 @@ public class GameSetupSingleton {
     }
 
     /**
-     * Assigns a PrivateObjectiveCard to each player
+     * Assigns one or two PrivateObjectiveCards to each player
      */
-    private void assignPrivateObjective(){
+    private void assignPrivateObjective(boolean isSinglePlayer){
 
-        List<PrivateObjectiveCard> toDistribute = getPrivateObjectiveCardList(players.size());
-        for(int i = 0; i < players.size(); i++){
-            players.get(i).setPrivateObjectiveCard(toDistribute.get(i));
+        List<PrivateObjectiveCard> toDistribute = getPrivateObjectiveCardList( (isSinglePlayer ? 2 : players.size()) );
+        for(int i = 0; i < toDistribute.size(); i++) {
+            if (i < players.size())
+                players.get(i).addPrivateObjectiveCard(toDistribute.get(i));
+            else
+                players.get(i - 1).addPrivateObjectiveCard(toDistribute.get(i));
         }
     }
 
@@ -127,7 +130,7 @@ public class GameSetupSingleton {
     public GameSingleton createNewGame(int singlePlayerDifficulty) {    //il parametro è 0 in multiplayer, tra 1 e 5 in singleplayer
 
         assignWindowPatterns();
-        assignPrivateObjective();   //bisogna pescarne 2 se il parametro è diverso da 0 (ancora da fare)
+        assignPrivateObjective( (singlePlayerDifficulty != 0) );   //bisogna pescarne 2 se il parametro è diverso da 0
         choosePlayersOrder();
         return GameSingleton.instance(players, getPublicObjectiveCardList((singlePlayerDifficulty == 0 ? 3 : 2)),
                 getToolCardList((singlePlayerDifficulty == 0 ? 3 : 6 - singlePlayerDifficulty)), new RoundTrack());

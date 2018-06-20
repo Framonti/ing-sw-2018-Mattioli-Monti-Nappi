@@ -13,8 +13,8 @@ public class ShowAllEvent extends MVEvent{
     private ToolCardEvent toolCardEvent;
     private DraftPoolEvent draftPoolEvent;
     private RoundTrackEvent roundTrackEvent;
-    private String privateObjectiveCardString;
-    private String privateObjectiveCardStringGUI;
+    private List<String> privateObjectiveCardsString;
+    private List<String> privateObjectiveCardsStringGUI;
     private List<String> publicObjectiveCardsGUI;
     private SetWindowPatternsGUIEvent setWindowPatternsGUIEvent;
 
@@ -26,24 +26,24 @@ public class ShowAllEvent extends MVEvent{
      * @param toolCardEvent A ToolCardEvent with all the ToolCard, each represented by a String
      * @param draftPoolEvent A DraftPoolEvent representing the draftPool
      * @param roundTrackEvent A RoundTrackEvent representing the RoundTrack
-     * @param privateObjectiveCardString A String representing a PrivateObjectiveCard
-     * @param privateObjectiveCardStringGUI A String representing a path for loading a PrivateObjectiveCard on the GUI
+     * @param privateObjectiveCardsString A List of Strings representing a PrivateObjectiveCard
+     * @param privateObjectiveCardsStringGUI A List of Strings representing a path for loading a PrivateObjectiveCard on the GUI
      * @param publicObjectiveCardsGUI A List of String representing paths for loading PublicObjectiveCards on the GUI
      * @param setWindowPatternsGUIEvent A setWindowPatternGUIEvent for the GUI
      */
     public ShowAllEvent(DicePatternEvent dicePatternEvent, List<String> publicObjectiveCardsString, List<String> publicObjectiveCardsGUI,
                         ToolCardEvent toolCardEvent, DraftPoolEvent draftPoolEvent, RoundTrackEvent roundTrackEvent,
-                        String privateObjectiveCardString, String privateObjectiveCardStringGUI, SetWindowPatternsGUIEvent setWindowPatternsGUIEvent){
+                        List<String> privateObjectiveCardsString, List<String> privateObjectiveCardsStringGUI, SetWindowPatternsGUIEvent setWindowPatternsGUIEvent){
 
         super(7);
         this.dicePatternEvent = dicePatternEvent;
         this.draftPoolEvent = draftPoolEvent;
-        this.privateObjectiveCardString = privateObjectiveCardString;
+        this.privateObjectiveCardsString = privateObjectiveCardsString;
         this.toolCardEvent = toolCardEvent;
         this.publicObjectiveCardsString = publicObjectiveCardsString;
         this.roundTrackEvent = roundTrackEvent;
         this.publicObjectiveCardsGUI = publicObjectiveCardsGUI;
-        this.privateObjectiveCardStringGUI = privateObjectiveCardStringGUI;
+        this.privateObjectiveCardsStringGUI = privateObjectiveCardsStringGUI;
         this.setWindowPatternsGUIEvent = setWindowPatternsGUIEvent;
     }
 
@@ -96,9 +96,9 @@ public class ShowAllEvent extends MVEvent{
      * Gets the PrivateObjectiveCard
      * @return A String representing the PrivateObjectiveCard
      */
-    public String getPrivateObjectiveCardString() {
+    public List<String> getPrivateObjectiveCardsString() {
 
-        return privateObjectiveCardString;
+        return privateObjectiveCardsString;
     }
 
     /**
@@ -123,7 +123,7 @@ public class ShowAllEvent extends MVEvent{
      * Gets the PrivateObjectiveCardStringGUI
      * @return The privateObjectiveCardStringGUI
      */
-    public String getPrivateObjectiveCardStringGUI() {
-        return privateObjectiveCardStringGUI;
+    public List<String> getPrivateObjectiveCardsStringGUI() {
+        return privateObjectiveCardsStringGUI;
     }
 }

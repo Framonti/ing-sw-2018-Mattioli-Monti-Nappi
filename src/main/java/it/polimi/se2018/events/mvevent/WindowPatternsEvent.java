@@ -10,19 +10,19 @@ public class WindowPatternsEvent extends MVEvent {
 
     private List<String> windowPatternsCLI;
     private List<String> windowPatternsGUI;
-    private String privateObjectiveCard;
-    private String privateObjectiveCardPath;
+    private List<String> privateObjectiveCards;
+    private List<String> privateObjectiveCardsPath;
 
     /**
      * The constructor sets the event id and the list of strings representing the 4 windowPatterns
      * @param windowPatternsCLI It's the list of strings representing the 4 windowPattens
      */
-    public WindowPatternsEvent(List<String> windowPatternsCLI, List<String> windowPatternsGUI, String privateObjectiveCard, String privateObjectiveCardPath) {
+    public WindowPatternsEvent(List<String> windowPatternsCLI, List<String> windowPatternsGUI, List<String> privateObjectiveCards, List<String> privateObjectiveCardsPath) {
         super(-1);
         this.windowPatternsCLI = windowPatternsCLI;
         this.windowPatternsGUI = windowPatternsGUI;
-        this.privateObjectiveCard = privateObjectiveCard;
-        this.privateObjectiveCardPath = privateObjectiveCardPath;
+        this.privateObjectiveCards = privateObjectiveCards;
+        this.privateObjectiveCardsPath = privateObjectiveCardsPath;
     }
 
     /**
@@ -42,14 +42,14 @@ public class WindowPatternsEvent extends MVEvent {
     /**
      * @return A String representing a PrivateObjectiveCard
      */
-    public String getPrivateObjectiveCard() {
-        return privateObjectiveCard;
+    public List<String> getPrivateObjectiveCards() {
+        return privateObjectiveCards;
     }
 
     /**
      * @return A String representing a path that the GUI will load
      */
-    public String getPrivateObjectiveCardPath() {
-        return privateObjectiveCardPath;
+    public List<String> getPrivateObjectiveCardsPath() {
+        return privateObjectiveCardsPath;
     }
 }

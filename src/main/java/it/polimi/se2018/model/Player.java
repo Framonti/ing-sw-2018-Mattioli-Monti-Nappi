@@ -22,10 +22,7 @@ public class Player {
     private int favorTokensNumber;
     private WindowPattern windowPattern;
     private DicePattern dicePattern;
-
     private List<PrivateObjectiveCard> privateObjectiveCards;
-    private PrivateObjectiveCard privateObjectiveCard;
-
     private boolean diceMoved;
     private boolean toolCardUsed;
     private List<WindowPattern> windowPatterns; //represents the 4 window patterns the player has during the setup
@@ -43,6 +40,7 @@ public class Player {
         this.score = 0;
         this.lap = 0;
         this.windowPatterns = new ArrayList<>();
+        this.privateObjectiveCards = new ArrayList<>();
     }
 
 
@@ -56,9 +54,21 @@ public class Player {
 
     public String getName() { return name; }
 
-    public PrivateObjectiveCard getPrivateObjectiveCard() { return privateObjectiveCard; }
+    public List<String> getPrivateObjectiveCardsToString() {
+        List<String> toReturn = new ArrayList<>();
+        for (PrivateObjectiveCard privateObjectiveCard: privateObjectiveCards)
+            toReturn.add(privateObjectiveCard.toString());
+        return toReturn;
+    }
 
-    public String getPrivateObjectiveCardToString(){return privateObjectiveCard.toStringPath();}
+    public List<PrivateObjectiveCard> getPrivateObjectiveCards() { return privateObjectiveCards; }
+
+    public List<String> getPrivateObjectiveCardsToStringPath() {
+        List<String> toReturn = new ArrayList<>();
+        for (PrivateObjectiveCard privateObjectiveCard: privateObjectiveCards)
+            toReturn.add(privateObjectiveCard.toStringPath());
+        return toReturn;
+    }
 
     public WindowPattern getWindowPattern() { return windowPattern; }
 
@@ -97,7 +107,9 @@ public class Player {
 
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
-    public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) { this.privateObjectiveCard = privateObjectiveCard; }
+    public void addPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
+        privateObjectiveCards.add(privateObjectiveCard);
+    }
 
     public void setClientInterface(ClientInterfaceRMI clientInterface) { this.clientInterfaceRMI = clientInterface; }
 
@@ -137,8 +149,9 @@ public class Player {
             for(column = 0; column < 5; column++) {
                 position = new Position(row, column);
 
+                //TODO fare in modo che il get(0) resti corretto rimuovendo l'altra POC dalla lista
                 //adds the value of the dice if it has the same colour of the privateObjectiveCard
-                if(!dicePattern.isEmpty(position) && dicePattern.getDice(position).getColour().equals(privateObjectiveCard.getColour())) {
+                if(!dicePattern.isEmpty(position) && dicePattern.getDice(position).getColour().equals(privateObjectiveCards.get(0).getColour())) {
                     sum += dicePattern.getDice(position).getValue();
                 }
             }

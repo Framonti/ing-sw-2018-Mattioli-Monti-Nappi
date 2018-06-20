@@ -350,7 +350,7 @@ public class GameSingleton extends Observable{
     public List<String> toolCardsToString(){
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
-            list.add(toolCard.toString());
+            list.add(toolCard.toString( playersNumber == 1 ));
         }
         return list;
     }
@@ -362,7 +362,7 @@ public class GameSingleton extends Observable{
     public List<String> toolCardsToStringAbbreviated(){
         List <String> list = new ArrayList<>();
         for( ToolCard toolCard : toolCards){
-            list.add(toolCard.toStringAbbreviated());
+            list.add(toolCard.toStringAbbreviated( playersNumber == 1));
         }
         return list;
     }

@@ -26,9 +26,13 @@ public class TestGameSingleton {
         players.add(new Player("fabio"));
         players.add(new Player("francesco"));
 
-        players.get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE));
-        players.get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
-        players.get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
+        for (Player player: players) {
+            if (!player.getPrivateObjectiveCards().isEmpty())
+                player.getPrivateObjectiveCards().clear();
+        }
+        players.get(0).addPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE));
+        players.get(1).addPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
+        players.get(2).addPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
 
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 3));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 2));
@@ -200,15 +204,15 @@ public class TestGameSingleton {
 
         Player winner = instance.getPlayers().get(0);
         for (Player player: instance.getPlayers()) {
-            if (player.getPrivateObjectiveCard().getColour().equals(Colour.GREEN))
+            if (player.getPrivateObjectiveCards().get(0).getColour().equals(Colour.GREEN))
                 winner = player;
         }
         for (Player player: instance.getPlayers()) {
-            if (player.getPrivateObjectiveCard().getColour().equals(Colour.PURPLE))
+            if (player.getPrivateObjectiveCards().get(0).getColour().equals(Colour.PURPLE))
                 winner = player;
         }
         for (Player player: instance.getPlayers()) {
-            if (player.getPrivateObjectiveCard().getColour().equals(Colour.BLUE))
+            if (player.getPrivateObjectiveCards().get(0).getColour().equals(Colour.BLUE))
                 winner = player;
         }
         assertEquals(winner, instance.selectWinner());

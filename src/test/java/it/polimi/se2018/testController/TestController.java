@@ -34,9 +34,13 @@ public class TestController {
         players.add(new Player("fabio"));
         players.add(new Player("francesco"));
 
-        players.get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE));
-        players.get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
-        players.get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
+        for (Player player: players) {
+            if (!player.getPrivateObjectiveCards().isEmpty())
+                player.getPrivateObjectiveCards().clear();
+        }
+        players.get(0).addPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele", Colour.BLUE));
+        players.get(1).addPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
+        players.get(2).addPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
 
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 3));
         publicObjectiveCards.add(new PublicObjectiveCard("", "", 2));

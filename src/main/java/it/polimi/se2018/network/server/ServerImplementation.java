@@ -1,6 +1,5 @@
 package it.polimi.se2018.network.server;
 
-import it.polimi.se2018.events.networkevent.ClientAlreadyConnectedEvent;
 import it.polimi.se2018.events.vcevent.SinglePlayerEvent;
 import it.polimi.se2018.utilities.ConfigurationParametersLoader;
 import it.polimi.se2018.controller.Controller;
@@ -85,7 +84,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 windowPatternsPath.add(windowPattern.toStringPath());
                 num++;
             }
-            sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath, player.getPrivateObjectiveCard().toString(), player.getPrivateObjectiveCardToString()), player);
+            sendTo(new WindowPatternsEvent(windowPatterns, windowPatternsPath, player.getPrivateObjectiveCardsToString(), player.getPrivateObjectiveCardsToStringPath()), player);
         }
         System.out.println("A new game has started...");
     }
@@ -191,7 +190,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards()),
                         new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                         new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                        player.getPrivateObjectiveCard().toString(),player.getPrivateObjectiveCardToString(),
+                        player.getPrivateObjectiveCardsToString(), player.getPrivateObjectiveCardsToStringPath(),
                         new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(), model.getFavorTokensNumberPlayers())),
                 player);
     }
@@ -271,7 +270,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      * @param isAction Used if a RemoteException occurs. It is true if is required an action by the player
      */
     private void clientInterfaceNotify(Player player, MVEvent mvEvent, boolean isAction) {
-        if (!player.isConnectionLost()) {
+        if (!player.getName().equals("sagrada") && !player.isConnectionLost()) {
             if (player.getClientInterfaceRMI() != null) {
                 try {
                     player.getClientInterfaceRMI().notify(mvEvent);
@@ -319,7 +318,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      */
     private void tryConnections(List<Player> playersToBeRemoved) {
         for (Player player : players) {
-            if (!player.isConnectionLost()) {
+            if (!player.getName().equals("sagrada") && !player.isConnectionLost()) {
                 if (player.getClientInterfaceRMI() != null) {
                     try {
                         player.getClientInterfaceRMI().testIfConnected();

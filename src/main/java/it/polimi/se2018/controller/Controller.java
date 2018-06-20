@@ -925,10 +925,10 @@ public class Controller implements Observer {
             return new ShowAllEvent(
                     new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
                     model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                    new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(),model.getFavorTokensOnToolCards() ),
+                    new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards() ),
                     new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
                     new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                    model.getCurrentPlayer().getPrivateObjectiveCard().toString(),model.getCurrentPlayer().getPrivateObjectiveCardToString(),
+                    model.getCurrentPlayer().getPrivateObjectiveCardsToString(), model.getCurrentPlayer().getPrivateObjectiveCardsToStringPath(),
                     new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()));
         }
 
@@ -970,8 +970,16 @@ public class Controller implements Observer {
          * Creates an event containing info about the final scores of the players
          */
         private void showScores() {
-
             computeAllScores();
+
+            if (model.getPlayers().size() == 1) {
+                model.getCurrentPlayer().setScore(model.getCurrentPlayer().getScore() -     //the score is decreased again
+                        (2 * model.getCurrentPlayer().getDicePattern().emptySpaces()));     //because we're in singlePlayer
+                Player sagrada = new Player("sagrada");
+                sagrada.setScore(model.getRoundTrack().sumDiceValue());
+                model.getPlayers().add(sagrada);
+            }
+
             model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
             Collections.reverse(model.getPlayers());
 
@@ -990,13 +998,15 @@ public class Controller implements Observer {
          * Changes the current player and, if lap is the second, calls nextRound()
          */
         private void nextPlayer() {
+            if (model.getRound() == 11)
+                return;
             model.getCurrentPlayer().setDiceMoved(false);
             model.getCurrentPlayer().setToolCardUsed(false);
             if (model.getLap() == 0) {
                 if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
                     model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
                 } else {
-                    model.setLap(1); //begins of second turn of the round
+                    model.setLap(1); //beginning of the second turn of the round
                 }
 
             } else if (model.getLap() == 1) {

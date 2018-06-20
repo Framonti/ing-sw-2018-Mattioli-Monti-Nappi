@@ -24,9 +24,13 @@ public class TestGameSetupSingleton {
         playerList.add(new Player("fabio"));
         playerList.add(new Player("francesco"));
         instance.addPlayers(playerList);
-        instance.getPlayers().get(0).setPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele",Colour.BLUE));
-        instance.getPlayers().get(1).setPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio",Colour.GREEN));
-        instance.getPlayers().get(2).setPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco",Colour.PURPLE));
+        for (Player player: instance.getPlayers()) {
+            if (!player.getPrivateObjectiveCards().isEmpty())
+                player.getPrivateObjectiveCards().clear();
+        }
+        instance.getPlayers().get(0).addPrivateObjectiveCard(new PrivateObjectiveCard("carta1", "carta di daniele",Colour.BLUE));
+        instance.getPlayers().get(1).addPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio",Colour.GREEN));
+        instance.getPlayers().get(2).addPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco",Colour.PURPLE));
 
     }
 
@@ -36,7 +40,7 @@ public class TestGameSetupSingleton {
         instance.createNewGame(0);
         for (Player player: instance.getPlayers()) {
             assertNotNull(player.getWindowPatterns());
-            assertNotNull(player.getPrivateObjectiveCard());
+            assertNotNull(player.getPrivateObjectiveCards());
         }
     }
 
