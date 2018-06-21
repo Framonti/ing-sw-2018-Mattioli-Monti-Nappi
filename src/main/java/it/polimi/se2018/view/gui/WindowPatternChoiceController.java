@@ -28,7 +28,8 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private ImageView windowPattern4;
     @FXML private Button confirmButton;
     @FXML private Button cancelButton;
-    @FXML private ImageView privateObjectiveCard;
+    @FXML private ImageView privateObjectiveCard1;
+    @FXML private ImageView privateObjectiveCard2;
     @FXML private AnchorPane scene;
     @FXML private Label waitYourTurn1;
     @FXML private Label waitYourTurn2;
@@ -189,7 +190,9 @@ public class WindowPatternChoiceController extends Observable implements Observe
     public void update(Observable o, Object arg) {
 
        WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
-       privateObjectiveCard.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardPath())));
+       privateObjectiveCard1.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(0))));
+       if(windowPatternsEvent.getPrivateObjectiveCardsPath().size() == 2)
+           privateObjectiveCard2.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(1))));
        setWindowPatterns(windowPatternsEvent);
        windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
        windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());

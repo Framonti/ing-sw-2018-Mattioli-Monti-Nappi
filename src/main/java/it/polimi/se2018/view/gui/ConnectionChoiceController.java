@@ -68,6 +68,8 @@ public class ConnectionChoiceController extends Observable implements Observer{
         if(arg.getClass() == ConnectionRefusedEvent.class){
             serverNotFound1.setOpacity(1);
             serverNotFound2.setOpacity(1);
+            socketButton.setOpacity(0.5);
+            rmiButton.setOpacity(0.5);
             socketButton.setDisable(true);
             rmiButton.setDisable(true);
         }

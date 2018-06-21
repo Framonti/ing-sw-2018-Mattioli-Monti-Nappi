@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WaitingRoomController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WaitingRoomController">
    <children>
       <TextArea fx:id="notificationTextArea" editable="false" layoutX="140.0" layoutY="659.0" prefHeight="191.0" prefWidth="1114.0" text="Benvenuto su Sagrada. La tua partita inizierà a breve">
          <font>
@@ -33,8 +33,8 @@
          <font>
             <Font name="Calibri" size="48.0" />
          </font></Label>
-      <ImageView fx:id="rightColumn2" fitHeight="277.0" fitWidth="60.0" layoutX="1540.0" layoutY="624.0" pickOnBounds="true" />
-      <ImageView fx:id="leftColumn2" fitHeight="308.0" fitWidth="66.0" layoutY="591.0" pickOnBounds="true" />
+      <ImageView fx:id="rightColumn2" fitHeight="276.0" fitWidth="60.0" layoutX="1540.0" layoutY="624.0" pickOnBounds="true" />
+      <ImageView fx:id="leftColumn2" fitHeight="309.0" fitWidth="66.0" layoutY="591.0" pickOnBounds="true" />
       <ChoiceBox fx:id="difficultySinglePlayer" layoutX="1353.0" layoutY="494.0" prefHeight="31.0" prefWidth="99.0" />
       <Button fx:id="singlePlayerButton" layoutX="1315.0" layoutY="575.0" mnemonicParsing="false" onAction="#singlePlayerButtonAction" style="-fx-background-color: #00ff19;" text="Avvia partita solitaria" textFill="WHITE">
          <font>

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WindowPatternChoiceController">
+<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WindowPatternChoiceController">
    <children>
       <ImageView fx:id="windowPattern2" fitHeight="350.0" fitWidth="450.0" layoutX="771.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <cursor>
@@ -22,7 +22,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <Button fx:id="cancelButton" cancelButton="true" disable="true" layoutX="1316.0" layoutY="311.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #d80909;" text="Cancella" textFill="WHITE">
+      <Button fx:id="cancelButton" cancelButton="true" disable="true" layoutX="1316.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #d80909;" text="Cancella" textFill="WHITE">
          <font>
             <Font name="Calibri" size="25.0" />
          </font>
@@ -30,7 +30,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="confirmButton" disable="true" layoutX="1316.0" layoutY="159.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #0ad837;" text="Conferma" textFill="WHITE">
+      <Button fx:id="confirmButton" disable="true" layoutX="1316.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#confirmButtonPressed" opacity="0.5" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: #0ad837;" text="Conferma" textFill="WHITE">
          <font>
             <Font name="Calibri" size="25.0" />
          </font>
@@ -52,10 +52,11 @@
             <Font name="Calibri Bold" size="36.0" />
          </font>
       </Label>
-      <ImageView fx:id="privateObjectiveCard" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="privateObjectiveCard1" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="background" fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" scaleZ="0.0">
          <rotationAxis>
             <Point3D />
          </rotationAxis></ImageView>
+      <ImageView fx:id="privateObjectiveCard2" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="611.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
