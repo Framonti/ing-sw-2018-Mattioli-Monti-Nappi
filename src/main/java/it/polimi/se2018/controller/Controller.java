@@ -11,7 +11,7 @@ import java.util.*;
  * observer of the view.
  * @author Daniele Mattioli
  */
-public class Controller implements Observer {
+public class Controller  implements Observer {
     private GameSingleton model;
     private VirtualViewCLI view;
     private List<ToolCard> toolCards;
@@ -27,21 +27,25 @@ public class Controller implements Observer {
     private Dice diceForFlux;
     private final Object lock = new Object();
     private final Object turnLock = new Object();
+    private boolean singlePlayer;
+    private int diceIndexSinglePlayer;
 
+    //spostato
     /**
      * Constructor of the class.
      * @param view      Virtual view
      * @param toolCards List of tool cards chosen during the setup.
      */
-
     public Controller(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
         this.view = view;
         this.toolCards = toolCards;
         this.model = model;
         this.turnDuration = (long) turnDuration;
+        singlePlayer = model.getPlayers().size() == 1;
         createMap();
     }
 
+    //spostato
     /**
      * Associates a key to a method
      */
@@ -61,20 +65,23 @@ public class Controller implements Observer {
         eventsHandler.put(13, this::fluxBrushPlaceDice);
         eventsHandler.put(14, this::fluxRemoverPlaceDice);
         eventsHandler.put(15, this::unsuspendPlayer);
+        eventsHandler.put(16, this::saveDiceForSinglePlayer);
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
     }
 
-
+    //spostato
     public Dice getDiceForFlux() {
         return diceForFlux;
     }
 
+    //spostato
     public void setDiceForFlux(Dice diceForFlux) {
         this.diceForFlux = diceForFlux;
     }
 
+    //spostato
     /**
      * Gets draft pool dice in diceIndex position
      *
@@ -89,6 +96,7 @@ public class Controller implements Observer {
     }
 
 
+    //spostato
     /**
      * Gets a dice from round track
      * @param round Represents the number of the chosen round
@@ -99,6 +107,7 @@ public class Controller implements Observer {
         return model.getRoundTrack().getDice(round, index);
     }
 
+    //spostato
     /**
      * Gets a dice from the player's dice pattern
      * @param position Position of the dice
@@ -108,7 +117,7 @@ public class Controller implements Observer {
         return model.getCurrentPlayer().getDicePattern().getDice(position);
     }
 
-
+    //spostato
     /**
      * Sets window pattern of the player
      */
@@ -178,8 +187,7 @@ public class Controller implements Observer {
     private void grozingPliersSubOne(Dice diceChosen){
         try {
             diceChosen.subOne();
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(1));
+            handleToolCardUsed(1);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi decrementare un dado con valore 1\n");
             view.showError(errorEvent);
@@ -195,8 +203,7 @@ public class Controller implements Observer {
     private void grozingPliersAddOne(Dice diceChosen){
         try {
             diceChosen.addOne();
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(1));
+            handleToolCardUsed(1);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi incrementare un dado con valore 6\n");
             view.showError(errorEvent);
@@ -207,7 +214,8 @@ public class Controller implements Observer {
      * Tool card 1 method
      */
     private void grozingPliers() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(1).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(1).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(1))) {
             GrozingPliersEvent grozingPliersEvent = (GrozingPliersEvent) event;
             try{
                 Dice diceChosen = getDiceFromDraftPool(grozingPliersEvent.getDiceIndexDraftPool());
@@ -239,8 +247,7 @@ public class Controller implements Observer {
     private void eglomiseBrushValidRestriction(Position initialPosition, Position finalPosition){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(2));
+            handleToolCardUsed(2);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
             view.showError(errorEvent);
@@ -251,7 +258,8 @@ public class Controller implements Observer {
      * Tool card 2 method
      */
     private void eglomiseBrush() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(2).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(2).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(2))) {
             EglomiseBrushEvent eglomiseBrushEvent = (EglomiseBrushEvent) event;
             Dice diceChosen = getDiceFromDicePattern(eglomiseBrushEvent.getInitialPosition());
             Position finalPosition = eglomiseBrushEvent.getFinalPosition();
@@ -281,8 +289,7 @@ public class Controller implements Observer {
     private void copperFoilBurnisherValidRestriction(Position initialPosition, Position finalPosition){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(3));
+            handleToolCardUsed(3);
 
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
@@ -294,7 +301,8 @@ public class Controller implements Observer {
      * Tool card 3 method
      */
     private void copperFoilBurnisher() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(3).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(3).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(3))) {
             CopperFoilBurnisherEvent copperFoilBurnisherEvent = (CopperFoilBurnisherEvent) event;
             Dice diceChosen = getDiceFromDicePattern(copperFoilBurnisherEvent.getInitialPosition());
             Position finalPosition = copperFoilBurnisherEvent.getFinalPosition();
@@ -327,8 +335,7 @@ public class Controller implements Observer {
     try {
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
         model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-        model.getCurrentPlayer().setToolCardUsed(true);
-        handleFavorTokensNumber(searchToolCard(4));
+        handleToolCardUsed(4);
     } catch (IllegalArgumentException exception) {
         ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
         view.showError(errorEvent);
@@ -340,7 +347,8 @@ public class Controller implements Observer {
      * Tool card 4 method
      */
     private void lathekin() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(4).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(4).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(4))) {
             LathekinEvent lathekinEvent = (LathekinEvent) event;
             Dice diceChosen1 = getDiceFromDicePattern(lathekinEvent.getInitialPosition1());
             Position initialPosition1 = lathekinEvent.getInitialPosition1();
@@ -380,11 +388,10 @@ public class Controller implements Observer {
             model.getDraftPool().add(model.getRoundTrack().getDice(round, indexOfRoundTrack));
             model.getRoundTrack().getList(round).remove(indexOfRoundTrack);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-            model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
             RoundTrackEvent roundTrackEvent = new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath());
             model.myNotify(roundTrackEvent);
-            handleFavorTokensNumber(searchToolCard(5));
+            handleToolCardUsed(5);
         } catch (IndexOutOfBoundsException exception) {
             throw new IndexOutOfBoundsException(nonValidInput);
         }
@@ -412,7 +419,8 @@ public class Controller implements Observer {
      * Tool card 5 method
      */
     private void lensCutter() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(5).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(5).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(5))) {
             LensCutterEvent lensCutterEvent = (LensCutterEvent) event;
             int roundIndex = lensCutterEvent.getRoundIndex();
             int diceIndexInRoundTrack = lensCutterEvent.getDiceIndexInRoundTrack();
@@ -440,7 +448,7 @@ public class Controller implements Observer {
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
-            handleFavorTokensNumber(searchToolCard(6));
+            handleToolCardUsed(6);
             return true;
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
@@ -473,8 +481,8 @@ public class Controller implements Observer {
      */
     //mi tengo io la posizione
     private void fluxBrushChooseDice() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(6).getFavorPoint() < 1 ? 1 : 2)) {
-            model.getCurrentPlayer().setToolCardUsed(true);
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(6).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(6))) {
             FluxBrushChooseDiceEvent fluxBrushEvent = (FluxBrushChooseDiceEvent) event;
             try{
                 Dice diceChosen = getDiceFromDraftPool(fluxBrushEvent.getDiceIndexInDraftPool());
@@ -482,12 +490,12 @@ public class Controller implements Observer {
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                 model.myNotify(draftPoolEvent);
                 FluxBrushChoiceEvent fluxBrushChoiceEvent = new FluxBrushChoiceEvent(diceChosen.toString());
-                boolean succesfulMove = false;
+                boolean successfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if(model.getCurrentPlayer().getDicePattern().isDicePlaceable(position, diceChosen))
-                        succesfulMove = true;
+                        successfulMove = true;
                 }
-                if(!succesfulMove){
+                if(!successfulMove){
                     ErrorEvent errorEvent = new ErrorEvent("Non potevi inserire il dado in nessuna posizione\n");
                     view.showError(errorEvent);
                 }
@@ -510,11 +518,11 @@ public class Controller implements Observer {
      * Tool card 7 method
      */
     private void glazingHammer() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(7).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(7).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(7))) {
             if (model.getLap() == 1 && !model.getCurrentPlayer().isDiceMoved()) {
                 model.rollEveryDice();
-                model.getCurrentPlayer().setToolCardUsed(true);
-                handleFavorTokensNumber(searchToolCard(7));
+                handleToolCardUsed(7);
             } else {
                 ErrorEvent errorEvent = new ErrorEvent("Non puoi usare questa carta durante il primo turno o se hai già usato la riserva\n");
                 view.showError(errorEvent);
@@ -537,9 +545,8 @@ public class Controller implements Observer {
             model.getDraftPool().remove(diceChosen);
             model.getCurrentPlayer().setLap(1);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-            model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
-            handleFavorTokensNumber(searchToolCard(8));
+            handleToolCardUsed(8);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -550,7 +557,8 @@ public class Controller implements Observer {
      * Tool card 8 method
      */
     private void runnerPliers() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(8).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(8).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(8))) {
             RunnerPliersEvent runnerPliersEvent = (RunnerPliersEvent) event;
             try{
                 Dice diceChosen= getDiceFromDraftPool(runnerPliersEvent.getDiceIndex());
@@ -574,7 +582,8 @@ public class Controller implements Observer {
      * Tool card 9 method
      */
     private void corkBakedStraightedge() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(9).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(9).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(9))) {
             CorkBakedStraightedgeEvent corkBakedStraightedgeEvent = (CorkBakedStraightedgeEvent) event;
             try {
                 Dice diceChosen = getDiceFromDraftPool(corkBakedStraightedgeEvent.getIndexInDraftPool());
@@ -583,9 +592,9 @@ public class Controller implements Observer {
                     model.getCurrentPlayer().getDicePattern().setDice(finalPosition, diceChosen);
                     model.getDraftPool().remove(diceChosen);
                     DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-                    model.getCurrentPlayer().setToolCardUsed(true);
                     model.myNotify(draftPoolEvent);
-                    handleFavorTokensNumber(searchToolCard(9));
+                    handleToolCardUsed(9);
+                    model.getCurrentPlayer().setLap(1);
                 } else {
                     ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
                     view.showError(errorEvent);
@@ -606,15 +615,15 @@ public class Controller implements Observer {
      * Tool card 10 method
      */
     private void grindingStone() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(10).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(10).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(10))) {
             GrindingStoneEvent grindingStoneEvent = (GrindingStoneEvent) event;
             if (grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
                 try {
                     getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
                     DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-                    model.getCurrentPlayer().setToolCardUsed(true);
                     model.myNotify(draftPoolEvent);
-                    handleFavorTokensNumber(searchToolCard(10));
+                    handleToolCardUsed(10);
                 }catch (IndexOutOfBoundsException exception) {
                     ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
                     view.showError(errorEvent);
@@ -644,9 +653,8 @@ public class Controller implements Observer {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceForFlux);
             model.getDraftPool().remove(diceForFlux);
             draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-            model.getCurrentPlayer().setToolCardUsed(true);
             model.myNotify(draftPoolEvent);
-            handleFavorTokensNumber(searchToolCard(11));
+            handleToolCardUsed(11);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -657,7 +665,8 @@ public class Controller implements Observer {
      * Tool card 11 method
      */
     private void fluxRemoverChooseDice() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(11).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(11).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(11))) {
             model.getCurrentPlayer().setToolCardUsed(true);
             FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
             try {
@@ -704,8 +713,7 @@ public class Controller implements Observer {
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(12));
+            handleToolCardUsed(12);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -723,8 +731,7 @@ public class Controller implements Observer {
         try {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-            model.getCurrentPlayer().setToolCardUsed(true);
-            handleFavorTokensNumber(searchToolCard(12));
+            handleToolCardUsed(12);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
             view.showError(errorEvent);
@@ -735,7 +742,8 @@ public class Controller implements Observer {
      * Tool card 12 method
      */
     private void tapWheel() {
-        if(model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(12).getFavorPoint() < 1 ? 1 : 2)) {
+        if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(12).getFavorPoint() < 1 ? 1 : 2))
+                || (singlePlayer && checkDiceForSinglePlayer(12))) {
             TapWheelEvent tapWheelEvent = (TapWheelEvent) event;
             int round = tapWheelEvent.getRoundIndex();
             int indexOfRoundTrack = tapWheelEvent.getDiceIndex();
@@ -860,6 +868,31 @@ public class Controller implements Observer {
                 lock.notifyAll();
             }
         }
+    }
+
+    private boolean checkDiceForSinglePlayer(int id){
+        if(model.getDraftPool().get(diceIndexSinglePlayer).getColour().equals(searchToolCard(id).getColour()))
+            return true;
+        return false;
+    }
+
+
+    private void saveDiceForSinglePlayer(){
+        DiceChosenSinglePlayer diceChosenSinglePlayer = (DiceChosenSinglePlayer) event;
+        diceIndexSinglePlayer = diceChosenSinglePlayer.getDicePosition();
+    }
+
+    private void handleDiceForSinglePlayer(int id){
+        model.getDraftPool().remove(diceIndexSinglePlayer);
+        toolCards.remove(searchToolCard(id));
+    }
+
+    private void handleToolCardUsed(int id){
+        model.getCurrentPlayer().setToolCardUsed(true);
+        if(singlePlayer)
+            handleFavorTokensNumber(searchToolCard(id));
+        else
+            handleDiceForSinglePlayer(id);
     }
 
     /**

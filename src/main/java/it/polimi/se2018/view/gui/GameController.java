@@ -566,7 +566,7 @@ public class GameController extends Observable implements Observer {
             createAssociationWithOurGridPane(showAllEvent.getSetWindowPatternsGUIEvent(),showAllEvent.getDicePatterns());
             updateRoundTrack(showAllEvent.getRoundTrack());
             updatePublicObjectiveCards(showAllEvent.getPublicObjectiveCardsGUI());
-            updatePrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardStringGUI());
+            updatePrivateObjectiveCard(showAllEvent.getPrivateObjectiveCardsStringGUI());
             imageViewsSetup = true;
             disableDraftPool();
             disableToolCards();
@@ -673,7 +673,7 @@ public class GameController extends Observable implements Observer {
 
     private void showError(MVEvent event){
         ErrorEvent errorEvent = (ErrorEvent) event;
-        //handleDraftPoolAndToolCards();
+        handleDraftPoolAndToolCards();
         if(errorEvent.getMessageToDisplay().equals("Non hai abbastanza segnalini favore\n"))
             idToolCardSelected = 0;
         Platform.runLater(()-> {
@@ -689,7 +689,7 @@ public class GameController extends Observable implements Observer {
         handleDraftPool();
         handleToolCardsEffect();
         disableGridPane(roundTrackGridPane,roundTrack);
-        disableGridPane(dicePatternGridPane1,windowPattern1);
+        disableGridPane(dicePatternGridPane1,windowPattern1); //TODO: incriminata
         if(diceChosenFromDraftPool != null)
             diceChosenFromDraftPool.setEffect(null);
         if(toolCardSelected != null)
@@ -702,8 +702,10 @@ public class GameController extends Observable implements Observer {
         else
             disableToolCards();
     }
-    private void updatePrivateObjectiveCard(String path){
-        addImageToImageView(path,privateObjectiveCard,144,95);
+
+    //TODO: per ora ho fatto il get 0 ma devo
+    private void updatePrivateObjectiveCard(List<String> path){
+        addImageToImageView(path.get(0),privateObjectiveCard,144,95);
     }
 
     private void updatePublicObjectiveCards(List<String> publicObjectiveCards){
@@ -751,7 +753,7 @@ public class GameController extends Observable implements Observer {
         int currentPlayerIndex = getCurrentPlayerIndex(dicePatternEvent.getPlayerNames(), dicePatternEvent.getCurrentPlayer());
         GridPane tmp = getCurrentPlayerOurGridPane(dicePatternEvent.getCurrentPlayer()).getGridPane();
         if(tmp == dicePatternGridPane1)
-            updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 59,69); //TODO riga incriminata
+            updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 59,69);
         else
             updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 29,39);
 
@@ -998,7 +1000,7 @@ public class GameController extends Observable implements Observer {
 
     }
 
-    //tool card che intragiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
+    //tool card che interagiscono con il dice pattern : 2, 3, 4, 6, 8, 9, 11, 12
     private void getDicePositionFromDicePattern(ImageView imageView) {
         int row = GridPane.getRowIndex(imageView);
         int column = GridPane.getColumnIndex(imageView);
@@ -1128,12 +1130,12 @@ public class GameController extends Observable implements Observer {
                 toolCardSelected.setEffect(null);
                 diceChosenFromDicePattern.setEffect(null);
             } else
-                step++;
-        } else if (idToolCardSelected == 12 && step == 3) {
+                step ++;
+        } else if (idToolCardSelected == 12 && step == 4) {
             finalPosition2 = new Position(row, column);
             step = 1;
-            VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
-            System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+            System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+            VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
             setChanged();
             notifyObservers(event);
             handleDraftPool();
