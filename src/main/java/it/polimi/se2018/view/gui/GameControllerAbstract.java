@@ -1,8 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.mvevent.*;
-import it.polimi.se2018.events.vcevent.LensCutterEvent;
-import it.polimi.se2018.events.vcevent.VCEvent;
+import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.Position;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -40,7 +39,6 @@ public abstract class GameControllerAbstract extends Observable{
 
     @FXML protected ImageView publicObjectiveCard1;
     @FXML protected ImageView publicObjectiveCard2;
-    @FXML protected ImageView publicObjectiveCard3;
 
     @FXML protected ImageView windowPattern1;
     @FXML protected GridPane dicePatternGridPane1;
@@ -71,16 +69,25 @@ public abstract class GameControllerAbstract extends Observable{
     @FXML  ImageView dicePatternImage33;
     @FXML  ImageView dicePatternImage34;
 
+    @FXML Label player1NameLabel;
+
     boolean imageViewsSetup = false;
 
     OurGridPane ourGridPane1;
     List<OurGridPane> ourGridPaneList = new ArrayList<>();
 
     ImageView diceChosenFromDraftPool;
+    private ImageView diceChosenFromDicePattern;
     ImageView toolCardSelected;
+    private Position dicePatternPosition;
+    ImageView tmpImageView;
 
     Map<Integer, Runnable> mvEvents = new HashMap<>();
+    Map<Integer, Runnable> diceIndexMap = new HashMap<>();
+    private Map<Integer, Runnable> dicePositionFromDicePatternMap = new HashMap<>();
     MVEvent mvEvent;
+    private int dicePatternRowPosition;
+    private int dicePatternColumnPosition;
 
     boolean diceMoved = false;
 
@@ -142,11 +149,10 @@ public abstract class GameControllerAbstract extends Observable{
 
         publicObjectiveCard1.setOnMouseEntered(event -> zoomInPOC(publicObjectiveCard1));
         publicObjectiveCard2.setOnMouseEntered(event -> zoomInPOC(publicObjectiveCard2));
-        publicObjectiveCard3.setOnMouseEntered(event -> zoomInPOC(publicObjectiveCard3));
 
         publicObjectiveCard1.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard1));
         publicObjectiveCard2.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard2));
-        publicObjectiveCard3.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard3));
+
 
         skipTurnButton.setOnMouseClicked(event -> skipTurn());
         deleteMoveButton.setOnMouseClicked(event -> handleDraftPoolAndToolCards());
@@ -156,7 +162,13 @@ public abstract class GameControllerAbstract extends Observable{
             toolCardImage.setOnMouseExited(event -> zoomOut(toolCardImage));
         }
 
+        initializeDraftPoolEventHandler(draftPool);
         initializeRoundTrackEventHandler(roundTrackGridPane);
+        initializeDicePatternEventHandler(dicePatternGridPane1);
+
+        createMVMapAbstract();
+        createDiceIndexMap();
+        createDicePositionFromDicePatternMap();
 
         dicePatternGridPane1.toFront();
         roundTrackGridPane.toFront();
@@ -165,7 +177,16 @@ public abstract class GameControllerAbstract extends Observable{
         dicePatternGridPane1.setDisable(true);
     }
 
-    void handleDraftPool(){
+    private void initializeDicePatternEventHandler(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof ImageView) {
+                ImageView tmp = (ImageView) node;
+                tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDicePositionFromDicePattern(tmp));
+            }
+        }
+    }
+
+    private void handleDraftPool(){
         if(diceMoved)
             disableDraftPool();
         else
@@ -192,7 +213,7 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
-    private void handleDraftPoolAndToolCards(){
+    void handleDraftPoolAndToolCards(){
         handleDraftPool();
         handleToolCardsEffect();
         disableGridPane(roundTrackGridPane,roundTrack);
@@ -205,6 +226,7 @@ public abstract class GameControllerAbstract extends Observable{
 
     void skipTurnAbstract(){
 
+        idToolCardSelected = 0;
         disableToolCards();
         disableDraftPool();
         skipTurnButton.setDisable(true);
@@ -248,13 +270,13 @@ public abstract class GameControllerAbstract extends Observable{
     }
 
 
-    private void zoomInPOC(ImageView imageView){
+    void zoomInPOC(ImageView imageView){
 
         imageView.setLayoutY(imageView.getLayoutY()-326);
         zoomIn(imageView);
     }
 
-    private void zoomOutPOC(ImageView imageView){
+    void zoomOutPOC(ImageView imageView){
 
         imageView.setLayoutY(imageView.getLayoutY()+326);
         zoomOut(imageView);
@@ -461,11 +483,11 @@ public abstract class GameControllerAbstract extends Observable{
         window.showAndWait();
     }
 
-    void createMVMapAbstract() {
+    private void createMVMapAbstract() {
         mvEvents.put(-1, ()-> {});
         mvEvents.put(1, ()-> updateDicePatterns(mvEvent));
         mvEvents.put(2, ()-> updateDraftPool(mvEvent));
-     //   mvEvents.put(3, ()-> updateToolCards(mvEvent));
+        mvEvents.put(3, ()-> updateToolCards(mvEvent));
         mvEvents.put(4, ()-> updateRoundTrack(mvEvent));
         mvEvents.put(5, ()-> {});
         mvEvents.put(6, ()->handleActionMenu(mvEvent));
@@ -484,6 +506,7 @@ public abstract class GameControllerAbstract extends Observable{
 
 
     private void showAll(MVEvent event){
+        System.out.println("sono in uno showAll");
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
         if (!imageViewsSetup) {
             updateDraftPool(showAllEvent.getDraftPool());
@@ -539,7 +562,6 @@ public abstract class GameControllerAbstract extends Observable{
     void showErrorAbstract(ErrorEvent errorEvent){
 
         Platform.runLater(()-> {
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Errore");
             alert.setContentText(errorEvent.getMessageToDisplay());
@@ -562,12 +584,7 @@ public abstract class GameControllerAbstract extends Observable{
         handleDraftPoolAndToolCards();
     }
 
-    private void updatePublicObjectiveCards(List<String> publicObjectiveCards){
-
-        addImageToImageView(publicObjectiveCards.get(0),publicObjectiveCard1,144,95);
-        addImageToImageView(publicObjectiveCards.get(1),publicObjectiveCard2,144,95);
-        addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
-    }
+    abstract void updatePublicObjectiveCards(List<String> publicObjectiveCards);
 
     private void updateRoundTrack(MVEvent event){
         RoundTrackEvent roundTrackEvent = (RoundTrackEvent) event;
@@ -585,9 +602,30 @@ public abstract class GameControllerAbstract extends Observable{
                 row++;
                 column = 0;
             }
+        }
+    }
+
+    abstract void handleToolCards(int idToolCard);
+
+    void updateDicePattern(List<String> list, GridPane gridPane, int height , int width){
+        int column = 0;
+        int row = 0;
+        for (String path : list) {
+            Object foundNode = getNodeByRowColumnIndex(row,column, gridPane,5);
+            if (foundNode instanceof ImageView) {
+                ImageView img = (ImageView) foundNode;
+                addImageToImageView(path,img,height,width);
+            }
+            if(column != 4)
+                column++;
+            else{
+                row++;
+                column = 0;
+            }
 
         }
     }
+
 
     private void updateDraftPool(MVEvent event) {
         cleanDraftPool();
@@ -639,13 +677,344 @@ public abstract class GameControllerAbstract extends Observable{
 
     }
 
-    void initializeRoundTrackEventHandler(GridPane gridPane) {
+    void createDiceIndexMap(){
+
+        diceIndexMap.put(0, this::putDiceOnDicePattern);
+        diceIndexMap.put(1, this::grozinPliers);
+        diceIndexMap.put(3, () -> {});
+        diceIndexMap.put(4, () -> {});
+        diceIndexMap.put(5, () ->{
+            disableDraftPool();
+            enableGridPane(roundTrackGridPane,roundTrack);});
+        diceIndexMap.put(6, this::fluxBrushChooseDice);
+        diceIndexMap.put(7, () -> {});
+        diceIndexMap.put(8, () -> {
+            enableGridPane(dicePatternGridPane1,windowPattern1);
+            disableDraftPool();});
+        diceIndexMap.put(9, () -> {
+            enableGridPane(dicePatternGridPane1,windowPattern1);
+            disableDraftPool();});
+        diceIndexMap.put(10, this::grindingStone);
+        diceIndexMap.put(11, this::fluxRemoverChooseDice);
+        diceIndexMap.put(12, () -> {});
+
+    }
+
+    private void putDiceOnDicePattern(){
+        if(!diceMoved){
+            disableToolCards();
+            disableDraftPool();
+            enableGridPane(dicePatternGridPane1,windowPattern1);
+        }
+    }
+    private void fluxRemoverChooseDice(){
+
+        VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
+        System.out.println("tool card 11:" + Integer.toString(diceIndexDraftPool + 1));
+        setChanged();
+        notifyObservers(event);
+        diceChosenFromDraftPool.setEffect(setBorderGlow());
+        fluxRemoverWindow();
+        disableDraftPool();
+        enableGridPane(dicePatternGridPane1,windowPattern1);
+    }
+
+    private void grozinPliers(){
+        grozingPliersWindow();
+        VCEvent event = new GrozingPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(choiceGrozingPliers));
+        setChanged();
+        notifyObservers(event);
+        diceChosenFromDraftPool.setEffect(null);
+        handleDraftPool();
+        disableToolCards();
+        idToolCardSelected = 0;
+        toolCardSelected.setEffect(null);
+    }
+
+    private void fluxBrushChooseDice(){
+        VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
+        System.out.println("tool card6:" + Integer.toString(diceIndexDraftPool + 1));
+        setChanged();
+        notifyObservers(event);
+        disableDraftPool();
+        enableGridPane(dicePatternGridPane1,windowPattern1);
+    }
+
+    private void grindingStone(){
+
+        VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool + 1));
+        System.out.println("tool card 10:" + Integer.toString(diceIndexDraftPool + 1));
+        setChanged();
+        notifyObservers(event);
+        diceChosenFromDraftPool.setEffect(null);
+        handleDraftPool();
+        idToolCardSelected = 0;
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+    }
+
+
+    void getDiceIndexFromDraftPool(ImageView imageView) {
+        System.out.println("sono nella draftpool");
+        imageView.setEffect(setBorderGlow());
+        diceChosenFromDraftPool = imageView;
+        diceIndexDraftPool = GridPane.getColumnIndex(imageView);
+        System.out.println(diceIndexDraftPool+1);
+
+        diceIndexMap.get(idToolCardSelected).run();
+
+    }
+
+    private void initializeRoundTrackEventHandler(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
                 ImageView tmp = (ImageView) node;
                 tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDicePositionFromRoundTrack(tmp));
             }
         }
+    }
+
+    private void initializeDraftPoolEventHandler(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof ImageView) {
+                ImageView tmp = (ImageView) node;
+                tmp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> getDiceIndexFromDraftPool(tmp));
+            }
+        }
+    }
+
+    private void getDicePositionFromDicePattern(ImageView imageView) {
+        dicePatternRowPosition = GridPane.getRowIndex(imageView);
+        dicePatternColumnPosition = GridPane.getColumnIndex(imageView);
+
+        dicePositionFromDicePatternMap.get(idToolCardSelected).run();
+    }
+
+    private void placeDiceMove(int row, int column){
+        if(!diceMoved){
+            dicePatternPosition = new Position(row, column);
+            System.out.println("mossa su dice pattern:" + Integer.toString(diceIndexDraftPool+1) + " " + Integer.toString(dicePatternPosition.getX()) + " " + Integer.toString(dicePatternPosition.getY()));
+            VCEvent event = new PlaceDiceEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+            setChanged();
+            notifyObservers(event);
+            diceChosenFromDraftPool.setEffect(null);
+            disableGridPane(dicePatternGridPane1, windowPattern1);
+            handleToolCardsEffect();
+        }
+    }
+
+    private void eglomiseBrush(int row, int column){
+        if(step == 1)
+            firstStep(row, column);
+        else if(step == 2)
+            eglomiseBrushSecondStep(row, column);
+    }
+
+    private void eglomiseBrushSecondStep(int row, int column){
+
+        finalPosition = new Position(row, column);
+        step = 1;
+        System.out.println("tool card 2 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+        VCEvent event = new EglomiseBrushEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        idToolCardSelected = 0;
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+        diceChosenFromDicePattern.setEffect(null);
+    }
+
+    private void copperFoilBurnisher(int row, int column){
+        if(step == 1)
+            firstStep(row, column);
+        else if(step == 2)
+            copperFoilBurnisherSecondStep(row, column);
+    }
+
+    private void copperFoilBurnisherSecondStep(int row, int column){
+
+        finalPosition = new Position(row, column);
+        step = 1;
+        System.out.println("tool card 3 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+        VCEvent event = new CopperFoilBurnisherEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        idToolCardSelected = 0;
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+        diceChosenFromDicePattern.setEffect(null);
+    }
+
+    private void lathekin(int row, int column){
+        if(step == 1)
+            firstStep(row, column);
+        else if(step == 2)
+            lathekinSecondStep(row, column);
+        else if(step == 3){
+            initialPosition2 = new Position(row, column);
+            step++;
+        }
+        else if(step == 4)
+            lathekinForthStep(row, column);
+    }
+
+    private void lathekinSecondStep(int row, int column){
+        finalPosition = new Position(row, column);
+        tmpImageView = (ImageView) getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
+        tmpImageView.setStyle("-fx-background-color: BLACK");
+        step++;
+    }
+
+    private void lathekinForthStep(int row, int column){
+
+        finalPosition2 = new Position(row, column);
+        step = 1;
+        VCEvent event = new LathekinEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+        System.out.println("tool card 4: " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        idToolCardSelected = 0;
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+        diceChosenFromDicePattern.setEffect(null);
+        tmpImageView.setStyle(null);
+    }
+
+    private void fluxBrushPlaceDice(int row, int column){
+        diceChosenFromDraftPool.setEffect(null);
+        dicePatternPosition = new Position(row, column);
+        VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        System.out.println("tool card 6: " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        idToolCardSelected = 0;
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+    }
+
+    private void runnerPliers(int row, int column){
+        dicePatternPosition = new Position(row, column);
+        VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        System.out.println("tool card 8: " + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        idToolCardSelected = 0;
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+    }
+
+    private void corkBackedStraighedge(int row, int column){
+
+        dicePatternPosition = new Position(row, column);
+        VCEvent event = new CorkBakedStraightedgeEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        System.out.println("tool card 9 :" + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        idToolCardSelected = 0;
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+    }
+
+    private void fluxRemoverPlaceDice(int row, int column){
+        dicePatternPosition = new Position(row, column);
+        VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        System.out.println("tool card 11: " + Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        idToolCardSelected = 0;
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+        diceChosenFromDraftPool.setEffect(null);
+    }
+
+    private void tapWheel(int row, int column){
+        if(step == 1)
+            firstStep(row, column);
+        else if(step == 2)
+            tapWheelSecondStep(row, column);
+        else if(step == 3){
+            initialPosition2 = new Position(row, column);
+            step++;
+        }
+        else if(step == 4)
+            tapWheelForthStep(row, column);
+
+    }
+
+    private void tapWheelSecondStep(int row, int column){
+        finalPosition = new Position(row, column);
+        if (choiceTapWheel == 1) {
+            step = 1;
+            VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+            System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
+            setChanged();
+            notifyObservers(event);
+            handleDraftPool();
+            disableGridPane(dicePatternGridPane1,windowPattern1);
+            idToolCardSelected = 0;
+            disableToolCards();
+            toolCardSelected.setEffect(null);
+            diceChosenFromDicePattern.setEffect(null);
+        } else
+            step ++;
+    }
+
+    private void tapWheelForthStep(int row, int column){
+
+        finalPosition2 = new Position(row, column);
+        step = 1;
+        System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+        VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
+        setChanged();
+        notifyObservers(event);
+        handleDraftPool();
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        idToolCardSelected = 0;
+        roundTrack.setOpacity(1);
+        disableToolCards();
+        toolCardSelected.setEffect(null);
+        diceChosenFromDicePattern.setEffect(null);
+    }
+
+    private void firstStep(int row, int column){
+
+        initialPosition = new Position(row, column);
+        Object node = getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
+        diceChosenFromDicePattern = (ImageView) node;
+        diceChosenFromDicePattern.setEffect(setBorderGlow());
+        step++;
+    }
+
+
+    private void createDicePositionFromDicePatternMap(){
+
+        dicePositionFromDicePatternMap.put(0, () -> placeDiceMove(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(1, ()->{});
+        dicePositionFromDicePatternMap.put(2, () -> eglomiseBrush(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(3, () -> copperFoilBurnisher(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(4, () -> lathekin(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(5, () -> {});
+        dicePositionFromDicePatternMap.put(6, () -> fluxBrushPlaceDice(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(7, () -> {});
+        dicePositionFromDicePatternMap.put(8, () -> runnerPliers(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(9, () -> corkBackedStraighedge(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(10, () ->{});
+        dicePositionFromDicePatternMap.put(11, () -> fluxRemoverPlaceDice(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(12, () -> tapWheel(dicePatternRowPosition, dicePatternColumnPosition));
     }
 
 }

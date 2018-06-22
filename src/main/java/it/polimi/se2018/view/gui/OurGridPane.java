@@ -2,9 +2,7 @@ package it.polimi.se2018.view.gui;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
 
 public class OurGridPane {
     private GridPane gridPane;
@@ -24,6 +22,14 @@ public class OurGridPane {
         setFavorTokensLabel(favorTokens);
         setPlayerNameLabel(playerName);
 
+    }
+
+    public OurGridPane(GridPane gridPane, String playerName, String windowPatternPath, Label playerNameLabel) {
+
+        this.gridPane = gridPane;
+        this.playerName = playerName;
+        this.windowPatternPath = windowPatternPath;
+        this.playerNameLabel = playerNameLabel;
     }
 
     public GridPane getGridPane() {
@@ -47,15 +53,11 @@ public class OurGridPane {
     }
 
     public void setPlayerNameLabel(String name){
-        Platform.runLater(() -> {
-            playerNameLabel.setText(name);
-        });
+        Platform.runLater(() -> playerNameLabel.setText(name));
     }
 
     public void setFavorTokensLabel(int favorTokens){
-        Platform.runLater(() -> {
-            favorTokensLabel.setText(Integer.toString(favorTokens));
-        });
+        Platform.runLater(() -> favorTokensLabel.setText(Integer.toString(favorTokens)));
     }
 
     public Label getFavorTokensLabel() {
