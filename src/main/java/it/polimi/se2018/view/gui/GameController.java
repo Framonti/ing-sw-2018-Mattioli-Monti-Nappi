@@ -3,11 +3,9 @@ package it.polimi.se2018.view.gui;
 //TODO: mappa VC, pulsante per annullare mossa fatta
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
-import it.polimi.se2018.model.Position;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -39,7 +37,6 @@ public class GameController extends GameControllerAbstract implements Observer {
     @FXML private Label toolCard2FavorTokensLabel;
     @FXML private Label toolCard3FavorTokensLabel;
 
-
     @FXML private Label player2NameLabel;
     @FXML private Label player3NameLabel;
     @FXML private Label player4NameLabel;
@@ -58,17 +55,11 @@ public class GameController extends GameControllerAbstract implements Observer {
     @FXML private Label favorTokensPlayer3Label;
     @FXML private Label favorTokensPlayer4Label;
 
-
-
-
     private VCEvent vcEvent;
 
     //private String eventParameters = "";
 
     private Map<Integer, Runnable> vcEvents = new HashMap<>();
-
-
-
 
     private int idToolCard1;
     private int idToolCard2;
@@ -81,9 +72,8 @@ public class GameController extends GameControllerAbstract implements Observer {
     private final String favorTokensPath = "src/main/Images/Others/FavorToken.png";
 
 
-
     @FXML
-    void initialize() {
+    public void initialize() {
 
         toolCardImageList.add(toolCard1);
         toolCardImageList.add(toolCard2);
@@ -222,26 +212,6 @@ public class GameController extends GameControllerAbstract implements Observer {
         });
     }
 
-    /*private void createVCMap() {
-        //vcEvents.put(-1, () -> vcEvent = new WindowPatternChoiceEvent(eventParameters));
-        vcEvents.put(1, () -> vcEvent = new GrozingPliersEvent(eventParameters));
-        vcEvents.put(2, () -> vcEvent = new EglomiseBrushEvent(eventParameters));
-        vcEvents.put(3, () -> vcEvent = new CopperFoilBurnisherEvent(eventParameters));
-        vcEvents.put(4, () -> vcEvent = new LathekinEvent(eventParameters));
-        vcEvents.put(5, () -> vcEvent = new LensCutterEvent(eventParameters));
-        vcEvents.put(6, () -> vcEvent = new FluxBrushChooseDiceEvent(eventParameters));
-        vcEvents.put(7, () -> vcEvent = new GlazingHammerEvent());                       //può non stare nella mappa
-        vcEvents.put(8, () -> vcEvent = new RunnerPliersEvent(eventParameters));
-        vcEvents.put(9, () -> vcEvent = new CorkBakedStraightedgeEvent(eventParameters));
-        vcEvents.put(10, () -> vcEvent = new GrindingStoneEvent(eventParameters));
-        vcEvents.put(11, () -> vcEvent = new FluxRemoverChooseDiceEvent(eventParameters));
-        vcEvents.put(12, () -> vcEvent = new TapWheelEvent(eventParameters));
-        vcEvents.put(13, () -> vcEvent = new FluxBrushPlaceDiceEvent(eventParameters));  //può non stare nella mappa
-        vcEvents.put(14, ()-> vcEvent = new FluxRemoverPlaceDiceEvent(eventParameters)); //può non stare nella mappa
-    }*/
-
-
-
     private int getCurrentPlayerIndex(List<String> players, String currentPlayer){
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).equals(currentPlayer))
@@ -302,7 +272,16 @@ public class GameController extends GameControllerAbstract implements Observer {
 
     protected void skipTurn(){
 
-        super.skipTurnAbstract();
+        idToolCardSelected = 0;
+        disableToolCards();
+        disableDraftPool();
+        skipTurnButton.setDisable(true);
+        turnLabel.setStyle("-fx-background-color: #ff0000;");
+        turnLabel.setText( "Attendi");
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        skipTurnButton.setDisable(true);
+        for(ImageView toolCardImage : toolCardImageList)
+            toolCardImage.setEffect(null);
         setChanged();
         notifyObservers(new SkipTurnEvent());
 

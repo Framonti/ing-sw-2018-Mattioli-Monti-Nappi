@@ -55,6 +55,7 @@ public class ViewGUI  extends Observable implements Observer{
         networkEventMap.put(90, () -> newObserverEventHandler(networkEventForMap));
         networkEventMap.put(80, () -> passTheEventToObservers(networkEventForMap));
         networkEventMap.put(70, () -> passTheEventToObservers(networkEventForMap));
+       // networkEventMap.put()
     }
 
     /**

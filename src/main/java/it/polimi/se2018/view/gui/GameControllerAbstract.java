@@ -28,24 +28,27 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.*;
 
+/**
+ * Abstract class which is inherited by the SinglePlayerGameController and the MultiPlayerGameController.
+ * It contains the methods and attributes shared between the two controllers
+ */
 public abstract class GameControllerAbstract extends Observable{
 
-    @FXML protected Button skipTurnButton;
-    @FXML protected Label turnLabel;
+    @FXML  Button skipTurnButton;
+    @FXML  Button deleteMoveButton;
+    @FXML  Label turnLabel;
 
-    @FXML protected AnchorPane pane;
+    @FXML  AnchorPane pane;
 
-    @FXML protected Button deleteMoveButton;
+    @FXML  ImageView publicObjectiveCard1;
+    @FXML  ImageView publicObjectiveCard2;
 
-    @FXML protected ImageView publicObjectiveCard1;
-    @FXML protected ImageView publicObjectiveCard2;
+    @FXML  ImageView windowPattern1;
+    @FXML  GridPane dicePatternGridPane1;
 
-    @FXML protected ImageView windowPattern1;
-    @FXML protected GridPane dicePatternGridPane1;
+    @FXML  GridPane draftPool;
 
-    @FXML protected GridPane draftPool;
-
-    @FXML protected ImageView roundTrack;
+    @FXML  ImageView roundTrack;
     @FXML GridPane roundTrackGridPane;
 
     @FXML  ImageView dicePatternImage00;
@@ -77,14 +80,14 @@ public abstract class GameControllerAbstract extends Observable{
     List<OurGridPane> ourGridPaneList = new ArrayList<>();
 
     ImageView diceChosenFromDraftPool;
-    private ImageView diceChosenFromDicePattern;
+    ImageView diceChosenFromDicePattern;
     ImageView toolCardSelected;
-    private Position dicePatternPosition;
+    Position dicePatternPosition;
     ImageView tmpImageView;
 
     Map<Integer, Runnable> mvEvents = new HashMap<>();
     Map<Integer, Runnable> diceIndexMap = new HashMap<>();
-    private Map<Integer, Runnable> dicePositionFromDicePatternMap = new HashMap<>();
+    Map<Integer, Runnable> dicePositionFromDicePatternMap = new HashMap<>();
     MVEvent mvEvent;
     private int dicePatternRowPosition;
     private int dicePatternColumnPosition;
@@ -116,7 +119,9 @@ public abstract class GameControllerAbstract extends Observable{
     final String yourTurnText = "È il tuo turno";
     final String waitText = "Attendi";
 
-
+    /**
+     * Initializes the scene
+     */
     void abstractInitialize(){
 
         initializeGridPaneImagesView(roundTrackGridPane, 10, 9, 39, 49);
@@ -153,7 +158,6 @@ public abstract class GameControllerAbstract extends Observable{
         publicObjectiveCard1.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard1));
         publicObjectiveCard2.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard2));
 
-
         skipTurnButton.setOnMouseClicked(event -> skipTurn());
         deleteMoveButton.setOnMouseClicked(event -> handleDraftPoolAndToolCards());
 
@@ -177,6 +181,10 @@ public abstract class GameControllerAbstract extends Observable{
         dicePatternGridPane1.setDisable(true);
     }
 
+    /**
+     * Puts an eventHandler on every ImageViews on the DicePattern
+     * @param gridPane The GridPane representing the dicePattern
+     */
     private void initializeDicePatternEventHandler(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
@@ -186,6 +194,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Handles the draftpool
+     */
     private void handleDraftPool(){
         if(diceMoved)
             disableDraftPool();
@@ -193,11 +204,17 @@ public abstract class GameControllerAbstract extends Observable{
             enableDraftPool();
     }
 
+    /**
+     * Disables the draftpool, preventing an user from using it
+     */
     void disableDraftPool(){
         draftPool.setDisable(true);
         setDraftPoolOpacity(0.5);
     }
 
+    /**
+     * Enables the DraftPool, allowing an user to use it
+     */
     void enableDraftPool(){
         draftPool.setDisable(false);
         setDraftPoolOpacity(1);
@@ -213,6 +230,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Handles both the DraftPool and the ToolCards, enabling or disabling them as necessary
+     */
     void handleDraftPoolAndToolCards(){
         handleDraftPool();
         handleToolCardsEffect();
@@ -224,7 +244,10 @@ public abstract class GameControllerAbstract extends Observable{
             toolCardSelected.setEffect(null);
     }
 
-    void skipTurnAbstract(){
+    /**
+     * Method associated to the skipTurnButton
+     */
+   /* void skipTurnAbstract(){
 
         idToolCardSelected = 0;
         disableToolCards();
@@ -237,10 +260,19 @@ public abstract class GameControllerAbstract extends Observable{
         for(ImageView toolCardImage : toolCardImageList)
             toolCardImage.setEffect(null);
     }
-
+*/
+    /**
+     * Method associated to the skipTurnButton
+     */
     abstract void skipTurn();
 
-
+    /**
+     * Adds an image to an imageView, also setting its height and width
+     * @param path The Path of the Image to be loaded
+     * @param imageView Where the picture will be loaded
+     * @param height The height of the ImageView
+     * @param width The width of the ImageView
+     */
     void addImageToImageView(String path, ImageView imageView, int height, int width) {
         File fileImage = new File(path);
         String url = "";
@@ -255,6 +287,10 @@ public abstract class GameControllerAbstract extends Observable{
         imageView.setFitWidth(width);
     }
 
+    /**
+     * Zooms in an ImageView
+     * @param imageView The ImageView to zoom in
+     */
     void zoomIn(ImageView imageView) {
         imageView.setFitHeight(470);
         imageView.setFitWidth(357);
@@ -262,6 +298,10 @@ public abstract class GameControllerAbstract extends Observable{
         imageView.setPreserveRatio(true);
     }
 
+    /**
+     * Zooms out from an ImageView
+     * @param imageView The ImageView to zoom out
+     */
     void zoomOut(ImageView imageView) {
         imageView.setFitHeight(144);
         imageView.setFitWidth(95);
@@ -269,23 +309,46 @@ public abstract class GameControllerAbstract extends Observable{
         imageView.setPreserveRatio(true);
     }
 
-
+    /**
+     * Zooms in for an ObjectiveCard
+     * @param imageView The ImageView to zoom in
+     */
     void zoomInPOC(ImageView imageView){
 
         imageView.setLayoutY(imageView.getLayoutY()-326);
         zoomIn(imageView);
     }
 
+    /**
+     * Zooms out from an ObjectiveCard
+     *  @param imageView The ImageView to zoom out
+     */
     void zoomOutPOC(ImageView imageView){
 
         imageView.setLayoutY(imageView.getLayoutY()+326);
         zoomOut(imageView);
     }
 
-    Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
+    /**
+     * Gets a node given a row and an column from a GridPane
+     * @param row The Row required
+     * @param column The column required
+     * @param gridPane The GridPane required
+     * @param dimension The dimension of the GridPane
+     * @return The node in the selected row and column
+     */
+    private Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
         return gridPane.getChildren().get(dimension * row + column);
     }
 
+    /**
+     * Initializes the ImageView in a GridPane
+     * @param gridPane The GridPane to initialize
+     * @param row The Row to initialize
+     * @param column The column to initialize
+     * @param height the height of the image
+     * @param width the width of the image
+     */
     void initializeGridPaneImagesView(GridPane gridPane, int row, int column, int height, int width) {
         int i;
         int j;
@@ -300,8 +363,10 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
-
-
+    /**
+     * Creates a DropShadow effect
+     * @return A DropShadow effect with set parameters
+     */
     DropShadow setBorderGlow() {
         DropShadow borderGlow = new DropShadow();
         borderGlow.setColor(Color.BLUE);
@@ -311,6 +376,11 @@ public abstract class GameControllerAbstract extends Observable{
         return borderGlow;
     }
 
+    /**
+     * Adds ImagesView to a GridPane
+     * @param gridPane The GridPane to initialize
+     * @param imagesView The ImageView to put into the gridPane
+     */
     private void addImagesViewToGridPane(GridPane gridPane, List<ImageView> imagesView) {
         int row = 0;
         int column = 0;
@@ -325,6 +395,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Disables the ToolCards, preventing an user from using them
+     */
     void disableToolCards(){
         for(ImageView toolCardImage : toolCardImageList){
             toolCardImage.setDisable(true);
@@ -332,6 +405,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Enables the ToolCards, allowing an user to use them
+     */
     private void enableToolCards(){
         for(ImageView toolCardImage : toolCardImageList) {
             toolCardImage.setDisable(false);
@@ -339,19 +415,31 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
-    void handleToolCardsEffect(){
+    /**
+     * Handles the ToolCards, enabling or disabling them as necessary
+     */
+    private void handleToolCardsEffect(){
         if(!isToolCardSelected)
             enableToolCards();
         else
             disableToolCards();
     }
 
+    /**
+     * Disables an image from a gridPane
+     * @param gridPane The GridPane that holds the Image
+     * @param imageView An imagine to disable
+     */
     void disableGridPane(GridPane gridPane, ImageView imageView){
         setDisableGridPane(gridPane);
         gridPane.setDisable(true);
         imageView.setOpacity(0.5);
     }
 
+    /**
+     * Disables a GridPane
+     * @param gridPane the GridPane to disable
+     */
     private void setDisableGridPane(GridPane gridPane){
         for(Node node : gridPane.getChildren()){
             if(node instanceof  ImageView)
@@ -359,14 +447,21 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Enables an imageView on a GridPane
+     * @param gridPane The GridPane that holds the Image
+     * @param imageView The Image to enable
+     */
     void enableGridPane(GridPane gridPane, ImageView imageView){
         setEnableGridPane(gridPane);
         gridPane.setDisable(false);
         imageView.setOpacity(1);
     }
 
-
-
+    /**
+     * Enables a GridPane
+     * @param gridPane The GridPane to enable
+     */
     private void setEnableGridPane(GridPane gridPane){
         for(Node node : gridPane.getChildren()){
             if(node instanceof  ImageView)
@@ -374,8 +469,10 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
-
-    void grozingPliersWindow() {
+    /**
+     * Creates a Window for the GrozingPliers ToolCard
+     */
+    private void grozingPliersWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -415,7 +512,10 @@ public abstract class GameControllerAbstract extends Observable{
         window.showAndWait();
     }
 
-    void fluxRemoverWindow() {
+    /**
+     * Creates a window for the FluxRemover toolCard
+     */
+    private void fluxRemoverWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -443,7 +543,10 @@ public abstract class GameControllerAbstract extends Observable{
         window.showAndWait();
     }
 
-    void tapWheelWindow() {
+    /**
+     * Creates a window for the TapWheel toolCard
+     */
+    private void tapWheelWindow() {
         Stage window = new Stage();
         //Blocks interaction with the caller Scene
         window.initModality(Modality.APPLICATION_MODAL);
@@ -483,6 +586,9 @@ public abstract class GameControllerAbstract extends Observable{
         window.showAndWait();
     }
 
+    /**
+     * Creates a Map associating the id of an event with a method
+     */
     private void createMVMapAbstract() {
         mvEvents.put(-1, ()-> {});
         mvEvents.put(1, ()-> updateDicePatterns(mvEvent));
@@ -503,8 +609,10 @@ public abstract class GameControllerAbstract extends Observable{
         mvEvents.put(16, this::playerSuspended);
     }
 
-
-
+    /**
+     * Handles a ShowAll Event
+     * @param event The ShowAll event to handle
+     */
     private void showAll(MVEvent event){
         System.out.println("sono in uno showAll");
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
@@ -533,6 +641,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Handles a EndTurnEvent
+     */
     private void handleEndTurnEvent(){
 
         showEndTurn();
@@ -542,6 +653,9 @@ public abstract class GameControllerAbstract extends Observable{
         deleteMoveButton.setDisable(true);
     }
 
+    /**
+     * Shows an Alert that tells the player his turn is finished
+     */
     private void showEndTurn(){
         Platform.runLater(() ->{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -552,13 +666,28 @@ public abstract class GameControllerAbstract extends Observable{
         });
     }
 
-
+    /**
+     * Handles the suspension of a player
+     */
     abstract void playerSuspended();
 
+    /**
+     * Creates an association between OurGridPane and the event from the model
+     * @param mvEvent1 A SetWindowPatternEvent
+     * @param mvEvent2 A DicePatternEvent
+     */
     abstract void createAssociationWithOurGridPane(MVEvent mvEvent1, MVEvent mvEvent2);
 
+    /**
+     * Updates the privateObjectiveCards
+     * @param paths The Paths of the images to load
+     */
     abstract void updatePrivateObjectiveCards(List<String> paths);
 
+    /**
+     * Shows an error to the user
+     * @param errorEvent The error event to be shown
+     */
     void showErrorAbstract(ErrorEvent errorEvent){
 
         Platform.runLater(()-> {
@@ -569,14 +698,40 @@ public abstract class GameControllerAbstract extends Observable{
         });
     }
 
+    /**
+     * The real error method
+     * @param mvEvent An error event to be shown
+     */
     abstract void showError(MVEvent mvEvent);
 
+    /**
+     * Updates all the DicePattern in the scene
+     * @param mvEvent A DicePattern event
+     */
     abstract void updateDicePatterns(MVEvent mvEvent);
 
+    /**
+     * Updates the label of the favorToken
+     * @param mvEvent A FavorTokenEvent
+     */
     abstract void updateFavorTokens(MVEvent mvEvent);
 
+    /**
+     * Updates the ToolCards
+     * @param mvEvent A ToolCardEvent
+     */
     abstract void updateToolCards(MVEvent mvEvent);
 
+    /**
+     * Updates the publicObjectiveCards
+     * @param publicObjectiveCards A list of string representing path
+     */
+    abstract void updatePublicObjectiveCards(List<String> publicObjectiveCards);
+
+    /**
+     * Handles an ActionMenuEvent
+     * @param event
+     */
     private void handleActionMenu(MVEvent event){
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
         diceMoved = actionMenuEvent.isDiceMoved();
@@ -584,8 +739,10 @@ public abstract class GameControllerAbstract extends Observable{
         handleDraftPoolAndToolCards();
     }
 
-    abstract void updatePublicObjectiveCards(List<String> publicObjectiveCards);
-
+    /**
+     * Updates the RoundTrack
+     * @param event A RoundTrackEvent
+     */
     private void updateRoundTrack(MVEvent event){
         RoundTrackEvent roundTrackEvent = (RoundTrackEvent) event;
         int column = 0;
@@ -605,8 +762,19 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Handles the ToolCards
+     * @param idToolCard The Id of the toolcard to handle
+     */
     abstract void handleToolCards(int idToolCard);
 
+    /**
+     * Updates a DicePattern
+     * @param list A list of Path representing images of dice
+     * @param gridPane The GridPane that will be updated
+     * @param height The height of the image
+     * @param width The width of the image
+     */
     void updateDicePattern(List<String> list, GridPane gridPane, int height , int width){
         int column = 0;
         int row = 0;
@@ -626,7 +794,10 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
-
+    /**
+     * Updates the DraftPool
+     * @param event A DraftPoolEvent
+     */
     private void updateDraftPool(MVEvent event) {
         cleanDraftPool();
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
@@ -641,6 +812,9 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Cleans a DraftPool at the end of a turn
+     */
     private void cleanDraftPool(){
 
         for(int column = 0; column <9 ; column++){
@@ -652,6 +826,10 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Gets a Position from a click on a ImageView that belongs to the RoundTrack
+     * @param imageView The ImageView clicked
+     */
     //tool card che interagiscono con il round track : 5, 12
     void getDicePositionFromRoundTrack(ImageView imageView) {
         roundIndex = GridPane.getRowIndex(imageView);
@@ -677,7 +855,10 @@ public abstract class GameControllerAbstract extends Observable{
 
     }
 
-    void createDiceIndexMap(){
+    /**
+     * Creates a Map associating the id of a toolCard with a method
+     */
+    private void createDiceIndexMap(){
 
         diceIndexMap.put(0, this::putDiceOnDicePattern);
         diceIndexMap.put(1, this::grozinPliers);
@@ -700,6 +881,9 @@ public abstract class GameControllerAbstract extends Observable{
 
     }
 
+    /**
+     * Puts a Dice on the DicePattern
+     */
     private void putDiceOnDicePattern(){
         if(!diceMoved){
             disableToolCards();
@@ -707,6 +891,10 @@ public abstract class GameControllerAbstract extends Observable{
             enableGridPane(dicePatternGridPane1,windowPattern1);
         }
     }
+
+    /**
+     * Lets a player choose a Dice for the FluxRemover ToolCard
+     */
     private void fluxRemoverChooseDice(){
 
         VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
@@ -719,6 +907,9 @@ public abstract class GameControllerAbstract extends Observable{
         enableGridPane(dicePatternGridPane1,windowPattern1);
     }
 
+    /**
+     * Method associated with the GrozingPliers ToolCard
+     */
     private void grozinPliers(){
         grozingPliersWindow();
         VCEvent event = new GrozingPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(choiceGrozingPliers));
@@ -731,6 +922,9 @@ public abstract class GameControllerAbstract extends Observable{
         toolCardSelected.setEffect(null);
     }
 
+    /**
+     * Lets a player choose a Dice for the FluxBrush ToolCard
+     */
     private void fluxBrushChooseDice(){
         VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
         System.out.println("tool card6:" + Integer.toString(diceIndexDraftPool + 1));
@@ -740,6 +934,9 @@ public abstract class GameControllerAbstract extends Observable{
         enableGridPane(dicePatternGridPane1,windowPattern1);
     }
 
+    /**
+     * Method associated with the GrindingStone ToolCard
+     */
     private void grindingStone(){
 
         VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool + 1));
@@ -753,6 +950,10 @@ public abstract class GameControllerAbstract extends Observable{
         toolCardSelected.setEffect(null);
     }
 
+    /**
+     * Gets an index from a click on a ImageView that belongs to the draftPool
+     * @param imageView The ImageView clicked
+     */
 
     void getDiceIndexFromDraftPool(ImageView imageView) {
         System.out.println("sono nella draftpool");
@@ -765,6 +966,10 @@ public abstract class GameControllerAbstract extends Observable{
 
     }
 
+    /**
+     * Initializes the RoundTrack, putting
+     * @param gridPane
+     */
     private void initializeRoundTrackEventHandler(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
@@ -774,6 +979,10 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Puts an eventHandler on every ImageViews on the DraftPool
+     * @param gridPane The GridPane representing the draftPool
+     */
     private void initializeDraftPoolEventHandler(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof ImageView) {
@@ -783,6 +992,11 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Gets the position associated to an ImageView on the dicePattern
+     * @param imageView An ImageView belonging to the dicePattern
+     */
+
     private void getDicePositionFromDicePattern(ImageView imageView) {
         dicePatternRowPosition = GridPane.getRowIndex(imageView);
         dicePatternColumnPosition = GridPane.getColumnIndex(imageView);
@@ -790,6 +1004,11 @@ public abstract class GameControllerAbstract extends Observable{
         dicePositionFromDicePatternMap.get(idToolCardSelected).run();
     }
 
+    /**
+     * Informs the model a user wants to put a dice into a position of his DicePattern
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void placeDiceMove(int row, int column){
         if(!diceMoved){
             dicePatternPosition = new Position(row, column);
@@ -803,6 +1022,11 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+    /**
+     * Method associated with the EglomiseBrush ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void eglomiseBrush(int row, int column){
         if(step == 1)
             firstStep(row, column);
@@ -810,6 +1034,11 @@ public abstract class GameControllerAbstract extends Observable{
             eglomiseBrushSecondStep(row, column);
     }
 
+    /**
+     * Handles the second step of the EglomiseBrush ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void eglomiseBrushSecondStep(int row, int column){
 
         finalPosition = new Position(row, column);
@@ -826,6 +1055,11 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDicePattern.setEffect(null);
     }
 
+    /**
+     * Method associated with the CooperFoilBurnisher ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void copperFoilBurnisher(int row, int column){
         if(step == 1)
             firstStep(row, column);
@@ -833,6 +1067,11 @@ public abstract class GameControllerAbstract extends Observable{
             copperFoilBurnisherSecondStep(row, column);
     }
 
+    /**
+     * Handles the second step of the CopperFoilBurnisher ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void copperFoilBurnisherSecondStep(int row, int column){
 
         finalPosition = new Position(row, column);
@@ -849,6 +1088,11 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDicePattern.setEffect(null);
     }
 
+    /**
+     * Method associated with the Lathekin ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void lathekin(int row, int column){
         if(step == 1)
             firstStep(row, column);
@@ -862,6 +1106,11 @@ public abstract class GameControllerAbstract extends Observable{
             lathekinForthStep(row, column);
     }
 
+    /**
+     * Handles the second step of the Lathekin ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void lathekinSecondStep(int row, int column){
         finalPosition = new Position(row, column);
         tmpImageView = (ImageView) getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
@@ -869,6 +1118,11 @@ public abstract class GameControllerAbstract extends Observable{
         step++;
     }
 
+    /**
+     * Handles the forth step of the CopperFoilBurnisher ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void lathekinForthStep(int row, int column){
 
         finalPosition2 = new Position(row, column);
@@ -886,6 +1140,11 @@ public abstract class GameControllerAbstract extends Observable{
         tmpImageView.setStyle(null);
     }
 
+    /**
+     * Method associated with the fluxBrush ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void fluxBrushPlaceDice(int row, int column){
         diceChosenFromDraftPool.setEffect(null);
         dicePatternPosition = new Position(row, column);
@@ -900,6 +1159,11 @@ public abstract class GameControllerAbstract extends Observable{
         toolCardSelected.setEffect(null);
     }
 
+    /**
+     * Method associated with the RunnerPliers ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void runnerPliers(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -913,6 +1177,11 @@ public abstract class GameControllerAbstract extends Observable{
         toolCardSelected.setEffect(null);
     }
 
+    /**
+     * Method associated with the CorkBackedStraighedge ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void corkBackedStraighedge(int row, int column){
 
         dicePatternPosition = new Position(row, column);
@@ -927,6 +1196,11 @@ public abstract class GameControllerAbstract extends Observable{
         toolCardSelected.setEffect(null);
     }
 
+    /**
+     * Method associated with the FluxRemover ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void fluxRemoverPlaceDice(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -941,6 +1215,12 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDraftPool.setEffect(null);
     }
 
+    /**
+     *
+     * Method associated with the TapWheel ToolCard
+     * @param row The row selected
+     * @param column The column selected
+    */
     private void tapWheel(int row, int column){
         if(step == 1)
             firstStep(row, column);
@@ -955,6 +1235,11 @@ public abstract class GameControllerAbstract extends Observable{
 
     }
 
+    /**
+     * Handles the second step of the TapWheel ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void tapWheelSecondStep(int row, int column){
         finalPosition = new Position(row, column);
         if (choiceTapWheel == 1) {
@@ -973,6 +1258,11 @@ public abstract class GameControllerAbstract extends Observable{
             step ++;
     }
 
+    /**
+     * Handles the forth step of the TapWheel ToolCard
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void tapWheelForthStep(int row, int column){
 
         finalPosition2 = new Position(row, column);
@@ -990,6 +1280,11 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDicePattern.setEffect(null);
     }
 
+    /**
+     * Handles the forth step of some ToolCards
+     * @param row The row selected
+     * @param column The column selected
+     */
     private void firstStep(int row, int column){
 
         initialPosition = new Position(row, column);
@@ -999,7 +1294,9 @@ public abstract class GameControllerAbstract extends Observable{
         step++;
     }
 
-
+    /**
+     * Creates a map associating a toolCard ID with a method
+     */
     private void createDicePositionFromDicePatternMap(){
 
         dicePositionFromDicePatternMap.put(0, () -> placeDiceMove(dicePatternRowPosition, dicePatternColumnPosition));

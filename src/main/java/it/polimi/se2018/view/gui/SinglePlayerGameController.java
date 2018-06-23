@@ -6,7 +6,6 @@ import it.polimi.se2018.events.vcevent.GlazingHammerEvent;
 import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
@@ -61,7 +60,16 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     void skipTurn() {
 
         dicePaid = false;
-        super.skipTurnAbstract();
+        idToolCardSelected = 0;
+        disableToolCards();
+        disableDraftPool();
+        skipTurnButton.setDisable(true);
+        turnLabel.setStyle("-fx-background-color: #ff0000;");
+        turnLabel.setText( "Attendi");
+        disableGridPane(dicePatternGridPane1,windowPattern1);
+        skipTurnButton.setDisable(true);
+        for(ImageView toolCardImage : toolCardImageList)
+            toolCardImage.setEffect(null);
         setChanged();
         notifyObservers(new SkipTurnEvent());
     }
@@ -248,7 +256,9 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
             ToolCardEvent toolCardEvent = (ToolCardEvent) event;
             List<String> toolCardsGUI = toolCardEvent.getToolCardsGUI();
+
             setToolCardEventHandler(toolCardsGUI.size());
+
             if (!toolCardsGUI.isEmpty()) {
                 addImageToImageView(toolCardsGUI.get(0), toolCard1, 144, 95);
                 idToolCard1 = Integer.parseInt(toolCardsGUI.get(1));
