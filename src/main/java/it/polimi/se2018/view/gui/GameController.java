@@ -16,6 +16,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.*;
 
+/**
+ * This Class controls the multiplayer game scene
+ * Most of his methods and attributes are inherited from its parent, GameControllerAbstract
+ */
 public class GameController extends GameControllerAbstract implements Observer {
 
     @FXML private ImageView toolCard1;
@@ -167,8 +171,12 @@ public class GameController extends GameControllerAbstract implements Observer {
 
     @Override
     public void update(Observable o, Object event) {
-        mvEvent = (MVEvent) event;
-        mvEvents.get(mvEvent.getId()).run();
+        if(event instanceof Integer)
+            turnDuration = (int)event;
+        else {
+            mvEvent = (MVEvent) event;
+            mvEvents.get(mvEvent.getId()).run();
+        }
     }
 
 
@@ -198,6 +206,7 @@ public class GameController extends GameControllerAbstract implements Observer {
 
             turnLabel.setStyle("-fx-background-color: #ff0000;");
             turnLabel.setText(waitText);
+            turnTimeline.stop();
 
             button.setOnAction(event -> {
                 UnsuspendEvent unsuspendEvent = new UnsuspendEvent(null);
@@ -270,7 +279,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
-    protected void skipTurn(){
+    void skipTurn(){
 
         idToolCardSelected = 0;
         disableToolCards();
@@ -282,6 +291,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         skipTurnButton.setDisable(true);
         for(ImageView toolCardImage : toolCardImageList)
             toolCardImage.setEffect(null);
+        turnTimeline.stop();
         setChanged();
         notifyObservers(new SkipTurnEvent());
 

@@ -190,7 +190,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard1;
         idToolCardSelected = idToolCard1;
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
-        //handleToolCards(idToolCardSelected);
+        handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);

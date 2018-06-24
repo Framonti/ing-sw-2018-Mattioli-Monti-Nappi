@@ -40,6 +40,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private transient Timer timer = new Timer();
     private boolean gameStarted = false;
     private int setupDuration;
+    private int turnDuration;
 
     /**
      * Constructor of this class. It is package-private.
@@ -53,6 +54,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         virtualViewCLI.setServer(this);
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
+        turnDuration = configurationParametersLoader.getTurnTimer();
         setupDuration = 10000;
         new HeartBeat().start();
     }
@@ -184,7 +186,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private void resetView(Player player) {
         player.setConnectionLost(false);
         System.out.println(player.getName() + " è tornato in partita.");
-        sendTo(new AllWindowPatternChosen(), player);
+        sendTo(new AllWindowPatternChosen(turnDuration), player);
         sendTo(new ShowAllEvent(new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), player.getName()),
                         model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
                         new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards()),

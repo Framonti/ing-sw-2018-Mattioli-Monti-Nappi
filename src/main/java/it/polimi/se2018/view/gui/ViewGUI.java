@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.events.mvevent.AllWindowPatternChosen;
 import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.networkevent.NetworkEvent;
 import it.polimi.se2018.events.networkevent.NewObserverEvent;
@@ -36,6 +37,7 @@ public class ViewGUI  extends Observable implements Observer{
     private Map<Integer, Runnable> mvEventMap = new HashMap<>();
     private Map<Integer, Runnable> networkEventMap = new HashMap<>();
     private NetworkEvent networkEventForMap;
+    private int turnDuration;
 
 
     public ViewGUI(){
@@ -269,6 +271,10 @@ public class ViewGUI  extends Observable implements Observer{
 
         scene.setRoot(root);
         scene.getRoot().getTransforms().setAll(setScreenProportion());
+
+        setChanged();
+        notifyObservers(turnDuration);
+
     }
 
     /**
@@ -327,6 +333,10 @@ public class ViewGUI  extends Observable implements Observer{
         else {
             MVEvent mvEvent = (MVEvent) arg;
             int id = mvEvent.getId();
+            if(id == 40){
+                AllWindowPatternChosen allWindowPatternChosen = (AllWindowPatternChosen) mvEvent;
+                turnDuration = allWindowPatternChosen.getTurnTimer();
+            }
             if(id == 40|| id == 60 || id == 56 || id == 30){
                 mvEventMap.get(id).run();
             }

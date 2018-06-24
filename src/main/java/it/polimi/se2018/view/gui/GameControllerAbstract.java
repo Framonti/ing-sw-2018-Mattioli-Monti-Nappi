@@ -3,15 +3,16 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.Position;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -73,6 +75,10 @@ public abstract class GameControllerAbstract extends Observable{
     @FXML  ImageView dicePatternImage34;
 
     @FXML Label player1NameLabel;
+
+    @FXML ProgressBar turnProgressBar = new ProgressBar();
+    Timeline turnTimeline;
+    int turnDuration;
 
     boolean imageViewsSetup = false;
 
@@ -180,6 +186,17 @@ public abstract class GameControllerAbstract extends Observable{
         roundTrackGridPane.setDisable(true);
         dicePatternGridPane1.setDisable(true);
     }
+
+    private void updateProgressBar(){
+
+        turnTimeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(turnProgressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.millis(turnDuration), new KeyValue(turnProgressBar.progressProperty(), 1))
+        );
+        turnTimeline.setCycleCount(Animation.INDEFINITE);
+        turnTimeline.play();
+    }
+
 
     /**
      * Puts an eventHandler on every ImageViews on the DicePattern
@@ -469,6 +486,8 @@ public abstract class GameControllerAbstract extends Observable{
         }
     }
 
+
+
     /**
      * Creates a Window for the GrozingPliers ToolCard
      */
@@ -637,7 +656,7 @@ public abstract class GameControllerAbstract extends Observable{
             enableToolCards();
             skipTurnButton.setDisable(false);
             deleteMoveButton.setDisable(false);
-
+            updateProgressBar();
         }
     }
 
