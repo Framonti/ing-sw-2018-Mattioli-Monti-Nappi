@@ -26,10 +26,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private NetworkEvent networkEvent;
     private BufferedReader reader;
     private boolean firstTimeNick;
+    private boolean singlePlayer = false;
     private static final String INVALID_MOVE= "MOSSA NON VALIDA";
     private GetInputClass getInputClass = new GetInputClass();
     private SuspendedPlayer suspendedPlayer = new SuspendedPlayer();
     private AskSinglePlayer askSinglePlayer;
+    private FluxChoice fluxChoice;
 
 
     /**
@@ -128,17 +130,26 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         int event;
         eventParameters = "";
         String[] param = input.toLowerCase().split("\\s+");
+        String diceForSinglePlayer = param [1];
 
         try {
             if(param[0].equals("b"))
                 return new SkipTurnEvent();
 
             if(param[0].equals("7")) {
-                if(!toolCardUsed)
+                if(!toolCardUsed) {
+                    if (singlePlayer) {
+                        setChanged();
+                        notifyObservers(new DiceChosenSinglePlayer(diceForSinglePlayer));
+                    }
                     return new GlazingHammerEvent();
+                }
                 else
                     throw new UnsupportedOperationException(INVALID_MOVE);
             }
+
+            if (singlePlayer)
+                System.arraycopy(param, 2, param, 1, param.length - 2);
 
             int index;
             for(index = 1; index < param.length; index++) {
@@ -154,6 +165,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             if(!toolCardUsed) {
                 event = Integer.parseInt(param[0]);
                 vcEvents.get(event).run();
+                if (singlePlayer) {
+                    setChanged();
+                    notifyObservers(new DiceChosenSinglePlayer(diceForSinglePlayer));
+                }
                 return vcEvent;
             }
             else {
@@ -169,10 +184,11 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     }
 
     private void createNetworkEventMap(){
-     //   networkEvents.put(70, () -> showClientsConnected(networkEvent));
         networkEvents.put(80, () -> {
-                                        System.out.println("L'indirizzo IP è sbagliato!");
-                                        askConnection();});
+            System.out.println("L'indirizzo IP è sbagliato!");
+            askConnection();
+        });
+        networkEvents.put(1, () -> singlePlayer = true);
         networkEvents.put(25, () -> connectionEstablishedHandler(networkEvent));
     }
 
@@ -226,42 +242,16 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     public void fluxBrushChoice(MVEvent event) {
         FluxBrushChoiceEvent fluxBrushChoiceEvent = (FluxBrushChoiceEvent) event;
         System.out.println(fluxBrushChoiceEvent.getDice() + "\nDove vuoi piazzare il dado?");
-        try {
-            String choice = reader.readLine();
-            setChanged();
-            notifyObservers(new FluxBrushPlaceDiceEvent(choice));
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            fluxBrushChoice(event);
-        }
-        catch (NoSuchElementException e) {
-            System.out.println("noSuchElementException");
-            fluxBrushChoice(event);
-        }
-        catch (IOException e) {
-            System.out.println("IOException thrown!");
-            fluxBrushChoice(event);
-        }
+        fluxChoice = new FluxChoice(false);
+        fluxChoice.start();
     }
 
     @Override
     public void fluxRemoverChoice(MVEvent event) {
         FluxRemoverChoiceEvent fluxRemoverChoiceEvent = (FluxRemoverChoiceEvent) event;
         System.out.println(fluxRemoverChoiceEvent.getDice() + "\nScegli il valore del dado e piazzalo.");
-        try {
-            String choice = reader.readLine();
-            setChanged();
-            notifyObservers(new FluxRemoverPlaceDiceEvent(choice));
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            fluxRemoverChoice(event);
-        }
-        catch (IOException e) {
-            System.out.println("IOException thrown!");
-            fluxRemoverChoice(event);
-        }
+        fluxChoice = new FluxChoice(true);
+        fluxChoice.start();
     }
 
     @Override
@@ -291,6 +281,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void playerSuspended() {
+        if (fluxChoice != null && fluxChoice.isAlive())
+            fluxChoice.interrupt();
         getInputClass.interrupt();
         suspendedPlayer = new SuspendedPlayer();
         suspendedPlayer.start();
@@ -380,6 +372,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 getInputClass.interrupt();
             if (suspendedPlayer.isAlive())
                 suspendedPlayer.interrupt();
+            if (fluxChoice != null && fluxChoice.isAlive())
+                fluxChoice.interrupt();
             new AskNewGame().start();
         }
     }
@@ -436,8 +430,13 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println(scoreTrackEvent.getPlayersNames().get(i) + ": " + scoreTrackEvent.getScores().get(i));
         System.out.println("Il vincitore è: " + scoreTrackEvent.getPlayersNames().get(0) + "\n");
 
+        if (fluxChoice != null && fluxChoice.isAlive())
+            fluxChoice.interrupt();
         if (suspendedPlayer.isAlive())
             suspendedPlayer.interrupt();
+        if (getInputClass.isAlive())
+            getInputClass.interrupt();
+
         new AskNewGame().start();
     }
 
@@ -567,6 +566,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     choice = reader.readLine();
                 }
                 if (choice.equals("1")) {
+                    singlePlayer = false;
                     firstTimeNick = true;
                     askName();
                 } else if (choice.equals("2"))
@@ -612,6 +612,35 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             } catch (IllegalArgumentException e) {
                 System.out.println("Parametri non numerici o sbagliati!");
                 run();
+            }
+        }
+    }
+
+    private class FluxChoice extends Thread {
+
+        private boolean isRemover;
+
+        FluxChoice(boolean isRemover) {
+            this.isRemover = isRemover;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (!reader.ready())
+                    Thread.sleep(200);
+                setChanged();
+                notifyObservers( (isRemover ? new FluxRemoverPlaceDiceEvent(reader.readLine()) :
+                        new FluxBrushPlaceDiceEvent(reader.readLine())) );
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                run();
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+                run();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

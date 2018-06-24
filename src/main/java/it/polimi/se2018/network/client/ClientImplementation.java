@@ -112,6 +112,9 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 else if (vcEvent.getId() == -1) {
                     WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) vcEvent;
                     vcEvent = new WindowPatternChoiceEvent(String.valueOf(windowPatternChoiceEvent.getChoice() + 1), name);
+                } else if (vcEvent.getId() == 22) {
+                    setChanged();
+                    notifyObservers(new SinglePlayerViewEvent());
                 }
                 try {
                     server.notify(vcEvent);

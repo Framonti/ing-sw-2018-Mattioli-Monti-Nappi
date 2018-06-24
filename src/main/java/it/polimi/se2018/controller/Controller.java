@@ -146,7 +146,7 @@ public class Controller  implements Observer {
             if (player.getWindowPattern() == null)
                 return;
         }
-        model.myNotify(new AllWindowPatternChosen());
+        model.myNotify(new AllWindowPatternChosen((int)turnDuration));
         game = new Game();
         game.start();
     }
@@ -864,8 +864,10 @@ public class Controller  implements Observer {
         else {
             event = (VCEvent) arg;
             performAction(event);
-            synchronized (lock) {
-                lock.notifyAll();
+            if (event.getId() != 6 && event.getId() != 11) {
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
             }
         }
     }
