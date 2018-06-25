@@ -66,6 +66,7 @@ public class Controller  implements Observer {
         eventsHandler.put(14, this::fluxRemoverPlaceDice);
         eventsHandler.put(15, this::unsuspendPlayer);
         eventsHandler.put(16, this::saveDiceForSinglePlayer);
+        eventsHandler.put(17, this::removePrivateObjectiveCard);
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
@@ -857,6 +858,12 @@ public class Controller  implements Observer {
 
     }
 
+    private void removePrivateObjectiveCard() {
+        PrivateObjectiveCardChosen privateObjectiveCardChosen = (PrivateObjectiveCardChosen) event;
+        model.getCurrentPlayer().getPrivateObjectiveCards().remove(
+                (privateObjectiveCardChosen.getIndexOfChosenCard() == 0 ? 1 : 0));
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg == null)
@@ -998,6 +1005,18 @@ public class Controller  implements Observer {
                 nextPlayer();
             }
             model.myNotify(new GameEnded());
+
+            while (singlePlayer && model.getCurrentPlayer().getPrivateObjectiveCards().size() > 1) {
+                model.myNotify(new AskPrivateObjectiveCard(model.getCurrentPlayer().getPrivateObjectiveCardsToString(),
+                        model.getCurrentPlayer().getPrivateObjectiveCardsToStringPath()));
+                synchronized (lock) {
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
             showScores();
         }
 

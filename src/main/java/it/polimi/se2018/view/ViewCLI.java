@@ -130,12 +130,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         int event;
         eventParameters = "";
         String[] param = input.toLowerCase().split("\\s+");
-        String diceForSinglePlayer = param [1];
 
         try {
             if(param[0].equals("b"))
                 return new SkipTurnEvent();
 
+            String diceForSinglePlayer = param [1];
             if(param[0].equals("7")) {
                 if(!toolCardUsed) {
                     if (singlePlayer) {
@@ -148,7 +148,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     throw new UnsupportedOperationException(INVALID_MOVE);
             }
 
-            if (singlePlayer)
+            if (singlePlayer && !param[0].equals("a"))
                 System.arraycopy(param, 2, param, 1, param.length - 2);
 
             int index;
@@ -213,8 +213,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(14, ()-> fluxRemoverChoice(mvEvent));
         mvEvents.put(15, ()-> {});
         mvEvents.put(16, this::playerSuspended);
-        mvEvents.put(70, () -> showClientsConnected(mvEvent));
-        mvEvents.put(30, () -> System.out.println("Nickname valido.\nATTENDI.\n"));
+        mvEvents.put(17, new PrivateObjectiveCardChoice()::start);
+        mvEvents.put(70, ()-> showClientsConnected(mvEvent));
+        mvEvents.put(30, ()-> System.out.println("Nickname valido.\nATTENDI.\n"));
     }
 
     /**
@@ -393,8 +394,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private void showPrivateObjectiveCards(List<String> privateObjectiveCards) {
         System.out.println("CART" + (privateObjectiveCards.size() == 1 ? "A" : "E") + " OBIETTIVO PRIVATO");
-        for (String description: privateObjectiveCards)
-            System.out.println(description);
+        for (int i = 0; i < privateObjectiveCards.size(); i++)
+            System.out.println( (i+1) + ")\t" + privateObjectiveCards.get(i));
     }
 
     /**
@@ -601,7 +602,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     choice = Integer.parseInt(reader.readLine());
                 }
 
-                System.out.println("Stiamo giocando in solitaria a difficoltà " + choice);
                 setChanged();
                 notifyObservers(new SinglePlayerEvent(choice));
             } catch (IOException e) {
@@ -643,6 +643,26 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    private class PrivateObjectiveCardChoice extends Thread {
+
+        @Override
+        public void run() {
+            AskPrivateObjectiveCard askPrivateObjectiveCard = (AskPrivateObjectiveCard) mvEvent;
+            showPrivateObjectiveCards(askPrivateObjectiveCard.getPrivateObjectiveCardsString());
+            System.out.println("Scegli una carta obiettivo privato.");
+            try {
+                setChanged();
+                notifyObservers(new PrivateObjectiveCardChosen(reader.readLine()));
+            } catch (IOException e) {
+                System.out.println("IOException thrown!");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                run();
+            }
+        }
+
     }
 
 }
