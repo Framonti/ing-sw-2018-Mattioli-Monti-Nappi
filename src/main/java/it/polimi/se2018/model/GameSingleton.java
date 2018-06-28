@@ -262,8 +262,6 @@ public class GameSingleton extends Observable{
         for (i = 0; i < diceNumberToExtract; i++) {
             extractAndRollOneDiceWithoutReturning();
         }
-         //DraftPoolEvent draftPoolEvent = new DraftPoolEvent( draftPoolToString());
-         //notifyObservers(draftPoolEvent);
     }
 
 

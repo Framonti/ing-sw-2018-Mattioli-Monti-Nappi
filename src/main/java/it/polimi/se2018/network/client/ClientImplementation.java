@@ -139,7 +139,7 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 } catch (ExportException ignore) {
                     //if the object is already exported then do nothing
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
                 }
             }
 
@@ -147,7 +147,6 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
                 server.addClient(remoteReference);
             } catch (RemoteException e) {
                 System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
-                e.printStackTrace();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 setChanged();

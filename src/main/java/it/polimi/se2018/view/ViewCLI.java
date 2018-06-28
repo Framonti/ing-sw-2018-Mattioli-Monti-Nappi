@@ -27,7 +27,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private BufferedReader reader;
     private boolean firstTimeNick;
     private boolean singlePlayer = false;
-    private static final String INVALID_MOVE= "MOSSA NON VALIDA";
+    private static final String INVALID_MOVE = "MOSSA NON VALIDA";
+    private static final String IOE_THROWN = "IOException thrown!";
     private GetInputClass getInputClass = new GetInputClass();
     private SuspendedPlayer suspendedPlayer = new SuspendedPlayer();
     private AskSinglePlayer askSinglePlayer;
@@ -70,7 +71,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             setChanged();
             notifyObservers(connectionChoiceEvent);
         } catch (IOException e) {
-            System.out.println("IOException thrown!");
+            System.out.println(IOE_THROWN);
             askConnection();
         }
     }
@@ -96,7 +97,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 notifyObservers(nicknameEvent);
             }
         } catch (IOException e) {
-            System.out.println("IOException thrown!");
+            System.out.println(IOE_THROWN);
             askName();
         }
     }
@@ -270,7 +271,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             getInput();
         }
         catch (IOException e) {
-            System.out.println("IOException thrown!");
+            System.out.println(IOE_THROWN);
         }
     }
 
@@ -487,7 +488,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     Thread.sleep(200);
                 getInput();
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -510,7 +511,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 setChanged();
                 notifyObservers(new UnsuspendEvent(null));
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
                 run();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -537,7 +538,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 run();
             }
             catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
                 run();
             }
         }
@@ -571,7 +572,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
                 run();
             }
         }
@@ -601,7 +602,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 setChanged();
                 notifyObservers(new SinglePlayerEvent(choice));
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
             } catch (InterruptedException e) {
                 System.out.println("Non è più possibile giocare in solitaria!");
                 Thread.currentThread().interrupt();
@@ -636,7 +637,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 System.out.println(e.getMessage());
                 run();
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
                 run();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -658,7 +659,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                 setChanged();
                 notifyObservers(new PrivateObjectiveCardChosen(reader.readLine()));
             } catch (IOException e) {
-                System.out.println("IOException thrown!");
+                System.out.println(IOE_THROWN);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 run();

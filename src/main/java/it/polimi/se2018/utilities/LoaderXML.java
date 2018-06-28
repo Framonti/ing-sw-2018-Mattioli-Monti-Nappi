@@ -34,15 +34,13 @@ public abstract class LoaderXML {
         try {
             dBuilder = dbFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
         try {
             if(dBuilder != null)
                 doc = dBuilder.parse(inputFile);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SAXException | IOException e) {
+            System.err.println(e.getMessage() + "!");
         }
         doc.getDocumentElement().normalize();
     }

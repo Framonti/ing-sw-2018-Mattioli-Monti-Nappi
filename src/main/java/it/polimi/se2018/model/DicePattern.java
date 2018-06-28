@@ -135,11 +135,9 @@ public class DicePattern {
         List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
 
         for(Position positions : positionsToCheck) {
-
-            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
-            else if(!isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour())) {
+            if (!isEmpty(positions) && this.getDice(positions).getColour().equals(dice.getColour()) &&
+                    (positions.getX() != initialPosition.getX() || positions.getY() != initialPosition.getY()))
                 return false;
-            }
         }
         return true;
     }
@@ -156,11 +154,9 @@ public class DicePattern {
         List<Position> positionsToCheck = finalPosition.getOrthogonalAdjacentPositions();
 
         for(Position positions : positionsToCheck) {
-
-            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
-            else if(!isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue())){
+            if (!isEmpty(positions) && this.getDice(positions).getValue() == (dice.getValue()) &&
+                    (positions.getX() != initialPosition.getX() || positions.getY() != initialPosition.getY()))
                 return false;
-            }
         }
         return true;
     }
@@ -357,9 +353,8 @@ public class DicePattern {
         List<Position> positionsToCheck = finalPosition.getAdjacentPositions();
 
         for(Position positions : positionsToCheck) {
-
-            if(positions.getX() == initialPosition.getX() && positions.getY() == initialPosition.getY());
-            else if(!isEmpty(positions)) return true;
+            if (!isEmpty(positions) && (positions.getX() != initialPosition.getX() || positions.getY() != initialPosition.getY()))
+                return true;
         }
         return false;
     }

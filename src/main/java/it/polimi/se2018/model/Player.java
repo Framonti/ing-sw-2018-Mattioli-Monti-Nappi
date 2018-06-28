@@ -186,7 +186,6 @@ public class Player {
             for(column = 0; column < 5; column++) {
                 position = new Position(row, column);
 
-                //TODO fare in modo che il get(0) resti corretto rimuovendo l'altra POC dalla lista
                 //adds the value of the dice if it has the same colour of the privateObjectiveCard
                 if(!dicePattern.isEmpty(position) && dicePattern.getDice(position).getColour().equals(privateObjectiveCards.get(0).getColour())) {
                     sum += dicePattern.getDice(position).getValue();
@@ -208,7 +207,9 @@ public class Player {
         for(PublicObjectiveCard poc: publicObjectiveCards) {
             try {
                 sum +=  this.publicObjectiveCards.get(poc.getName());
-            } catch (NullPointerException ignore) {}
+            } catch (NullPointerException ignore) {
+                //the exception is thrown only in tests
+            }
         }
 
         //points obtained with the PrivateObjectiveCard

@@ -64,9 +64,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      */
     private void createGame(int difficulty) {
 
-        ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
-        int turnDuration = configurationParametersLoader.getTurnTimer();
-
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(players);
         model = GameSetupSingleton.instance().createNewGame(difficulty);

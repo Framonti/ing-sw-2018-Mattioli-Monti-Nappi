@@ -15,10 +15,8 @@ public class Controller  implements Observer {
     private GameSingleton model;
     private VirtualView view;
     private List<ToolCard> toolCards;
-    private boolean isGameSetupEnded = false; //used for update method //TODO capire se tenere questo parametro
     private Map<Integer, Runnable> eventsHandler = new HashMap<>();
     private VCEvent event;
-    private String nonValidInput = "Non valid input";
     private long turnDuration;
     private boolean turnEnded = false;
     private TurnTimer turnTimer;
@@ -29,6 +27,10 @@ public class Controller  implements Observer {
     private final Object turnLock = new Object();
     private boolean singlePlayer;
     private int diceIndexSinglePlayer;
+
+    private static final String EMPTY_POSITION = "Non c'è nessun dado nella posizione che hai inserito\n";
+    private static final String RESTRICTION_VIOLATED = "Non stai rispettando le altre restrizioni di piazzamento\n";
+    private static final String INSERTION_DENIED = "Non puoi inserire un dado in questa posizione\n";
 
     //spostato
     /**
@@ -231,7 +233,7 @@ public class Controller  implements Observer {
                     grozingPliersAddOne(diceChosen);
                 }
             }catch (IndexOutOfBoundsException exception) {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
         }
@@ -251,7 +253,7 @@ public class Controller  implements Observer {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition, finalPosition);
             handleToolCardUsed(2);
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+            ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
             view.showError(errorEvent);
         }
     }
@@ -272,7 +274,7 @@ public class Controller  implements Observer {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition,initialPosition, diceChosen)) {
                     eglomiseBrushValidRestriction(initialPosition, finalPosition);
             } else {
-                ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+                ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
                 view.showError(errorEvent);
             }
         }
@@ -293,7 +295,7 @@ public class Controller  implements Observer {
             handleToolCardUsed(3);
 
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+            ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
             view.showError(errorEvent);
         }
     }
@@ -314,7 +316,7 @@ public class Controller  implements Observer {
                 model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition,initialPosition, diceChosen)) {
                     copperFoilBurnisherValidRestriction(initialPosition, finalPosition);
             } else {
-                ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+                ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
                 view.showError(errorEvent);
             }
         }
@@ -361,7 +363,7 @@ public class Controller  implements Observer {
                 model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, diceChosen2)) {
                     lathekinValidRestriction(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
             } else {
-                ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le altre restrizioni di piazzamento\n");
+                ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
                 view.showError(errorEvent);
             }
         }
@@ -392,12 +394,12 @@ public class Controller  implements Observer {
             model.myNotify(roundTrackEvent);
             handleToolCardUsed(5);
         } catch (IndexOutOfBoundsException exception) {
+            String nonValidInput = "Non valid input";
             throw new IndexOutOfBoundsException(nonValidInput);
         }
     }
 
 
-    //TODO: rivedere il nome di questo metodo
 
     /**
      * Helper method for the tool card 5
@@ -431,7 +433,6 @@ public class Controller  implements Observer {
         }
     }
 
-    //TODO: rivedere il nome del metodo
     //il metodo inizialmente era void e c'era l'attributo successfulMove che però era del metodo chiamante
 
     /**
@@ -502,7 +503,7 @@ public class Controller  implements Observer {
                     view.fluxBrushChoice(fluxBrushChoiceEvent);
                 }
             }catch (IndexOutOfBoundsException exception){
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
 
@@ -544,7 +545,7 @@ public class Controller  implements Observer {
             model.myNotify(draftPoolEvent);
             handleToolCardUsed(8);
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
             view.showError(errorEvent);
         }
     }
@@ -561,7 +562,7 @@ public class Controller  implements Observer {
                 Position finalPosition = runnerPliersEvent.getPosition();
                 runnerPliersHelper(finalPosition, diceChosen);
             }catch (IndexOutOfBoundsException exception) {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
         }
@@ -591,11 +592,11 @@ public class Controller  implements Observer {
                     handleToolCardUsed(9);
                     model.getCurrentPlayer().setLap(1);
                 } else {
-                    ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+                    ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
                     view.showError(errorEvent);
                 }
             }catch (IndexOutOfBoundsException exception) {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
 
@@ -619,7 +620,7 @@ public class Controller  implements Observer {
                     model.myNotify(draftPoolEvent);
                     handleToolCardUsed(10);
                 }catch (IndexOutOfBoundsException exception) {
-                    ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                    ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                     view.showError(errorEvent);
                 }
 
@@ -649,7 +650,7 @@ public class Controller  implements Observer {
             model.myNotify(draftPoolEvent);
             handleToolCardUsed(11);
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
             view.showError(errorEvent);
             view.fluxRemoverChoice(new FluxRemoverChoiceEvent(diceForFlux.toString()));
         }
@@ -686,13 +687,10 @@ public class Controller  implements Observer {
                     this.diceForFlux = diceChosen;
                     FluxRemoverChoiceEvent fluxRemoverChoiceEvent = new FluxRemoverChoiceEvent(diceChosen.toString());
                     view.fluxRemoverChoice(fluxRemoverChoiceEvent);
-                    /*ErrorEvent errorEvent = new ErrorEvent("OK toolCard 11");
-                    view.showError(errorEvent);*/
-
                 }
 
             } catch (IndexOutOfBoundsException exception) {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
         } else {
@@ -710,7 +708,7 @@ public class Controller  implements Observer {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
             handleToolCardUsed(12);
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
             view.showError(errorEvent);
         }
     }
@@ -728,7 +726,7 @@ public class Controller  implements Observer {
             model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
             handleToolCardUsed(12);
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
+            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
             view.showError(errorEvent);
         }
     }
@@ -817,13 +815,10 @@ public class Controller  implements Observer {
             model.getCurrentPlayer().setDiceMoved(true);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
-        }catch (IndexOutOfBoundsException | IllegalArgumentException exception) {
-            ErrorEvent errorEvent;
-            if(exception instanceof IndexOutOfBoundsException)
-                errorEvent = new ErrorEvent("Non c'è nessun dado nella posizione che hai inserito\n");
-            else
-                errorEvent = new ErrorEvent("Non puoi inserire un dado in questa posizione\n");
-            view.showError(errorEvent);
+        }catch (IndexOutOfBoundsException e) {
+            view.showError(new ErrorEvent(EMPTY_POSITION));
+        }catch (IllegalArgumentException e) {
+            view.showError(new ErrorEvent(INSERTION_DENIED));
         }
     }
 
@@ -998,7 +993,6 @@ public class Controller  implements Observer {
                     try {
                         turnLock.wait();
                     } catch (InterruptedException e) {
-                        System.out.println("Just one client left!");
                         Thread.currentThread().interrupt();
                         return;
                     }

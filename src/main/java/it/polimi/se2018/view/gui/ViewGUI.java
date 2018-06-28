@@ -73,7 +73,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             url = icon.toURI().toURL().toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
         return url;
     }
@@ -102,7 +102,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             fileInputStream = new FileInputStream(new File(path));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
         return fileInputStream;
     }
@@ -159,7 +159,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         guiControllerObserver = loader.getController();
@@ -186,7 +186,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         this.deleteObservers();
@@ -211,7 +211,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         this.deleteObservers();
@@ -238,7 +238,7 @@ public class ViewGUI  extends Observable implements Observer{
                 root = loader.load(fileInputStream);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         this.deleteObservers();
@@ -266,7 +266,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         this.deleteObservers();
@@ -294,7 +294,7 @@ public class ViewGUI  extends Observable implements Observer{
         try {
             root = loader.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage() + "!");
         }
 
         this.deleteObservers();

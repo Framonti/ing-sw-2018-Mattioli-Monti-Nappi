@@ -301,7 +301,6 @@ public abstract class GameControllerAbstract extends Observable{
         try {
             url = fileImage.toURI().toURL().toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
             System.out.println("problema nel caricamento dell'immagine ");
         }
         imageView.setImage(new Image(url));

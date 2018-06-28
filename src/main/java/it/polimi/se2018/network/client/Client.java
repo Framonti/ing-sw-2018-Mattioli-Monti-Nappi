@@ -23,7 +23,7 @@ public class Client extends Application{
             launch(args);
         }
         else if(viewString.equals("2"))
-            CLIGame();
+            cliGame();
         else{
             System.out.println("Non è stata inserita un'opzione corretta");
             main(args);
@@ -45,7 +45,7 @@ public class Client extends Application{
      * This method initializes a new socket or network client, based on client preferences.
      * Asks to the player his name and then adds the client reference to the server.
      */
-    private static void CLIGame() {
+    private static void cliGame() {
 
         ClientImplementation client = new ClientImplementation(false);
         ViewCLI viewCLI = new ViewCLI();
