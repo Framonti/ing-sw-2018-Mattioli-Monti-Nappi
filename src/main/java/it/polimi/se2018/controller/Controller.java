@@ -234,8 +234,7 @@ public class Controller  implements Observer {
             }
         }
         else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -276,8 +275,7 @@ public class Controller  implements Observer {
             }
         }
         else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -319,8 +317,7 @@ public class Controller  implements Observer {
             }
         }
         else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -367,8 +364,7 @@ public class Controller  implements Observer {
             }
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
 
         }
     }
@@ -429,8 +425,7 @@ public class Controller  implements Observer {
             lensCutterHelper(roundIndex, diceIndexInRoundTrack, diceIndexInDraftPool);
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -510,8 +505,7 @@ public class Controller  implements Observer {
             }
 
         } else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -530,8 +524,7 @@ public class Controller  implements Observer {
             }
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -571,8 +564,7 @@ public class Controller  implements Observer {
             }
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -606,8 +598,7 @@ public class Controller  implements Observer {
             }
 
         } else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -636,8 +627,7 @@ public class Controller  implements Observer {
             }
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -694,6 +684,9 @@ public class Controller  implements Observer {
                     this.diceForFlux = diceChosen;
                     FluxRemoverChoiceEvent fluxRemoverChoiceEvent = new FluxRemoverChoiceEvent(diceChosen.toString());
                     view.fluxRemoverChoice(fluxRemoverChoiceEvent);
+                    /*ErrorEvent errorEvent = new ErrorEvent("OK toolCard 11");
+                    view.showError(errorEvent);*/
+
                 }
 
             } catch (IndexOutOfBoundsException exception) {
@@ -701,8 +694,7 @@ public class Controller  implements Observer {
                 view.showError(errorEvent);
             }
         } else {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }
     }
 
@@ -784,8 +776,7 @@ public class Controller  implements Observer {
 
         }
         else{
-            ErrorEvent errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
-            view.showError(errorEvent);
+            handleErrorEvent();
         }//TODO: manca una gestione nel caso in cui non passi i controlli
     }
 
@@ -871,7 +862,7 @@ public class Controller  implements Observer {
         else {
             event = (VCEvent) arg;
             performAction(event);
-            if (event.getId() != 6 && event.getId() != 11) {
+            if (event.getId() != 6 && event.getId() != 11 && event.getId() != 16) {
                 synchronized (lock) {
                     lock.notifyAll();
                 }
@@ -880,9 +871,7 @@ public class Controller  implements Observer {
     }
 
     private boolean checkDiceForSinglePlayer(int id){
-        if(model.getDraftPool().get(diceIndexSinglePlayer).getColour().equals(searchToolCard(id).getColour()))
-            return true;
-        return false;
+        return (model.getDraftPool().get(diceIndexSinglePlayer).getColour().equals(searchToolCard(id).getColour()));
     }
 
 
@@ -898,10 +887,20 @@ public class Controller  implements Observer {
 
     private void handleToolCardUsed(int id){
         model.getCurrentPlayer().setToolCardUsed(true);
-        if(singlePlayer)
+        if(!singlePlayer)
             handleFavorTokensNumber(searchToolCard(id));
         else
             handleDiceForSinglePlayer(id);
+    }
+
+    private void handleErrorEvent(){
+        ErrorEvent errorEvent;
+        if(singlePlayer)
+            errorEvent = new ErrorEvent("Il dado che hai selezionato per pagare la carta utensile non era corretto\n");
+        else
+            errorEvent = new ErrorEvent("Non hai abbastanza segnalini favore\n");
+        view.showError(errorEvent);
+
     }
 
     /**

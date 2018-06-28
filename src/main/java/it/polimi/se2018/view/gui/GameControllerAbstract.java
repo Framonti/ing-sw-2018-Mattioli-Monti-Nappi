@@ -95,8 +95,8 @@ public abstract class GameControllerAbstract extends Observable{
     Map<Integer, Runnable> diceIndexMap = new HashMap<>();
     Map<Integer, Runnable> dicePositionFromDicePatternMap = new HashMap<>();
     MVEvent mvEvent;
-    private int dicePatternRowPosition;
-    private int dicePatternColumnPosition;
+    int dicePatternRowPosition;
+    int dicePatternColumnPosition;
 
     boolean diceMoved = false;
 
@@ -233,6 +233,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Enables the DraftPool, allowing an user to use it
      */
     void enableDraftPool(){
+        System.out.println("sono nell'enable draft pool normale");
         draftPool.setDisable(false);
         setDraftPoolOpacity(1);
     }
@@ -354,7 +355,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param dimension The dimension of the GridPane
      * @return The node in the selected row and column
      */
-    private Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
+     Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
         return gridPane.getChildren().get(dimension * row + column);
     }
 
@@ -425,7 +426,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Enables the ToolCards, allowing an user to use them
      */
-    private void enableToolCards(){
+    void enableToolCards(){
         for(ImageView toolCardImage : toolCardImageList) {
             toolCardImage.setDisable(false);
             toolCardImage.setOpacity(1);
@@ -479,7 +480,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Enables a GridPane
      * @param gridPane The GridPane to enable
      */
-    private void setEnableGridPane(GridPane gridPane){
+     private void setEnableGridPane(GridPane gridPane){
         for(Node node : gridPane.getChildren()){
             if(node instanceof  ImageView)
                 node.setDisable(false);
@@ -708,13 +709,19 @@ public abstract class GameControllerAbstract extends Observable{
      * @param errorEvent The error event to be shown
      */
     void showErrorAbstract(ErrorEvent errorEvent){
-
-        Platform.runLater(()-> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setContentText(errorEvent.getMessageToDisplay());
-            alert.showAndWait();
-        });
+        if(errorEvent.getMessageToDisplay().equals("OK toolCard 11")) {
+            fluxRemoverWindow();
+            disableDraftPool();
+            enableGridPane(dicePatternGridPane1, windowPattern1);
+        }
+        else {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setContentText(errorEvent.getMessageToDisplay());
+                alert.showAndWait();
+            });
+        }
     }
 
     /**
@@ -752,6 +759,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param event
      */
     private void handleActionMenu(MVEvent event){
+        System.out.println("E' ARRIVATA UNA ACTION MENU");
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
         diceMoved = actionMenuEvent.isDiceMoved();
         isToolCardSelected = actionMenuEvent.isToolCardUsed();
@@ -877,7 +885,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Creates a Map associating the id of a toolCard with a method
      */
-    private void createDiceIndexMap(){
+     void createDiceIndexMap(){
 
         diceIndexMap.put(0, this::putDiceOnDicePattern);
         diceIndexMap.put(1, this::grozinPliers);
@@ -903,7 +911,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Puts a Dice on the DicePattern
      */
-    private void putDiceOnDicePattern(){
+     void putDiceOnDicePattern(){
         if(!diceMoved){
             disableToolCards();
             disableDraftPool();
@@ -914,22 +922,22 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Lets a player choose a Dice for the FluxRemover ToolCard
      */
-    private void fluxRemoverChooseDice(){
+     void fluxRemoverChooseDice(){
 
         VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
         System.out.println("tool card 11:" + Integer.toString(diceIndexDraftPool + 1));
         setChanged();
         notifyObservers(event);
         diceChosenFromDraftPool.setEffect(setBorderGlow());
-        fluxRemoverWindow();
-        disableDraftPool();
-        enableGridPane(dicePatternGridPane1,windowPattern1);
+        //fluxRemoverWindow();
+        /*disableDraftPool();
+        enableGridPane(dicePatternGridPane1,windowPattern1);*/
     }
 
     /**
      * Method associated with the GrozingPliers ToolCard
      */
-    private void grozinPliers(){
+     void grozinPliers(){
         grozingPliersWindow();
         VCEvent event = new GrozingPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(choiceGrozingPliers));
         setChanged();
@@ -944,7 +952,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Lets a player choose a Dice for the FluxBrush ToolCard
      */
-    private void fluxBrushChooseDice(){
+     void fluxBrushChooseDice(){
         VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
         System.out.println("tool card6:" + Integer.toString(diceIndexDraftPool + 1));
         setChanged();
@@ -956,7 +964,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Method associated with the GrindingStone ToolCard
      */
-    private void grindingStone(){
+     void grindingStone(){
 
         VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool + 1));
         System.out.println("tool card 10:" + Integer.toString(diceIndexDraftPool + 1));
@@ -1028,7 +1036,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void placeDiceMove(int row, int column){
+     void placeDiceMove(int row, int column){
         if(!diceMoved){
             dicePatternPosition = new Position(row, column);
             System.out.println("mossa su dice pattern:" + Integer.toString(diceIndexDraftPool+1) + " " + Integer.toString(dicePatternPosition.getX()) + " " + Integer.toString(dicePatternPosition.getY()));
@@ -1046,7 +1054,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void eglomiseBrush(int row, int column){
+     void eglomiseBrush(int row, int column){
         if(step == 1)
             firstStep(row, column);
         else if(step == 2)
@@ -1079,7 +1087,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void copperFoilBurnisher(int row, int column){
+     void copperFoilBurnisher(int row, int column){
         if(step == 1)
             firstStep(row, column);
         else if(step == 2)
@@ -1112,7 +1120,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void lathekin(int row, int column){
+     void lathekin(int row, int column){
         if(step == 1)
             firstStep(row, column);
         else if(step == 2)
@@ -1164,7 +1172,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void fluxBrushPlaceDice(int row, int column){
+     void fluxBrushPlaceDice(int row, int column){
         diceChosenFromDraftPool.setEffect(null);
         dicePatternPosition = new Position(row, column);
         VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -1183,7 +1191,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void runnerPliers(int row, int column){
+     void runnerPliers(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         System.out.println("tool card 8: " + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -1201,7 +1209,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void corkBackedStraighedge(int row, int column){
+     void corkBackedStraighedge(int row, int column){
 
         dicePatternPosition = new Position(row, column);
         VCEvent event = new CorkBakedStraightedgeEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -1220,7 +1228,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
      */
-    private void fluxRemoverPlaceDice(int row, int column){
+     void fluxRemoverPlaceDice(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         System.out.println("tool card 11: " + Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
@@ -1240,7 +1248,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param row The row selected
      * @param column The column selected
     */
-    private void tapWheel(int row, int column){
+     void tapWheel(int row, int column){
         if(step == 1)
             firstStep(row, column);
         else if(step == 2)
@@ -1316,7 +1324,7 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Creates a map associating a toolCard ID with a method
      */
-    private void createDicePositionFromDicePatternMap(){
+     void createDicePositionFromDicePatternMap(){
 
         dicePositionFromDicePatternMap.put(0, () -> placeDiceMove(dicePatternRowPosition, dicePatternColumnPosition));
         dicePositionFromDicePatternMap.put(1, ()->{});

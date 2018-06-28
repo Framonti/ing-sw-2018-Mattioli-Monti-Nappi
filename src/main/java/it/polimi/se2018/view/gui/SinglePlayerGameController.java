@@ -7,11 +7,13 @@ import it.polimi.se2018.events.vcevent.SkipTurnEvent;
 import it.polimi.se2018.events.vcevent.VCEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,6 +39,9 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     private int toolCardStillAvaiable;
 
+    private List <ImageView> toolCardsUsed = new ArrayList<>();
+    private ImageView diceChosenToPay;
+
 
     @FXML
     public void initialize(){
@@ -60,6 +65,13 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     void skipTurn() {
 
         dicePaid = false;
+        if(diceChosenToPay != null) {
+            diceChosenToPay.setDisable(false);
+            diceChosenToPay.setEffect(null);
+            diceChosenToPay = null;
+        }
+        if(idToolCardSelected != 0)
+            toolCardsUsed.remove(toolCardSelected);
         idToolCardSelected = 0;
         disableToolCards();
         disableDraftPool();
@@ -103,17 +115,18 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     @Override
     void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
-        if(errorEvent.getMessageToDisplay().equals("Non hai abbastanza segnalini favore\n")) {
-            dicePaid = false;
-            idToolCardSelected = 0;
-            Platform.runLater(()-> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore");
-                alert.setContentText("Il dado che hai selezionato per pagare la carta utensile non era corretto");
-                alert.showAndWait();
-            });
-        }
-        else showErrorAbstract(errorEvent);
+        /*idToolCardSelected = 0;
+        dicePaid = false;
+        toolCardsUsed.remove(toolCardSelected);
+        toolCardSelected.setEffect(null);
+        toolCardSelected.setDisable(false);
+        toolCardSelected.setOpacity(1);
+        diceChosenToPay.setEffect(null);
+        diceChosenToPay.setOpacity(1);
+        diceChosenToPay.setDisable(false);
+        diceChosenToPay = null;*/
+        showErrorAbstract(errorEvent);
+        handleDraftPoolAndToolCards();
 
     }
 
@@ -131,7 +144,22 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     @Override
     void handleDraftPoolAndToolCards() {
         super.handleDraftPoolAndToolCards();
-        dicePaid = false;
+        if(idToolCardSelected != 0) {
+            toolCardsUsed.remove(toolCardSelected);
+            toolCardSelected.setOpacity(1);
+            toolCardSelected.setDisable(false);
+            idToolCardSelected = 0;
+            if(diceChosenToPay != null) {
+                diceChosenToPay.setOpacity(1);
+                diceChosenToPay.setEffect(null);
+                diceChosenToPay.setDisable(false);
+                diceChosenToPay = null;
+                dicePaid = false;
+            }
+
+        }
+
+
     }
 
     private void setToolCardEventHandler(int size){
@@ -154,7 +182,9 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         }
     }
 
+
     void handleToolCards(int idToolCard){
+        System.out.println("sono nel nuovo handle tool cards");
         disableToolCards();
         if (idToolCard >= 2 && idToolCard <= 4) {
             disableDraftPool();
@@ -168,6 +198,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
             setChanged();
             notifyObservers(event);
             idToolCardSelected = 0;
+            dicePaid = false;
         } else {
             enableDraftPool();
             disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -176,8 +207,8 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     private void payDice(){
 
-        diceChosenFromDraftPool.setDisable(true);
-        diceChosenFromDraftPool.setOpacity(0.5);
+        diceChosenToPay.setDisable(true);
+        diceChosenToPay.setOpacity(0.5);
         setChanged();
         notifyObservers(new DiceChosenSinglePlayer(Integer.toString(diceIndexDraftPool+1)));
         dicePaid = true;
@@ -189,8 +220,8 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCard1.setEffect(setBorderGlow());
         toolCardSelected = toolCard1;
         idToolCardSelected = idToolCard1;
+        toolCardsUsed.add(toolCard1);
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
-        handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -201,8 +232,12 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCard2.setEffect(setBorderGlow());
         toolCardSelected = toolCard2;
         idToolCardSelected = idToolCard2;
+        toolCardsUsed.add(toolCard2);
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
        // handleToolCards(idToolCardSelected);
+        disableToolCards();
+        disableGridPane(roundTrackGridPane, roundTrack);
+        disableGridPane(dicePatternGridPane1, windowPattern1);
         enableDraftPool();
     }
 
@@ -210,8 +245,12 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCard3.setEffect(setBorderGlow());
         toolCardSelected = toolCard3;
         idToolCardSelected = idToolCard3;
+        toolCardsUsed.add(toolCard3);
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
        // handleToolCards(idToolCardSelected);
+        disableToolCards();
+        disableGridPane(roundTrackGridPane, roundTrack);
+        disableGridPane(dicePatternGridPane1, windowPattern1);
         enableDraftPool();
     }
 
@@ -220,8 +259,12 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCard4.setEffect(setBorderGlow());
         toolCardSelected = toolCard4;
         idToolCardSelected = idToolCard4;
+        toolCardsUsed.add(toolCard4);
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
        // handleToolCards(idToolCardSelected);
+        disableToolCards();
+        disableGridPane(roundTrackGridPane, roundTrack);
+        disableGridPane(dicePatternGridPane1, windowPattern1);
         enableDraftPool();
     }
 
@@ -230,22 +273,32 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCard5.setEffect(setBorderGlow());
         toolCardSelected = toolCard5;
         idToolCardSelected = idToolCard5;
+        toolCardsUsed.add(toolCard5);
         System.out.println("hai selezionato la tool card" + idToolCardSelected);
       //  handleToolCards(idToolCardSelected);
+        disableToolCards();
+        disableGridPane(roundTrackGridPane, roundTrack);
+        disableGridPane(dicePatternGridPane1, windowPattern1);
         enableDraftPool();
     }
 
     void getDiceIndexFromDraftPool(ImageView imageView) {
 
-        System.out.println("sono nella draftpool");
+        System.out.println("sono nella draftpool nuova");
         imageView.setEffect(setBorderGlow());
-        diceChosenFromDraftPool = imageView;
+        //diceChosenFromDraftPool = imageView;
         diceIndexDraftPool = GridPane.getColumnIndex(imageView);
         System.out.println(diceIndexDraftPool+1);
 
-        if(!dicePaid && idToolCardSelected != 0)
+        if(!dicePaid && idToolCardSelected != 0){
+            diceChosenToPay = imageView;
             payDice();
-        else diceIndexMap.get(idToolCardSelected).run();
+        }
+
+        else {
+            diceChosenFromDraftPool = imageView;
+            diceIndexMap.get(idToolCardSelected).run();
+        }
 
     }
 
@@ -283,6 +336,125 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     }
 
     @Override
+    void enableToolCards(){
+        for(ImageView toolCardImage : toolCardImageList) {
+            if(!toolCardsUsed.contains(toolCardImage)) {
+                toolCardImage.setDisable(false);
+                toolCardImage.setOpacity(1);
+            }
+        }
+    }
+
+    @Override
+    void enableDraftPool(){
+        super.enableDraftPool();
+        if(diceChosenToPay == null)
+            System.out.println("sono nel ramo di enable draft pool quando non hai scelto un dado con cui pagare");
+        if(diceChosenToPay != null) {
+            System.out.println("sono nel ramo di enable draft pool quando hai scelto un dado con cui pagare");
+            for(Node node : draftPool.getChildren()){
+                if(node instanceof ImageView) {
+                    ImageView img = (ImageView) node;
+                    if (img == diceChosenToPay) {
+                        node.setDisable(true);
+                        node.setOpacity(0.5);
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Creates a Map associating the id of a toolCard with a method
+     */
+    @Override
+    void createDiceIndexMap(){
+
+        diceIndexMap.put(0, this :: putDiceOnDicePattern);
+
+        diceIndexMap.put(1, () -> {
+            grozinPliers();
+            dicePaid = false;
+        });
+        diceIndexMap.put(2, () -> {});
+        diceIndexMap.put(3, () -> {});
+        diceIndexMap.put(4, () -> {});
+        diceIndexMap.put(5, () ->{
+            disableDraftPool();
+            enableGridPane(roundTrackGridPane,roundTrack);});
+        diceIndexMap.put(6, this::fluxBrushChooseDice);
+        diceIndexMap.put(7, () -> {});
+        diceIndexMap.put(8, () -> {
+            enableGridPane(dicePatternGridPane1,windowPattern1);
+            disableDraftPool();});
+        diceIndexMap.put(9, () -> {
+            enableGridPane(dicePatternGridPane1,windowPattern1);
+            disableDraftPool();});
+        diceIndexMap.put(10, () -> {
+            grindingStone();
+            dicePaid = false;
+        });
+        diceIndexMap.put(11, this::fluxRemoverChooseDice);
+        diceIndexMap.put(12, () -> {});
+
+    }
+
+
+    /**
+     * Creates a map associating a toolCard ID with a method
+     */
+    @Override
+    void createDicePositionFromDicePatternMap(){
+
+        dicePositionFromDicePatternMap.put(0, () -> placeDiceMove(dicePatternRowPosition, dicePatternColumnPosition));
+        dicePositionFromDicePatternMap.put(1, ()->{});
+        dicePositionFromDicePatternMap.put(2, () -> {
+            eglomiseBrush(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(3, () -> {
+            copperFoilBurnisher(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(4, () -> {
+            lathekin(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(5, () -> {});
+        dicePositionFromDicePatternMap.put(6, () -> {
+            fluxBrushPlaceDice(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(7, () -> {});
+        dicePositionFromDicePatternMap.put(8, () -> {
+            runnerPliers(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(9, () -> {
+            corkBackedStraighedge(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(10, () ->{});
+        dicePositionFromDicePatternMap.put(11, () -> {
+            fluxRemoverPlaceDice(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+        dicePositionFromDicePatternMap.put(12, () -> {
+            tapWheel(dicePatternRowPosition, dicePatternColumnPosition);
+            dicePaid = false;
+        });
+    }
+
+    @Override
+    void getDicePositionFromRoundTrack(ImageView imageView){
+        super.getDicePositionFromRoundTrack(imageView);
+        if(idToolCardSelected == 5)
+            dicePaid = false;
+    }
+
+
+    @Override
     void updatePublicObjectiveCards(List<String> publicObjectiveCards) {
 
         addImageToImageView(publicObjectiveCards.get(0), publicObjectiveCard1, 144, 95);
@@ -291,8 +463,10 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     @Override
     public void update(Observable o, Object event) {
-
-        mvEvent = (MVEvent) event;
-        mvEvents.get(mvEvent.getId()).run();
+        if(event instanceof Integer)
+            turnDuration = (int)event;
+        else{
+            mvEvent = (MVEvent) event;
+            mvEvents.get(mvEvent.getId()).run();}
     }
 }

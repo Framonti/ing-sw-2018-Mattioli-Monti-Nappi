@@ -303,6 +303,7 @@ public class GameController extends GameControllerAbstract implements Observer {
        showErrorAbstract(errorEvent);
         if(errorEvent.getMessageToDisplay().equals("Non hai abbastanza segnalini favore\n"))
             idToolCardSelected = 0;
+        handleDraftPoolAndToolCards();
     }
 
     void updatePrivateObjectiveCards(List<String> paths){
