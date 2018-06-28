@@ -12,7 +12,7 @@ import java.util.Observer;
  * This class is the fake view that is observed by the controller
  * @author fabio
  */
-public class VirtualViewCLI extends Observable implements Observer, ViewCLIInterface{
+public class VirtualView extends Observable implements Observer, ViewCLIInterface{
 
     private ServerInterface server;
     private Player currentPlayer;

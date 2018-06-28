@@ -12,7 +12,7 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.WindowPattern;
 import it.polimi.se2018.network.client.ClientInterfaceRMI;
 import it.polimi.se2018.network.client.ClientInterfaceSocket;
-import it.polimi.se2018.view.VirtualViewCLI;
+import it.polimi.se2018.view.VirtualView;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -36,7 +36,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     private transient Controller controller;
     private transient GameSingleton model;
     private final transient Object lock = new Object();
-    private transient VirtualViewCLI virtualViewCLI;
+    private transient VirtualView virtualView;
     private transient Timer timer = new Timer();
     private boolean gameStarted = false;
     private int setupDuration;
@@ -45,13 +45,13 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     /**
      * Constructor of this class. It is package-private.
      * It sets the setupDuration from a configuration file and starts the ClientCollector.
-     * @param virtualViewCLI It's the VirtualView attribute of the class
+     * @param virtualView It's the VirtualView attribute of the class
      * @throws RemoteException If it fails to export object
      */
-    ServerImplementation(VirtualViewCLI virtualViewCLI) throws RemoteException {
+    ServerImplementation(VirtualView virtualView) throws RemoteException {
         super(0);
-        this.virtualViewCLI = virtualViewCLI;
-        virtualViewCLI.setServer(this);
+        this.virtualView = virtualView;
+        virtualView.setServer(this);
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
         turnDuration = configurationParametersLoader.getTurnTimer();
@@ -70,10 +70,10 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         GameSetupSingleton.instance();
         GameSetupSingleton.instance().addPlayers(players);
         model = GameSetupSingleton.instance().createNewGame(difficulty);
-        controller = new Controller(virtualViewCLI, model.getToolCards(), model, turnDuration);
+        controller = new Controller(virtualView, model.getToolCards(), model, turnDuration);
 
-        virtualViewCLI.addObserver(controller);
-        model.addObserver(virtualViewCLI);
+        virtualView.addObserver(controller);
+        model.addObserver(virtualView);
 
         send(new GameStartEvent());
 
@@ -284,7 +284,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                         System.out.println(CONNECTION_LOST + player.getName());
                     }
                     if (rmiClients.size() + socketClients.size() < 2)
-                        virtualViewCLI.endGame();
+                        virtualView.endGame();
                     else if (isAction)
                         notify(new SkipTurnEvent());
                 }
@@ -312,7 +312,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             createGame(singlePlayerEvent.getDifficulty());
         }
         else
-            virtualViewCLI.forwardVCEvent(vcEvent);
+            virtualView.forwardVCEvent(vcEvent);
     }
 
     /**
@@ -396,7 +396,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             timer.interrupt();
         GameSetupSingleton.instanceToNull();
         GameSingleton.instanceToNull();
-        virtualViewCLI.deleteObservers();
+        virtualView.deleteObservers();
         System.out.println("The game is ended.\n");
     }
 
@@ -443,10 +443,15 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
 
+    /**
+     * This method ends the game if there are less than 2 players online, otherwise notifies
+     * the other players that one of them has left the game
+     * @param player It's the player that has left the game
+     */
     private void lostConnectionHandler(Player player) {
         if (gameStarted) {
             if (socketClients.size() + rmiClients.size() < 2) {
-                virtualViewCLI.endGame();
+                virtualView.endGame();
             }
             else if (player.getName().equals(model.getCurrentPlayer().getName())) {
                 notify(new SkipTurnEvent());

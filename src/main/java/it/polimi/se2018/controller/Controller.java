@@ -3,7 +3,7 @@ package it.polimi.se2018.controller;
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.view.VirtualViewCLI;
+import it.polimi.se2018.view.VirtualView;
 import java.util.*;
 
 /**
@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Controller  implements Observer {
     private GameSingleton model;
-    private VirtualViewCLI view;
+    private VirtualView view;
     private List<ToolCard> toolCards;
     private boolean isGameSetupEnded = false; //used for update method //TODO capire se tenere questo parametro
     private Map<Integer, Runnable> eventsHandler = new HashMap<>();
@@ -33,10 +33,12 @@ public class Controller  implements Observer {
     //spostato
     /**
      * Constructor of the class.
-     * @param view      Virtual view
-     * @param toolCards List of tool cards chosen during the setup.
+     * @param view          Virtual view
+     * @param toolCards     List of tool cards chosen during the setup.
+     * @param model         It's the only game running in the server
+     * @param turnDuration  It's the time duration of a turn
      */
-    public Controller(VirtualViewCLI view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
+    public Controller(VirtualView view, List<ToolCard> toolCards, GameSingleton model, int turnDuration) {
         this.view = view;
         this.toolCards = toolCards;
         this.model = model;
@@ -1030,15 +1032,19 @@ public class Controller  implements Observer {
                         (2 * model.getCurrentPlayer().getDicePattern().emptySpaces()));     //because we're in singlePlayer
                 Player sagrada = new Player("sagrada");
                 sagrada.setScore(model.getRoundTrack().sumDiceValue());
-                model.getPlayers().add(sagrada);
+                if (sagrada.getScore() < model.getCurrentPlayer().getScore())
+                    model.getPlayers().add(sagrada);
+                else
+                    model.getPlayers().add(0, sagrada);
+            } else {
+
+                model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+                Collections.reverse(model.getPlayers());
+
+                Player winner = model.selectWinner();
+                model.getPlayers().remove(winner);
+                model.getPlayers().add(0, winner);
             }
-
-            model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
-            Collections.reverse(model.getPlayers());
-
-            Player winner = model.selectWinner();
-            model.getPlayers().remove(winner);
-            model.getPlayers().add(0, winner);
 
             List<Integer> scores = new ArrayList<>();
             for(Player player: model.getPlayers())

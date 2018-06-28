@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.server;
 
-import it.polimi.se2018.view.VirtualViewCLI;
+import it.polimi.se2018.view.VirtualView;
 
 import java.net.MalformedURLException;
 import java.net.Socket;
@@ -39,7 +39,7 @@ public class Server {
     /**
      * @return The reference of the ServerImplementation
      */
-    public static ServerImplementation getServerImplementation() {
+    static ServerImplementation getServerImplementation() {
         return serverImplementation;
     }
 
@@ -61,9 +61,9 @@ public class Server {
         }
 
         try {
-            VirtualViewCLI virtualViewCLI = new VirtualViewCLI();
-            serverImplementation = new ServerImplementation(virtualViewCLI);
-            virtualViewCLI.setServer(serverImplementation);
+            VirtualView virtualView = new VirtualView();
+            serverImplementation = new ServerImplementation(virtualView);
+            virtualView.setServer(serverImplementation);
 
             Naming.rebind("//localhost/MyServer", serverImplementation);
 

@@ -72,6 +72,10 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
         }
     }
 
+    /**
+     * This method tests if the socketClient is still connected
+     * @throws IOException If the client is not connected anymore
+     */
     public void testIfConnected() throws IOException {
         stream = new ObjectOutputStream(clientSocket.getOutputStream());
         stream.writeObject("test");

@@ -183,6 +183,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * Initializes the map between the event's id and the relative method
+     */
     private void createNetworkEventMap(){
         networkEvents.put(80, () -> {
             System.out.println("L'indirizzo IP è sbagliato!");
@@ -206,7 +209,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         mvEvents.put(7, ()-> showAll(mvEvent));
         mvEvents.put(8, ()-> showFavorTokens(mvEvent));
         mvEvents.put(9, ()-> showError(mvEvent));
-        mvEvents.put(10, ()-> printWinner(mvEvent));
         mvEvents.put(11, this::getInputStarter);
         mvEvents.put(12, ()-> showEndTurn(mvEvent));
         mvEvents.put(13, ()-> fluxBrushChoice(mvEvent));
@@ -295,16 +297,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     public void printMessage(String message) {
         System.out.println(message);
-    }
-
-    //farsi mandare anche la stringa del giocatore corrente
-    /**
-     * Shows who is the winner of the the match
-     * @param event It's the MVEvent received
-     */
-    private void printWinner(MVEvent event) {
-        WinnerEvent winnerEvent = (WinnerEvent) event;
-        System.out.println("Il vincitore è " + winnerEvent.getWinner());
     }
 
     @Override
@@ -461,6 +453,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         new SelectWindowPattern().start();
     }
 
+    /**
+     * This method sets the firstTimeNick attribute depending on the NetworkEvent received
+     * @param networkEvent It's the event received
+     */
     private void connectionEstablishedHandler(NetworkEvent networkEvent){
         firstTimeNick = ((ConnectionEstablishedEvent) networkEvent).isFirstTimeNickname();
         askName();
@@ -616,6 +612,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * This class is used to ask the second input for the fluxBrush and the fluxRemover toolCards
+     */
     private class FluxChoice extends Thread {
 
         private boolean isRemover;
@@ -645,6 +644,9 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
+    /**
+     * This class is used in singlePlayerMode to ask which PrivateObjectiveCard the player wants
+     */
     private class PrivateObjectiveCardChoice extends Thread {
 
         @Override

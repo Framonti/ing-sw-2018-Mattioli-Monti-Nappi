@@ -5,7 +5,7 @@ import it.polimi.se2018.controller.Controller;
 
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.view.VirtualViewCLI;
+import it.polimi.se2018.view.VirtualView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class TestController {
     private ArrayList <PublicObjectiveCard> publicObjectiveCards;
     private ArrayList <ToolCard> toolCards;
     private RoundTrack roundTrack;
-    private VirtualViewCLI view;
+    private VirtualView view;
     private Controller controller;
     private GameSetupSingleton setup;
 
@@ -66,7 +66,7 @@ public class TestController {
     public void testSetWindowPatternPlayerTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -107,7 +107,7 @@ public class TestController {
     public void testGrozingPliersFalse1(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -126,7 +126,7 @@ public class TestController {
     public void testGrozingPliersFalse2(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -145,7 +145,7 @@ public class TestController {
     public void testGrozingPliersFalse3(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -164,7 +164,7 @@ public class TestController {
     public void testGrozingPliersTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -227,7 +227,7 @@ public class TestController {
     public void testEglomiseBrushFalse1(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
@@ -274,7 +274,7 @@ public class TestController {
     public void testEglomiseBrushFalse2() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
@@ -320,7 +320,7 @@ public class TestController {
     public void testEglomiseBrushTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
 
@@ -368,7 +368,7 @@ public class TestController {
     public void testCopperFoilBurnisherFalse() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view, toolCards, model, 1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -414,7 +414,7 @@ public class TestController {
     public void testCopperFoilBurnisherTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -475,7 +475,7 @@ public class TestController {
     public void testLathekinTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -544,7 +544,7 @@ public class TestController {
     public void testLathekinFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -596,7 +596,7 @@ public class TestController {
     public void testLensCutterTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -636,7 +636,7 @@ public class TestController {
     public void testLensCutterFalse1() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -659,7 +659,7 @@ public class TestController {
     public void testLensCutterFalse2() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -685,7 +685,7 @@ public class TestController {
     public void testLensCutterFalse3() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -712,7 +712,7 @@ public class TestController {
     public void testFluxBrushChooseDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -752,7 +752,7 @@ public class TestController {
     public void testFluxBrushChooseDiceFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -783,7 +783,7 @@ public class TestController {
     public void testFluxBrushPlaceDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -832,7 +832,7 @@ public class TestController {
     public void testGlazingHammerTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -872,7 +872,7 @@ public class TestController {
     public void testGlazingHammerFalse() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -902,7 +902,7 @@ public class TestController {
     public void testRunnerPliers(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -961,7 +961,7 @@ public class TestController {
     public void testCorkBakedStrightedge(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1021,7 +1021,7 @@ public class TestController {
     public void testGrindingStone(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1091,7 +1091,7 @@ public class TestController {
     public void testFluxRemoverChooseDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1179,7 +1179,7 @@ public class TestController {
     public void testFluxRemoverPlaceDiceTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1237,7 +1237,7 @@ public class TestController {
     public void testFluxRemoverPlaceDiceFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1290,7 +1290,7 @@ public class TestController {
     public void testTapWheel(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -1368,7 +1368,7 @@ public class TestController {
 
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-        view = new VirtualViewCLI();
+        view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
         setup = GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));

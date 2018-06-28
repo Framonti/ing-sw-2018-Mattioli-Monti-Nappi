@@ -3,7 +3,7 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.events.mvevent.*;
 
 /**
- * This is the interface used by ViewCLI and VirtualViewCLI
+ * This is the interface used by ViewCLI and VirtualView
  * @author fabio
  */
 public interface ViewCLIInterface {

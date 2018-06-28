@@ -91,12 +91,6 @@ public class NetworkHandler extends Thread implements ServerInterface {
         }
     }
 
-/*  Questo pezzo di codice potrebbe servire
-    if (mvEvent == null) {
-        loop = false;
-        stopConnection();
-    }
-*/
 
     @Override
     public void addClient(ClientInterfaceRMI clientInterfaceRMI) {
