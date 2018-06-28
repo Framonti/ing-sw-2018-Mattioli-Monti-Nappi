@@ -75,7 +75,9 @@ public class GameController extends GameControllerAbstract implements Observer {
 
     private final String favorTokensPath = "src/main/Images/Others/FavorToken.png";
 
-
+    /**
+     * Initializes the scene
+     */
     @FXML
     public void initialize() {
 
@@ -84,7 +86,6 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCardImageList.add(toolCard3);
 
         abstractInitialize();
-
 
         initializeGridPaneImagesView(dicePatternGridPane2, 4, 5, 29, 39);
         initializeGridPaneImagesView(dicePatternGridPane3, 4, 5, 29, 39);
@@ -108,11 +109,8 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCard1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard1());
         toolCard2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard2());
         toolCard3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard3());
-
-
-
-
     }
+
 
     void updatePublicObjectiveCards(List<String> publicObjectiveCards) {
 
@@ -121,7 +119,10 @@ public class GameController extends GameControllerAbstract implements Observer {
         addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
     }
 
-
+    /**
+     * This method is called when the ToolCard1 is clicked
+     * It sets some effects on the toolCard selected and then calls handleToolCards()
+     */
     //l'evento che passa le toolcard, oltre al path passa anche l'id delle toolcard, così posso usare la mappa e lanciare il metodo corretto
     private void useToolCard1() {
         toolCard1.setEffect(setBorderGlow());
@@ -131,6 +132,10 @@ public class GameController extends GameControllerAbstract implements Observer {
         handleToolCards(idToolCardSelected);
     }
 
+    /**
+     * This method is called when the ToolCard2 is clicked
+     * It sets some effects on the toolCard selected and then calls handleToolCards()
+     */
     private void useToolCard2() {
         toolCard2.setEffect(setBorderGlow());
         toolCardSelected = toolCard2;
@@ -139,6 +144,10 @@ public class GameController extends GameControllerAbstract implements Observer {
         handleToolCards(idToolCardSelected);
     }
 
+    /**
+     * This method is called when the ToolCard3 is clicked
+     * It sets some effects on the toolCard selected and then calls handleToolCards()
+     */
     private void useToolCard3() {
         toolCard3.setEffect(setBorderGlow());
         toolCardSelected = toolCard3;
@@ -148,6 +157,7 @@ public class GameController extends GameControllerAbstract implements Observer {
     }
 
     //HA un setChanged e notify
+
     void handleToolCards(int idToolCard){
         disableToolCards();
         if (idToolCard >= 2 && idToolCard <= 4) {
@@ -221,6 +231,12 @@ public class GameController extends GameControllerAbstract implements Observer {
         });
     }
 
+    /**
+     * Gets the index of the currentPlayer; used in order to update the correct dicePattern
+     * @param players The List of Players in game
+     * @param currentPlayer The currentPlayer
+     * @return The index of the currentPlayer in a List of players.
+     */
     private int getCurrentPlayerIndex(List<String> players, String currentPlayer){
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).equals(currentPlayer))
@@ -229,6 +245,12 @@ public class GameController extends GameControllerAbstract implements Observer {
         return -1;
     }
 
+    /**
+     * Gets the players, excluding the current player
+     * @param players A List containing all the players in game
+     * @param index The index of the player to exclude
+     * @return A List of Player, excluding the currentPlayer
+     */
     private List<Integer> getRemainingPositions(List<String> players, int index){
         List<Integer> list = new ArrayList<>();
         for(int i = 0; i < players.size(); i++){
@@ -329,6 +351,11 @@ public class GameController extends GameControllerAbstract implements Observer {
             updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(currentPlayerIndex), tmp, 29,39);
     }
 
+    /**
+     * Gets the GridPane of the currentPlayer
+     * @param currentPlayer The name of the currentPlayer
+     * @return An OurGridPane of the currentPlayer
+     */
     private OurGridPane getCurrentPlayerOurGridPane(String currentPlayer){
         for(OurGridPane ourGridPane : ourGridPaneList){
             if (ourGridPane.getPlayerName().equals(currentPlayer))
@@ -357,6 +384,11 @@ public class GameController extends GameControllerAbstract implements Observer {
 
     }
 
+    /**
+     * Updates the text of a label
+     * @param label The Label to update
+     * @param text The text to be shown
+     */
     private void updateLabel(Label label,String text){
         label.setText(text);
     }

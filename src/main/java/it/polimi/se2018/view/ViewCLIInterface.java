@@ -11,13 +11,14 @@ public interface ViewCLIInterface {
     /**
      * To be used only during fluxRemover ToolCard
      * Asks which value must be set to the dice and where must be placed
-     * @param mvEvent
+     * @param mvEvent It's the MVEvent received
      */
     void fluxRemoverChoice(MVEvent mvEvent);
 
     /**
      * To be used only during fluxBrush ToolCard
      * Asks where the player wants to place the dice
+     * @param mvEvent It's the MVEvent received
      */
     void fluxBrushChoice(MVEvent mvEvent);
 

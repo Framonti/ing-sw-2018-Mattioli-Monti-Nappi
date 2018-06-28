@@ -27,7 +27,6 @@ public class PrivateObjectiveCard extends ObjectiveCard {
     }
 
     @Override
-    //@return a String representing the card itself
     public String toString() {
 
         return this.getName() + "\n" + this.getDescription()+"\n";

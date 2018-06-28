@@ -6,7 +6,7 @@ package it.polimi.se2018.model;
  */
 public class PublicObjectiveCard extends ObjectiveCard {
 
-    private int victoryPoint; //This attribute will be 0 only for the card "Diagonali Colorate"
+    private int victoryPoint;
 
     /**
      * Constructor of the class
@@ -28,7 +28,6 @@ public class PublicObjectiveCard extends ObjectiveCard {
     }
 
     @Override
-    //@return a String representing the card itself
     public String toString() {
 
         String toReturn = "Nome: " + this.getName() + "\n" + "Descrizione: " + this.getDescription() + "\n" + "Punti Vittoria: ";

@@ -38,6 +38,7 @@ public class ViewGUI  extends Observable implements Observer{
     private Map<Integer, Runnable> networkEventMap = new HashMap<>();
     private NetworkEvent networkEventForMap;
     private int turnDuration;
+    private boolean singlePlayer = false;
 
 
     public ViewGUI(){
@@ -53,11 +54,11 @@ public class ViewGUI  extends Observable implements Observer{
     }
 
     private void initializeNetworkEventMap(){
+        networkEventMap.put(1, () -> singlePlayer = true);
         networkEventMap.put(25, () -> connectionEstablishedHandler(networkEventForMap));
         networkEventMap.put(90, () -> newObserverEventHandler(networkEventForMap));
         networkEventMap.put(80, () -> passTheEventToObservers(networkEventForMap));
         networkEventMap.put(70, () -> passTheEventToObservers(networkEventForMap));
-       // networkEventMap.put()
     }
 
     /**
@@ -128,7 +129,7 @@ public class ViewGUI  extends Observable implements Observer{
     /**
      * Starts the whole GUI;
      * It creates the Stage and ask to sets the first Scene
-     * @param primaryStage
+     * @param primaryStage The Stage passed by a main class that extends an Application class
      */
     public void startGUI(Stage primaryStage){
 
@@ -256,7 +257,11 @@ public class ViewGUI  extends Observable implements Observer{
     private void setGameScene(){
 
         FXMLLoader loader = new FXMLLoader();
-        FileInputStream fileInputStream = getFXMLFileFromPath("src/main/java/it/polimi/se2018/view/gui/Prova.fxml");
+        FileInputStream fileInputStream;
+        if(singlePlayer)
+           fileInputStream = getFXMLFileFromPath("src/main/java/it/polimi/se2018/view/gui/singlePlayerGameScene.fxml");
+        else fileInputStream = getFXMLFileFromPath("src/main/java/it/polimi/se2018/view/gui/Prova.fxml");
+
         Parent root = null;
         try {
             root = loader.load(fileInputStream);

@@ -1,7 +1,7 @@
 package it.polimi.se2018.events.networkevent;
 
 /**
- * This Event holds informations about the kind of connection chosen by an user (RMI or Socket) and the IP address of the server
+ * This Event holds information about the kind of connection chosen by an user (RMI or Socket) and the IP address of the server
  * @author Framonti
  */
 public class ConnectionChoiceEvent extends NetworkEvent{

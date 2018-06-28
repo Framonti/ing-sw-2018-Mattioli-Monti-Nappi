@@ -3,8 +3,6 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.events.mvevent.FavorTokensEvent;
 import it.polimi.se2018.network.client.ClientInterfaceRMI;
 import it.polimi.se2018.network.client.ClientInterfaceSocket;
-import it.polimi.se2018.network.server.Server;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,16 +42,34 @@ public class Player {
     }
 
 
-
-    //getters and setters
+    /**
+     * Gets the player score
+     * @return The Player score
+     */
     public int getScore() { return score; }
 
+    /**
+     * Gets the lap of the player
+     * @return The lap of the player
+     */
     public int getLap() { return lap; }
 
+    /**
+     * Gets the number of favorToken a player owns
+     * @return The favorTokenNumber of the player
+     */
     public int getFavorTokensNumber() { return favorTokensNumber; }
 
+    /**
+     * Gets the name of the Player
+     * @return The name of the Player
+     */
     public String getName() { return name; }
 
+    /**
+     * Gets a string representation of the privateObjectiveCards of a player
+     * @return A List of string, each representing a privateObjectiveCard for the CLI
+     */
     public List<String> getPrivateObjectiveCardsToString() {
         List<String> toReturn = new ArrayList<>();
         for (PrivateObjectiveCard privateObjectiveCard: privateObjectiveCards)
@@ -61,8 +77,10 @@ public class Player {
         return toReturn;
     }
 
-    public List<PrivateObjectiveCard> getPrivateObjectiveCards() { return privateObjectiveCards; }
-
+    /**
+     * Gets a string representation of the privateObjectiveCards of a player for the GUI
+     * @return A List of string, each representing a path of an privateObjectiveCard that the GUI will load
+     */
     public List<String> getPrivateObjectiveCardsToStringPath() {
         List<String> toReturn = new ArrayList<>();
         for (PrivateObjectiveCard privateObjectiveCard: privateObjectiveCards)
@@ -70,6 +88,16 @@ public class Player {
         return toReturn;
     }
 
+    /**
+     * Gets the private objectiveCards
+     * @return A list with all the privateObjectiveCard of a player
+     */
+    public List<PrivateObjectiveCard> getPrivateObjectiveCards() { return privateObjectiveCards; }
+
+    /**
+     * Gets the windowPattern chosen by the player
+     * @return The windowPattern chosen by the player
+     */
     public WindowPattern getWindowPattern() { return windowPattern; }
 
     public List<WindowPattern> getWindowPatterns() { return windowPatterns; }
@@ -95,6 +123,7 @@ public class Player {
     /**
      * This setter sets also the dicePattern and the favor tokens number
      * @param windowPattern It's the window pattern to be set to the player
+     * @param isSinglePlayer True if the game is a SinglePlayer game, false otherwise
      */
     public void setWindowPattern(WindowPattern windowPattern, boolean isSinglePlayer) {
         this.windowPattern = windowPattern;
@@ -103,8 +132,16 @@ public class Player {
             setFavorTokens();
     }
 
+    /**
+     * Sets a lap
+     * @param lap 1 if the first lap, 2 if the second
+     */
     public void setLap(int lap) { this.lap = lap; }
 
+    /**
+     * Sets a DicePattern to the player
+     * @param windowPattern The windowPattern chosen by the Player
+     */
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
     public void addPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
@@ -202,7 +239,7 @@ public class Player {
             colScore = 4;
         }
 
-        //this cicle controlls if there are two dices of the same colour or with the same value in the same column
+        //this cycle controls if there are two dices of the same colour or with the same value in the same column
         //the value of colScore is set to 0 if it has
         for(column = 0; column < 5; column++) {
             //add the colScore to sum and restore colScore for the next column

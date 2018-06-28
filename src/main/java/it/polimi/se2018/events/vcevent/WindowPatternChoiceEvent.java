@@ -12,6 +12,7 @@ public class WindowPatternChoiceEvent extends VCEvent {
     /**
      * Constructor of the class
      * @param userInput It's the string that contains the parameter
+     * @param playerName The name of the Player
      * @throws IllegalArgumentException If the string does not contain a valid number
      */
     public WindowPatternChoiceEvent(String userInput, String playerName) {

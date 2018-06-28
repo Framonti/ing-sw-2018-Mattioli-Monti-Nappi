@@ -456,7 +456,6 @@ public class GameSingleton extends Observable{
         return list;
     }
 
-
     /**
      * Gets a representation of  public objective cards in the game
      * @return A representation of  public objective cards in the game
@@ -470,6 +469,7 @@ public class GameSingleton extends Observable{
 
     /**
      * Method called in the controller before a notifyObservers
+     * @param event An MVEvent generated
      */
     public void myNotify(MVEvent event){
         setChanged();
@@ -520,7 +520,6 @@ public class GameSingleton extends Observable{
         }
         players.remove(winner);
         players.add(0, winner);
-
 
         List<Integer> scores = new ArrayList<>();
         for (Player player: players) {

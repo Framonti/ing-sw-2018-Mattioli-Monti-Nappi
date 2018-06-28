@@ -19,6 +19,7 @@ public class ToolCard{
      * @param name tool card name
      * @param description tool card description
      * @param colour tool card colour
+     * @param id ToolCard id
      */
     public ToolCard (String name, String description, Colour colour, int id){
         this.name = name;
@@ -85,6 +86,7 @@ public class ToolCard{
 
     /**
      * Gets a tool card representation without its description and colour
+     * @param isSinglePlayer True if the game is a SinglePlayer game, false otherwise
      * @return Tool card representation without its description and colour
      */
     public String toStringAbbreviated(boolean isSinglePlayer) {

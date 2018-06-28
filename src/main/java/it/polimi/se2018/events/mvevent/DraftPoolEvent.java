@@ -3,19 +3,18 @@ package it.polimi.se2018.events.mvevent;
 import java.util.List;
 
 /**
- * This Event holds informations about the DraftPool
+ * This Event holds information about the DraftPool
  * @author Framonti
  */
 public class DraftPoolEvent extends MVEvent{
-
 
     private List<String> draftPoolStringCLI;
     private List<String> draftPoolGUI;
 
     /**
-     *
-     * @param draftPoolStringCLI
-    // * @param draftPoolStringGUI
+     * Creates a DraftPoolEvent
+     * @param draftPoolStringCLI A List containing the abbreviations of the dice currently in the DraftPool
+     * @param draftPoolGUI A List containing path, each representing a dice to be loaded in the GUI
      */
     public DraftPoolEvent(List<String> draftPoolStringCLI ,List<String> draftPoolGUI){
 
@@ -33,6 +32,10 @@ public class DraftPoolEvent extends MVEvent{
         return draftPoolStringCLI;
     }
 
+    /**
+     * Gets the draftPoolGUI
+     * @return The draftPoolGUI, representing path that the GUI will load
+     */
     public List<String> getDraftPoolGUI() {
         return draftPoolGUI;
     }

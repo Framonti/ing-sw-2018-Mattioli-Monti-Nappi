@@ -1,6 +1,7 @@
 package it.polimi.se2018.events.vcevent;
 
 public class DiceChosenSinglePlayer extends VCEvent {
+
     private int dicePosition;
 
     /**
@@ -16,7 +17,6 @@ public class DiceChosenSinglePlayer extends VCEvent {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
-
     }
 
     /**

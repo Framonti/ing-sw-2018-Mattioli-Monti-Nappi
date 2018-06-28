@@ -139,8 +139,7 @@ public class GameSetupSingleton {
     /**
      * Assigns 4 window patterns to each player
      */
-
-    public void assignWindowPatterns(){
+    private void assignWindowPatterns(){
         List <WindowPatternCard> deckToDistribute = getWindowPatternCardList(players.size());
         int i = 0;
         int j;

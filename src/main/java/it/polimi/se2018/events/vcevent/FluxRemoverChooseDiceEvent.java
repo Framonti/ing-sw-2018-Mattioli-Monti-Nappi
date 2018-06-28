@@ -8,7 +8,6 @@ public class FluxRemoverChooseDiceEvent extends VCEvent {
 
     private int diceIndex;
 
-
     /**
      * Constructor of the class
      * @param userInput It's the string that contains the parameters

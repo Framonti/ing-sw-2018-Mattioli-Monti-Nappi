@@ -124,6 +124,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
      * This method adds the clientInterface to the list of the clients connected via socket.
      * If the conditions are respected it launches the game creation
      * @param client It's the clientInterface to be added
+     * @param name The Name of the Client
      */
     public void addSocketClient(ClientInterfaceSocket client, String name) {
         synchronized (lock) {

@@ -86,10 +86,10 @@ public abstract class GameControllerAbstract extends Observable{
     List<OurGridPane> ourGridPaneList = new ArrayList<>();
 
     ImageView diceChosenFromDraftPool;
-    ImageView diceChosenFromDicePattern;
+    private ImageView diceChosenFromDicePattern;
     ImageView toolCardSelected;
-    Position dicePatternPosition;
-    ImageView tmpImageView;
+    private Position dicePatternPosition;
+    private ImageView tmpImageView;
 
     Map<Integer, Runnable> mvEvents = new HashMap<>();
     Map<Integer, Runnable> diceIndexMap = new HashMap<>();
@@ -98,28 +98,28 @@ public abstract class GameControllerAbstract extends Observable{
     int dicePatternRowPosition;
     int dicePatternColumnPosition;
 
-    boolean diceMoved = false;
+    private boolean diceMoved = false;
 
     int idToolCardSelected = 0;
 
-    Position initialPosition;
-    Position finalPosition;
-    Position initialPosition2;
-    Position finalPosition2;
+    private Position initialPosition;
+    private Position finalPosition;
+    private Position initialPosition2;
+    private Position finalPosition2;
 
-    List<ImageView> listDicePattern = new ArrayList<>();
+    private List<ImageView> listDicePattern = new ArrayList<>();
 
-    int roundIndex;
-    int step = 1;
+    private int roundIndex;
+    private int step = 1;
 
-    boolean isToolCardSelected = false;
+    private boolean isToolCardSelected = false;
 
     List<ImageView> toolCardImageList = new ArrayList<>();
 
-    int choiceTapWheel;
-    int choiceGrozingPliers;
-    int choiceFluxRemover;
-    int diceIndexRoundTrack;
+    private int choiceTapWheel;
+    private int choiceGrozingPliers;
+    private int choiceFluxRemover;
+    private int diceIndexRoundTrack;
     int diceIndexDraftPool;
 
     final String yourTurnText = "È il tuo turno";
@@ -187,6 +187,10 @@ public abstract class GameControllerAbstract extends Observable{
         dicePatternGridPane1.setDisable(true);
     }
 
+    /**
+     * Starts a new Timeline linked to the turnProgressBar
+     * It allows the player to see how much time is left before getting suspended
+     */
     private void updateProgressBar(){
 
         turnTimeline = new Timeline(
@@ -1340,6 +1344,5 @@ public abstract class GameControllerAbstract extends Observable{
         dicePositionFromDicePatternMap.put(11, () -> fluxRemoverPlaceDice(dicePatternRowPosition, dicePatternColumnPosition));
         dicePositionFromDicePatternMap.put(12, () -> tapWheel(dicePatternRowPosition, dicePatternColumnPosition));
     }
-
 }
 

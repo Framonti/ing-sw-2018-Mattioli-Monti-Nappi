@@ -34,7 +34,6 @@ public class PlaceDiceEvent extends VCEvent {
         catch (IndexOutOfBoundsException e){
             throw new IllegalArgumentException("Parametri insufficienti");
         }
-
     }
 
     /**

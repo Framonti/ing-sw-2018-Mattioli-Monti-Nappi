@@ -26,6 +26,7 @@ public class DicePattern {
 
     /**
      * Gets the dice in the required position
+     * @param position The position required
      * @return The dice in the required Position. It can return null
      */
     public Dice getDice(Position position) {
@@ -69,21 +70,7 @@ public class DicePattern {
      */
     public int emptySpaces(){
 
-        int partialSum = 0;
-        int rows = 4;
-        int columns = 5;
-        Position p;
-
-        //Checks if every cell is empty or has a dice on it
-        for(int i = 0; i < rows; i++) {
-            for(int j = 0; j < columns; j++) {
-
-                p = new Position(i, j);
-                if(this.isEmpty(p))
-                    partialSum++;
-            }
-        }
-        return partialSum;
+        return getEmptyPositions().size();
     }
 
     /**
@@ -319,7 +306,7 @@ public class DicePattern {
      * A toString used for some events
      * @return A list with this object.toString as only element
      */
-    public List<String> dicePatternToString(){
+    private List<String> dicePatternToString(){
         ArrayList<String> list = new ArrayList<>();
         list.add(this.toString());
         return list;
@@ -349,7 +336,7 @@ public class DicePattern {
      * Gets a List of List. Each List represents a DicePattern and contains Strings representing path for the GUI representation of Dice
      * @return A List of List. Each List represents a DicePattern and contains Strings representing path for the GUI representation of Dice
      */
-    public List<List<String>> dicePatternToStringPathOneList() {
+    private List<List<String>> dicePatternToStringPathOneList() {
         List<List<String>> list = new ArrayList<>();
         list.add(this.dicePatternToStringPath());
         return list;

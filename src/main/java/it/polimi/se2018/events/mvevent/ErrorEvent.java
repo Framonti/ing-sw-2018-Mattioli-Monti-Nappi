@@ -1,7 +1,7 @@
 package it.polimi.se2018.events.mvevent;
 
 /**
- * This Event holds informations about any error
+ * This Event holds information about any error
  * @author Framonti
  */
 public class ErrorEvent extends MVEvent {

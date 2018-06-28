@@ -55,9 +55,7 @@ public class RoundTrack {
      * @param dices The list of dices remained in the draft pool at the end of the round
      */
     public void addDices(List<Dice> dices) {
-        List<Dice> tmp = new ArrayList<>();
-        for(Dice dice: dices)
-            tmp.add(dice);
+        List<Dice> tmp = new ArrayList<>(dices);
         roundList.add(tmp);
         GameSingleton.getInstance().myNotify(new RoundTrackEvent(toString(), toStringPath()));
     }

@@ -17,7 +17,6 @@ public class WinnerEvent extends MVEvent{
         this.winner = winner;
     }
 
-
     /**
      * Gets winner attribute
      * @return winner attribute

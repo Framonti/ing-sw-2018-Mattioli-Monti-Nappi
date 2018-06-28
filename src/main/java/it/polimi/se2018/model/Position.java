@@ -98,7 +98,6 @@ public class Position implements Serializable{
             if(this.y < maxLimitY-1)
                 toReturn.add(new Position(this.x + 1, this.y+1));
         }
-
         return toReturn;
     }
 }
