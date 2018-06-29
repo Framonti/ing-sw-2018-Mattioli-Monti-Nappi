@@ -112,7 +112,7 @@ public abstract class GameControllerAbstract extends Observable{
     private int roundIndex;
     private int step = 1;
 
-    private boolean isToolCardSelected = false;
+    private boolean toolCardsUsed = false;
 
     List<ImageView> toolCardImageList = new ArrayList<>();
 
@@ -440,7 +440,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Handles the ToolCards, enabling or disabling them as necessary
      */
     private void handleToolCardsEffect(){
-        if(!isToolCardSelected)
+        if(!toolCardsUsed)
             enableToolCards();
         else
             disableToolCards();
@@ -713,9 +713,12 @@ public abstract class GameControllerAbstract extends Observable{
      */
     void showErrorAbstract(ErrorEvent errorEvent){
         if(errorEvent.getMessageToDisplay().equals("OK toolCard 11")) {
-            fluxRemoverWindow();
-            disableDraftPool();
-            enableGridPane(dicePatternGridPane1, windowPattern1);
+            Platform.runLater(() -> {
+                fluxRemoverWindow();
+                disableDraftPool();
+                enableGridPane(dicePatternGridPane1, windowPattern1);
+            });
+
         }
         else {
             Platform.runLater(() -> {
@@ -762,10 +765,10 @@ public abstract class GameControllerAbstract extends Observable{
      * @param event
      */
     private void handleActionMenu(MVEvent event){
-        System.out.println("E' ARRIVATA UNA ACTION MENU");
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
+        System.out.println("E' ARRIVATA UNA ACTION MENU\nisToolcardUsed " + actionMenuEvent.isToolCardUsed());
         diceMoved = actionMenuEvent.isDiceMoved();
-        isToolCardSelected = actionMenuEvent.isToolCardUsed();
+        toolCardsUsed = actionMenuEvent.isToolCardUsed();
         handleDraftPoolAndToolCards();
     }
 
@@ -828,7 +831,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Updates the DraftPool
      * @param event A DraftPoolEvent
      */
-    private void updateDraftPool(MVEvent event) {
+      void updateDraftPool(MVEvent event) {
         cleanDraftPool();
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         int column = 0;
@@ -1144,7 +1147,7 @@ public abstract class GameControllerAbstract extends Observable{
     private void lathekinSecondStep(int row, int column){
         finalPosition = new Position(row, column);
         tmpImageView = (ImageView) getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
-        tmpImageView.setStyle("-fx-background-color: BLACK");
+        tmpImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/x.png")));
         step++;
     }
 
@@ -1167,7 +1170,7 @@ public abstract class GameControllerAbstract extends Observable{
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
-        tmpImageView.setStyle(null);
+        //tmpImageView.setImage(new Image(ViewGUI.getUrlFromPath(" ")));
     }
 
     /**

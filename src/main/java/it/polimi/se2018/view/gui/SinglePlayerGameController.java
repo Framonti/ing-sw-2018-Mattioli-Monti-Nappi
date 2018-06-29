@@ -144,18 +144,25 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     @Override
     void handleDraftPoolAndToolCards() {
         super.handleDraftPoolAndToolCards();
+        if(diceChosenToPay != null) {
+            diceChosenToPay.setOpacity(1);
+            diceChosenToPay.setEffect(null);
+            diceChosenToPay.setDisable(false);
+            diceChosenToPay = null;
+            dicePaid = false;
+        }
         if(idToolCardSelected != 0) {
             toolCardsUsed.remove(toolCardSelected);
             toolCardSelected.setOpacity(1);
             toolCardSelected.setDisable(false);
             idToolCardSelected = 0;
-            if(diceChosenToPay != null) {
+            /*if(diceChosenToPay != null) {
                 diceChosenToPay.setOpacity(1);
                 diceChosenToPay.setEffect(null);
                 diceChosenToPay.setDisable(false);
                 diceChosenToPay = null;
                 dicePaid = false;
-            }
+            }*/
 
         }
 
@@ -364,6 +371,14 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         }
     }
 
+    @Override
+    void updateDraftPool(MVEvent event){
+        super.updateDraftPool(event);
+        if(diceChosenToPay != null) {
+            diceChosenToPay.setEffect(null);
+            diceChosenToPay = null;
+        }
+    }
 
     /**
      * Creates a Map associating the id of a toolCard with a method
@@ -463,6 +478,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     @Override
     public void update(Observable o, Object event) {
+        System.out.println(event);
         if(event instanceof Integer)
             turnDuration = (int)event;
         else{

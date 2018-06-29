@@ -638,6 +638,7 @@ public class Controller  implements Observer {
      * Helper method of the toolCard 11
      */
     private void fluxRemoverPlaceDice(){
+        handleToolCardUsed(11);
         try{
             FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
             diceForFlux.setValue(fluxRemoverPlaceDiceEvent.getDiceValue());
@@ -648,7 +649,6 @@ public class Controller  implements Observer {
             model.getDraftPool().remove(diceForFlux);
             draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
-            handleToolCardUsed(11);
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
             view.showError(errorEvent);
@@ -668,7 +668,7 @@ public class Controller  implements Observer {
                 model.getDiceBag().add(diceChosenFromDraftPool);
                 model.getDraftPool().remove(diceChosenFromDraftPool);
                 model.getDraftPool().add(fluxRemoverEvent.getDiceIndex(),model.extractAndRollOneDice());
-                Dice diceChosen = model.getDraftPool().get(model.getDraftPool().size() - 1);
+                Dice diceChosen = model.getDraftPool().get(fluxRemoverEvent.getDiceIndex());
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                 model.myNotify(draftPoolEvent);
                 boolean successfulMove = false;
@@ -687,6 +687,8 @@ public class Controller  implements Observer {
                     this.diceForFlux = diceChosen;
                     FluxRemoverChoiceEvent fluxRemoverChoiceEvent = new FluxRemoverChoiceEvent(diceChosen.toString());
                     view.fluxRemoverChoice(fluxRemoverChoiceEvent);
+                    ErrorEvent errorEvent = new ErrorEvent("OK toolCard 11");
+                    view.showError(errorEvent);
                 }
 
             } catch (IndexOutOfBoundsException exception) {
@@ -777,7 +779,7 @@ public class Controller  implements Observer {
         }
         else{
             handleErrorEvent();
-        }//TODO: manca una gestione nel caso in cui non passi i controlli
+        }
     }
 
     /**
@@ -879,6 +881,8 @@ public class Controller  implements Observer {
 
     private void handleDiceForSinglePlayer(int id){
         model.getDraftPool().remove(diceIndexSinglePlayer);
+        DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+        model.myNotify(draftPoolEvent);
         toolCards.remove(searchToolCard(id));
     }
 
