@@ -1,10 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.mvevent.*;
-import it.polimi.se2018.events.vcevent.DiceChosenSinglePlayer;
-import it.polimi.se2018.events.vcevent.GlazingHammerEvent;
-import it.polimi.se2018.events.vcevent.SkipTurnEvent;
-import it.polimi.se2018.events.vcevent.VCEvent;
+import it.polimi.se2018.events.vcevent.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -58,6 +55,21 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         privateObjectiveCard1.setOnMouseExited(event -> zoomOutPOC(privateObjectiveCard1));
         privateObjectiveCard2.setOnMouseEntered(event -> zoomInPOC(privateObjectiveCard2));
         privateObjectiveCard2.setOnMouseExited(event -> zoomOutPOC(privateObjectiveCard2));
+
+        deleteMoveButton.setOnMouseExited(event -> {handleDraftPoolAndToolCards();
+            if(diceChosenToPay != null) {
+                diceChosenToPay.setOpacity(1);
+                diceChosenToPay.setEffect(null);
+                diceChosenToPay.setDisable(false);
+                diceChosenToPay = null;
+                dicePaid = false;
+            }
+            if(idToolCardSelected != 0) {
+                toolCardsUsed.remove(toolCardSelected);
+                toolCardSelected.setOpacity(1);
+                toolCardSelected.setDisable(false);
+                idToolCardSelected = 0;
+            }});
 
     }
 
@@ -115,6 +127,25 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     @Override
     void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
+        if(!errorEvent.getMessageToDisplay().equals("OK toolCard 11")){
+            if(diceChosenToPay != null) {
+                diceChosenToPay.setEffect(null);
+                diceChosenToPay.setOpacity(1);
+                diceChosenToPay.setDisable(false);
+                diceChosenToPay = null;
+                dicePaid = false;
+            }
+            if(idToolCardSelected == 11 || idToolCardSelected == 6)
+                handleDraftPoolAndToolCards();
+            if(idToolCardSelected != 0) {
+                toolCardsUsed.remove(toolCardSelected);
+                toolCardSelected.setOpacity(1);
+                toolCardSelected.setDisable(false);
+                toolCardSelected.setEffect(null);
+                idToolCardSelected = 0;
+            }
+
+        }
         /*idToolCardSelected = 0;
         dicePaid = false;
         toolCardsUsed.remove(toolCardSelected);
@@ -126,7 +157,8 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         diceChosenToPay.setDisable(false);
         diceChosenToPay = null;*/
         showErrorAbstract(errorEvent);
-        handleDraftPoolAndToolCards();
+    //    handleDraftPoolAndToolCards();
+        //idToolCardSelected = 0;
 
     }
 
@@ -141,7 +173,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         //The singlePlayerGameController doesn't update Favor Tokens
     }
 
-    @Override
+   /* @Override
     void handleDraftPoolAndToolCards() {
         super.handleDraftPoolAndToolCards();
         if(diceChosenToPay != null) {
@@ -164,10 +196,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
                 dicePaid = false;
             }*/
 
-        }
-
-
-    }
 
     private void setToolCardEventHandler(int size){
 
@@ -204,7 +232,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
             VCEvent event = new GlazingHammerEvent();
             setChanged();
             notifyObservers(event);
-            idToolCardSelected = 0;
+            //idToolCardSelected = 0;
             dicePaid = false;
         } else {
             enableDraftPool();
@@ -372,10 +400,32 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     }
 
     @Override
+    void choosePrivateObjectiveCard() {
+
+        skipTurnButton.setDisable(true);
+        deleteMoveButton.setDisable(true);
+        privateObjectiveCard1.setOnMouseClicked(event -> {
+            setChanged();
+            notifyObservers(new PrivateObjectiveCardChosen("1"));
+        });
+        privateObjectiveCard2.setOnMouseClicked(event -> {
+            setChanged();
+            notifyObservers(new PrivateObjectiveCardChosen("2"));
+        });
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Avviso");
+            alert.setContentText("Scegli una Carta Obiettivo Privato");
+            alert.showAndWait();
+        });
+    }
+
+    @Override
     void updateDraftPool(MVEvent event){
         super.updateDraftPool(event);
         if(diceChosenToPay != null) {
             diceChosenToPay.setEffect(null);
+            diceChosenToPay.setDisable(false);
             diceChosenToPay = null;
         }
     }

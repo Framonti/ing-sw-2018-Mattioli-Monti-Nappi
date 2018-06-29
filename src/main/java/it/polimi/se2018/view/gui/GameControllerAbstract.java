@@ -165,7 +165,7 @@ public abstract class GameControllerAbstract extends Observable{
         publicObjectiveCard2.setOnMouseExited(event -> zoomOutPOC(publicObjectiveCard2));
 
         skipTurnButton.setOnMouseClicked(event -> skipTurn());
-        deleteMoveButton.setOnMouseClicked(event -> handleDraftPoolAndToolCards());
+
 
         for(ImageView toolCardImage : toolCardImageList) {
             toolCardImage.setOnMouseEntered(event -> zoomIn(toolCardImage));
@@ -260,8 +260,10 @@ public abstract class GameControllerAbstract extends Observable{
         handleToolCardsEffect();
         disableGridPane(roundTrackGridPane,roundTrack);
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        if(diceChosenFromDraftPool != null)
+        if(diceChosenFromDraftPool != null){
             diceChosenFromDraftPool.setEffect(null);
+            System.out.println("SONO NELL'IF PER SPEGNERE IL DEADO DELLA DRAFTPPOOL");
+        }
         if(toolCardSelected != null)
             toolCardSelected.setEffect(null);
     }
@@ -630,7 +632,10 @@ public abstract class GameControllerAbstract extends Observable{
         mvEvents.put(14, ()-> {});
         mvEvents.put(15, ()->{});
         mvEvents.put(16, this::playerSuspended);
+        mvEvents.put(17, this::choosePrivateObjectiveCard);
     }
+
+    abstract void choosePrivateObjectiveCard();
 
     /**
      * Handles a ShowAll Event
@@ -769,6 +774,7 @@ public abstract class GameControllerAbstract extends Observable{
         System.out.println("E' ARRIVATA UNA ACTION MENU\nisToolcardUsed " + actionMenuEvent.isToolCardUsed());
         diceMoved = actionMenuEvent.isDiceMoved();
         toolCardsUsed = actionMenuEvent.isToolCardUsed();
+        idToolCardSelected = 0;
         handleDraftPoolAndToolCards();
     }
 
@@ -877,7 +883,7 @@ public abstract class GameControllerAbstract extends Observable{
             diceChosenFromDraftPool.setEffect(null);
             disableGridPane(roundTrackGridPane,roundTrack);
             handleDraftPool();
-            idToolCardSelected = 0;
+            //idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
         } else if (idToolCardSelected == 12) {
@@ -951,7 +957,7 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDraftPool.setEffect(null);
         handleDraftPool();
         disableToolCards();
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         toolCardSelected.setEffect(null);
     }
 
@@ -978,7 +984,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         diceChosenFromDraftPool.setEffect(null);
         handleDraftPool();
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
     }
@@ -1082,7 +1088,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
@@ -1115,7 +1121,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
@@ -1166,7 +1172,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
@@ -1186,7 +1192,7 @@ public abstract class GameControllerAbstract extends Observable{
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1204,7 +1210,7 @@ public abstract class GameControllerAbstract extends Observable{
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1223,7 +1229,7 @@ public abstract class GameControllerAbstract extends Observable{
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1242,7 +1248,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDraftPool.setEffect(null);
@@ -1283,7 +1289,7 @@ public abstract class GameControllerAbstract extends Observable{
             notifyObservers(event);
             handleDraftPool();
             disableGridPane(dicePatternGridPane1,windowPattern1);
-            idToolCardSelected = 0;
+            //idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
             diceChosenFromDicePattern.setEffect(null);
@@ -1306,7 +1312,7 @@ public abstract class GameControllerAbstract extends Observable{
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        idToolCardSelected = 0;
+        //idToolCardSelected = 0;
         roundTrack.setOpacity(1);
         disableToolCards();
         toolCardSelected.setEffect(null);

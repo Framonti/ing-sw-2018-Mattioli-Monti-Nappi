@@ -91,6 +91,8 @@ public class GameController extends GameControllerAbstract implements Observer {
         initializeGridPaneImagesView(dicePatternGridPane3, 4, 5, 29, 39);
         initializeGridPaneImagesView(dicePatternGridPane4, 4, 5, 29, 39);
 
+        deleteMoveButton.setOnMouseClicked(event -> handleDraftPoolAndToolCards());
+
         favorTokensPlayer1ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
         favorTokensToolCard1ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
         favorTokensToolCard2ImageView.setImage(new Image(ViewGUI.getUrlFromPath(favorTokensPath)));
@@ -118,6 +120,12 @@ public class GameController extends GameControllerAbstract implements Observer {
         addImageToImageView(publicObjectiveCards.get(1), publicObjectiveCard2, 144, 95);
         addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
     }
+
+    @Override
+    void choosePrivateObjectiveCard(){
+        //The multiplayer don't have to handle this event
+    }
+
 
     /**
      * This method is called when the ToolCard1 is clicked
