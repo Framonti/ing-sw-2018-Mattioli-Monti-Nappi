@@ -1101,17 +1101,22 @@ public class Controller  implements Observer {
      */
     private void endGame() {
         turnEnded = true;
-        if (game.isAlive())
+        if (game != null && game.isAlive())
             game.interrupt();
-        if (playerTurn.isAlive())
+        if (playerTurn != null && playerTurn.isAlive())
             playerTurn.interrupt();
-        if (turnTimer.isAlive())
+        if (turnTimer != null && turnTimer.isAlive())
             turnTimer.interrupt();
 
         if (model.getPlayers().size() == 1)     //avviene solo se in singleplayer il giocatore abbandona la partita
             model.myNotify(new ScoreTrackEvent(null, null));
         else {
             model.myNotify(new GameEnded());
+
+            for (Player player: model.getPlayers()) {
+                if (player.getWindowPattern() == null)
+                    player.setWindowPattern(player.getWindowPatterns().get(new Random().nextInt(4)), false);
+            }
 
             computeAllScores();
             model.getPlayers().sort(Comparator.comparingInt(Player::getScore));

@@ -33,6 +33,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     private SuspendedPlayer suspendedPlayer = new SuspendedPlayer();
     private AskSinglePlayer askSinglePlayer;
     private FluxChoice fluxChoice;
+    private SelectWindowPattern selectWindowPattern;
 
 
     /**
@@ -430,6 +431,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             suspendedPlayer.interrupt();
         if (getInputClass.isAlive())
             getInputClass.interrupt();
+        if (selectWindowPattern != null && selectWindowPattern.isAlive())
+            selectWindowPattern.interrupt();
 
         new AskNewGame().start();
     }
@@ -528,18 +531,20 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         public void run() {
             try {
                 System.out.println("Seleziona una carta schema.");
+                while (!reader.ready())
+                    Thread.sleep(200);
                 VCEvent event = new WindowPatternChoiceEvent(reader.readLine(), null);
                 setChanged();
                 notifyObservers(event);
                 System.out.println("Scelta eseguita. Attendi...\n");
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 run();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(IOE_THROWN);
                 run();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

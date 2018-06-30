@@ -71,6 +71,7 @@ public class NetworkHandler extends Thread implements ServerInterface {
                 }
             }
             catch (IOException | ClassNotFoundException e) {
+                System.out.println(e.getMessage());
                 System.out.println("inputStream error!");
             }
         }
