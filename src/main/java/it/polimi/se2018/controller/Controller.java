@@ -444,10 +444,10 @@ public class Controller  implements Observer {
     private boolean fluxBrushPlaceDiceHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
+            handleToolCardUsed(6);
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
-            handleToolCardUsed(6);
             return true;
         } catch (IllegalArgumentException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
