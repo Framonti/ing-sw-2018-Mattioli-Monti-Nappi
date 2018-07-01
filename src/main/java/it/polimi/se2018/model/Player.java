@@ -205,11 +205,7 @@ public class Player {
 
         //points obtained with the PublicObjectiveCards
         for(PublicObjectiveCard poc: publicObjectiveCards) {
-            try {
-                sum +=  this.publicObjectiveCards.get(poc.getName());
-            } catch (NullPointerException ignore) {
-                //the exception is thrown only in tests
-            }
+            sum +=  this.publicObjectiveCards.get(poc.getName());
         }
 
         //points obtained with the PrivateObjectiveCard

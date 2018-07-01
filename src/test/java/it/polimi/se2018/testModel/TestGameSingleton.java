@@ -34,9 +34,9 @@ public class TestGameSingleton {
         players.get(1).addPrivateObjectiveCard(new PrivateObjectiveCard("carta2", "carta di fabio", Colour.GREEN));
         players.get(2).addPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
 
-        publicObjectiveCards.add(new PublicObjectiveCard("", "", 3));
-        publicObjectiveCards.add(new PublicObjectiveCard("", "", 2));
-        publicObjectiveCards.add(new PublicObjectiveCard("", "", 1));
+        publicObjectiveCards.add(new PublicObjectiveCard("Colori diversi - Riga", "", 3));
+        publicObjectiveCards.add(new PublicObjectiveCard("Colori diversi - Colonna", "", 2));
+        publicObjectiveCards.add(new PublicObjectiveCard("Sfumature diverse - Riga", "", 1));
         toolCards.add(new ToolCard("","", Colour.BLUE, 1));
         toolCards.add(new ToolCard("","", Colour.PURPLE, 2));
         toolCards.add(new ToolCard("","", Colour.RED, 3));

@@ -29,7 +29,7 @@ import java.util.Random;
 public class ServerImplementation extends UnicastRemoteObject implements ServerInterface {
 
     private static final String CONNECTION_LOST = "Connection lost with ";
-    private static final String ABANDONED_GAME = " has left the game.";
+    private static final String ABANDONED_GAME = " ha abbandonato la partita.";
 
     private transient List<ClientInterfaceRMI> rmiClients = new ArrayList<>();
     private transient List<ClientInterfaceSocket> socketClients = new ArrayList<>();

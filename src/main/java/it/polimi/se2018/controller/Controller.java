@@ -74,6 +74,9 @@ public class Controller  implements Observer {
         eventsHandler.put(99, this::placeDiceFromDraftPoolToDicePattern);
         eventsHandler.put(100, this::skipTurn);
         eventsHandler.put(-1, this::setWindowPatternPlayer);
+        eventsHandler.put(-1000, this::showScores);
+        eventsHandler.put(-1001, this::createShowAllEvent);
+        eventsHandler.put(-1002, this::nextPlayer);
     }
 
     //spostato
@@ -128,17 +131,13 @@ public class Controller  implements Observer {
      */
     private void setWindowPatternPlayer() {
         WindowPatternChoiceEvent windowPatternChoiceEvent = (WindowPatternChoiceEvent) event;
-        try{
             int choice = windowPatternChoiceEvent.getChoice();
-            model.getCurrentPlayer().setWindowPattern(model.getCurrentPlayer().getWindowPatterns().get(choice), model.getPlayers().size() == 1);
-            if (model.getPlayers().indexOf(model.getCurrentPlayer()) != model.getPlayers().size() - 1)
-                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1));
-            else
-                model.setCurrentPlayer(model.getPlayers().get(0));
-        } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non hai inserito un numero corretto\n");
-            view.showError(errorEvent);
-        }
+            for (Player player: model.getPlayers()) {
+                if (player.getName().equals(windowPatternChoiceEvent.getName())) {
+                    player.setWindowPattern(player.getWindowPatterns().get(choice), model.getPlayers().size() == 1);
+                    break;
+                }
+            }
         canGameStart();
     }
 
@@ -176,11 +175,12 @@ public class Controller  implements Observer {
      * @return The ToolCard associated with the Id
      */
     private ToolCard searchToolCard(int id) {
+        ToolCard toolCardToReturn = toolCards.get(0);
         for (ToolCard toolcard : toolCards) {
             if (toolcard.getId() == id)
-                return toolcard;
+                toolCardToReturn = toolcard;
         }
-        return toolCards.get(0);
+        return toolCardToReturn;
     }
 
 
@@ -359,8 +359,14 @@ public class Controller  implements Observer {
             Position initialPosition2 = lathekinEvent.getInitialPosition2();
             Position finalPosition2 = lathekinEvent.getFinalPosition2();
 
-            if (model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, diceChosen1) &&
-                model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, diceChosen2)) {
+            if (model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition1, diceChosen1) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacencyWithoutInitialPosition(finalPosition1,initialPosition1) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentColourWithoutInitialPosition(finalPosition1,initialPosition1, diceChosen1) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition1,initialPosition1, diceChosen1) &&
+                model.getCurrentPlayer().getWindowPattern().checkCell(finalPosition2, diceChosen2) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacencyWithoutInitialPosition(finalPosition2,initialPosition2) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentColourWithoutInitialPosition(finalPosition2,initialPosition2, diceChosen2) &&
+                model.getCurrentPlayer().getDicePattern().checkAdjacentValueWithoutInitialPosition(finalPosition2,initialPosition2, diceChosen2)) {
                     lathekinValidRestriction(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
             } else {
                 ErrorEvent errorEvent = new ErrorEvent(RESTRICTION_VIOLATED);
@@ -409,7 +415,7 @@ public class Controller  implements Observer {
      */
     private void lensCutterHelper(int roundIndex, int diceIndexInRoundTrack, int diceIndexInDraftPool){
         try {
-            swapDice(roundIndex, diceIndexInRoundTrack,diceIndexInDraftPool);
+            swapDice(roundIndex, diceIndexInRoundTrack, diceIndexInDraftPool);
         } catch (IndexOutOfBoundsException exception) {
             ErrorEvent errorEvent = new ErrorEvent("Non ci sono dadi nelle posizioni che hai indicato\n");
             view.showError(errorEvent);
@@ -450,8 +456,6 @@ public class Controller  implements Observer {
             model.myNotify(draftPoolEvent);
             return true;
         } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent("Non puoi inserire il dado in questa posizione\n");
-            view.showError(errorEvent);
             return false;
         }
     }
@@ -459,20 +463,17 @@ public class Controller  implements Observer {
     /**
      * Helper method for the ToolCard 6
      */
-    private void fluxBrushPlaceDice(){
+    private void fluxBrushPlaceDice() {
         FluxBrushPlaceDiceEvent fluxBrushEvent = (FluxBrushPlaceDiceEvent) event;
         Position finalPosition = fluxBrushEvent.getFinalPosition();
         boolean successfulMove;
-        while(true) {
-            //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
-            successfulMove = fluxBrushPlaceDiceHelper(finalPosition, diceForFlux);
-            if(successfulMove)
-                break;
+
+        //inizialmente non c'era l'assegnamento a successfulMove, visto che il metodo helper restituiva void
+        successfulMove = fluxBrushPlaceDiceHelper(finalPosition, diceForFlux);
+        if (!successfulMove) {
             view.showError(new ErrorEvent("Non puoi inserire il dado in questa posizione\n"));
             view.fluxBrushChoice(new FluxBrushChoiceEvent(diceForFlux.toString()));
-
         }
-
     }
 
     /**
@@ -613,19 +614,13 @@ public class Controller  implements Observer {
         if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(10).getFavorPoint() < 1 ? 1 : 2))
                 || (singlePlayer && checkDiceForSinglePlayer(10))) {
             GrindingStoneEvent grindingStoneEvent = (GrindingStoneEvent) event;
-            if (grindingStoneEvent.getDicePosition() <= model.getDraftPool().size()) {
-                try {
-                    getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
-                    DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
-                    model.myNotify(draftPoolEvent);
-                    handleToolCardUsed(10);
-                }catch (IndexOutOfBoundsException exception) {
-                    ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
-                    view.showError(errorEvent);
-                }
-
-            } else {
-                ErrorEvent errorEvent = new ErrorEvent("Non c'è nessun dado in questa posizione\n");
+            try {
+                getDiceFromDraftPool(grindingStoneEvent.getDicePosition()).turn();
+                DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
+                model.myNotify(draftPoolEvent);
+                handleToolCardUsed(10);
+            } catch (IndexOutOfBoundsException exception) {
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
         }
@@ -830,8 +825,10 @@ public class Controller  implements Observer {
      */
     private void skipTurn() {
         turnEnded = true;
-        turnTimer.interrupt(); //è finito il turno del giocatore
-        playerTurn.interrupt(); //non voglio più input
+        if (turnTimer != null && turnTimer.isAlive())
+            turnTimer.interrupt(); //è finito il turno del giocatore
+        if (playerTurn != null && playerTurn.isAlive())
+            playerTurn.interrupt(); //non voglio più input
         view.showEndTurn(new EndTurnEvent());
         synchronized (turnLock) {
             turnLock.notifyAll(); //risveglia il thread principale
@@ -905,6 +902,96 @@ public class Controller  implements Observer {
     }
 
     /**
+     * Creates an event containing info about the final scores of the players
+     */
+    private void showScores() {
+        computeAllScores();
+
+        if (model.getPlayers().size() == 1) {
+            model.getCurrentPlayer().setScore(model.getCurrentPlayer().getScore() -     //the score is decreased again
+                    (2 * model.getCurrentPlayer().getDicePattern().emptySpaces()));     //because we're in singlePlayer
+            Player sagrada = new Player("sagrada");
+            sagrada.setScore(model.getRoundTrack().sumDiceValue());
+            if (sagrada.getScore() < model.getCurrentPlayer().getScore())
+                model.getPlayers().add(sagrada);
+            else
+                model.getPlayers().add(0, sagrada);
+        } else {
+
+            model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
+            Collections.reverse(model.getPlayers());
+
+            Player winner = model.selectWinner();
+            model.getPlayers().remove(winner);
+            model.getPlayers().add(0, winner);
+        }
+
+        List<Integer> scores = new ArrayList<>();
+        for(Player player: model.getPlayers())
+            scores.add(player.getScore());
+
+        model.createScoreTrack(scores);
+    }
+
+    /**
+     * Creates an new ShowAllEvent
+     * @return A new ShowAllEvent
+     */
+    private ShowAllEvent createShowAllEvent(){
+        return new ShowAllEvent(
+                new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
+                model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
+                new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards() ),
+                new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
+                new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
+                model.getCurrentPlayer().getPrivateObjectiveCardsToString(), model.getCurrentPlayer().getPrivateObjectiveCardsToStringPath(),
+                new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()));
+    }
+
+    /**
+     * Changes the current player and, if lap is the second, calls nextRound()
+     */
+    private void nextPlayer() {
+        if (model.getRound() == 11)
+            return;
+        model.getCurrentPlayer().setDiceMoved(false);
+        model.getCurrentPlayer().setToolCardUsed(false);
+        if (model.getLap() == 0) {
+            if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
+                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
+            } else {
+                model.setLap(1); //beginning of the second turn of the round
+            }
+
+        } else if (model.getLap() == 1) {
+            if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
+                model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
+            } else {
+                model.setLap(0); //ends of second turn
+                nextRound();
+            }
+        }
+        if (model.getCurrentPlayer().isSuspended() || model.getCurrentPlayer().isConnectionLost())
+            nextPlayer();
+    }
+
+    /**
+     * Increase round, changes players position, puts remaining dices from the draft pool to the round track,
+     * extracts new dices from diceBag and show
+     */
+    private void nextRound() {
+        model.increaseRound();
+        if (model.getRound() < 11) {
+            Player toRemove = model.getPlayers().remove(0);
+            model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
+            model.setCurrentPlayer(model.getPlayers().get(0));
+            model.fromDraftPoolToRoundTrack();
+            model.extractAndRoll();
+            model.myNotify(new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()));
+        }
+    }
+
+    /**
      * This class represents the timer of the turn.
      * If the timer ends, the player is suspended.
      */
@@ -959,21 +1046,6 @@ public class Controller  implements Observer {
      */
     class Game extends Thread {
 
-        /**
-         * Creates an new ShowAllEvent
-         * @return A new ShowAllEvent
-         */
-        private ShowAllEvent createShowAllEvent(){
-            return new ShowAllEvent(
-                    new DicePatternEvent(model.dicePatternsToString(), model.playersToString(), model.dicePatternsToStringPath(), model.getCurrentPlayer().getName()),
-                    model.publicObjectiveCardsToString(), model.publicObjectiveCardsToStringPath(),
-                    new ToolCardEvent(model.toolCardsToString(), model.toolCardsToStringPath(), model.getFavorTokensOnToolCards() ),
-                    new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()),
-                    new RoundTrackEvent(model.getRoundTrack().toString(), model.getRoundTrack().toStringPath()),
-                    model.getCurrentPlayer().getPrivateObjectiveCardsToString(), model.getCurrentPlayer().getPrivateObjectiveCardsToStringPath(),
-                    new SetWindowPatternsGUIEvent(model.windowPatternsToStringPath(),model.getFavorTokensNumberPlayers()));
-        }
-
         @Override
         public void run() {
             model.extractAndRoll();
@@ -1019,80 +1091,6 @@ public class Controller  implements Observer {
             showScores();
         }
 
-        /**
-         * Creates an event containing info about the final scores of the players
-         */
-        private void showScores() {
-            computeAllScores();
-
-            if (model.getPlayers().size() == 1) {
-                model.getCurrentPlayer().setScore(model.getCurrentPlayer().getScore() -     //the score is decreased again
-                        (2 * model.getCurrentPlayer().getDicePattern().emptySpaces()));     //because we're in singlePlayer
-                Player sagrada = new Player("sagrada");
-                sagrada.setScore(model.getRoundTrack().sumDiceValue());
-                if (sagrada.getScore() < model.getCurrentPlayer().getScore())
-                    model.getPlayers().add(sagrada);
-                else
-                    model.getPlayers().add(0, sagrada);
-            } else {
-
-                model.getPlayers().sort(Comparator.comparingInt(Player::getScore));
-                Collections.reverse(model.getPlayers());
-
-                Player winner = model.selectWinner();
-                model.getPlayers().remove(winner);
-                model.getPlayers().add(0, winner);
-            }
-
-            List<Integer> scores = new ArrayList<>();
-            for(Player player: model.getPlayers())
-                scores.add(player.getScore());
-
-            model.createScoreTrack(scores);
-        }
-
-        /**
-         * Changes the current player and, if lap is the second, calls nextRound()
-         */
-        private void nextPlayer() {
-            if (model.getRound() == 11)
-                return;
-            model.getCurrentPlayer().setDiceMoved(false);
-            model.getCurrentPlayer().setToolCardUsed(false);
-            if (model.getLap() == 0) {
-                if (!model.getCurrentPlayer().equals(model.getPlayers().get(model.getPlayersNumber() - 1))) {  //if player isn't the last element of the array list
-                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) + 1)); //currentPlayer is the one following player
-                } else {
-                    model.setLap(1); //beginning of the second turn of the round
-                }
-
-            } else if (model.getLap() == 1) {
-                if (!model.getCurrentPlayer().equals(model.getPlayers().get(0))) {  //if player isn't the first element of the array list
-                    model.setCurrentPlayer(model.getPlayers().get(model.getPlayers().indexOf(model.getCurrentPlayer()) - 1)); //currentPlayer is the previous of player
-                } else {
-                    model.setLap(0); //ends of second turn
-                    nextRound();
-                }
-            }
-            if (model.getCurrentPlayer().isSuspended() || model.getCurrentPlayer().isConnectionLost())
-                nextPlayer();
-        }
-
-        /**
-         * Increase round, changes players position, puts remaining dices from the draft pool to the round track,
-         * extracts new dices from diceBag and show
-         */
-        private void nextRound() {
-            model.increaseRound();
-            if (model.getRound() < 11) {
-                Player toRemove = model.getPlayers().remove(0);
-                model.getPlayers().add(toRemove); //remove the first player, shift by one the other elements of players and then add the first player at the end of the array list
-                model.setCurrentPlayer(model.getPlayers().get(0));
-                model.fromDraftPoolToRoundTrack();
-                model.extractAndRoll();
-                model.myNotify(new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath()));
-            }
-        }
     }
 
     /**

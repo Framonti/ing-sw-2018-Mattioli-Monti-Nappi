@@ -333,6 +333,9 @@ public class GameController extends GameControllerAbstract implements Observer {
        showErrorAbstract(errorEvent);
         if(errorEvent.getMessageToDisplay().equals("Non hai abbastanza segnalini favore\n"))
             idToolCardSelected = 0;
+        String[] words = errorEvent.getMessageToDisplay().split("\\s+");
+        if (words[words.length - 1].equals("partita."))
+            return;
         handleDraftPoolAndToolCards();
     }
 

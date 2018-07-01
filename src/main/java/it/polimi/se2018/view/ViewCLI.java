@@ -362,15 +362,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     public void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
         System.out.println(errorEvent.getMessageToDisplay());
-        if (errorEvent.getMessageToDisplay().equals("\nTutti i giocatori hanno abbandonato la partita.\nHAI VINTO!")) {
-            if (getInputClass.isAlive())
-                getInputClass.interrupt();
-            if (suspendedPlayer.isAlive())
-                suspendedPlayer.interrupt();
-            if (fluxChoice != null && fluxChoice.isAlive())
-                fluxChoice.interrupt();
-            new AskNewGame().start();
-        }
     }
 
     /**
