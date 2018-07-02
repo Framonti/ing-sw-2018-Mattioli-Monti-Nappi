@@ -1,8 +1,11 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.events.mvevent.ErrorEvent;
 import it.polimi.se2018.events.mvevent.WindowPatternsEvent;
 import it.polimi.se2018.events.vcevent.WindowPatternChoiceEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -189,15 +192,27 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @Override
     public void update(Observable o, Object arg) {
 
-       WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
-       privateObjectiveCard1.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(0))));
-       if(windowPatternsEvent.getPrivateObjectiveCardsPath().size() == 2)
-           privateObjectiveCard2.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(1))));
-       setWindowPatterns(windowPatternsEvent);
-       windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
-       windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
-       windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
-       windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
+        if(arg.getClass() == ErrorEvent.class) {
+
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Avviso");
+                alert.setContentText("Un giocatore si è disconnesso");
+                alert.showAndWait();
+            });
+        }
+        else{
+            WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) arg;
+            privateObjectiveCard1.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(0))));
+            if(windowPatternsEvent.getPrivateObjectiveCardsPath().size() == 2)
+                privateObjectiveCard2.setImage(new Image(ViewGUI.getUrlFromPath(windowPatternsEvent.getPrivateObjectiveCardsPath().get(1))));
+            setWindowPatterns(windowPatternsEvent);
+            windowPattern1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern1Chosen());
+            windowPattern2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern2Chosen());
+            windowPattern3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern3Chosen());
+            windowPattern4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> windowPattern4Chosen());
+        }
+
     }
 
 }
