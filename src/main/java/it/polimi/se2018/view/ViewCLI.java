@@ -361,7 +361,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
     @Override
     public void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
-        System.out.println(errorEvent.getMessageToDisplay());
+        if (!errorEvent.getMessageToDisplay().equals("OK toolCard 11"))
+            System.out.println(errorEvent.getMessageToDisplay());
     }
 
     /**

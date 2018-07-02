@@ -215,6 +215,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 return;
             }
         }
+        sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
     }
 
     /**
@@ -235,6 +236,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
                 System.out.println("Connection error in handleLostClients: " + e.getMessage());
             }
         }
+        sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
     }
 
     /**

@@ -24,6 +24,8 @@ public class TapWheelEvent extends VCEvent {
         super(12);
         try {
             String[] input = userInput.split("\\s+");
+            if (input.length > 6 && input.length < 10)
+                throw new IndexOutOfBoundsException();
             roundIndex = Integer.parseInt(input[0]) - 1;
             diceIndex = Integer.parseInt(input[1]) - 1;
             firstDicePosition = new Position(Integer.parseInt(input[2]) - 1, Integer.parseInt(input[3]) - 1);

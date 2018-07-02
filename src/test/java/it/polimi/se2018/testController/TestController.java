@@ -1165,6 +1165,11 @@ public class TestController {
         model.getDraftPool().add(dice4);
         model.getDraftPool().add(dice5);
 
+        FluxRemoverChooseDiceEvent event = new FluxRemoverChooseDiceEvent("8");
+        try {
+            controller.update(view, event);
+        } catch (NullPointerException ignored) {}
+
         for (Dice dice: model.getDiceBag()) {
             if (dice.getColour().equals(Colour.PURPLE)) {
                 model.getDiceBag().remove(dice);
@@ -1197,13 +1202,21 @@ public class TestController {
         }
 
 
-        FluxRemoverChooseDiceEvent event = new FluxRemoverChooseDiceEvent("3");
+        event = new FluxRemoverChooseDiceEvent("3");
         try {
             controller.update(view, event);
         } catch (NullPointerException ignored) {}
+
         assertEquals(5, model.getDraftPool().size());
         assertFalse(model.getDraftPool().contains(dice3));
         assertEquals(dice3, model.getDiceBag().get(model.getDiceBag().size() - 1));
+
+        List<Position> emptyPos = model.getCurrentPlayer().getDicePattern().getEmptyPositions();
+        for (Position position: emptyPos)
+            model.getCurrentPlayer().getDicePattern().setDice(position, dice2);
+        try {
+            controller.update(view, event);
+        } catch (NullPointerException ignored) {}
 
         for (Dice dice : model.getDraftPool())
             model.getDiceBag().add(dice);
@@ -1382,8 +1395,18 @@ public class TestController {
 
         model.fromDraftPoolToRoundTrack();
 
-        TapWheelEvent event = new TapWheelEvent("1 1 4 1 4 2 ");
-        controller.update(view,event);
+        TapWheelEvent event = new TapWheelEvent("2 1 4 1 4 2");
+        try {
+            controller.update(view, event);
+        } catch (NullPointerException ignored) {}
+
+        event = new TapWheelEvent("1 1 4 1 4 2 3 2 3 5");
+        try {
+            controller.update(view, event);
+        } catch (NullPointerException ignored) {}
+
+        event = new TapWheelEvent("1 1 4 1 4 2 ");
+        controller.update(view, event);
 
 
         assertEquals(model.getCurrentPlayer().getDicePattern().getDice(new Position(3,1)), diceP2);

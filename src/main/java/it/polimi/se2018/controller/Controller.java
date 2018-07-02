@@ -450,7 +450,6 @@ public class Controller  implements Observer {
     private boolean fluxBrushPlaceDiceHelper(Position finalPosition, Dice diceChosen){
         try {
             model.getCurrentPlayer().getDicePattern().placeDice(finalPosition, diceChosen);
-            handleToolCardUsed(6);
             model.getDraftPool().remove(diceChosen);
             DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
             model.myNotify(draftPoolEvent);
@@ -489,7 +488,7 @@ public class Controller  implements Observer {
                 diceChosen.roll();
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                 model.myNotify(draftPoolEvent);
-                FluxBrushChoiceEvent fluxBrushChoiceEvent = new FluxBrushChoiceEvent(diceChosen.toString());
+                handleToolCardUsed(6);
                 boolean successfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if(model.getCurrentPlayer().getDicePattern().isDicePlaceable(position, diceChosen))
@@ -501,6 +500,7 @@ public class Controller  implements Observer {
                 }
                 else {
                     this.diceForFlux = diceChosen;
+                    FluxBrushChoiceEvent fluxBrushChoiceEvent = new FluxBrushChoiceEvent(diceChosen.toString());
                     view.fluxBrushChoice(fluxBrushChoiceEvent);
                 }
             }catch (IndexOutOfBoundsException exception){
@@ -633,7 +633,6 @@ public class Controller  implements Observer {
      * Helper method of the toolCard 11
      */
     private void fluxRemoverPlaceDice(){
-        handleToolCardUsed(11);
         try{
             FluxRemoverPlaceDiceEvent fluxRemoverPlaceDiceEvent = (FluxRemoverPlaceDiceEvent) event;
             diceForFlux.setValue(fluxRemoverPlaceDiceEvent.getDiceValue());
@@ -656,7 +655,6 @@ public class Controller  implements Observer {
     private void fluxRemoverChooseDice() {
         if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(11).getFavorPoint() < 1 ? 1 : 2))
                 || (singlePlayer && checkDiceForSinglePlayer(11))) {
-            model.getCurrentPlayer().setToolCardUsed(true);
             FluxRemoverChooseDiceEvent fluxRemoverEvent = (FluxRemoverChooseDiceEvent) event;
             try {
                 Dice diceChosenFromDraftPool = getDiceFromDraftPool(fluxRemoverEvent.getDiceIndex());
@@ -666,6 +664,7 @@ public class Controller  implements Observer {
                 Dice diceChosen = model.getDraftPool().get(fluxRemoverEvent.getDiceIndex());
                 DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
                 model.myNotify(draftPoolEvent);
+                handleToolCardUsed(11);
                 boolean successfulMove = false;
                 for(Position position : model.getCurrentPlayer().getDicePattern().getEmptyPositions()) {
                     if (model.getCurrentPlayer().getWindowPattern().checkCellColourRestriction(position, diceChosen)&&
@@ -681,8 +680,8 @@ public class Controller  implements Observer {
                 else {
                     this.diceForFlux = diceChosen;
                     FluxRemoverChoiceEvent fluxRemoverChoiceEvent = new FluxRemoverChoiceEvent(diceChosen.toString());
-                    view.fluxRemoverChoice(fluxRemoverChoiceEvent);
                     ErrorEvent errorEvent = new ErrorEvent("OK toolCard 11");
+                    view.fluxRemoverChoice(fluxRemoverChoiceEvent);
                     view.showError(errorEvent);
                 }
 
@@ -701,13 +700,8 @@ public class Controller  implements Observer {
      * @param finalPosition1 The final position of the dice
      */
     private void tapWheelOneDiceMoved(Position initialPosition1, Position finalPosition1){
-        try {
-            model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
-            handleToolCardUsed(12);
-        } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
-            view.showError(errorEvent);
-        }
+        model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
+        handleToolCardUsed(12);
     }
 
     /**
@@ -718,14 +712,9 @@ public class Controller  implements Observer {
      * @param finalPosition2 The final position of the second dice
      */
     private void tapWheelTwoDiceMoved(Position initialPosition1, Position finalPosition1, Position initialPosition2, Position finalPosition2){
-        try {
-            model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
-            model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
-            handleToolCardUsed(12);
-        } catch (IllegalArgumentException exception) {
-            ErrorEvent errorEvent = new ErrorEvent(INSERTION_DENIED);
-            view.showError(errorEvent);
-        }
+        model.getCurrentPlayer().getDicePattern().moveDice(initialPosition1, finalPosition1);
+        model.getCurrentPlayer().getDicePattern().moveDice(initialPosition2, finalPosition2);
+        handleToolCardUsed(12);
     }
 
     /**
@@ -737,42 +726,50 @@ public class Controller  implements Observer {
             TapWheelEvent tapWheelEvent = (TapWheelEvent) event;
             int round = tapWheelEvent.getRoundIndex();
             int indexOfRoundTrack = tapWheelEvent.getDiceIndex();
-            Dice diceChosenFromRoundTrack = getDiceFromRoundTrack(round, indexOfRoundTrack);
-            Position initialPosition1 = tapWheelEvent.getFirstDicePosition();
-            Position finalPosition1 = tapWheelEvent.getNewFirstDicePosition();
-            Position initialPosition2 = tapWheelEvent.getSecondDicePosition();
-            Position finalPosition2 = tapWheelEvent.getNewSecondDicePosition();
-            Dice tmp1 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition1);
-            //if the player wants to move only one dice
-            if (tmp1.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                    model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, tmp1)){
-                if (initialPosition2 == null && finalPosition2 == null) {
-                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition1,tmp1);
-                            tapWheelOneDiceMoved(initialPosition1,finalPosition1);
-                }
-                //if the player wants to move two dices
-                else if (initialPosition2 != null && finalPosition2 != null){
-                    Dice tmp2 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition2);
-                    if(tmp2.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
-                        model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, tmp2)) {
-                        model.getCurrentPlayer().getDicePattern().setDice(initialPosition1,tmp1);
-                        model.getCurrentPlayer().getDicePattern().setDice(initialPosition2,tmp2);
-                        tapWheelTwoDiceMoved(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
+            try {
+                Dice diceChosenFromRoundTrack = getDiceFromRoundTrack(round, indexOfRoundTrack);
+                Position initialPosition1 = tapWheelEvent.getFirstDicePosition();
+                Position finalPosition1 = tapWheelEvent.getNewFirstDicePosition();
+                Position initialPosition2 = tapWheelEvent.getSecondDicePosition();
+                Position finalPosition2 = tapWheelEvent.getNewSecondDicePosition();
+                Dice tmp1 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition1);
+
+                if (tmp1.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
+                        model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition1, tmp1)) {
+
+                    //if the player wants to move only one dice
+                    if (initialPosition2 == null && finalPosition2 == null) {
+                        model.getCurrentPlayer().getDicePattern().setDice(initialPosition1, tmp1);
+                        tapWheelOneDiceMoved(initialPosition1, finalPosition1);
+                    }
+                    //if the player wants to move two dices
+                    else if (initialPosition2 != null && finalPosition2 != null) {
+                        Dice tmp2 = model.getCurrentPlayer().getDicePattern().removeDice(initialPosition2);
+                        if (tmp2.getColour().equals(diceChosenFromRoundTrack.getColour()) &&
+                                model.getCurrentPlayer().getDicePattern().isDicePlaceable(finalPosition2, tmp2)) {
+                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition1, tmp1);
+                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition2, tmp2);
+                            tapWheelTwoDiceMoved(initialPosition1, finalPosition1, initialPosition2, finalPosition2);
+                        } else {
+                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition1, tmp1);
+                            model.getCurrentPlayer().getDicePattern().setDice(initialPosition2, tmp2);
+                            ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
+                            view.showError(errorEvent);
+                        }
                     }
 
-                }
-                else {
+                } else {
+                    model.getCurrentPlayer().getDicePattern().setDice(initialPosition1, tmp1);
                     ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
                     view.showError(errorEvent);
                 }
-
-            }else{
-                ErrorEvent errorEvent = new ErrorEvent("Non stai rispettando le restrizioni di piazzamento\n");
+            } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+                ErrorEvent errorEvent = new ErrorEvent(EMPTY_POSITION);
                 view.showError(errorEvent);
             }
 
         }
-        else{
+        else {
             handleErrorEvent();
         }
     }
