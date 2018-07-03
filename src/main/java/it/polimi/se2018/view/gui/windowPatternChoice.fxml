@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WindowPatternChoiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.WindowPatternChoiceController">
    <children>
       <ImageView fx:id="windowPattern2" fitHeight="350.0" fitWidth="450.0" layoutX="771.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <cursor>
@@ -42,21 +42,20 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <Label fx:id="waitYourTurn1" alignment="CENTER" layoutX="274.0" layoutY="290.0" text="Un altro giocatore sta scegliendo la propria Carta Schema" textFill="RED" visible="false">
-         <font>
-            <Font name="Calibri Bold" size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="waitYourTurn2" alignment="CENTER" layoutX="470.0" layoutY="367.0" text="Per favore, attendi il tuo turno" textFill="RED" visible="false">
-         <font>
-            <Font name="Calibri Bold" size="36.0" />
-         </font>
-      </Label>
       <ImageView fx:id="privateObjectiveCard1" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="background" fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" scaleZ="0.0">
          <rotationAxis>
             <Point3D />
          </rotationAxis></ImageView>
       <ImageView fx:id="privateObjectiveCard2" fitHeight="227.0" fitWidth="150.0" layoutX="1329.0" layoutY="611.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="waitYourTurn1" alignment="CENTER" layoutX="251.0" layoutY="351.0" prefHeight="67.0" prefWidth="878.0" text="Un altro giocatore sta scegliendo la propria carta schema" textFill="RED">
+         <font>
+            <Font name="Calibri Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="waitYourTurn2" layoutX="272.0" layoutY="446.0" text="Per favore, attendi che tutti abbiano effettuato la scelta" textFill="RED">
+         <font>
+            <Font name="Calibri Bold" size="36.0" />
+         </font></Label>
    </children>
 </AnchorPane>

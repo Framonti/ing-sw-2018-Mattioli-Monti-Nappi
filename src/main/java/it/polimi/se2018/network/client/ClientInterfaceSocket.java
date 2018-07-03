@@ -20,5 +20,9 @@ public interface ClientInterfaceSocket {
      */
     void notify(MVEvent mvEvent);
 
+    /**
+     * Test if the connection between the server and this client is lost.
+     * @throws IOException If the client is not connected anymore
+     */
     void testIfConnected() throws IOException;
 }

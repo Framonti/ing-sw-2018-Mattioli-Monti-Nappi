@@ -10,6 +10,7 @@ import java.util.*;
  * This class represents the controller. It implements the Observer interface because the controller is an
  * observer of the view.
  * @author Daniele Mattioli
+ * @author fabio
  */
 public class Controller  implements Observer {
     private GameSingleton model;
@@ -378,8 +379,6 @@ public class Controller  implements Observer {
 
         }
     }
-
-
 
     /**
      * Swaps a dice in the draft pool with a dice in the round track.
@@ -1072,11 +1071,9 @@ public class Controller  implements Observer {
                 }
                 nextPlayer();
             }
-            model.myNotify(new GameEnded());
 
             while (singlePlayer && model.getCurrentPlayer().getPrivateObjectiveCards().size() > 1) {
-                model.myNotify(new AskPrivateObjectiveCard(model.getCurrentPlayer().getPrivateObjectiveCardsToString(),
-                        model.getCurrentPlayer().getPrivateObjectiveCardsToStringPath()));
+                model.myNotify(new AskPrivateObjectiveCard(model.getCurrentPlayer().getPrivateObjectiveCardsToString()));
                 synchronized (lock) {
                     try {
                         lock.wait();
@@ -1085,6 +1082,8 @@ public class Controller  implements Observer {
                     }
                 }
             }
+
+            model.myNotify(new GameEnded());
             showScores();
         }
 

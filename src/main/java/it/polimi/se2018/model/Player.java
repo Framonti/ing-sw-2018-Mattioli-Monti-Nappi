@@ -32,7 +32,9 @@ public class Player {
     private boolean isSuspended = false;
 
 
-    //Constructor
+    /**
+     * @param name The Nickname chosen by an user during its connection to the server
+     */
     public Player(String name) {
         this.name = name;
         this.score = 0;
@@ -40,7 +42,6 @@ public class Player {
         this.windowPatterns = new ArrayList<>();
         this.privateObjectiveCards = new ArrayList<>();
     }
-
 
     /**
      * Gets the player score
@@ -100,24 +101,59 @@ public class Player {
      */
     public WindowPattern getWindowPattern() { return windowPattern; }
 
+    /**
+     * @return The player's WindowPattern
+     */
     public List<WindowPattern> getWindowPatterns() { return windowPatterns; }
 
+    /**
+     * @return The Player's DicePattern
+     */
     public DicePattern getDicePattern() { return dicePattern; }
 
+    /**
+     * @return The ClientInterfaceRMI associated with the user
+     */
     public ClientInterfaceRMI getClientInterfaceRMI() { return clientInterfaceRMI; }
 
+    /**
+     * @return The ClientInterfaceSocket associated with the user
+     */
     public ClientInterfaceSocket getClientInterfaceSocket() { return clientInterfaceSocket; }
 
+    /**
+     * Checks the diceMoved attribute
+     * @return True if a player has already moved a dice to his DicePattern in his turn, false otherwise
+     */
     public boolean isDiceMoved() { return diceMoved; }
 
+    /**
+     * Checks the toolCardUsed attribute
+     * @return True if a player has already used a ToolCard in his turn, false otherwise
+     */
     public boolean isToolCardUsed() { return toolCardUsed; }
 
+    /**
+     * Gets the connectionLost attribute
+     * @return True if the connection between the client and the server is lost, false otherwise
+     */
     public boolean isConnectionLost() { return connectionLost; }
 
+    /**
+     * Checks if a player was previously suspended
+     * @return True if the Player is suspended, false otherwise
+     */
     public boolean isSuspended() { return isSuspended; }
 
+    /**
+     * Sets the score of the player
+     * @param score The final score of a player
+     */
     public void setScore(int score) { this.score = score; }
 
+    /**
+     * Sets the favorTokens, based on the difficulty of the WindowPattern chosen
+     */
     private void setFavorTokens() { favorTokensNumber = windowPattern.getDifficultyNumber(); }
 
     /**
@@ -144,22 +180,54 @@ public class Player {
      */
     private void setDicePattern(WindowPattern windowPattern) { this.dicePattern = new DicePattern(windowPattern); }
 
+    /**
+     * Adds to a player a PrivateObjectiveCard
+     * @param privateObjectiveCard The PrivateObjectiveCard to add
+     */
     public void addPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
         privateObjectiveCards.add(privateObjectiveCard);
     }
 
+    /**
+     * Sets the ClientInterfaceRMI
+     * @param clientInterface The ClientInterfaceRMI used by the user
+     */
     public void setClientInterface(ClientInterfaceRMI clientInterface) { this.clientInterfaceRMI = clientInterface; }
 
+    /**
+     * Sets the ClientInterfaceSocket
+     * @param clientInterface The ClientInterfaceSocket used by the user
+     */
     public void setClientInterface(ClientInterfaceSocket clientInterface) { this.clientInterfaceSocket = clientInterface; }
 
+    /**
+     * Changes the value of the diceMoved
+     * @param diceMoved True if the player has moved a Dice
+     */
     public void setDiceMoved(boolean diceMoved) { this.diceMoved = diceMoved; }
 
+    /**
+     * Changes the value of the diceMoved
+     * @param toolCardUsed True if the player has used a ToolCard
+     */
     public void setToolCardUsed(boolean toolCardUsed) { this.toolCardUsed = toolCardUsed; }
 
+    /**
+     * Adds WindowPatterns to the player
+     * @param windowPatternToAdd The WindowPattern to add
+     */
     public void addWindowPattern(WindowPattern windowPatternToAdd) { windowPatterns.add(windowPatternToAdd); }
 
+    /**
+     * Sets the connection as lost or as regained
+     * @param connectionLost True if the connection between the Client and the Server is lost, false if the connection is established again
+     */
     public void setConnectionLost(boolean connectionLost) { this.connectionLost = connectionLost; }
 
+    /**
+     * Sets a player as suspended or as active
+     * @param suspended True if the player runs out of time during his turn, false if a suspended user reconnects to the game
+     */
     public void setSuspended(boolean suspended) { isSuspended = suspended; }
 
     /**

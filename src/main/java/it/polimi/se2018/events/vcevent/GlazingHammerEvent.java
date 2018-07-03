@@ -6,11 +6,7 @@ package it.polimi.se2018.events.vcevent;
  */
 public class GlazingHammerEvent extends VCEvent {
 
-    /**
-     * Constructor of the class
-     */
     public GlazingHammerEvent() {
         super(7);
     }
-
 }

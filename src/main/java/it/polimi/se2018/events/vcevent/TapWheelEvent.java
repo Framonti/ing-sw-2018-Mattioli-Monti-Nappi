@@ -41,7 +41,6 @@ public class TapWheelEvent extends VCEvent {
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");
         }
-
     }
 
     /**

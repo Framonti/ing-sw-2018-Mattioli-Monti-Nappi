@@ -2,22 +2,28 @@ package it.polimi.se2018.events.mvevent;
 
 import java.util.List;
 
+/**
+ * This event is only sent during a singlePlayer game, before computing the player's score
+ * It asks to the player to choose a PrivateObjectiveCard
+ */
 public class AskPrivateObjectiveCard extends MVEvent {
 
     private List<String> privateObjectiveCardsString;
-    private List<String> privateObjectiveCardsPath;
 
-    public AskPrivateObjectiveCard(List<String> privateObjectiveCardsString, List<String> privateObjectiveCardsPath) {
+    /**
+     * @param privateObjectiveCardsString A List representing the privateObjectiveCard of a player
+     */
+    public AskPrivateObjectiveCard(List<String> privateObjectiveCardsString) {
         super(17);
         this.privateObjectiveCardsString = privateObjectiveCardsString;
-        this.privateObjectiveCardsPath = privateObjectiveCardsPath;
     }
 
+    /**
+     * Gets the privateObjectiveCard
+     * @return The privateObjectiveCard
+     */
     public List<String> getPrivateObjectiveCardsString() {
         return privateObjectiveCardsString;
     }
 
-    public List<String> getPrivateObjectiveCardsPath() {
-        return privateObjectiveCardsPath;
-    }
 }

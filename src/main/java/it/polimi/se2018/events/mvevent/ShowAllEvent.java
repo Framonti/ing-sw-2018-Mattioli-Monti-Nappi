@@ -3,7 +3,7 @@ package it.polimi.se2018.events.mvevent;
 import java.util.List;
 
 /**
- * This Event holds informations about everything visible during a game
+ * This Event holds information about everything visible during a game
  * @author Framonti
  */
 public class ShowAllEvent extends MVEvent{

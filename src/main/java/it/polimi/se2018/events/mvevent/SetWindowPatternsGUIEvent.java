@@ -10,6 +10,10 @@ public class SetWindowPatternsGUIEvent extends MVEvent {
     private List<String> windowPatternsGUI;
     private List<String> favorTokensNumber;
 
+    /**
+     * @param windowPatternsGUI A List of String, each representing a path for an image that the GUI will load
+     * @param favorTokensNumber A List of String, each representing a WindowPattern for the CLI
+     */
     public SetWindowPatternsGUIEvent(List<String> windowPatternsGUI, List<String> favorTokensNumber){
         super(15);
         this.windowPatternsGUI = windowPatternsGUI;

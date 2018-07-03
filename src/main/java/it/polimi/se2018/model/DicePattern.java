@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class holds informations about the dice placed by a player on his WindowPattern.
+ * This class holds information about the dice placed by a player on his WindowPattern.
  * It offers limitations checks when a player want to place a Dice
  * @author Framonti
  */

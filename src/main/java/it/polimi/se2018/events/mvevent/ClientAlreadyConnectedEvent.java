@@ -11,7 +11,6 @@ public class ClientAlreadyConnectedEvent extends MVEvent {
     private List<String> clientConnected;
 
     /**
-     * Constructor
      * @param clientConnected A List containing the names of the clients already connected to the server
      */
     public ClientAlreadyConnectedEvent(List<String> clientConnected){

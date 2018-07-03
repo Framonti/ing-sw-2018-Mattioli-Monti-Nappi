@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -33,7 +32,6 @@ public class WindowPatternChoiceController extends Observable implements Observe
     @FXML private Button cancelButton;
     @FXML private ImageView privateObjectiveCard1;
     @FXML private ImageView privateObjectiveCard2;
-    @FXML private AnchorPane scene;
     @FXML private Label waitYourTurn1;
     @FXML private Label waitYourTurn2;
     @FXML private ImageView background;
@@ -47,6 +45,8 @@ public class WindowPatternChoiceController extends Observable implements Observe
         background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/background2.png")));
         background.toBack();
         background.setOpacity(0.8);
+        waitYourTurn1.setVisible(false);
+        waitYourTurn2.setVisible(false);
     }
 
     /**
@@ -62,7 +62,7 @@ public class WindowPatternChoiceController extends Observable implements Observe
     }
 
     /**
-     * Create a DropShadow effect
+     * Creates a DropShadow effect
      * @return A DropShadow effect
      */
     private DropShadow setBorderGlow(){
@@ -152,7 +152,12 @@ public class WindowPatternChoiceController extends Observable implements Observe
         windowPattern2.setOpacity(0.66);
         windowPattern3.setOpacity(0.66);
         windowPattern4.setOpacity(0.66);
-        scene.setDisable(true);
+        windowPattern1.setDisable(true);
+        windowPattern2.setDisable(true);
+        windowPattern3.setDisable(true);
+        windowPattern4.setDisable(true);
+        confirmButton.setDisable(true);
+        cancelButton.setDisable(true);
     }
 
     /**
@@ -168,7 +173,6 @@ public class WindowPatternChoiceController extends Observable implements Observe
         confirmButton.setDisable(true);
         cancelButton.setDisable(true);
         chosen = 0;
-
     }
 
     /**

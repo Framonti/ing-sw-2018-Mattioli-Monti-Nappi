@@ -1,9 +1,7 @@
 package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.events.mvevent.AllWindowPatternChosen;
-import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
-import it.polimi.se2018.events.networkevent.NetworkEvent;
-import it.polimi.se2018.events.networkevent.NewObserverEvent;
+import it.polimi.se2018.events.networkevent.*;
 import it.polimi.se2018.events.mvevent.MVEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,12 +38,17 @@ public class ViewGUI  extends Observable implements Observer{
     private int turnDuration;
     private boolean singlePlayer = false;
 
-
+    /**
+     * Only one GUI for client is created, if the user choose to play with it
+     */
     public ViewGUI(){
         initializeMVEventMap();
         initializeNetworkEventMap();
     }
 
+    /**
+     * Creates an association with some MVEvents' ids and methods
+     */
     private void initializeMVEventMap(){
         mvEventMap.put(40, this::setGameScene);
         mvEventMap.put(60, this::setEndScreen);
@@ -53,6 +56,9 @@ public class ViewGUI  extends Observable implements Observer{
         mvEventMap.put(30, this::setLobbyScene);
     }
 
+    /**
+     * Creates an association with some NetworkEvents' ids and methods
+     */
     private void initializeNetworkEventMap(){
         networkEventMap.put(1, () -> singlePlayer = true);
         networkEventMap.put(25, () -> connectionEstablishedHandler(networkEventForMap));
@@ -307,8 +313,14 @@ public class ViewGUI  extends Observable implements Observer{
         scene.getRoot().getTransforms().setAll(setScreenProportion());
     }
 
+    /**
+     * Handles a ConnectionEstablishedEvent
+     * @param networkEvent A connectionEstablishedEvent
+     */
     private void connectionEstablishedHandler(NetworkEvent networkEvent){
         ConnectionEstablishedEvent connectionEstablishedEvent = (ConnectionEstablishedEvent) networkEvent;
+        //If it's the first time a client is trying to connecting to the server, change the scene
+        //If it's not the first time, the scene was already set
         if (connectionEstablishedEvent.isFirstTimeNickname()) {
             setNicknameChoiceScene();
         }
@@ -316,12 +328,20 @@ public class ViewGUI  extends Observable implements Observer{
         notifyObservers(networkEvent);
     }
 
+    /**
+     * Sets a new Observer for the controller of the current scene
+     * @param networkEvent A NewObserverEvent
+     */
     private void newObserverEventHandler(NetworkEvent networkEvent){
 
         NewObserverEvent newObserverEvent = (NewObserverEvent) networkEvent;
         guiControllerObservable.addObserver(newObserverEvent.getClient());
     }
 
+    /**
+     * Passes a NetworkEvent to an observer of this class
+     * @param networkEvent The NetworkEvent to forward
+     */
     private void passTheEventToObservers(NetworkEvent networkEvent){
         setChanged();
         notifyObservers(networkEvent);

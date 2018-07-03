@@ -15,7 +15,7 @@ public class WindowPatternCardDeckBuilder extends LoaderXML {
         super(filePath);
     }
 
-    /** Build a Dice matrix by scanning a list of colours and values
+    /** Builds a Dice matrix by scanning a list of colours and values
      * @param id Represents the card id in the xml file
      * @param coloursList A list of Colour, loaded from an xml file
      * @param valuesList A list of int, loaded from an xml file
@@ -44,7 +44,7 @@ public class WindowPatternCardDeckBuilder extends LoaderXML {
         return toReturn;
     }
 
-    /** Create a List with all the WindowPattern in the game, loaded from an xml file
+    /** Creates a List with all the WindowPattern in the game, loaded from an xml file
      * @return A List of WindowPattern, created with the "getMatrix" method
      */
 

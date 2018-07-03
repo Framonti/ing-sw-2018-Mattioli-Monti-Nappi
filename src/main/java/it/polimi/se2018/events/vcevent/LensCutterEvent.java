@@ -15,10 +15,10 @@ public class LensCutterEvent extends VCEvent {
      * @param userInput A String representing an user input
      * @throws IllegalArgumentException If the string does not contain valid parameters
      */
-    // ASSUMO LA STRINGA SIA DEL TIPO: INDICE NELLA DRAFT POOL , ROUND, INDICE DELL'ARRAY PRESENTE NELLA POSIZIONE ROUND DEL ROUNDTRACK
     public LensCutterEvent(String userInput){
         super(5);
         try{
+            //String is interpreted as: draftPool index, round, roundTrack index
             String[] parameters = userInput.split("\\s+");
             diceIndexDraftPool = Integer.parseInt(parameters[0]) -1;
             roundIndex = Integer.parseInt(parameters[1]) -1;

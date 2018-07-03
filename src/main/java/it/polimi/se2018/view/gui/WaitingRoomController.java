@@ -23,9 +23,6 @@ public class WaitingRoomController extends Observable implements Observer {
     @FXML private ChoiceBox<Integer> difficultySinglePlayer;
     @FXML private Button singlePlayerButton;
 
-
-    //TODO mettere il singlePlayerEvent corretto quando fabio lo pusha
-
     /**
      * Manages the behaviour of the singlePlayerButton
      * When pressed, the button asks the server to start a new Single Player game

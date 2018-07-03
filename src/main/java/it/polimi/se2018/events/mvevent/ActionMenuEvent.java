@@ -3,7 +3,7 @@ package it.polimi.se2018.events.mvevent;
 import java.util.List;
 
 /**
- * This Event holds informations about the actionMenu. Only used in the CLI
+ * This Event holds information about the state of a turn for a player
  * @author Framonti
  */
 

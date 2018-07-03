@@ -7,6 +7,7 @@ import it.polimi.se2018.events.mvevent.ToolCardEvent;
  * @author Daniele Mattioli
  */
 public class ToolCard{
+
     private int favorPoint;  //number of favor points on the tool card
     private final Colour colour;
     private final String name;

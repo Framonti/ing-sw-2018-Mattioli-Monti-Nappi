@@ -41,7 +41,7 @@ public class EndScreenController extends Observable implements Observer {
     private ImageView greenScoreMarker2 = new ImageView();
 
     /**
-     * Manages the behaviour of ExitButton
+     * Manages the behaviour of ExitButton; it asks a player if he wants to exit from the application
      */
     @FXML
     private void exitButtonAction(){
@@ -49,6 +49,9 @@ public class EndScreenController extends Observable implements Observer {
         ViewGUI.closeProgram();
     }
 
+    /**
+     * Manages the behaviour of the playAgainButton; a new game will be started or joined
+     */
     @FXML
     private void playAgainButtonAction(){
 

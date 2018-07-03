@@ -33,7 +33,6 @@ public class NetworkHandler extends Thread implements ServerInterface {
         this.client = client;
 
         this.start();
-
     }
 
     /**

@@ -11,7 +11,12 @@ public class WindowPattern {
     private int difficultyNumber;
     private Dice[][] pattern;
 
-    //Constructor
+    /**
+     * This constructor is called during the setup of the game, using information held in an xml file
+     * @param name The name of the WindowPattern
+     * @param difficultyNumber The difficulty associated with the WindowPattern (from 3 to 6)
+     * @param windowPattern A Matrix of Dice
+     */
     public WindowPattern(String name, int difficultyNumber, Dice[][] windowPattern) {
         this.name = name;
         this.difficultyNumber = difficultyNumber;
@@ -93,6 +98,7 @@ public class WindowPattern {
         int column;
         String toReturn = "Nome: " + name + "\n" + "Difficoltà: " + this.difficultyNumber +  "\n\n";
 
+        //Adds graphic elements for the CLI
         for (row = 0; row < 4; row++) {
             toReturn = toReturn.concat("|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|¯¯¯¯|\n");
             for (column = 0; column < 5; column++) {

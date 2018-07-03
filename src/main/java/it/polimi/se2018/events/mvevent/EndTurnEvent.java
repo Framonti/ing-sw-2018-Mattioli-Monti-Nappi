@@ -5,9 +5,6 @@ package it.polimi.se2018.events.mvevent;
  */
 public class EndTurnEvent extends MVEvent {
 
-    /**
-     * Constructor
-     */
     public EndTurnEvent() {
         super(12);
     }
