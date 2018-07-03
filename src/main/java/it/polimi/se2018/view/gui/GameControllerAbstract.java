@@ -89,7 +89,6 @@ public abstract class GameControllerAbstract extends Observable{
     private ImageView diceChosenFromDicePattern;
     ImageView toolCardSelected;
     private Position dicePatternPosition;
-    private ImageView tmpImageView;
 
     Map<Integer, Runnable> mvEvents = new HashMap<>();
     Map<Integer, Runnable> diceIndexMap = new HashMap<>();
@@ -122,7 +121,7 @@ public abstract class GameControllerAbstract extends Observable{
     private int diceIndexRoundTrack;
     int diceIndexDraftPool;
 
-    final String yourTurnText = "È il tuo turno";
+    private  final  String yourTurnText = "È il tuo turno";
     final String waitText = "Attendi";
 
     /**
@@ -271,23 +270,6 @@ public abstract class GameControllerAbstract extends Observable{
     /**
      * Method associated to the skipTurnButton
      */
-   /* void skipTurnAbstract(){
-
-        idToolCardSelected = 0;
-        disableToolCards();
-        disableDraftPool();
-        skipTurnButton.setDisable(true);
-        turnLabel.setStyle("-fx-background-color: #ff0000;");
-        turnLabel.setText( "Attendi");
-        disableGridPane(dicePatternGridPane1,windowPattern1);
-        skipTurnButton.setDisable(true);
-        for(ImageView toolCardImage : toolCardImageList)
-            toolCardImage.setEffect(null);
-    }
-*/
-    /**
-     * Method associated to the skipTurnButton
-     */
     abstract void skipTurn();
 
     /**
@@ -360,7 +342,7 @@ public abstract class GameControllerAbstract extends Observable{
      * @param dimension The dimension of the GridPane
      * @return The node in the selected row and column
      */
-     Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
+    private Object getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane, int dimension) {
         return gridPane.getChildren().get(dimension * row + column);
     }
 
@@ -767,11 +749,10 @@ public abstract class GameControllerAbstract extends Observable{
 
     /**
      * Handles an ActionMenuEvent
-     * @param event
+     * @param event The event ActionMenuEvent
      */
     private void handleActionMenu(MVEvent event){
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
-        System.out.println("E' ARRIVATA UNA ACTION MENU\nisToolcardUsed " + actionMenuEvent.isToolCardUsed());
         diceMoved = actionMenuEvent.isDiceMoved();
         toolCardsUsed = actionMenuEvent.isToolCardUsed();
         idToolCardSelected = 0;
@@ -873,17 +854,13 @@ public abstract class GameControllerAbstract extends Observable{
     void getDicePositionFromRoundTrack(ImageView imageView) {
         roundIndex = GridPane.getRowIndex(imageView);
         diceIndexRoundTrack = GridPane.getColumnIndex(imageView);
-        System.out.println("riga" + roundIndex);
-        System.out.println("colonna" + diceIndexRoundTrack);
         if (idToolCardSelected == 5) {
             VCEvent event = new LensCutterEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1));
-            System.out.println("tool card 5 :" + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1));
             setChanged();
             notifyObservers(event);
             diceChosenFromDraftPool.setEffect(null);
             disableGridPane(roundTrackGridPane,roundTrack);
             handleDraftPool();
-            //idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
         } else if (idToolCardSelected == 12) {
@@ -935,15 +912,10 @@ public abstract class GameControllerAbstract extends Observable{
      * Lets a player choose a Dice for the FluxRemover ToolCard
      */
      void fluxRemoverChooseDice(){
-
         VCEvent event = new FluxRemoverChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
-        System.out.println("tool card 11:" + Integer.toString(diceIndexDraftPool + 1));
         setChanged();
         notifyObservers(event);
         diceChosenFromDraftPool.setEffect(setBorderGlow());
-        //fluxRemoverWindow();
-        /*disableDraftPool();
-        enableGridPane(dicePatternGridPane1,windowPattern1);*/
     }
 
     /**
@@ -957,7 +929,6 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDraftPool.setEffect(null);
         handleDraftPool();
         disableToolCards();
-        //idToolCardSelected = 0;
         toolCardSelected.setEffect(null);
     }
 
@@ -966,7 +937,6 @@ public abstract class GameControllerAbstract extends Observable{
      */
      void fluxBrushChooseDice(){
         VCEvent event = new FluxBrushChooseDiceEvent(Integer.toString(diceIndexDraftPool + 1));
-        System.out.println("tool card6:" + Integer.toString(diceIndexDraftPool + 1));
         setChanged();
         notifyObservers(event);
         disableDraftPool();
@@ -977,14 +947,11 @@ public abstract class GameControllerAbstract extends Observable{
      * Method associated with the GrindingStone ToolCard
      */
      void grindingStone(){
-
         VCEvent event = new GrindingStoneEvent(Integer.toString(diceIndexDraftPool + 1));
-        System.out.println("tool card 10:" + Integer.toString(diceIndexDraftPool + 1));
         setChanged();
         notifyObservers(event);
         diceChosenFromDraftPool.setEffect(null);
         handleDraftPool();
-        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
     }
@@ -995,19 +962,16 @@ public abstract class GameControllerAbstract extends Observable{
      */
 
     void getDiceIndexFromDraftPool(ImageView imageView) {
-        System.out.println("sono nella draftpool");
         imageView.setEffect(setBorderGlow());
         diceChosenFromDraftPool = imageView;
         diceIndexDraftPool = GridPane.getColumnIndex(imageView);
-        System.out.println(diceIndexDraftPool+1);
-
         diceIndexMap.get(idToolCardSelected).run();
 
     }
 
     /**
      * Initializes the RoundTrack, putting
-     * @param gridPane
+     * @param gridPane The GridPane representing the round track
      */
     private void initializeRoundTrackEventHandler(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
@@ -1051,7 +1015,6 @@ public abstract class GameControllerAbstract extends Observable{
      void placeDiceMove(int row, int column){
         if(!diceMoved){
             dicePatternPosition = new Position(row, column);
-            System.out.println("mossa su dice pattern:" + Integer.toString(diceIndexDraftPool+1) + " " + Integer.toString(dicePatternPosition.getX()) + " " + Integer.toString(dicePatternPosition.getY()));
             VCEvent event = new PlaceDiceEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
@@ -1082,13 +1045,11 @@ public abstract class GameControllerAbstract extends Observable{
 
         finalPosition = new Position(row, column);
         step = 1;
-        System.out.println("tool card 2 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
         VCEvent event = new EglomiseBrushEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
@@ -1115,13 +1076,11 @@ public abstract class GameControllerAbstract extends Observable{
 
         finalPosition = new Position(row, column);
         step = 1;
-        System.out.println("tool card 3 :" + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
         VCEvent event = new CopperFoilBurnisherEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
@@ -1152,7 +1111,7 @@ public abstract class GameControllerAbstract extends Observable{
      */
     private void lathekinSecondStep(int row, int column){
         finalPosition = new Position(row, column);
-        tmpImageView = (ImageView) getNodeByRowColumnIndex(row,column,dicePatternGridPane1,5);
+        ImageView tmpImageView = (ImageView) getNodeByRowColumnIndex(row, column, dicePatternGridPane1, 5);
         tmpImageView.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/x.png")));
         step++;
     }
@@ -1167,16 +1126,13 @@ public abstract class GameControllerAbstract extends Observable{
         finalPosition2 = new Position(row, column);
         step = 1;
         VCEvent event = new LathekinEvent(Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
-        System.out.println("tool card 4: " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDicePattern.setEffect(null);
-        //tmpImageView.setImage(new Image(ViewGUI.getUrlFromPath(" ")));
     }
 
     /**
@@ -1188,11 +1144,9 @@ public abstract class GameControllerAbstract extends Observable{
         diceChosenFromDraftPool.setEffect(null);
         dicePatternPosition = new Position(row, column);
         VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
-        System.out.println("tool card 6: " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1206,11 +1160,9 @@ public abstract class GameControllerAbstract extends Observable{
      void runnerPliers(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new RunnerPliersEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
-        System.out.println("tool card 8: " + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1222,14 +1174,11 @@ public abstract class GameControllerAbstract extends Observable{
      * @param column The column selected
      */
      void corkBackedStraighedge(int row, int column){
-
         dicePatternPosition = new Position(row, column);
         VCEvent event = new CorkBakedStraightedgeEvent(Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
-        System.out.println("tool card 9 :" + Integer.toString(diceIndexDraftPool + 1) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
-        //idToolCardSelected = 0;
         disableGridPane(dicePatternGridPane1,windowPattern1);
         disableToolCards();
         toolCardSelected.setEffect(null);
@@ -1243,12 +1192,10 @@ public abstract class GameControllerAbstract extends Observable{
      void fluxRemoverPlaceDice(int row, int column){
         dicePatternPosition = new Position(row, column);
         VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
-        System.out.println("tool card 11: " + Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        //idToolCardSelected = 0;
         disableToolCards();
         toolCardSelected.setEffect(null);
         diceChosenFromDraftPool.setEffect(null);
@@ -1284,12 +1231,10 @@ public abstract class GameControllerAbstract extends Observable{
         if (choiceTapWheel == 1) {
             step = 1;
             VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
-            System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1));
             setChanged();
             notifyObservers(event);
             handleDraftPool();
             disableGridPane(dicePatternGridPane1,windowPattern1);
-            //idToolCardSelected = 0;
             disableToolCards();
             toolCardSelected.setEffect(null);
             diceChosenFromDicePattern.setEffect(null);
@@ -1306,13 +1251,11 @@ public abstract class GameControllerAbstract extends Observable{
 
         finalPosition2 = new Position(row, column);
         step = 1;
-        System.out.println("tool card 12: " + Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
         VCEvent event = new TapWheelEvent(Integer.toString(roundIndex + 1) + " " + Integer.toString(diceIndexRoundTrack + 1) + " " + Integer.toString(initialPosition.getX() + 1) + " " + Integer.toString(initialPosition.getY() + 1) + " " + Integer.toString(finalPosition.getX() + 1) + " " + Integer.toString(finalPosition.getY() + 1) + " " + Integer.toString(initialPosition2.getX() + 1) + " " + Integer.toString(initialPosition2.getY() + 1) + " " + Integer.toString(finalPosition2.getX() + 1) + " " + Integer.toString(finalPosition2.getY() + 1));
         setChanged();
         notifyObservers(event);
         handleDraftPool();
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        //idToolCardSelected = 0;
         roundTrack.setOpacity(1);
         disableToolCards();
         toolCardSelected.setEffect(null);

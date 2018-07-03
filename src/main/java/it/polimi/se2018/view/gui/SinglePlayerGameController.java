@@ -34,8 +34,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     private boolean dicePaid = false;
 
-    private int toolCardStillAvaiable;
-
     private List <ImageView> toolCardsUsed = new ArrayList<>();
     private ImageView diceChosenToPay;
 
@@ -146,21 +144,8 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
             }
 
         }
-        /*idToolCardSelected = 0;
-        dicePaid = false;
-        toolCardsUsed.remove(toolCardSelected);
-        toolCardSelected.setEffect(null);
-        toolCardSelected.setDisable(false);
-        toolCardSelected.setOpacity(1);
-        diceChosenToPay.setEffect(null);
-        diceChosenToPay.setOpacity(1);
-        diceChosenToPay.setDisable(false);
-        diceChosenToPay = null;*/
         showErrorAbstract(errorEvent);
-    //    handleDraftPoolAndToolCards();
-        //idToolCardSelected = 0;
-
-    }
+   }
 
     @Override
     void updateDicePatterns(MVEvent event) {
@@ -172,29 +157,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     void updateFavorTokens(MVEvent mvEvent) {
         //The singlePlayerGameController doesn't update Favor Tokens
     }
-
-   /* @Override
-    void handleDraftPoolAndToolCards() {
-        super.handleDraftPoolAndToolCards();
-        if(diceChosenToPay != null) {
-            diceChosenToPay.setOpacity(1);
-            diceChosenToPay.setEffect(null);
-            diceChosenToPay.setDisable(false);
-            diceChosenToPay = null;
-            dicePaid = false;
-        }
-        if(idToolCardSelected != 0) {
-            toolCardsUsed.remove(toolCardSelected);
-            toolCardSelected.setOpacity(1);
-            toolCardSelected.setDisable(false);
-            idToolCardSelected = 0;
-            /*if(diceChosenToPay != null) {
-                diceChosenToPay.setOpacity(1);
-                diceChosenToPay.setEffect(null);
-                diceChosenToPay.setDisable(false);
-                diceChosenToPay = null;
-                dicePaid = false;
-            }*/
 
 
     private void setToolCardEventHandler(int size){
@@ -219,7 +181,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
 
     void handleToolCards(int idToolCard){
-        System.out.println("sono nel nuovo handle tool cards");
         disableToolCards();
         if (idToolCard >= 2 && idToolCard <= 4) {
             disableDraftPool();
@@ -232,7 +193,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
             VCEvent event = new GlazingHammerEvent();
             setChanged();
             notifyObservers(event);
-            //idToolCardSelected = 0;
             dicePaid = false;
         } else {
             enableDraftPool();
@@ -256,7 +216,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard1;
         idToolCardSelected = idToolCard1;
         toolCardsUsed.add(toolCard1);
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -268,8 +227,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard2;
         idToolCardSelected = idToolCard2;
         toolCardsUsed.add(toolCard2);
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
-       // handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -281,8 +238,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard3;
         idToolCardSelected = idToolCard3;
         toolCardsUsed.add(toolCard3);
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
-       // handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -295,8 +250,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard4;
         idToolCardSelected = idToolCard4;
         toolCardsUsed.add(toolCard4);
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
-       // handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -309,8 +262,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardSelected = toolCard5;
         idToolCardSelected = idToolCard5;
         toolCardsUsed.add(toolCard5);
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
-      //  handleToolCards(idToolCardSelected);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -318,35 +269,24 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     }
 
     void getDiceIndexFromDraftPool(ImageView imageView) {
-
-        System.out.println("sono nella draftpool nuova");
         imageView.setEffect(setBorderGlow());
-        //diceChosenFromDraftPool = imageView;
         diceIndexDraftPool = GridPane.getColumnIndex(imageView);
-        System.out.println(diceIndexDraftPool+1);
-
         if(!dicePaid && idToolCardSelected != 0){
             diceChosenToPay = imageView;
             payDice();
         }
-
         else {
             diceChosenFromDraftPool = imageView;
             diceIndexMap.get(idToolCardSelected).run();
         }
-
     }
 
     @Override
     void updateToolCards(MVEvent event) {
-
         if(!imageViewsSetup) {
-
             ToolCardEvent toolCardEvent = (ToolCardEvent) event;
             List<String> toolCardsGUI = toolCardEvent.getToolCardsGUI();
-
             setToolCardEventHandler(toolCardsGUI.size());
-
             if (!toolCardsGUI.isEmpty()) {
                 addImageToImageView(toolCardsGUI.get(0), toolCard1, 144, 95);
                 idToolCard1 = Integer.parseInt(toolCardsGUI.get(1));
@@ -383,10 +323,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     @Override
     void enableDraftPool(){
         super.enableDraftPool();
-        if(diceChosenToPay == null)
-            System.out.println("sono nel ramo di enable draft pool quando non hai scelto un dado con cui pagare");
         if(diceChosenToPay != null) {
-            System.out.println("sono nel ramo di enable draft pool quando hai scelto un dado con cui pagare");
             for(Node node : draftPool.getChildren()){
                 if(node instanceof ImageView) {
                     ImageView img = (ImageView) node;

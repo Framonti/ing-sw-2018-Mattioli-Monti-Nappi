@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.gui;
 
-//TODO: mappa VC, pulsante per annullare mossa fatta
+
 import it.polimi.se2018.events.mvevent.*;
 import it.polimi.se2018.events.vcevent.*;
 import javafx.application.Platform;
@@ -59,11 +59,6 @@ public class GameController extends GameControllerAbstract implements Observer {
     @FXML private Label favorTokensPlayer3Label;
     @FXML private Label favorTokensPlayer4Label;
 
-    private VCEvent vcEvent;
-
-    //private String eventParameters = "";
-
-    private Map<Integer, Runnable> vcEvents = new HashMap<>();
 
     private int idToolCard1;
     private int idToolCard2;
@@ -131,12 +126,11 @@ public class GameController extends GameControllerAbstract implements Observer {
      * This method is called when the ToolCard1 is clicked
      * It sets some effects on the toolCard selected and then calls handleToolCards()
      */
-    //l'evento che passa le toolcard, oltre al path passa anche l'id delle toolcard, così posso usare la mappa e lanciare il metodo corretto
+
     private void useToolCard1() {
         toolCard1.setEffect(setBorderGlow());
         toolCardSelected = toolCard1;
         idToolCardSelected = idToolCard1;
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
     }
 
@@ -148,7 +142,6 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCard2.setEffect(setBorderGlow());
         toolCardSelected = toolCard2;
         idToolCardSelected = idToolCard2;
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
     }
 
@@ -160,11 +153,9 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCard3.setEffect(setBorderGlow());
         toolCardSelected = toolCard3;
         idToolCardSelected = idToolCard3;
-        System.out.println("hai selezionato la tool card" + idToolCardSelected);
         handleToolCards(idToolCardSelected);
     }
 
-    //HA un setChanged e notify
 
     void handleToolCards(int idToolCard){
         disableToolCards();

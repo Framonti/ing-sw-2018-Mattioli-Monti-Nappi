@@ -40,19 +40,7 @@ public class OurGridPane {
         return playerName;
     }
 
-    public String getWindowPatternPath() {
-        return windowPatternPath;
-    }
-
-    public Label getPlayerNameLabel() {
-        return playerNameLabel;
-    }
-
-    public int getFavorTokens() {
-        return favorTokens;
-    }
-
-    public void setPlayerNameLabel(String name){
+    private void setPlayerNameLabel(String name){
         Platform.runLater(() -> playerNameLabel.setText(name));
     }
 
@@ -60,7 +48,4 @@ public class OurGridPane {
         Platform.runLater(() -> favorTokensLabel.setText(Integer.toString(favorTokens)));
     }
 
-    public Label getFavorTokensLabel() {
-        return favorTokensLabel;
-    }
 }
