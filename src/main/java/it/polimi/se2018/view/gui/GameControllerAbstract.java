@@ -816,7 +816,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Updates the DraftPool
      * @param event A DraftPoolEvent
      */
-      void updateDraftPool(MVEvent event) {
+    void updateDraftPool(MVEvent event) {
         cleanDraftPool();
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         int column = 0;

@@ -130,7 +130,7 @@ public class GameSetupSingleton {
     public GameSingleton createNewGame(int singlePlayerDifficulty) {
 
         assignWindowPatterns();
-        assignPrivateObjective( (singlePlayerDifficulty != 0) ); 
+        assignPrivateObjective( (singlePlayerDifficulty != 0) );
         choosePlayersOrder();
         return GameSingleton.instance(players, getPublicObjectiveCardList((singlePlayerDifficulty == 0 ? 3 : 2)),
                 getToolCardList((singlePlayerDifficulty == 0 ? 3 : 6 - singlePlayerDifficulty)), new RoundTrack());

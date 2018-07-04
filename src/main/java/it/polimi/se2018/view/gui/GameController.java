@@ -117,7 +117,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
     }
 
-    @Override
+
     void choosePrivateObjectiveCard(){
         //The multiplayer don't have to handle this event
     }
@@ -179,7 +179,6 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
-    @Override
     public void update(Observable o, Object event) {
         if(event instanceof Integer)
             turnDuration = (int)event;
