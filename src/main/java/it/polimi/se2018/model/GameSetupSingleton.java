@@ -127,10 +127,10 @@ public class GameSetupSingleton {
      * @param singlePlayerDifficulty Is 0 for multiplayer, from 1 to 5 for singlePlayer
      * @return A GameSingleton instance
      */
-    public GameSingleton createNewGame(int singlePlayerDifficulty) {    //il parametro è 0 in multiplayer, tra 1 e 5 in singleplayer
+    public GameSingleton createNewGame(int singlePlayerDifficulty) {
 
         assignWindowPatterns();
-        assignPrivateObjective( (singlePlayerDifficulty != 0) );   //bisogna pescarne 2 se il parametro è diverso da 0
+        assignPrivateObjective( (singlePlayerDifficulty != 0) ); 
         choosePlayersOrder();
         return GameSingleton.instance(players, getPublicObjectiveCardList((singlePlayerDifficulty == 0 ? 3 : 2)),
                 getToolCardList((singlePlayerDifficulty == 0 ? 3 : 6 - singlePlayerDifficulty)), new RoundTrack());

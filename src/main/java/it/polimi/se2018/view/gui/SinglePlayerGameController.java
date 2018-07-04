@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -48,6 +49,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardImageList.add(toolCard5);
 
         abstractInitialize();
+        background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/singlePlayer.png")));
 
         privateObjectiveCard1.setOnMouseEntered(event -> zoomInPOC(privateObjectiveCard1));
         privateObjectiveCard1.setOnMouseExited(event -> zoomOutPOC(privateObjectiveCard1));

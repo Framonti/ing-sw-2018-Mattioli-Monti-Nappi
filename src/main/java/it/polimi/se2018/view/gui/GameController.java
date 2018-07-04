@@ -81,6 +81,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCardImageList.add(toolCard3);
 
         abstractInitialize();
+        background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/sagradaBackground.png")));
 
         initializeGridPaneImagesView(dicePatternGridPane2, 4, 5, 29, 39);
         initializeGridPaneImagesView(dicePatternGridPane3, 4, 5, 29, 39);
