@@ -12,8 +12,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.GameController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.gui.GameController">
     <children>
+        <ImageView fx:id="background" fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="toolCard1" fitHeight="144.0" fitWidth="95.0" layoutX="57.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="publicObjectiveCard1" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="378.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="publicObjectiveCard2" fitHeight="144.0" fitWidth="95.0" layoutX="819.0" layoutY="532.0" pickOnBounds="true" preserveRatio="true" />
@@ -167,7 +168,7 @@
         <ImageView fx:id="dicePatternImage32" fitHeight="59.0" fitWidth="69.0" layoutX="1059.0" layoutY="729.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="dicePatternImage33" fitHeight="59.0" fitWidth="69.0" layoutX="1069.0" layoutY="739.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="dicePatternImage34" fitHeight="59.0" fitWidth="69.0" layoutX="1079.0" layoutY="749.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="turnLabel" alignment="CENTER" layoutX="900.0" layoutY="262.0" prefHeight="90.0" prefWidth="214.0" style="-fx-background-color: #ff0000;" text="Attendi" textFill="WHITE">
+      <Label fx:id="turnLabel" alignment="CENTER" layoutX="912.0" layoutY="239.0" prefHeight="90.0" prefWidth="214.0" style="-fx-background-color: #ff0000;" text="Attendi" textFill="WHITE">
          <font>
             <Font name="Calibri" size="36.0" />
          </font>
@@ -175,46 +176,46 @@
       <ImageView fx:id="favorTokensToolCard1ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="116.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="favorTokensToolCard2ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="221.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="favorTokensToolCard3ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="343.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="toolCard1FavorTokensLabel" alignment="CENTER" layoutX="78.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="toolCard1FavorTokensLabel" alignment="CENTER" layoutX="78.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
-      <Label fx:id="toolCard2FavorTokensLabel" alignment="CENTER" layoutX="185.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="toolCard2FavorTokensLabel" alignment="CENTER" layoutX="185.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
-      <Label fx:id="toolCard3FavorTokensLabel" alignment="CENTER" layoutX="306.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="toolCard3FavorTokensLabel" alignment="CENTER" layoutX="306.0" layoutY="180.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
-      <Label fx:id="player2NameLabel" layoutX="441.0" layoutY="211.0" prefHeight="22.0" prefWidth="125.0">
+      <Label fx:id="player2NameLabel" layoutX="441.0" layoutY="211.0" prefHeight="22.0" prefWidth="125.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Label>
-      <Label fx:id="player3NameLabel" layoutX="692.0" layoutY="211.0" prefHeight="22.0" prefWidth="126.0">
+      <Label fx:id="player3NameLabel" layoutX="692.0" layoutY="211.0" prefHeight="22.0" prefWidth="126.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Label>
-      <Label fx:id="player4NameLabel" layoutX="940.0" layoutY="211.0" prefHeight="22.0" prefWidth="126.0">
+      <Label fx:id="player4NameLabel" layoutX="940.0" layoutY="211.0" prefHeight="22.0" prefWidth="126.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Label>
-      <Label fx:id="favorTokensPlayer2Label" alignment="CENTER" layoutX="572.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="favorTokensPlayer2Label" alignment="CENTER" layoutX="572.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
       <ImageView fx:id="favorTokensPlayer2ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="605.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="favorTokensPlayer3Label" alignment="CENTER" layoutX="822.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="favorTokensPlayer3Label" alignment="CENTER" layoutX="822.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
       <ImageView fx:id="favorTokensPlayer3ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="855.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="favorTokensPlayer4ImageView" fitHeight="32.0" fitWidth="36.0" layoutX="1103.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="favorTokensPlayer4Label" alignment="CENTER" layoutX="1070.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0">
+      <Label fx:id="favorTokensPlayer4Label" alignment="CENTER" layoutX="1070.0" layoutY="208.0" prefHeight="30.0" prefWidth="25.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font></Label>
-      <Label fx:id="player1NameLabel" layoutX="261.0" layoutY="844.0" prefHeight="22.0" prefWidth="235.0">
+      <Label fx:id="player1NameLabel" layoutX="261.0" layoutY="844.0" prefHeight="22.0" prefWidth="235.0" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Label>
@@ -223,12 +224,13 @@
          <font>
             <Font name="Calibri Bold" size="28.0" />
          </font></Label>
-      <Label layoutX="39.0" layoutY="620.0" prefHeight="44.0" prefWidth="191.0" text="Segnalini Favore">
+      <Label layoutX="39.0" layoutY="620.0" prefHeight="44.0" prefWidth="191.0" text="Segnalini Favore" textFill="WHITE">
          <font>
             <Font name="Calibri" size="28.5" />
          </font>
       </Label>
       <Button fx:id="deleteMoveButton" disable="true" layoutX="45.0" layoutY="816.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="177.0" text="Annulla Mossa" />
       <ProgressBar fx:id="turnProgressBar" layoutX="948.0" layoutY="378.0" prefHeight="30.0" prefWidth="170.0" progress="0.0" />
+
     </children>
 </AnchorPane>

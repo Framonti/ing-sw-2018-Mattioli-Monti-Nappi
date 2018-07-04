@@ -1,7 +1,10 @@
 package it.polimi.se2018.view.gui;
 
+import it.polimi.se2018.events.mvevent.ErrorEvent;
+import it.polimi.se2018.events.mvevent.MVEvent;
 import it.polimi.se2018.events.networkevent.ConnectionEstablishedEvent;
 import it.polimi.se2018.events.vcevent.NicknameEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -54,6 +57,20 @@ public class NicknameChoiceController extends Observable implements Observer{
         ViewGUI.closeProgram();
     }
 
+    /**
+     * Shows an error from the server
+     * @param errorEvent The errorEvent to be shown
+     */
+    private void showError(ErrorEvent errorEvent){
+
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setContentText(errorEvent.getMessageToDisplay());
+            alert.showAndWait();
+        });
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -67,6 +84,10 @@ public class NicknameChoiceController extends Observable implements Observer{
                 nickAlreadyTaken2.setOpacity(1);
                 nickAlreadyTaken3.setOpacity(1);
             }
+        }
+        else if (arg.getClass() == ErrorEvent.class) {
+            ErrorEvent errorEvent = (ErrorEvent) arg;
+            showError(errorEvent);
         }
     }
 }
