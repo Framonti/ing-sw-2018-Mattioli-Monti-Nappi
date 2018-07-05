@@ -155,7 +155,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         sendTo(new ErrorEvent("ACCESSO NEGATO\nPartita già iniziata!"), client);
     }
 
-    @Override
     public void addClient(ClientInterfaceRMI client) {
         synchronized (lock) {
             if(rmiClients.size() + socketClients.size() < 4) {
@@ -261,7 +260,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         clientInterface.notify(mvEvent);
     }
 
-    @Override
     public void sendTo(MVEvent mvEvent, Player currentPlayer) {
         clientInterfaceNotify(currentPlayer, mvEvent, true);
         if (mvEvent.getId() == 16) {
@@ -300,7 +298,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
 
-    @Override
     public void send(MVEvent mvEvent) {
         for (Player player: players)
             clientInterfaceNotify(player, mvEvent, false);
@@ -314,7 +311,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     }
 
 
-    @Override
     public void notify(VCEvent vcEvent) {
         if (vcEvent.getId() == 22) {
             SinglePlayerEvent singlePlayerEvent = (SinglePlayerEvent) vcEvent;

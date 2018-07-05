@@ -243,7 +243,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         vcEvents.put(14, ()-> vcEvent = new FluxRemoverPlaceDiceEvent(eventParameters));    //può non stare nella mappa
     }
 
-    @Override
     public void fluxBrushChoice(MVEvent event) {
         FluxBrushChoiceEvent fluxBrushChoiceEvent = (FluxBrushChoiceEvent) event;
         System.out.println(fluxBrushChoiceEvent.getDice() + "\nDove vuoi piazzare il dado?");
@@ -251,7 +250,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         fluxChoice.start();
     }
 
-    @Override
     public void fluxRemoverChoice(MVEvent event) {
         FluxRemoverChoiceEvent fluxRemoverChoiceEvent = (FluxRemoverChoiceEvent) event;
         System.out.println(fluxRemoverChoiceEvent.getDice() + "\nScegli il valore del dado e piazzalo.");
@@ -259,7 +257,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         fluxChoice.start();
     }
 
-    @Override
     public void getInput() {
         try {
             String input = reader.readLine();
@@ -284,7 +281,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         getInputClass.start();
     }
 
-    @Override
+
     public void playerSuspended() {
         if (fluxChoice != null && fluxChoice.isAlive())
             fluxChoice.interrupt();
@@ -293,15 +290,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         suspendedPlayer.start();
     }
 
-    /**
-     * Prints the parameter
-     * @param message The string that will be printed
-     */
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
 
-    @Override
     public void showActionMenu(MVEvent event) {
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
         diceMoved = actionMenuEvent.isDiceMoved();
@@ -318,7 +307,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         System.out.println(menu);
     }
 
-    @Override
+
     public void showAll(MVEvent event) {
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
         showRoundTrack(showAllEvent.getRoundTrack());
@@ -353,12 +342,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         System.out.println();
     }
 
-    @Override
+
     public void showEndTurn(MVEvent event) {
         System.out.println("TURNO TERMINATO. ATTENDI.\n");
     }
 
-    @Override
+
     public void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
         if (!errorEvent.getMessageToDisplay().equals("OK toolCard 11"))
@@ -440,7 +429,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println(toolCard);
     }
 
-    @Override
+
     public void showWindowPatterns(MVEvent event) {
         WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) event;
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
@@ -458,7 +447,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         askName();
     }
 
-    @Override
+
     public void update(Observable model, Object event) {
         if(event instanceof NetworkEvent){
             networkEvent = (NetworkEvent) event;

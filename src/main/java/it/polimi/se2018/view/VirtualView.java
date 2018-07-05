@@ -33,7 +33,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
     }
 
 
-    @Override
+
     public void fluxBrushChoice(MVEvent fluxBrushPlaceDice) {
         try {
             server.sendTo(fluxBrushPlaceDice, currentPlayer);
@@ -43,7 +43,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void fluxRemoverChoice(MVEvent fluxRemoverPlaceDice) {
         try {
             server.sendTo(fluxRemoverPlaceDice, currentPlayer);
@@ -67,7 +67,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         notifyObservers();
     }
 
-    @Override
+
     public void playerSuspended() {
         try {
             server.sendTo(new SuspendedEvent(), currentPlayer);
@@ -76,7 +76,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void getInput() {
         try {
             server.sendTo(new GetInputEvent(), currentPlayer);
@@ -86,7 +86,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void showActionMenu(MVEvent showActionMenu) {
         try {
             server.sendTo(showActionMenu, currentPlayer);
@@ -96,7 +96,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void showError(MVEvent errorEvent) {
         try {
             server.sendTo(errorEvent, currentPlayer);
@@ -106,7 +106,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void showWindowPatterns(MVEvent windowPatternsEvent) {
         try {
             server.sendTo(windowPatternsEvent, currentPlayer);
@@ -116,7 +116,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void showAll(MVEvent showAllEvent) {
         try {
             server.sendTo(showAllEvent, currentPlayer);
@@ -126,7 +126,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    @Override
+
     public void showEndTurn(MVEvent endTurnEvent) {
         try {
             server.sendTo(endTurnEvent, currentPlayer);
@@ -136,8 +136,7 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    //Qui arrivano solo eventi che modificano il model, quindi devono essere mostrati a tutti
-    @Override
+
     public void update(Observable o, Object arg) {
         MVEvent mvEvent = (MVEvent) arg;
         try {

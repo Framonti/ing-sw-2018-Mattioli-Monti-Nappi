@@ -33,7 +33,7 @@ public class Controller  implements Observer {
     private static final String RESTRICTION_VIOLATED = "Non stai rispettando le altre restrizioni di piazzamento\n";
     private static final String INSERTION_DENIED = "Non puoi inserire un dado in questa posizione\n";
 
-    //spostato
+
     /**
      * Constructor of the class.
      * @param view          Virtual view
@@ -50,7 +50,7 @@ public class Controller  implements Observer {
         createMap();
     }
 
-    //spostato
+
     /**
      * Associates a key to a method
      */
@@ -80,17 +80,7 @@ public class Controller  implements Observer {
         eventsHandler.put(-1002, this::nextPlayer);
     }
 
-    //spostato
-    public Dice getDiceForFlux() {
-        return diceForFlux;
-    }
 
-    //spostato
-    public void setDiceForFlux(Dice diceForFlux) {
-        this.diceForFlux = diceForFlux;
-    }
-
-    //spostato
     /**
      * Gets draft pool dice in diceIndex position
      *
@@ -105,7 +95,6 @@ public class Controller  implements Observer {
     }
 
 
-    //spostato
     /**
      * Gets a dice from round track
      * @param round Represents the number of the chosen round
@@ -116,7 +105,6 @@ public class Controller  implements Observer {
         return model.getRoundTrack().getDice(round, index);
     }
 
-    //spostato
     /**
      * Gets a dice from the player's dice pattern
      * @param position Position of the dice
@@ -126,7 +114,6 @@ public class Controller  implements Observer {
         return model.getCurrentPlayer().getDicePattern().getDice(position);
     }
 
-    //spostato
     /**
      * Sets window pattern of the player
      */
@@ -438,8 +425,6 @@ public class Controller  implements Observer {
         }
     }
 
-    //il metodo inizialmente era void e c'era l'attributo successfulMove che però era del metodo chiamante
-
     /**
      * Helper method for the fluxBrushPlaceDice method
      * @param finalPosition The finalPosition on which the dice will be placed
@@ -477,7 +462,6 @@ public class Controller  implements Observer {
     /**
      * Tool card 6 method
      */
-    //mi tengo io la posizione
     private void fluxBrushChooseDice() {
         if((!singlePlayer && model.getCurrentPlayer().getFavorTokensNumber() >= (searchToolCard(6).getFavorPoint() < 1 ? 1 : 2))
                 || (singlePlayer && checkDiceForSinglePlayer(6))) {
@@ -571,8 +555,6 @@ public class Controller  implements Observer {
         }
     }
 
-
-    //DUBBIO
 
     /**
      * Tool card 9 method
@@ -832,7 +814,7 @@ public class Controller  implements Observer {
     }
 
     /**
-     * Compute all scores of the players
+     * Computes all scores of the players
      */
     private void computeAllScores() {
         for (Player player : model.getPlayers()) {
@@ -841,13 +823,15 @@ public class Controller  implements Observer {
 
     }
 
+    /**
+     * Removes the private objective card that the player doesn't chose
+     */
     private void removePrivateObjectiveCard() {
         PrivateObjectiveCardChosen privateObjectiveCardChosen = (PrivateObjectiveCardChosen) event;
         model.getCurrentPlayer().getPrivateObjectiveCards().remove(
                 (privateObjectiveCardChosen.getIndexOfChosenCard() == 0 ? 1 : 0));
     }
 
-    @Override
     public void update(Observable o, Object arg) {
         if (arg == null)
             endGame();
@@ -862,16 +846,28 @@ public class Controller  implements Observer {
         }
     }
 
+    /**
+     * Checks if dice colour chosen by the player is equal to the one of the tool card he wants to use
+     * @param id ID of the tool card
+     * @return True if if dice colour chosen by the player is equal to the one of the tool card he wants to use
+     */
     private boolean checkDiceForSinglePlayer(int id){
         return (model.getDraftPool().get(diceIndexSinglePlayer).getColour().equals(searchToolCard(id).getColour()));
     }
 
 
+    /**
+     * Saves the dice chosen to use a tool card
+     */
     private void saveDiceForSinglePlayer(){
         DiceChosenSinglePlayer diceChosenSinglePlayer = (DiceChosenSinglePlayer) event;
         diceIndexSinglePlayer = diceChosenSinglePlayer.getDicePosition();
     }
 
+    /**
+     * Removes from draft pool the dice chosen by the player to use a tool card and removes the tool card used by the player
+     * @param id ID of the tool card
+     */
     private void handleDiceForSinglePlayer(int id){
         model.getDraftPool().remove(diceIndexSinglePlayer);
         DraftPoolEvent draftPoolEvent = new DraftPoolEvent(model.draftPoolToString(), model.draftPoolToStringPath());
@@ -879,6 +875,10 @@ public class Controller  implements Observer {
         toolCards.remove(searchToolCard(id));
     }
 
+    /**
+     * Handles a tool cards when is used
+     * @param id ID of the tool card
+     */
     private void handleToolCardUsed(int id){
         model.getCurrentPlayer().setToolCardUsed(true);
         if(!singlePlayer)
@@ -887,6 +887,9 @@ public class Controller  implements Observer {
             handleDiceForSinglePlayer(id);
     }
 
+    /**
+     * Handles the message displayed when occurs an error during the use of a tool card
+     */
     private void handleErrorEvent(){
         ErrorEvent errorEvent;
         if(singlePlayer)

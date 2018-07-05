@@ -38,17 +38,14 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         this.isGUI = isGUI;
     }
 
-    @Override
     public String getClientName() {
         return name;
     }
 
-    @Override
     public String getName() {
         return getClientName();
     }
 
-    @Override
     public void notify(MVEvent mvEvent) {
         if (!isGUI && mvEvent.getId() != 56 && mvEvent.getId() != 40 && mvEvent.getId() != 60) {
             setChanged();
@@ -79,17 +76,14 @@ public class ClientImplementation extends Observable implements ClientInterfaceR
         this.name = name;
     }
 
-    @Override
     public void setServer(ServerInterface server) {
         this.server = server;
     }
 
-    @Override
     public void testIfConnected() {
         //This method is used only to test if the connection of a client is lost.
     }
 
-    @Override
     public void update(Observable o, Object event) {
         if (event.getClass() == ConnectionChoiceEvent.class)
             this.connection((ConnectionChoiceEvent) event);

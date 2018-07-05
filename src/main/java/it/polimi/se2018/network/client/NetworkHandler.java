@@ -76,33 +76,16 @@ public class NetworkHandler extends Thread implements ServerInterface {
         }
     }
 
-    /**
-     * This method closes the socket connection if it is not closed yet
-     */
-    public synchronized void stopConnection() {
-        if(!socket.isClosed()) {
-            try {
-                socket.close();
-            }
-            catch (IOException e) {
-                System.out.println("Failed closing socket");
-            }
-            System.out.println("Connection closed.");
-        }
-    }
-
-
-    @Override
     public void addClient(ClientInterfaceRMI clientInterfaceRMI) {
         throw new UnsupportedOperationException(EXCEPTION);
     }
 
-    @Override
+
     public void send(MVEvent mvEvent) {
         throw new UnsupportedOperationException(EXCEPTION);
     }
 
-    @Override
+
     public void sendTo(MVEvent mvEvent, Player currentPlayer) {
         throw new UnsupportedOperationException(EXCEPTION);
     }
