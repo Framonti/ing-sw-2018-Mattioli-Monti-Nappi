@@ -77,7 +77,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
-
     /**
      * This method asks the player's name
      */
@@ -150,13 +149,17 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     throw new UnsupportedOperationException(INVALID_MOVE);
             }
 
-            if (singlePlayer && !param[0].equals("a"))
-                System.arraycopy(param, 2, param, 1, param.length - 2);
-
             int index;
-            for(index = 1; index < param.length; index++) {
-                eventParameters = eventParameters.concat(param[index] + " ");
+            if (singlePlayer && !param[0].equals("a")) {
+                for (index = 2; index < param.length; index++) {
+                    eventParameters = eventParameters.concat(param[index] + " ");
+                }
+            } else {
+                for (index = 1; index < param.length; index++) {
+                    eventParameters = eventParameters.concat(param[index] + " ");
+                }
             }
+            eventParameters = eventParameters.substring(0, eventParameters.length() - 1);
 
             if(param[0].equals("a")) {
                 if(!diceMoved)
@@ -243,6 +246,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         vcEvents.put(14, ()-> vcEvent = new FluxRemoverPlaceDiceEvent(eventParameters));    //può non stare nella mappa
     }
 
+    @Override
     public void fluxBrushChoice(MVEvent event) {
         FluxBrushChoiceEvent fluxBrushChoiceEvent = (FluxBrushChoiceEvent) event;
         System.out.println(fluxBrushChoiceEvent.getDice() + "\nDove vuoi piazzare il dado?");
@@ -250,6 +254,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         fluxChoice.start();
     }
 
+    @Override
     public void fluxRemoverChoice(MVEvent event) {
         FluxRemoverChoiceEvent fluxRemoverChoiceEvent = (FluxRemoverChoiceEvent) event;
         System.out.println(fluxRemoverChoiceEvent.getDice() + "\nScegli il valore del dado e piazzalo.");
@@ -257,6 +262,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         fluxChoice.start();
     }
 
+    @Override
     public void getInput() {
         try {
             String input = reader.readLine();
@@ -281,7 +287,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         getInputClass.start();
     }
 
-
+    @Override
     public void playerSuspended() {
         if (fluxChoice != null && fluxChoice.isAlive())
             fluxChoice.interrupt();
@@ -290,7 +296,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         suspendedPlayer.start();
     }
 
-
+    @Override
     public void showActionMenu(MVEvent event) {
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
         diceMoved = actionMenuEvent.isDiceMoved();
@@ -307,8 +313,10 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         System.out.println(menu);
     }
 
-
+    @Override
     public void showAll(MVEvent event) {
+        if (selectWindowPattern != null && selectWindowPattern.isAlive())
+            selectWindowPattern.interrupt();
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
         showRoundTrack(showAllEvent.getRoundTrack());
         showDicePattern(showAllEvent.getDicePatterns());
@@ -342,12 +350,12 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         System.out.println();
     }
 
-
+    @Override
     public void showEndTurn(MVEvent event) {
         System.out.println("TURNO TERMINATO. ATTENDI.\n");
     }
 
-
+    @Override
     public void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
         if (!errorEvent.getMessageToDisplay().equals("OK toolCard 11"))
@@ -360,6 +368,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private void showFavorTokens(MVEvent event) {
         FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
+        System.out.println("SEGNALINI FAVORE");
         System.out.println(favorTokensEvent.getPlayerAndFavorTokens());
     }
 
@@ -429,13 +438,14 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             System.out.println(toolCard);
     }
 
-
+    @Override
     public void showWindowPatterns(MVEvent event) {
         WindowPatternsEvent windowPatternsEvent = (WindowPatternsEvent) event;
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
             System.out.println(windowPattern);
         showPrivateObjectiveCards(windowPatternsEvent.getPrivateObjectiveCards());
-        new SelectWindowPattern().start();
+        selectWindowPattern = new SelectWindowPattern();
+        selectWindowPattern.start();
     }
 
     /**
@@ -447,7 +457,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         askName();
     }
 
-
+    @Override
     public void update(Observable model, Object event) {
         if(event instanceof NetworkEvent){
             networkEvent = (NetworkEvent) event;
@@ -458,6 +468,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             mvEvents.get(mvEvent.getId()).run();
         }
     }
+
 
     /**
      * This class waits the player to write its input.

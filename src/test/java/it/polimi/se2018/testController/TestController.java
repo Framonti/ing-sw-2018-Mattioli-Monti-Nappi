@@ -1,17 +1,15 @@
 package it.polimi.se2018.testController;
 
 import it.polimi.se2018.controller.Controller;
-
-
 import it.polimi.se2018.events.vcevent.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.VirtualView;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 /**
@@ -28,8 +26,10 @@ public class TestController {
     private RoundTrack roundTrack;
     private VirtualView view;
     private Controller controller;
-    private GameSetupSingleton setup;
 
+    /**
+     * This method creates the initial conditions for all the tests
+     */
     @Before
     public void setUp(){
         players = new ArrayList<>();
@@ -65,15 +65,16 @@ public class TestController {
     }
 
 
-
-
+    /**
+     * This method tests if the windowPatterns are set correctly
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testSetWindowPatternPlayerTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         ArrayList<WindowPattern> windowPatterns = new ArrayList<>();
         windowPatterns.add(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -106,13 +107,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using the GrozingPliers toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse1(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
@@ -125,13 +129,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using the GrozingPliers toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse2(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
@@ -144,13 +151,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using the GrozingPliers toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersFalse3(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 4, new Dice[4][5]), false);
         model.getDraftPool().add(new Dice(1));
@@ -163,13 +173,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testGrozingPliersTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
@@ -215,14 +228,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse1(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -262,14 +277,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testEglomiseBrushFalse2() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -307,15 +324,16 @@ public class TestController {
         controller.update(view, event);
     }
 
-
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testEglomiseBrushTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -356,14 +374,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testCopperFoilBurnisherFalse() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players, publicObjectiveCards, toolCards, roundTrack);
         view = new VirtualView();
         controller = new Controller(view, toolCards, model, 1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -410,14 +430,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testCopperFoilBurnisherTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -472,13 +494,16 @@ public class TestController {
         controller.update(view, event);
     }
 
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testLathekinTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -540,14 +565,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testLathekinFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         //Via Lux
@@ -593,13 +620,16 @@ public class TestController {
         controller.update(view, event);
     }
 
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testLensCutterTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
@@ -633,13 +663,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse1() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
@@ -662,13 +695,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse2() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
@@ -690,13 +726,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testLensCutterFalse3() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setWindowPattern(new WindowPattern("wp1", 8, new Dice[4][5]), false);
 
@@ -722,14 +761,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testFluxBrushChooseDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice [4][5]);
@@ -762,14 +803,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testFluxBrushChooseDiceFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
@@ -802,14 +845,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testFluxBrushPlaceDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         //Via Lux
@@ -859,14 +904,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testGlazingHammerTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 2, new Dice [4][5]);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
@@ -897,13 +944,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testGlazingHammerFalse() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 8, new Dice[4][5]);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
@@ -926,14 +976,16 @@ public class TestController {
         controller.update(view, event);
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testRunnerPliers(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.getCurrentPlayer().setLap(0);
 
@@ -991,13 +1043,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testCorkBakedStraightedge(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -1055,14 +1110,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test (expected = NullPointerException.class)
     public void testGrindingStone(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         WindowPattern windowPatternTest = new WindowPattern("Name", 18, new Dice[4][5]);
         model.getCurrentPlayer().setWindowPattern(windowPatternTest, false);
@@ -1125,14 +1182,16 @@ public class TestController {
 
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testFluxRemoverChooseDice(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         Dice[][] diceMatrix = new Dice[4][5];
@@ -1227,13 +1286,16 @@ public class TestController {
             model.getDiceBag().add(dice);
     }
 
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test
     public void testFluxRemoverPlaceDiceTrue(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         //Via Lux
@@ -1285,13 +1347,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the error that occurs while using this toolCard is handled correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testFluxRemoverPlaceDiceFalse(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
         //Via Lux
@@ -1337,14 +1402,16 @@ public class TestController {
         controller.update(view,event);
     }
 
-
+    /**
+     * This method tests if the effects of this toolCard are correct
+     */
     @Test(expected = NullPointerException.class)
     public void testTapWheel(){
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
         //Via Lux
         Dice[][] diceMatrix = new Dice[4][5];
@@ -1425,6 +1492,9 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the dices are placed on the dicePattern correctly
+     */
     @Test(expected = NullPointerException.class)
     public void testPlaceDiceFromDraftPoolToDicePattern(){
 
@@ -1432,7 +1502,7 @@ public class TestController {
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
         model.setCurrentPlayer(model.getPlayers().get(0));
 
 
@@ -1500,13 +1570,16 @@ public class TestController {
         controller.update(view,event);
     }
 
+    /**
+     * This method tests if a player is unsuspended correctly
+     */
     @Test
     public void unsuspendPlayerTest() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         UnsuspendEvent unsuspendEvent = new UnsuspendEvent("daniele");
         controller.update(view, unsuspendEvent);
@@ -1514,13 +1587,16 @@ public class TestController {
         assertFalse(model.getPlayers().get(0).isSuspended());
     }
 
+    /**
+     * This method tests if the scoreTrack is created correctly
+     */
     @Test
     public void showScoresTest() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         Dice[][] diceMatrix = new Dice[4][5];
         diceMatrix[0][0] = new Dice(Colour.YELLOW);
@@ -1567,44 +1643,16 @@ public class TestController {
 
     }
 
-//  questo test distrugge tutto nel ciclo for per non so quale motivo. Decommentare con prudenza!
-//    @Test
-//    public void createShowAllEventTest() {
-//        roundTrack = new RoundTrack();
-//        model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
-//        view = new VirtualView();
-//        controller = new Controller(view,toolCards,model,1000);
-//        setup = GameSetupSingleton.instance();
-//
-//        Dice[][] diceMatrix = new Dice[4][5];
-//        diceMatrix[0][0] = new Dice(Colour.YELLOW);
-//        diceMatrix[0][2] = new Dice(6);
-//        diceMatrix[1][1] = new Dice(1);
-//        diceMatrix[1][2] = new Dice(5);
-//        diceMatrix[1][4] = new Dice(2);
-//        diceMatrix[2][0] = new Dice(3);
-//        diceMatrix[2][1] = new Dice(Colour.YELLOW);
-//        diceMatrix[2][2] = new Dice(Colour.RED);
-//        diceMatrix[2][3] = new Dice(Colour.PURPLE);
-//        diceMatrix[3][2] = new Dice(4);
-//        diceMatrix[3][3] = new Dice(3);
-//        diceMatrix[3][4] = new Dice(Colour.RED);
-//
-//        WindowPattern windowPatternTest = new WindowPattern("Name", 8, diceMatrix);
-//        for (Player player: model.getPlayers())
-//            player.setWindowPattern(windowPatternTest, false);
-//
-//        TestEvent event = new TestEvent(-1001);
-//        controller.update(view, event);
-//    }
-
+    /**
+     * This method tests if the nextPlayer chosen is correct and if the round is increased correctly
+     */
     @Test
     public void nextPlayerAndRoundTest() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         TestEvent event = new TestEvent(-1002);
 
@@ -1617,13 +1665,16 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if removed privateObjectiveCard is not the one chosen by the player
+     */
     @Test
     public void removePrivateObjectiveCardTest() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         model.getPlayers().get(0).addPrivateObjectiveCard(new PrivateObjectiveCard("", "seconda carta", Colour.GREEN));
         model.getPlayers().get(0).addPrivateObjectiveCard(new PrivateObjectiveCard("", "terza carta", Colour.BLUE));
@@ -1638,13 +1689,16 @@ public class TestController {
         assertEquals("terza carta", model.getPlayers().get(0).getPrivateObjectiveCards().get(0).getDescription());
     }
 
+    /**
+     * This method tests if the game ends correctly
+     */
     @Test
     public void endGameTest() {
         roundTrack = new RoundTrack();
         model = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
         view = new VirtualView();
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         ArrayList<WindowPattern> windowPatterns = new ArrayList<>();
         windowPatterns.add(new WindowPattern("wp1", 4, new Dice[4][5]));
@@ -1676,6 +1730,9 @@ public class TestController {
         model.getPlayers().get(2).addPrivateObjectiveCard(new PrivateObjectiveCard("carta3", "carta di francesco", Colour.PURPLE));
     }
 
+    /**
+     * This method tests if the the payment via dice in singlePlayer mode is handled correctly
+     */
     @Test
     public void saveAndHandleDiceForSinglePlayerTest() {
         roundTrack = new RoundTrack();
@@ -1684,7 +1741,7 @@ public class TestController {
         model.getPlayers().remove(1);
         model.getPlayers().remove(1);
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         Dice dice = new Dice(Colour.GREEN);
         dice.setValue(1);
@@ -1711,6 +1768,9 @@ public class TestController {
 
     }
 
+    /**
+     * This method tests if the handleErrorEvent in each toolCard method is correct
+     */
     @Test
     public void toolCardsHandleErrorEventTest() {
         roundTrack = new RoundTrack();
@@ -1719,7 +1779,7 @@ public class TestController {
         model.getPlayers().remove(1);
         model.getPlayers().remove(1);
         controller = new Controller(view,toolCards,model,1000);
-        setup = GameSetupSingleton.instance();
+        GameSetupSingleton.instance();
 
         Dice dice1 = new Dice(Colour.GREEN);
         dice1.setValue(1);
@@ -1806,8 +1866,9 @@ public class TestController {
     }
 
 
-
-
+    /**
+     * This method sets to null some variables for the next test
+     */
     @After
     public void tearDown(){
         model.getDraftPool().removeAll(model.getDraftPool());
@@ -1815,7 +1876,6 @@ public class TestController {
         model = null;
         view = null;
         controller = null;
-        setup = null;
 
     }
 
