@@ -847,6 +847,7 @@ public class Controller  implements Observer {
                 (privateObjectiveCardChosen.getIndexOfChosenCard() == 0 ? 1 : 0));
     }
 
+    @Override
     public void update(Observable o, Object arg) {
         if (arg == null)
             endGame();

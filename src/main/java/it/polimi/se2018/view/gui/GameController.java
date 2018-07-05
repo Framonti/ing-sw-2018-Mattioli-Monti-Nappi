@@ -111,7 +111,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         toolCard3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> useToolCard3());
     }
 
-
+    @Override
     void updatePublicObjectiveCards(List<String> publicObjectiveCards) {
 
         addImageToImageView(publicObjectiveCards.get(0), publicObjectiveCard1, 144, 95);
@@ -119,7 +119,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         addImageToImageView(publicObjectiveCards.get(2),publicObjectiveCard3,144,95);
     }
 
-
+    @Override
     void choosePrivateObjectiveCard(){
         //The multiplayer don't have to handle this event
     }
@@ -159,7 +159,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         handleToolCards(idToolCardSelected);
     }
 
-
+    @Override
     void handleToolCards(int idToolCard){
         disableToolCards();
         if (idToolCard >= 2 && idToolCard <= 4) {
@@ -181,6 +181,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
+    @Override
     public void update(Observable o, Object event) {
         if(event instanceof Integer)
             turnDuration = (int)event;
@@ -190,7 +191,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
-
+    @Override
     void playerSuspended(){
         Platform.runLater(() -> {
             Stage window = new Stage();
@@ -261,7 +262,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         return list;
     }
 
-
+    @Override
     void createAssociationWithOurGridPane(MVEvent event1, MVEvent event2){
 
         SetWindowPatternsGUIEvent setWindowPatternsGUIEvent = (SetWindowPatternsGUIEvent) event1;
@@ -302,6 +303,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
+    @Override
     void skipTurn(){
 
         idToolCardSelected = 0;
@@ -321,6 +323,7 @@ public class GameController extends GameControllerAbstract implements Observer {
 
     }
 
+    @Override
     void showError(MVEvent event){
        ErrorEvent errorEvent = (ErrorEvent) event;
        showErrorAbstract(errorEvent);
@@ -332,10 +335,12 @@ public class GameController extends GameControllerAbstract implements Observer {
         handleDraftPoolAndToolCards();
     }
 
+    @Override
     void updatePrivateObjectiveCards(List<String> paths){
         addImageToImageView(paths.get(0),privateObjectiveCard,144,95);
     }
 
+    @Override
     void updateFavorTokens(MVEvent event){
         FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
         int favorTokensNumber = Integer.parseInt(favorTokensEvent.getFavorTokensNumberString());
@@ -345,6 +350,7 @@ public class GameController extends GameControllerAbstract implements Observer {
         }
     }
 
+    @Override
     void updateDicePatterns(MVEvent event) {
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
         int currentPlayerIndex = getCurrentPlayerIndex(dicePatternEvent.getPlayerNames(), dicePatternEvent.getCurrentPlayer());
@@ -370,6 +376,7 @@ public class GameController extends GameControllerAbstract implements Observer {
     }
 
 
+    @Override
     void updateToolCards(MVEvent event){
 
         ToolCardEvent toolCardEvent = (ToolCardEvent) event;
