@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -48,6 +49,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         toolCardImageList.add(toolCard5);
 
         abstractInitialize();
+        background.setImage(new Image(ViewGUI.getUrlFromPath("src/main/Images/Others/singlePlayer.png")));
 
         privateObjectiveCard1.setOnMouseEntered(event -> zoomInPOC(privateObjectiveCard1));
         privateObjectiveCard1.setOnMouseExited(event -> zoomOutPOC(privateObjectiveCard1));
@@ -71,7 +73,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
 
     }
 
-    @Override
+
     void skipTurn() {
 
         dicePaid = false;
@@ -96,12 +98,12 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         notifyObservers(new SkipTurnEvent());
     }
 
-    @Override
+
     void playerSuspended() {
         //senso?
     }
 
-    @Override
+
     void createAssociationWithOurGridPane(MVEvent mvEvent1, MVEvent mvEvent2) {
 
         SetWindowPatternsGUIEvent setWindowPatternsGUIEvent = (SetWindowPatternsGUIEvent) mvEvent1;
@@ -115,14 +117,14 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         ourGridPaneList.add(ourGridPane1);
     }
 
-    @Override
+
     void updatePrivateObjectiveCards(List<String> paths) {
 
         addImageToImageView(paths.get(0),privateObjectiveCard1,144,95);
         addImageToImageView(paths.get(1),privateObjectiveCard2,144,95);
     }
 
-    @Override
+
     void showError(MVEvent event) {
         ErrorEvent errorEvent = (ErrorEvent) event;
         if(!errorEvent.getMessageToDisplay().equals("OK toolCard 11")){
@@ -147,13 +149,13 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         showErrorAbstract(errorEvent);
    }
 
-    @Override
+
     void updateDicePatterns(MVEvent event) {
         DicePatternEvent dicePatternEvent = (DicePatternEvent) event;
         updateDicePattern(dicePatternEvent.getDicePatternsGUI().get(0), ourGridPane1.getGridPane(), 59,69);
     }
 
-    @Override
+
     void updateFavorTokens(MVEvent mvEvent) {
         //The singlePlayerGameController doesn't update Favor Tokens
     }
@@ -268,6 +270,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         enableDraftPool();
     }
 
+    @Override
     void getDiceIndexFromDraftPool(ImageView imageView) {
         imageView.setEffect(setBorderGlow());
         diceIndexDraftPool = GridPane.getColumnIndex(imageView);
@@ -281,7 +284,7 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         }
     }
 
-    @Override
+
     void updateToolCards(MVEvent event) {
         if(!imageViewsSetup) {
             ToolCardEvent toolCardEvent = (ToolCardEvent) event;
@@ -336,7 +339,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         }
     }
 
-    @Override
     void choosePrivateObjectiveCard() {
 
         skipTurnButton.setDisable(true);
@@ -456,14 +458,12 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     }
 
 
-    @Override
     void updatePublicObjectiveCards(List<String> publicObjectiveCards) {
 
         addImageToImageView(publicObjectiveCards.get(0), publicObjectiveCard1, 144, 95);
         addImageToImageView(publicObjectiveCards.get(1), publicObjectiveCard2, 144, 95);
     }
 
-    @Override
     public void update(Observable o, Object event) {
         System.out.println(event);
         if(event instanceof Integer)

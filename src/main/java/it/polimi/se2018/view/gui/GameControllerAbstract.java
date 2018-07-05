@@ -41,6 +41,7 @@ public abstract class GameControllerAbstract extends Observable{
     @FXML  Label turnLabel;
 
     @FXML  AnchorPane pane;
+    @FXML  ImageView background;
 
     @FXML  ImageView publicObjectiveCard1;
     @FXML  ImageView publicObjectiveCard2;
@@ -236,7 +237,6 @@ public abstract class GameControllerAbstract extends Observable{
      * Enables the DraftPool, allowing an user to use it
      */
     void enableDraftPool(){
-        System.out.println("sono nell'enable draft pool normale");
         draftPool.setDisable(false);
         setDraftPoolOpacity(1);
     }
@@ -259,10 +259,8 @@ public abstract class GameControllerAbstract extends Observable{
         handleToolCardsEffect();
         disableGridPane(roundTrackGridPane,roundTrack);
         disableGridPane(dicePatternGridPane1,windowPattern1);
-        if(diceChosenFromDraftPool != null){
+        if(diceChosenFromDraftPool != null)
             diceChosenFromDraftPool.setEffect(null);
-            System.out.println("SONO NELL'IF PER SPEGNERE IL DEADO DELLA DRAFTPPOOL");
-        }
         if(toolCardSelected != null)
             toolCardSelected.setEffect(null);
     }
@@ -311,6 +309,7 @@ public abstract class GameControllerAbstract extends Observable{
         imageView.setFitHeight(144);
         imageView.setFitWidth(95);
         imageView.toBack();
+        background.toBack();
         imageView.setPreserveRatio(true);
     }
 
@@ -624,7 +623,6 @@ public abstract class GameControllerAbstract extends Observable{
      * @param event The ShowAll event to handle
      */
     private void showAll(MVEvent event){
-        System.out.println("sono in uno showAll");
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
         if (!imageViewsSetup) {
             updateDraftPool(showAllEvent.getDraftPool());
@@ -818,7 +816,7 @@ public abstract class GameControllerAbstract extends Observable{
      * Updates the DraftPool
      * @param event A DraftPoolEvent
      */
-      void updateDraftPool(MVEvent event) {
+    void updateDraftPool(MVEvent event) {
         cleanDraftPool();
         DraftPoolEvent draftPoolEvent = (DraftPoolEvent) event;
         int column = 0;
@@ -1143,6 +1141,7 @@ public abstract class GameControllerAbstract extends Observable{
      void fluxBrushPlaceDice(int row, int column){
         diceChosenFromDraftPool.setEffect(null);
         dicePatternPosition = new Position(row, column);
+        idToolCardSelected = 0;
         VCEvent event = new FluxBrushPlaceDiceEvent(Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
@@ -1191,6 +1190,7 @@ public abstract class GameControllerAbstract extends Observable{
      */
      void fluxRemoverPlaceDice(int row, int column){
         dicePatternPosition = new Position(row, column);
+        idToolCardSelected = 0;
         VCEvent event = new FluxRemoverPlaceDiceEvent(Integer.toString(choiceFluxRemover) + " " + Integer.toString(dicePatternPosition.getX() + 1) + " " + Integer.toString(dicePatternPosition.getY() + 1));
         setChanged();
         notifyObservers(event);
