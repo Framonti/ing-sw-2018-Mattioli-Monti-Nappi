@@ -11,7 +11,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Tests for GameSetupSingleton
+ * @author Daniele Mattioli
+ */
 public class TestGameSetupSingleton {
 
     private GameSetupSingleton instance;
@@ -34,7 +37,9 @@ public class TestGameSetupSingleton {
 
     }
 
-
+    /**
+     * Tests method createNewGame
+     */
     @Test
     public void testCreateNewGame() {
         instance.createNewGame(0);

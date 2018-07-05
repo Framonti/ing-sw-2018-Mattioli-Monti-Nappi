@@ -347,7 +347,6 @@ public class ViewGUI  extends Observable implements Observer{
         notifyObservers(networkEvent);
     }
 
-    @Override
     public void update(Observable o, Object arg) {
 
         if(arg instanceof NetworkEvent) {

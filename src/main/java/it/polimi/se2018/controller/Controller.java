@@ -115,6 +115,21 @@ public class Controller  implements Observer {
     }
 
     /**
+     * Gets dice used for tool cards 6 and 11
+     * @return dice used for tool cards 6 and 11
+     */
+    public Dice getDiceForFlux() {
+        return diceForFlux;
+    }
+
+    /**
+     * Sets dice used in tool cards 6 and 11
+     * @param diceForFlux Dice used in tool cards 6 and 11
+     */
+    public void setDiceForFlux(Dice diceForFlux) {
+        this.diceForFlux = diceForFlux;
+    }
+    /**
      * Sets window pattern of the player
      */
     private void setWindowPatternPlayer() {

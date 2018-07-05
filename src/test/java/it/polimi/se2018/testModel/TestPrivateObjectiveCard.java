@@ -5,9 +5,14 @@ import it.polimi.se2018.model.PrivateObjectiveCard;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/**
+ * Test for PrivateObjectiveCard class
+ */
 public class TestPrivateObjectiveCard {
 
+    /**
+     * Tests toString method
+     */
     @Test
     public void testToString(){
         PrivateObjectiveCard privateObjectiveCard1 = new PrivateObjectiveCard("nome1", "descrizione1", Colour.PURPLE);

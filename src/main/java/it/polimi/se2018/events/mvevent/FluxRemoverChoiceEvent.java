@@ -2,6 +2,7 @@ package it.polimi.se2018.events.mvevent;
 
 /**
  * This event holds information about the FluxRemoveChoice effect
+ * @author Daniele Mattioli
  */
 public class FluxRemoverChoiceEvent extends MVEvent {
 

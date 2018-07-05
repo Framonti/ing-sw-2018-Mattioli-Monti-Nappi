@@ -22,7 +22,7 @@ public class FavorTokensEvent extends MVEvent {
 
     /**
      * Gets favorTokensNumber attribute
-     * @return favorTokensNumber sttribute
+     * @return favorTokensNumber attribute
      */
     public String getFavorTokensNumberString(){
         return this.favorTokensNumber;

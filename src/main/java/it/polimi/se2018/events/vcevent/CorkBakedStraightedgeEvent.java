@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Position;
 
 /**
  * This event is generated when a player uses the Cork Baked Straightedge ToolCard
+ * @author Daniele Mattioli
  */
 public class CorkBakedStraightedgeEvent extends VCEvent {
 

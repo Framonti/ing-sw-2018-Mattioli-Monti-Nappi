@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This Class controls the single player game scene
+ * Most of his methods and attributes are inherited from its parent, GameControllerAbstract
+ * @author  Daniele Mattioli
+ * @author Framonti
+ */
+
 public class SinglePlayerGameController extends GameControllerAbstract implements Observer{
 
     @FXML private ImageView privateObjectiveCard1;
@@ -38,7 +45,9 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     private List <ImageView> toolCardsUsed = new ArrayList<>();
     private ImageView diceChosenToPay;
 
-
+    /**
+     * Initializes the scene
+     */
     @FXML
     public void initialize(){
 
@@ -160,7 +169,10 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         //The singlePlayerGameController doesn't update Favor Tokens
     }
 
-
+    /**
+     * This method sets the event handler for the tool cards
+     * @param size Tool card's number
+     */
     private void setToolCardEventHandler(int size){
 
         if(size>0) {
@@ -202,6 +214,9 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         }
     }
 
+    /**
+     * This method sets some effects on the dice clicked and creates a DiceChosenSinglePlayer event
+     */
     private void payDice(){
 
         diceChosenToPay.setDisable(true);
@@ -213,57 +228,51 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
         handleToolCards(idToolCardSelected);
     }
 
+    /**
+     * This method is called when the ToolCard1 is clicked
+     */
     private void useToolCard1() {
-        toolCard1.setEffect(setBorderGlow());
-        toolCardSelected = toolCard1;
-        idToolCardSelected = idToolCard1;
-        toolCardsUsed.add(toolCard1);
-        disableToolCards();
-        disableGridPane(roundTrackGridPane, roundTrack);
-        disableGridPane(dicePatternGridPane1, windowPattern1);
-        enableDraftPool();
+        useToolCardGeneric(toolCard1,idToolCard1);
     }
 
+    /**
+     * This method is called when the ToolCard2 is clicked
+     */
     private void useToolCard2() {
-        toolCard2.setEffect(setBorderGlow());
-        toolCardSelected = toolCard2;
-        idToolCardSelected = idToolCard2;
-        toolCardsUsed.add(toolCard2);
-        disableToolCards();
-        disableGridPane(roundTrackGridPane, roundTrack);
-        disableGridPane(dicePatternGridPane1, windowPattern1);
-        enableDraftPool();
+        useToolCardGeneric(toolCard2,idToolCard2);
     }
 
+    /**
+     * This method is called when the ToolCard3 is clicked
+     */
     private void useToolCard3() {
-        toolCard3.setEffect(setBorderGlow());
-        toolCardSelected = toolCard3;
-        idToolCardSelected = idToolCard3;
-        toolCardsUsed.add(toolCard3);
-        disableToolCards();
-        disableGridPane(roundTrackGridPane, roundTrack);
-        disableGridPane(dicePatternGridPane1, windowPattern1);
-        enableDraftPool();
+        useToolCardGeneric(toolCard3,idToolCard3);
     }
 
+    /**
+     * This method is called when the ToolCard4 is clicked
+     */
     private void useToolCard4(){
-
-        toolCard4.setEffect(setBorderGlow());
-        toolCardSelected = toolCard4;
-        idToolCardSelected = idToolCard4;
-        toolCardsUsed.add(toolCard4);
-        disableToolCards();
-        disableGridPane(roundTrackGridPane, roundTrack);
-        disableGridPane(dicePatternGridPane1, windowPattern1);
-        enableDraftPool();
+        useToolCardGeneric(toolCard4,idToolCard4);
     }
 
+    /**
+     * This method is called when the ToolCard5 is clicked
+     */
     private void useToolCard5(){
+        useToolCardGeneric(toolCard5,idToolCard5);
+    }
 
-        toolCard5.setEffect(setBorderGlow());
-        toolCardSelected = toolCard5;
-        idToolCardSelected = idToolCard5;
-        toolCardsUsed.add(toolCard5);
+    /**
+     * This method sets some effects on the toolCard selected
+     * @param toolCard ToolCard ImageView
+     * @param idToolCard ToolCard id
+     */
+    private void useToolCardGeneric(ImageView toolCard, int idToolCard ){
+        toolCard.setEffect(setBorderGlow());
+        toolCardSelected = toolCard;
+        idToolCardSelected = idToolCard;
+        toolCardsUsed.add(toolCard);
         disableToolCards();
         disableGridPane(roundTrackGridPane, roundTrack);
         disableGridPane(dicePatternGridPane1, windowPattern1);
@@ -465,7 +474,6 @@ public class SinglePlayerGameController extends GameControllerAbstract implement
     }
 
     public void update(Observable o, Object event) {
-        System.out.println(event);
         if(event instanceof Integer)
             turnDuration = (int)event;
         else{

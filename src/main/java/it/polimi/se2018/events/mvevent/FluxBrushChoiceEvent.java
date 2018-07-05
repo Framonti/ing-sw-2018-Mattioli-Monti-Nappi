@@ -2,6 +2,7 @@ package it.polimi.se2018.events.mvevent;
 
 /**
  * This event holds information about the effect of the FluxBrush ToolCard
+ * @author fabio
  */
 public class FluxBrushChoiceEvent extends MVEvent{
 

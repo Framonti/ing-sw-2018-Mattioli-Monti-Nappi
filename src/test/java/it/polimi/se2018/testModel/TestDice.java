@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the Dice Class
+ * @author Framonti
  */
 public class TestDice {
 

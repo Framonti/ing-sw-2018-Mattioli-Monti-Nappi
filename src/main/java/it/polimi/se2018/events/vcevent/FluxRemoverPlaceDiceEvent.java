@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Position;
 
 /**
  *  This event is generated when a player uses the Flux Remover ToolCard, after picking a dice from the DraftPool
+ *  @author Daniele Mattioli
  */
 public class FluxRemoverPlaceDiceEvent extends VCEvent{
 

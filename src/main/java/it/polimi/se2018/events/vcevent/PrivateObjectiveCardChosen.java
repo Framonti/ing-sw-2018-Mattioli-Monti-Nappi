@@ -2,6 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 /**
  * This event is generated when a player choose a privateObjectiveCard at the end of a game in singlePlayer
+ * @author fabio
  */
 public class PrivateObjectiveCardChosen extends VCEvent {
 

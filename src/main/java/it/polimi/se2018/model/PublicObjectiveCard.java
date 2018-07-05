@@ -19,14 +19,6 @@ public class PublicObjectiveCard extends ObjectiveCard {
         this.victoryPoint = victoryPoint;
     }
 
-    /**
-     * Gets public objective card victory point
-     * @return public objective card victory point
-     */
-    public int getVictoryPoint (){
-        return this.victoryPoint;
-    }
-
     @Override
     public String toString() {
 

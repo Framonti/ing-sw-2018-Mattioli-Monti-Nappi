@@ -14,6 +14,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for Controller
+ * @author Daniele Mattioli
+ * @author fabio
+ */
 public class TestController {
 
     private GameSingleton model;

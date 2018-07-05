@@ -127,13 +127,6 @@ public class GameSingleton extends Observable{
         return playersNumber;
     }
 
-    /**
-     * Gets dice number to extract each round
-     * @return number to extract each round
-     */
-    public int getDiceNumberToExtract() {
-        return diceNumberToExtract;
-    }
 
     /**
      * Gets current round
@@ -149,26 +142,6 @@ public class GameSingleton extends Observable{
      */
     public List<Player> getPlayers() {
         return players;
-    }
-
-    public List<String> getPlayersNames(){
-        List<String> playersNames = new ArrayList<>();
-        for(Player player : players){
-            playersNames.add(player.getName());
-        }
-        return playersNames;
-    }
-
-    /**
-     * Gets a List containing all the scores of the players
-     * @return A List containing all the scores of the players
-     */
-    public List<Integer> getPlayerScores(){
-        List<Integer> playerScores = new ArrayList<>();
-        for(Player player : players){
-            playerScores.add(player.getScore());
-        }
-        return playerScores;
     }
 
     /**
@@ -232,6 +205,9 @@ public class GameSingleton extends Observable{
         round++;
     }
 
+    /**
+     * Gets, removes and rolls a dice from the diceBag
+     */
     public void extractAndRollOneDiceWithoutReturning(){
             int randomNumber;
             randomNumber = ThreadLocalRandom.current().nextInt(diceBag.size());

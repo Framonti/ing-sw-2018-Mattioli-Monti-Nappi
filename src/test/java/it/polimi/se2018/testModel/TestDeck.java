@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the Deck Class
+ * @author Framonti
  */
 public class TestDeck {
 

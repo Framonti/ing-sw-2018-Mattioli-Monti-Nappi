@@ -19,6 +19,8 @@ import java.util.*;
 /**
  * This Class controls the multiplayer game scene
  * Most of his methods and attributes are inherited from its parent, GameControllerAbstract
+ * @author  Daniele Mattioli
+ * @author Framonti
  */
 public class GameController extends GameControllerAbstract implements Observer {
 

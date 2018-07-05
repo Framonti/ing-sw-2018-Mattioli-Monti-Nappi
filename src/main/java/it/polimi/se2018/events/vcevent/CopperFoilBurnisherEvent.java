@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Position;
 
 /**
  * This event is generated when a player uses the Copper Foil Burnisher ToolCard
+ * @author Daniele Mattioli
  */
 public class CopperFoilBurnisherEvent extends VCEvent {
 

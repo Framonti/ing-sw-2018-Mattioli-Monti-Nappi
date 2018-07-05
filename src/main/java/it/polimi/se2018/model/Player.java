@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class Player {
 
-    //Attributes
     private String name;
     private int score;
     private int favorTokensNumber;
