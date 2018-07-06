@@ -2,6 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 /**
  * This event is generated when a player inserts a nickname while trying to connecting to the server
+ * @author Framonti
  */
 public class NicknameEvent extends VCEvent {
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests from the Colour enumeration
+ * @author Framonti
  */
 public class TestColour {
 

@@ -2,6 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 /**
  * This event is generated when a player uses the Grozing Pliers ToolCard
+ * @author Daniele Mattioli
  */
 public class GrozingPliersEvent extends VCEvent {
 

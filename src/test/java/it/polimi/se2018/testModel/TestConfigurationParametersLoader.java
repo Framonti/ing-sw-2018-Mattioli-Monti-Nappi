@@ -5,6 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests class ConfigurationParametersLoader
+ * @author Framonti
+ */
 public class TestConfigurationParametersLoader {
 
     private int turnTimer;
@@ -18,6 +22,9 @@ public class TestConfigurationParametersLoader {
         setupTimer = configurationParametersLoader.getTurnTimer();
     }
 
+    /**
+     * Tests getters of the class
+     */
     @Test
     public void testGetter(){
 

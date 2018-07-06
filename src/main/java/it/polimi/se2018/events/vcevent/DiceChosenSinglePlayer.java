@@ -2,6 +2,7 @@ package it.polimi.se2018.events.vcevent;
 
 /**
  * This event is sent when a player choose a dice in order to pay for a ToolCard in singlePlayer
+ * @author Daniele Mattioli
  */
 public class DiceChosenSinglePlayer extends VCEvent {
 

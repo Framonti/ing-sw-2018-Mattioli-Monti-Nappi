@@ -13,7 +13,6 @@ public class RoundTrack {
 
     private List<List<Dice>> roundList;
 
-    //Constructor
     public RoundTrack() {
         roundList = new ArrayList<>();
     }

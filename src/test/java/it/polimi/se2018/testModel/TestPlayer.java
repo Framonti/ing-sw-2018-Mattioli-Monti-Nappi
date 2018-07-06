@@ -30,6 +30,33 @@ public class TestPlayer {
     }
 
     /**
+     * Tests getPrivateObjectiveCardsToString method
+     */
+    @Test
+    public void testGetPrivateObjectiveCardsToString(){
+        assertEquals(player.getPrivateObjectiveCards().get(0).toString(),player.getPrivateObjectiveCardsToString().get(0));
+    }
+
+    /**
+     * Tests getPrivateObjectiveCardsToStringPath method
+     */
+    @Test
+    public void testGetPrivateObjectiveCardsToStringPath(){
+        assertEquals(player.getPrivateObjectiveCards().get(0).toStringPath(),player.getPrivateObjectiveCardsToStringPath().get(0));
+    }
+    /**
+     * Tests method isToolCardUsed
+     */
+    @Test
+    public void testIsToolCardUsed(){
+        player.setToolCardUsed(false);
+        assertFalse(player.isToolCardUsed());
+        player.setToolCardUsed(true);
+        assertTrue(player.isToolCardUsed());
+
+    }
+
+    /**
      * Decreases the favor tokens by 2
      */
     @Test
@@ -181,4 +208,6 @@ public class TestPlayer {
         //2 gained because of diagonals, 4 gained because of colour set and 14 points lost because of empty spaces
         assertNotEquals(0, player.getScore());
     }
+
+
 }

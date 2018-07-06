@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the Dice Class
+ * @author Framonti
  */
 public class TestDice {
 
@@ -97,6 +98,25 @@ public class TestDice {
         Dice dice = new Dice(2);
         try {
             dice.setValue(7);
+        }
+        catch (IllegalArgumentException e) {
+
+            assertEquals("Invalid value", e.getMessage());
+        }
+        finally {
+            assertEquals(2, dice.getValue());
+        }
+    }
+
+    /**
+     * Checks that setValue raises an IllegalArgumentException if the parameter is more than 6
+     */
+    @Test
+    public void testSetValueException2(){
+
+        Dice dice = new Dice(2);
+        try {
+            dice.setValue(-3);
         }
         catch (IllegalArgumentException e) {
 

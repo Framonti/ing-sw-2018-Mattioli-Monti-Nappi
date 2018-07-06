@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Generic class used for the Card decks
+ * @author Framonti
  */
 
 public class Deck<T> {

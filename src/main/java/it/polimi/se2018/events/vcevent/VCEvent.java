@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Abstract Class that every VCEvent extends
+ * @author Framonti
  */
 public abstract class VCEvent implements Serializable{
 

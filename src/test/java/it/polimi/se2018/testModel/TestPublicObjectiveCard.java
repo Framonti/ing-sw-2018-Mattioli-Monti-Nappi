@@ -1,14 +1,19 @@
 package it.polimi.se2018.testModel;
 
-import it.polimi.se2018.model.Colour;
-import it.polimi.se2018.model.PrivateObjectiveCard;
+
 import it.polimi.se2018.model.PublicObjectiveCard;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for PublicObjectiveCard class
+ */
 public class TestPublicObjectiveCard {
 
+    /**
+     * Tests toString method
+     */
     @Test
     public void testToString(){
         PublicObjectiveCard publicObjectiveCard1 = new PublicObjectiveCard("nome1", "descrizione1",5);

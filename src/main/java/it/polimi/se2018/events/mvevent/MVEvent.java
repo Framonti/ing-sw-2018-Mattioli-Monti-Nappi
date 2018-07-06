@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * This Abstract Class is inherited by all the Events that are exchange from the Model to the View
+ * @author Framonti
  */
 public abstract class MVEvent implements Serializable{
 

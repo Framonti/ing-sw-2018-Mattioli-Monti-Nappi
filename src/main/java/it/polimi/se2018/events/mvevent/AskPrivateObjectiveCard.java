@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * This event is only sent during a singlePlayer game, before computing the player's score
  * It asks to the player to choose a PrivateObjectiveCard
+ * @author  fabio
  */
 public class AskPrivateObjectiveCard extends MVEvent {
 

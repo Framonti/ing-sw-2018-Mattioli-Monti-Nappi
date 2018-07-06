@@ -28,12 +28,12 @@ public class VirtualClient extends Thread implements ClientInterfaceSocket {
         this.clientSocket = clientSocket;
     }
 
-    @Override
+
     public String getClientName() {
         return clientName;
     }
 
-    @Override
+
     public void notify(MVEvent mvEvent) {
 
         try {

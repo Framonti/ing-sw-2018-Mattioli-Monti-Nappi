@@ -136,7 +136,6 @@ public class VirtualView extends Observable implements Observer, ViewCLIInterfac
         }
     }
 
-    //Qui arrivano solo eventi che modificano il model, quindi devono essere mostrati a tutti
     @Override
     public void update(Observable o, Object arg) {
         MVEvent mvEvent = (MVEvent) arg;

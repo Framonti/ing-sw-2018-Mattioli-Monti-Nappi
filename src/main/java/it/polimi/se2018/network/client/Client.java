@@ -30,7 +30,6 @@ public class Client extends Application{
         }
     }
 
-    @Override
     public void start(Stage primaryStage) {
 
         ViewGUI viewGUI = new ViewGUI();

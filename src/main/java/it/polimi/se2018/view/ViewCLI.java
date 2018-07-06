@@ -77,7 +77,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         }
     }
 
-
     /**
      * This method asks the player's name
      */
@@ -150,13 +149,17 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
                     throw new UnsupportedOperationException(INVALID_MOVE);
             }
 
-            if (singlePlayer && !param[0].equals("a"))
-                System.arraycopy(param, 2, param, 1, param.length - 2);
-
             int index;
-            for(index = 1; index < param.length; index++) {
-                eventParameters = eventParameters.concat(param[index] + " ");
+            if (singlePlayer && !param[0].equals("a")) {
+                for (index = 2; index < param.length; index++) {
+                    eventParameters = eventParameters.concat(param[index] + " ");
+                }
+            } else {
+                for (index = 1; index < param.length; index++) {
+                    eventParameters = eventParameters.concat(param[index] + " ");
+                }
             }
+            eventParameters = eventParameters.substring(0, eventParameters.length() - 1);
 
             if(param[0].equals("a")) {
                 if(!diceMoved)
@@ -293,14 +296,6 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         suspendedPlayer.start();
     }
 
-    /**
-     * Prints the parameter
-     * @param message The string that will be printed
-     */
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     @Override
     public void showActionMenu(MVEvent event) {
         ActionMenuEvent actionMenuEvent = (ActionMenuEvent) event;
@@ -320,6 +315,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
 
     @Override
     public void showAll(MVEvent event) {
+        if (selectWindowPattern != null && selectWindowPattern.isAlive())
+            selectWindowPattern.interrupt();
         ShowAllEvent showAllEvent = (ShowAllEvent) event;
         showRoundTrack(showAllEvent.getRoundTrack());
         showDicePattern(showAllEvent.getDicePatterns());
@@ -371,6 +368,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
      */
     private void showFavorTokens(MVEvent event) {
         FavorTokensEvent favorTokensEvent = (FavorTokensEvent) event;
+        System.out.println("SEGNALINI FAVORE");
         System.out.println(favorTokensEvent.getPlayerAndFavorTokens());
     }
 
@@ -446,7 +444,8 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
         for (String windowPattern : windowPatternsEvent.getWindowPatterns())
             System.out.println(windowPattern);
         showPrivateObjectiveCards(windowPatternsEvent.getPrivateObjectiveCards());
-        new SelectWindowPattern().start();
+        selectWindowPattern = new SelectWindowPattern();
+        selectWindowPattern.start();
     }
 
     /**
@@ -469,6 +468,7 @@ public class ViewCLI extends Observable implements Observer, ViewCLIInterface{
             mvEvents.get(mvEvent.getId()).run();
         }
     }
+
 
     /**
      * This class waits the player to write its input.

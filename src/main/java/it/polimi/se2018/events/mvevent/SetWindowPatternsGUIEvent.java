@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * This event is used for setting the windowPattern and their favor token to the players in the GUI
+ * @author Daniele Mattioli
  */
 public class SetWindowPatternsGUIEvent extends MVEvent {
 
