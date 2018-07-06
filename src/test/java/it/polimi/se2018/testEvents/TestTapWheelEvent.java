@@ -42,4 +42,23 @@ public class TestTapWheelEvent {
         assertEquals(2, tapWheelEvent.getNewFirstDicePosition().getY());
     }
 
+    /**
+     * Tests if the constructor throws the correct exceptions
+     */
+    @Test
+    public void testIllegalArgumentException() {
+        try {
+            TapWheelEvent tapWheelEvent = new TapWheelEvent("1 1 2 2 3 3 9");
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Parametri insufficienti", e.getMessage());
+        }
+        try {
+            TapWheelEvent tapWheelEvent = new TapWheelEvent("1 1 2 2 notANumber 3");
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Parametri non numerici o sbagliati", e.getMessage());
+        }
+    }
+
 }

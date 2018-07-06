@@ -56,6 +56,14 @@ public class TestWindowPattern {
     }
 
     /**
+     * Tests method checkCellValueRestriction
+     */
+    @Test
+    public void testCheckCellValueRestriction(){
+        assertTrue(windowPattern.checkCellValueRestriction(new Position(0,0),dice));
+    }
+
+    /**
      * Tests if the String returned by toString is correct
      */
     @Test

@@ -36,7 +36,7 @@ public class TapWheelEvent extends VCEvent {
             }
         }
         catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Paramentri insufficienti");
+            throw new IllegalArgumentException("Parametri insufficienti");
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Parametri non numerici o sbagliati");

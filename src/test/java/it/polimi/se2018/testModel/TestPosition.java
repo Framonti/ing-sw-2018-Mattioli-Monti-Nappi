@@ -85,6 +85,57 @@ public class TestPosition {
     }
 
     /**
+     * Checks that the Position constructor raises an IllegalArgumentException
+     */
+    @Test
+    public void testPositionConstructedIncorrectly2(){
+
+        Position invalidPosition;
+        try{
+
+            invalidPosition = new Position(9, 1);
+        }
+        catch (IllegalArgumentException e) {
+
+            assertEquals("Invalid position", e.getMessage());
+        }
+    }
+
+    /**
+     * Checks that the Position constructor raises an IllegalArgumentException
+     */
+    @Test
+    public void testPositionConstructedIncorrectly3(){
+
+        Position invalidPosition;
+        try{
+
+            invalidPosition = new Position(1, -9);
+        }
+        catch (IllegalArgumentException e) {
+
+            assertEquals("Invalid position", e.getMessage());
+        }
+    }
+
+    /**
+     * Checks that the Position constructor raises an IllegalArgumentException
+     */
+    @Test
+    public void testPositionConstructedIncorrectly4(){
+
+        Position invalidPosition;
+        try{
+
+            invalidPosition = new Position(1, 9);
+        }
+        catch (IllegalArgumentException e) {
+
+            assertEquals("Invalid position", e.getMessage());
+        }
+    }
+
+    /**
      * Tests the getOrthogonalAdjacentPosition method
      */
     @Test

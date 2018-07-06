@@ -45,6 +45,14 @@ public class TestToolCard {
         assertEquals("1)\tcarta1\n\tdescrizione della carta 1\n\tColore: Verde\n\tPrezzo: 2\n", toolCard1.toString(false));
     }
 
+    /**
+     * Tests toStringAbbreviated method
+     */
+    @Test
+    public void testToStringAbbreviated(){
+        assertEquals(toolCard1.getId()+")\t"+toolCard1.getName()+"\n\t"+"Prezzo: "+"Dado "+toolCard1.getColour().toString()+"\n",toolCard1.toStringAbbreviated(true));
+    }
+
 
 
 

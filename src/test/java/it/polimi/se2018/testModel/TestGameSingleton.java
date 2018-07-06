@@ -52,6 +52,16 @@ public class TestGameSingleton {
     }
 
     /**
+     * Tests method instanceToNull
+     */
+    @Test
+    public void testInstanceToNull(){
+        GameSingleton instance = GameSingleton.instance(players,publicObjectiveCards,toolCards,roundTrack);
+        GameSingleton.instanceToNull();
+        assertEquals(null,GameSingleton.getInstance());
+    }
+
+    /**
      * Tests if dice bag contains 18 dice for each colour
      */
     @Test

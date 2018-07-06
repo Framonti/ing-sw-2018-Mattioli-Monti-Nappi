@@ -32,4 +32,31 @@ public class TestWindowPatternChoiceEvent {
         }
     }
 
+    /**
+     * Tests if the constructor throws the correct exception
+     */
+    @Test
+    public void testIllegalArgumentException2() {
+        try {
+            new WindowPatternChoiceEvent("-1", null);
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Parametri non numerici o sbagliati", e.getMessage());
+        }
+    }
+
+
+    /**
+     * Tests if the constructor throws the correct exception
+     */
+    @Test
+    public void testIllegalArgumentException3() {
+        try {
+            new WindowPatternChoiceEvent("10", null);
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Parametri non numerici o sbagliati", e.getMessage());
+        }
+    }
+
 }
