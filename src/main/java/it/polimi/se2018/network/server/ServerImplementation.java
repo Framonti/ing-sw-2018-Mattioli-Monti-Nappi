@@ -59,7 +59,6 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         ConfigurationParametersLoader configurationParametersLoader = new ConfigurationParametersLoader("src/main/java/it/polimi/se2018/xml/ConfigurationParameters.xml");
         setupDuration = configurationParametersLoader.getSetupTimer();
         turnDuration = configurationParametersLoader.getTurnTimer();
-        setupDuration = 10000;
         new HeartBeat().start();
     }
 
